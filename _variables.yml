@@ -1,0 +1,63 @@
+author: Abhijit Dasgupta
+instructor:
+  all: Abhijit Dasgupta
+
+ta_list: >
+  \- [Viviana Luccioli](mailto:vcl16@georgetown.edu): Office Hours W 2-3pm in DSAN Suite or by appt <br/>
+  \- [Sai Prerana Mandalika](mailto:sm3906@georgetown.edu): Office Hours M 2-3pm & Fr 11-12 in DSAN Suite or by appt <br/>
+
+course:
+  name: Biological and Biomedical Data Science
+  number: DSAN 6150
+  url: https://gu-dsan.github.io/6150-fall-2024
+  number_code: "`dsan6150`"
+  email: abhijit.dasgupta@georgetown.edu
+  email_md: "[{{< var course.email >}}](mailto:{{< var course.email >}})"
+  short_description: "Explore applications of data science in biological and biomedical contexts"
+  semester: Fall 2024
+  copyright_year: "2024"
+  slack: https://dsan6150fall2024.slack.com
+  slack_md: "[`{{< var course.slack >}}`]({{< var course.slack >}})"
+  github_org: https://github.com/gu-dsan6150/
+  github_org_md: "[`{{< var course.github_org >}}`]({{< var course.github_org >}})"
+  lms_course_url: https://georgetown.instructure.com/courses/193328
+  lms_course_url_md: "[`{{< var course.lms_course_url >}}`]({{< var course.lms_course_url >}})"
+  website_md: "[`{{< var course.url >}}`]({{< var course.url >}})"
+
+gh-classroom:
+  lab00: null
+  lab01: null
+  lab02: null
+  lab03: null
+  lab04: null
+  lab05: null
+  lab06: null
+  lab07: null
+  lab08: null
+  lab09: null
+  lab10: null
+  lab11: null
+  lab12: null
+  lab13: null
+  lab14: null
+  a01: null
+  a02: null
+  a03: null
+  a04: null
+  a05: null
+
+university:
+  name: Georgetown University
+  url: https://www.georgetown.edu
+  email_format: "`NetID@georgetown.edu`"
+  lms: Canvas
+  lms_url: https://canvas.georgetown.edu
+
+school:
+  name: The Graduate School of Arts & Sciences
+  department: Data Science and Analytics
+  url: https://analytics.georgetown.edu
+
+
+
+
