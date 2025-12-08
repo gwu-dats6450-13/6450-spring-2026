@@ -73,6 +73,13 @@
     "text": "NoteInstructor\n\n\n\nAbhijit Dasgupta\nAdjunct Professor\nEmail: abhijit.dasgupta@email.gwu.edu\nOffice Hours: Tuesdays 4:00 PM - 5:00 PM or by appointment"
   },
   {
+    "objectID": "index.html#course-description",
+    "href": "index.html#course-description",
+    "title": "Applied Big Data Analytics",
+    "section": "Course Description",
+    "text": "Course Description\nApplied Big Data Analytics (DATS 6450.13) teaches practical, hands‑on methods for building scalable analytics pipelines that start on a single machine and scale to distributed clusters. Students learn to develop local analytical workflows with DuckDB, translate and scale them with Apache Spark, and evaluate performance tradeoffs through comparative benchmarking, query tuning, partitioning and memory strategies. The course covers modern tooling (Polars, Ray, RAPIDS), Spark SQL/DataFrame APIs, Spark NLP and MLlib, and efficient visualization of very large datasets (Datashader), with emphasis on reproducible end‑to‑end workflows and a final project demonstrating design and performance decisions."
+  },
+  {
     "objectID": "about.html",
     "href": "about.html",
     "title": "About",
