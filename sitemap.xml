@@ -2,23 +2,39 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://gwu-dats6450-13.github.io/6450-spring-2026/syllabus.html</loc>
-    <lastmod>2026-01-15T21:48:17.501Z</lastmod>
+    <lastmod>2026-01-22T07:22:19.696Z</lastmod>
   </url>
   <url>
     <loc>https://gwu-dats6450-13.github.io/6450-spring-2026/slides/01-slides.html</loc>
     <lastmod>2026-01-15T21:16:46.430Z</lastmod>
   </url>
   <url>
+    <loc>https://gwu-dats6450-13.github.io/6450-spring-2026/index.html</loc>
+    <lastmod>2026-01-15T21:20:17.249Z</lastmod>
+  </url>
+  <url>
     <loc>https://gwu-dats6450-13.github.io/6450-spring-2026/content/01-content.html</loc>
     <lastmod>2026-01-15T21:38:30.975Z</lastmod>
+  </url>
+  <url>
+    <loc>https://gwu-dats6450-13.github.io/6450-spring-2026/labs/02-labs.html</loc>
+    <lastmod>2026-01-22T07:12:32.348Z</lastmod>
+  </url>
+  <url>
+    <loc>https://gwu-dats6450-13.github.io/6450-spring-2026/labs/index.html</loc>
+    <lastmod>2025-12-09T04:48:01.829Z</lastmod>
   </url>
   <url>
     <loc>https://gwu-dats6450-13.github.io/6450-spring-2026/content/index.html</loc>
     <lastmod>2026-01-15T21:41:55.182Z</lastmod>
   </url>
   <url>
-    <loc>https://gwu-dats6450-13.github.io/6450-spring-2026/index.html</loc>
-    <lastmod>2026-01-15T21:20:17.249Z</lastmod>
+    <loc>https://gwu-dats6450-13.github.io/6450-spring-2026/content/02-content.html</loc>
+    <lastmod>2026-01-22T07:11:40.669Z</lastmod>
+  </url>
+  <url>
+    <loc>https://gwu-dats6450-13.github.io/6450-spring-2026/slides/02-slides.html</loc>
+    <lastmod>2026-01-22T06:02:08.863Z</lastmod>
   </url>
   <url>
     <loc>https://gwu-dats6450-13.github.io/6450-spring-2026/about.html</loc>
