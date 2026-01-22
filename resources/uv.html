@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Syllabus – DATS 6450.13</title>
+<title>Using uv to manage Python environments – DATS 6450.13</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -23,29 +23,29 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<script src="site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-919c7ec90743d9b1e9761dff04b41dfc.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-0e6b5171f1292a58de0ff8a7af83c33b.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-919c7ec90743d9b1e9761dff04b41dfc.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-4fb7172170f618121aa23e0350298c57.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-abe39e8e48a41cb0cc67a090732d2a1f.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="site_libs/bootstrap/bootstrap-4fb7172170f618121aa23e0350298c57.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/quarto-contrib/fontawesome6-6.7.2/all.min.css" rel="stylesheet">
-<link href="site_libs/quarto-contrib/fontawesome6-6.7.2/latex-fontsize.css" rel="stylesheet">
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-919c7ec90743d9b1e9761dff04b41dfc.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-0e6b5171f1292a58de0ff8a7af83c33b.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-919c7ec90743d9b1e9761dff04b41dfc.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-4fb7172170f618121aa23e0350298c57.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-abe39e8e48a41cb0cc67a090732d2a1f.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-4fb7172170f618121aa23e0350298c57.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/quarto-contrib/fontawesome6-6.7.2/all.min.css" rel="stylesheet">
+<link href="../site_libs/quarto-contrib/fontawesome6-6.7.2/latex-fontsize.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -246,9 +246,9 @@ ul.task-list li input[type="checkbox"] {
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a href="./index.html" class="navbar-brand navbar-brand-logo">
+    <a href="../index.html" class="navbar-brand navbar-brand-logo">
     </a>
-    <a class="navbar-brand" href="./index.html">
+    <a class="navbar-brand" href="../index.html">
     <span class="navbar-title">DATS 6450.13</span>
     </a>
   </div>
@@ -259,21 +259,21 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link active" href="./index.html" aria-current="page"> 
+    <a class="nav-link active" href="../index.html" aria-current="page"> 
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./about.html"> 
+    <a class="nav-link" href="../about.html"> 
 <span class="menu-text">Instructor</span></a>
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link" href="./syllabus.html"> 
+    <a class="nav-link" href="../syllabus.html"> 
 <span class="menu-text">Syllabus</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./content/index.html"> 
+    <a class="nav-link" href="../content/index.html"> 
 <span class="menu-text">Content</span></a>
   </li>  
   <li class="nav-item compact">
@@ -293,7 +293,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Syllabus</li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../resources/uv.html">Resources</a></li><li class="breadcrumb-item"><a href="../resources/uv.html">Using uv to manage Python environments</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -304,7 +304,7 @@ ul.task-list li input[type="checkbox"] {
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
-      <a href="./index.html" class="sidebar-logo-link">
+      <a href="../index.html" class="sidebar-logo-link">
       </a>
       </div>
     <div class="sidebar-menu-container"> 
@@ -320,13 +320,13 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./content/01-content.html" class="sidebar-item-text sidebar-link">
+  <a href="../content/01-content.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">1. Course overview</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./content/02-content.html" class="sidebar-item-text sidebar-link">
+  <a href="../content/02-content.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">2. Parallel processing</span></a>
   </div>
 </li>
@@ -343,7 +343,7 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./resources/uv.html" class="sidebar-item-text sidebar-link">
+  <a href="../resources/uv.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Using uv to manage Python environments</span></a>
   </div>
 </li>
@@ -359,40 +359,11 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#course-and-contact-information" id="toc-course-and-contact-information" class="nav-link active" data-scroll-target="#course-and-contact-information">Course and contact information</a>
-  <ul class="collapse">
-  <li><a href="#instructor" id="toc-instructor" class="nav-link" data-scroll-target="#instructor">Instructor</a></li>
-  <li><a href="#class-policy-on-the-use-of-ai" id="toc-class-policy-on-the-use-of-ai" class="nav-link" data-scroll-target="#class-policy-on-the-use-of-ai">Class policy on the use of AI</a></li>
-  <li><a href="#note-on-code-plagiarism" id="toc-note-on-code-plagiarism" class="nav-link" data-scroll-target="#note-on-code-plagiarism">Note on code plagiarism</a></li>
-  <li><a href="#schedule-of-topics" id="toc-schedule-of-topics" class="nav-link" data-scroll-target="#schedule-of-topics">Schedule of topics:</a></li>
-  <li><a href="#assignments-and-evaluations" id="toc-assignments-and-evaluations" class="nav-link" data-scroll-target="#assignments-and-evaluations">Assignments and evaluations</a>
-  <ul class="collapse">
-  <li><a href="#late-policies" id="toc-late-policies" class="nav-link" data-scroll-target="#late-policies">Late policies</a></li>
-  </ul></li>
-  <li><a href="#grading" id="toc-grading" class="nav-link" data-scroll-target="#grading">Grading</a></li>
-  <li><a href="#academic-integrity-code" id="toc-academic-integrity-code" class="nav-link" data-scroll-target="#academic-integrity-code">Academic Integrity Code</a></li>
-  <li><a href="#university-policy-on-observance-of-religious-holidays" id="toc-university-policy-on-observance-of-religious-holidays" class="nav-link" data-scroll-target="#university-policy-on-observance-of-religious-holidays">University Policy on Observance of Religious Holidays</a></li>
-  <li><a href="#use-of-electronic-course-materials-and-class-recordings" id="toc-use-of-electronic-course-materials-and-class-recordings" class="nav-link" data-scroll-target="#use-of-electronic-course-materials-and-class-recordings">Use of Electronic Course Materials and Class Recordings</a></li>
-  </ul></li>
-  <li><a href="#academic-support" id="toc-academic-support" class="nav-link" data-scroll-target="#academic-support">Academic support</a>
-  <ul class="collapse">
-  <li><a href="#academic-commons" id="toc-academic-commons" class="nav-link" data-scroll-target="#academic-commons">Academic Commons</a></li>
-  <li><a href="#gw-writing-center" id="toc-gw-writing-center" class="nav-link" data-scroll-target="#gw-writing-center">GW Writing Center</a></li>
-  </ul></li>
-  <li><a href="#support-for-students-in-and-outside-the-classroom" id="toc-support-for-students-in-and-outside-the-classroom" class="nav-link" data-scroll-target="#support-for-students-in-and-outside-the-classroom">Support For Students in and Outside the Classroom</a>
-  <ul class="collapse">
-  <li><a href="#disability-support-services-dss-202-994-8250" id="toc-disability-support-services-dss-202-994-8250" class="nav-link" data-scroll-target="#disability-support-services-dss-202-994-8250">Disability Support Services (DSS) 202-994-8250</a></li>
-  <li><a href="#student-health-center-202-994-5300-247" id="toc-student-health-center-202-994-5300-247" class="nav-link" data-scroll-target="#student-health-center-202-994-5300-247">Student Health Center 202-994-5300, 24/7</a></li>
-  </ul></li>
-  <li><a href="#gw-campus-emergency-information" id="toc-gw-campus-emergency-information" class="nav-link" data-scroll-target="#gw-campus-emergency-information">GW Campus Emergency Information</a>
-  <ul class="collapse">
-  <li><a href="#gw-emergency-services-202-994-6111" id="toc-gw-emergency-services-202-994-6111" class="nav-link" data-scroll-target="#gw-emergency-services-202-994-6111">GW Emergency Services: 202-994-6111</a></li>
-  <li><a href="#gw-alert" id="toc-gw-alert" class="nav-link" data-scroll-target="#gw-alert">GW Alert</a></li>
-  <li><a href="#protective-actions" id="toc-protective-actions" class="nav-link" data-scroll-target="#protective-actions">Protective Actions</a>
-  <ul class="collapse">
-  <li><a href="#classroom-emergency-lockdown-buttons" id="toc-classroom-emergency-lockdown-buttons" class="nav-link" data-scroll-target="#classroom-emergency-lockdown-buttons">Classroom Emergency Lockdown Buttons</a></li>
-  </ul></li>
-  </ul></li>
+  <li><a href="#install-uv" id="toc-install-uv" class="nav-link active" data-scroll-target="#install-uv">1. Install uv</a></li>
+  <li><a href="#quick-mental-model" id="toc-quick-mental-model" class="nav-link" data-scroll-target="#quick-mental-model">2. Quick mental model</a></li>
+  <li><a href="#explicit-classic-venv-workflow-with-uv" id="toc-explicit-classic-venv-workflow-with-uv" class="nav-link" data-scroll-target="#explicit-classic-venv-workflow-with-uv">3. Explicit: “classic” venv workflow with uv</a></li>
+  <li><a href="#projectcentric-uv-manages-the-env-for-you" id="toc-projectcentric-uv-manages-the-env-for-you" class="nav-link" data-scroll-target="#projectcentric-uv-manages-the-env-for-you">4. Project‑centric: uv manages the env for you</a></li>
+  <li><a href="#teachingfriendly-patterns-and-tips" id="toc-teachingfriendly-patterns-and-tips" class="nav-link" data-scroll-target="#teachingfriendly-patterns-and-tips">5. Teaching‑friendly patterns and tips</a></li>
   </ul>
 </nav>
     </div>
@@ -400,9 +371,9 @@ ul.task-list li input[type="checkbox"] {
 <main class="content" id="quarto-document-content">
 
 
-<header id="title-block-header" class="quarto-title-block default">
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../resources/uv.html">Resources</a></li><li class="breadcrumb-item"><a href="../resources/uv.html">Using uv to manage Python environments</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Syllabus</h1>
+<h1 class="title">Using uv to manage Python environments</h1>
 </div>
 
 
@@ -419,315 +390,163 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="course-and-contact-information" class="level1">
-<h1>Course and contact information</h1>
-<p><strong>Course:</strong> DATS 6450.13 (Applied Big Data Analytics) <strong>Semester:</strong> Spring, 2026 <strong>Meeting time:</strong> Thursdays 6:10-8:40pm <strong>Location:</strong> Philips 416</p>
-<section id="instructor" class="level2">
-<h2 class="anchored" data-anchor-id="instructor">Instructor</h2>
-<p><strong>Name:</strong> Abhijit Dasgupta, PhD<br>
-<strong>Phone:</strong> 240-813-8458<br>
-<strong>GW E-mail:</strong> abhijit.dasgupta@gwu.edu<br>
-<strong>Office hours:</strong><br>
-<strong>In-person:</strong> Thursdays 5:10-6:10pm, Philips 416<br>
-<strong>Remote:</strong> By appointment (via <a href="https://calendar.app.google/asWp4cKU7H7W8xbM8">link</a>)<br>
-<strong>Communications:</strong> via <a href="6450-spring-2026.slack.com">Slack</a></p>
-<div class="callout callout-style-default callout-important callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>Communication policy
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>All general class-related issues, including discussion of material, should be done on Slack. Any private issue, including absences, illness, issues around grades, etc. should be done via e-mail</p>
-</div>
-</div>
-<hr>
-<p><strong>Course prerequisites:</strong> DATS 6101, 6102, Python</p>
-<p><strong>Students completing the course will be able to:</strong></p>
+<p>uv is an extremely fast Python package and project manager. uv can both create virtual environments directly and manage them implicitly per project.</p>
+<section id="install-uv" class="level2">
+<h2 class="anchored" data-anchor-id="install-uv">1. Install uv</h2>
 <ul>
-<li><p>Build data pipelines and transformations using DuckDB and PySpark.</p></li>
-<li><p>Use concepts of parallelization, embarrasingly parallel problems, and applications in Python to process large data</p></li>
-<li><p>Compare computational efficiency, memory management, and scalability between single-node, cluster and distributed frameworks.</p></li>
-<li><p>Optimize queries, caching, and partitioning strategies across engines.</p></li>
-<li><p>Apply datashader or equivalent tools to visualize large datasets efficiently.</p></li>
-<li><p>Develop end-to-end reproducible analytics workflows integrating both systems.</p></li>
+<li><p>macOS / Linux (shell):</p>
+<ul>
+<li>Run:
+<ul>
+<li><code>curl -LsSf https://astral.sh/uv/install.sh | sh</code><br>
+</li>
+</ul></li>
+<li>This downloads the latest standalone uv binary and adds it to your PATH (usually <code>~/.local/bin</code>).</li>
+</ul></li>
+<li><p>Windows (PowerShell):</p>
+<ul>
+<li>Run:
+<ul>
+<li><code>irm https://astral.sh/uv/install.ps1 | iex</code><br>
+</li>
+</ul></li>
+<li>This installs uv as a standalone executable similarly to the Unix script.</li>
+</ul></li>
+<li><p>Verify installation:</p>
+<ul>
+<li>Run <code>uv --version</code> to confirm that the command is available.</li>
+</ul></li>
 </ul>
-<p><strong>Average amount of direct instruction or guided interaction with the instructor and average minimum amount of independent (out-of-class) learning expected per week:</strong></p>
-<p>This class will meet for 2.5 hours of in-person learning per week. It is expected that homework, project and independent study will take an average of 8-10 hours weekly. We note here that classes are in-person only and no remote option will be available during the semester. It will be the student’s responsibility to make up work during an absence. Class attendance will be noted and class participation is encouraged to enable active learning of the material.</p>
-<p><strong>Required textbooks and/or other materials and recommended readings:</strong> There are no required textbooks for this class. Relevant readings will be assigned on a weekly basis</p>
 </section>
-<section id="class-policy-on-the-use-of-ai" class="level2">
-<h2 class="anchored" data-anchor-id="class-policy-on-the-use-of-ai">Class policy on the use of AI</h2>
-<p>Generative Artificial Intelligence (GAI) tools such as ChatGPT are becoming important resources in many fields and industries. Accordingly, you are permitted to use such tools to generate content submitted for evaluation in this course, including assignments, with the limitation that no more than 50% of your submitted code can be generated using AI tools. You remain responsible for all content you submit for evaluation, and to ensure that the material submitted runs and produces correct results. Material for final presentation and reports must be substantially your own work, with GAI tools available to help with brainstorming, editing, organization, polish.</p>
-<p>You may use GAI tools to help generate ideas and brainstorm. However, you should note that the material generated by these tools may be inaccurate, incomplete, or otherwise problematic. Beware that use may also stifle your own independent thinking and creativity.</p>
-<p>If you include content (e.g., ideas, text, code, images) that was generated, in whole or in part, by Generative Artificial Intelligence tools (including, but not limited to, ChatGPT and other large language models) in work submitted for evaluation in this course, you must document and credit your source. For example, text generated using ChatGPT-4 should include a citation such as: “ChatGPT-4. (YYYY, Month DD of query). ‘Text of your query.’ Generated using OpenAI. https://chat.openai.com/.” Material generated using other tools should be cited accordingly. Failure to do so in this course constitutes failure to attribute under the George Washington University Code of Academic Integrity.</p>
+<section id="quick-mental-model" class="level2">
+<h2 class="anchored" data-anchor-id="quick-mental-model">2. Quick mental model</h2>
+<ul>
+<li>uv is an <strong>all‑in‑one</strong> tool that can:
+<ul>
+<li>Create and manage virtual environments (<code>uv venv</code>, <code>uv run</code>). <a href="https://docs.astral.sh/uv/">docs.astral</a></li>
+<li>Install and resolve packages with a pip‑compatible interface (<code>uv add</code>, <code>uv pip</code>). <a href="https://docs.astral.sh/uv/pip/environments/">docs.astral</a></li>
+<li>Manage Python versions if needed (<code>uv python</code>, <code>uv venv --python ...</code>). <a href="https://docs.astral.sh/uv/guides/install-python/">docs.astral</a></li>
+</ul></li>
+<li>You can either:
+<ul>
+<li>Use explicit virtualenv commands (<code>uv venv</code>, then <code>uv pip install ...</code>), or</li>
+<li>Let uv manage a per‑project environment implicitly via <code>uv init</code> and <code>uv add</code>. <a href="https://aeturrell.github.io/coding-for-economists/wrkflow-environments.html">aeturrell.github</a></li>
+</ul></li>
+</ul>
 </section>
-<section id="note-on-code-plagiarism" class="level2">
-<h2 class="anchored" data-anchor-id="note-on-code-plagiarism">Note on code plagiarism</h2>
-<p>We will check for plagiarism of submitted code between students. We understand that there are common templates and structures in code that will naturally be common between students, but everyone does typically have their own coding style, naming conventions, comments and approaches. Any pair of submissions that appear to have more than 70% code in common will be subject to further review. Code that is over 90% common will be considered a potential violation of the Honor Code.</p>
-</section>
-<section id="schedule-of-topics" class="level2">
-<h2 class="anchored" data-anchor-id="schedule-of-topics">Schedule of topics:</h2>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 19%">
-<col style="width: 19%">
-<col style="width: 38%">
-<col style="width: 23%">
-</colgroup>
-<tbody>
-<tr class="odd">
-<td><strong>Week</strong></td>
-<td><strong>Date</strong></td>
-<td><strong>Topic</strong></td>
-<td><strong>Lab</strong></td>
-</tr>
-<tr class="even">
-<td>1</td>
-<td>2026-01-15</td>
-<td>Course overview</td>
-<td>Bash shell</td>
-</tr>
-<tr class="odd">
-<td>3</td>
-<td>2026-01-22</td>
-<td>Parallel and distributed computing</td>
-<td>Using multiprocesing and asyncio</td>
-</tr>
-<tr class="even">
-<td>2</td>
-<td>2026-01-29</td>
-<td>Introduction to Cloud Computing</td>
-<td>AWS setup</td>
-</tr>
-<tr class="odd">
-<td>4</td>
-<td>2026-02-05</td>
-<td>introduction to DuckDB and Polars</td>
-<td></td>
-</tr>
-<tr class="even">
-<td>5</td>
-<td>2026-02-12</td>
-<td>Advanced DuckDB operations</td>
-<td></td>
-</tr>
-<tr class="odd">
-<td>6</td>
-<td>2026-02-19</td>
-<td>Python tools for larger data</td>
-<td>pandas, dask, Ray, RAPIDS</td>
-</tr>
-<tr class="even">
-<td>7</td>
-<td>2026-02-26</td>
-<td>Developing workflows for big data (Midterm 1)</td>
-<td></td>
-</tr>
-<tr class="odd">
-<td>8</td>
-<td>2026-03-05</td>
-<td>Apache Spark Fundamentals</td>
-<td>Spark RDD</td>
-</tr>
-<tr class="even">
-<td><strong>9</strong></td>
-<td><strong>2026-03-12</strong></td>
-<td><strong>Spring Break</strong></td>
-<td></td>
-</tr>
-<tr class="odd">
-<td>10</td>
-<td>2026-03-19</td>
-<td>Spark DataFrames and Spark SQL</td>
-<td></td>
-</tr>
-<tr class="even">
-<td>11</td>
-<td>2026-03-26</td>
-<td>Spark ML and Streaming</td>
-<td>MLib</td>
-</tr>
-<tr class="odd">
-<td>12</td>
-<td>2026-04-02</td>
-<td>Spark NLP</td>
-<td>John Snow Labs</td>
-</tr>
-<tr class="even">
-<td>13</td>
-<td>2026-04-09</td>
-<td>Visualization and reporting large data (Midterm 2)</td>
-<td>datashader</td>
-</tr>
-<tr class="odd">
-<td>14</td>
-<td>2026-04-16</td>
-<td>Machine Learning at Scale</td>
-<td>Tensorflow, TF probability, PyMC</td>
-</tr>
-<tr class="even">
-<td>15</td>
-<td>2026-04-23</td>
-<td>Final project presentations</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<p><strong>Scheduling of final examinations:</strong> There will be no final exams for this class. There will be a final group project which will be an implementation of a data science analytic pipeline for a large dataset that will run on the cloud.</p>
-</section>
-<section id="assignments-and-evaluations" class="level2">
-<h2 class="anchored" data-anchor-id="assignments-and-evaluations">Assignments and evaluations</h2>
-<p>Each week we will have several short assessment activities to build on class materials. These will include:</p>
+<section id="explicit-classic-venv-workflow-with-uv" class="level2">
+<h2 class="anchored" data-anchor-id="explicit-classic-venv-workflow-with-uv">3. Explicit: “classic” venv workflow with uv</h2>
+<p>This mirrors the traditional <code>python -m venv</code> + <code>pip</code> model but faster and more ergonomic. <a href="https://docs.astral.sh/uv/">docs.astral</a></p>
 <ol type="1">
-<li>Short weekly homework that will be graded for correctness. You will have 7-10 days to complete each assignment. Assignments will be provided and submissions made via Github Classroom</li>
-<li>Labs will be started in class and will need to be completed and submitted via Github Classroom. These will be graded for completion</li>
-<li>You will be given weekly readings that introduce the material for the following week. There will be a short quiz based on the readings that must be completed before class each week.</li>
-<li>There will be two midterm evaluations. These will be analytic and coding exercises to be done in class without the help of any generative AI or LLM coding assistance. These will typically be 45-60 minutes long and will also be submitted via Github Classroom.</li>
-<li>You will form groups of 2-3 students and do an analytic group project on a Big dataset. This project will involve an end-to-end analytic pipeline and report based on either a data set you choose or a dataset provided to you (which is TBD). You will have required ungraded check-ins with the professor per schedule to show progress, and a presentation on the final day of class. The project report and code must be submitted per the calendar</li>
-</ol>
-<section id="late-policies" class="level3">
-<h3 class="anchored" data-anchor-id="late-policies">Late policies</h3>
-<ol type="1">
-<li>Quizzes, labs, midterms and projects cannot be late; a late submission will be entered as a 0.
-<ol type="a">
-<li>For quizzes and labs, the lowest score for each type will be removed from calculation of the final grade at the end of the semester</li>
-</ol></li>
-<li>Homework will have the following late policy:
-<ol type="a">
-<li>There will be a penalty of 10% of the total points per day for each day late, for a maximum of 20% penalty</li>
-<li>Any homework can be submitted by the last day of class for a penalty of 40% of the total points for that homework</li>
-</ol></li>
+<li><p>Create a virtual environment in the current directory:</p>
+<ul>
+<li><p><code>uv venv</code><br>
+</p></li>
+<li><p>By default, this creates <code>.venv</code> using the system’s default Python or a uv‑managed Python. <a href="https://docs.astral.sh/uv/pip/environments/">docs.astral</a></p></li>
+<li><p>To specify Python explicitly:</p>
+<ul>
+<li><code>uv venv --python 3.11</code><br>
+</li>
+<li>If 3.11 is not installed, uv can download and use it automatically. <a href="https://docs.astral.sh/uv/guides/install-python/">docs.astral</a></li>
+</ul></li>
+</ul></li>
+<li><p>Activate the environment:</p>
+<ul>
+<li><p>macOS / Linux (bash/zsh/fish-like shells):</p>
+<ul>
+<li><code>source .venv/bin/activate</code> <a href="https://docs.astral.sh/uv/">docs.astral</a></li>
+</ul></li>
+<li><p>Windows (PowerShell):</p>
+<ul>
+<li><code>.venv\Scripts\Activate.ps1</code> <a href="https://fastapi.tiangolo.com/virtual-environments/">fastapi.tiangolo</a></li>
+</ul></li>
+</ul></li>
+<li><p>Install packages into that environment:</p>
+<ul>
+<li><code>uv pip install numpy pandas</code><br>
+</li>
+<li>This is a drop‑in replacement for <code>pip install ...</code> but uses uv’s fast resolver and installer. <a href="https://docs.astral.sh/uv/pip/environments/">docs.astral</a></li>
+</ul></li>
+<li><p>Run Python inside the environment:</p>
+<ul>
+<li>Once activated, use <code>python</code>, <code>ipython</code>, or any tooling as usual. <a href="https://fastapi.tiangolo.com/virtual-environments/">fastapi.tiangolo</a></li>
+</ul></li>
+<li><p>Deactivate:</p>
+<ul>
+<li>Run <code>deactivate</code> when done, just like with any venv. <a href="https://fastapi.tiangolo.com/virtual-environments/">fastapi.tiangolo</a></li>
+</ul></li>
 </ol>
 </section>
-</section>
-<section id="grading" class="level2">
-<h2 class="anchored" data-anchor-id="grading">Grading</h2>
+<section id="projectcentric-uv-manages-the-env-for-you" class="level2">
+<h2 class="anchored" data-anchor-id="projectcentric-uv-manages-the-env-for-you">4. Project‑centric: uv manages the env for you</h2>
+<p>This is often simpler for teaching, because the same commands set up both project metadata and environments. <a href="https://aeturrell.github.io/coding-for-economists/wrkflow-environments.html">aeturrell.github</a></p>
+<ol type="1">
+<li><p>Initialize a new project directory:</p>
 <ul>
-<li><p>homework (25%)</p></li>
-<li><p>lab completions (10%)</p></li>
-<li><p>quizzes (10%)</p></li>
-<li><p>midterm exams (15%)</p></li>
-<li><p>final group project (30%)</p></li>
-<li><p>class participation/attendance (10%)</p></li>
-</ul>
-</section>
-<section id="academic-integrity-code" class="level2">
-<h2 class="anchored" data-anchor-id="academic-integrity-code">Academic Integrity Code</h2>
-<p>Academic integrity is an essential part of the educational process, and all members of the GW community take these matters very seriously. As the instructor of record for this course, my role is to provide clear expectations and uphold them in all assessments. Violations of academic integrity occur when students fail to cite research sources properly, engage in unauthorized collaboration, falsify data, and otherwise violate the Code of Academic Integrity. If you have any questions about whether particular academic practices or resources are permitted, you should ask me for clarification. If you are reported for an academic integrity violation, you should contact Conflict Education and Student Accountability (CESA), formerly known as Student Rights and Responsibilities (SRR), to learn more about your rights and options in the process. Consequences can range from failure of assignment to expulsion from the University and may include a transcript notation. For more information, refer to the CESA website at students.gwu.edu/code-academic-integrity or contact CESA by email cesa@gwu.edu or phone 202-994-6757.</p>
-</section>
-<section id="university-policy-on-observance-of-religious-holidays" class="level2">
-<h2 class="anchored" data-anchor-id="university-policy-on-observance-of-religious-holidays">University Policy on Observance of Religious Holidays</h2>
-<p>Students must notify faculty during the first week of the semester in which they are enrolled in the course, or as early as possible, but no later than three weeks prior to the absence, of their intention to be absent from class on their day(s) of religious observance. If the holiday falls within the first three weeks of class, the student must inform faculty in the first week of the semester. For details and policy, see provost.gwu.edu/policies-procedures-and-guidelines.</p>
-</section>
-<section id="use-of-electronic-course-materials-and-class-recordings" class="level2">
-<h2 class="anchored" data-anchor-id="use-of-electronic-course-materials-and-class-recordings">Use of Electronic Course Materials and Class Recordings</h2>
-<p>Students are encouraged to use electronic course materials, including recorded class sessions, for private personal use in connection with their academic program of study. Electronic course materials and recorded class sessions should not be shared or used for non-course related purposes unless express permission has been granted by the instructor. Students who impermissibly share any electronic course materials are subject to discipline under the Student Code of Conduct. Contact the instructor if you have questions regarding what constitutes permissible or impermissible use of electronic course materials and/or recorded class sessions. Contact Disability Support Services at disabilitysupport.gwu.edu if you have questions or need assistance in accessing electronic course materials.</p>
-</section>
-</section>
-<section id="academic-support" class="level1">
-<h1>Academic support</h1>
-<section id="academic-commons" class="level2">
-<h2 class="anchored" data-anchor-id="academic-commons">Academic Commons</h2>
-<p>Academic Commons is the central location for academic support resources for GW students. To schedule a peer tutoring session for a variety of courses visit go.gwu.edu/tutoring. Visit academiccommons.gwu.edu for study skills tips, finding help with research, and connecting with other campus resources. For questions email academiccommons@gwu.edu.</p>
-</section>
-<section id="gw-writing-center" class="level2">
-<h2 class="anchored" data-anchor-id="gw-writing-center">GW Writing Center</h2>
-<p>GW Writing Center cultivates confident writers in the University community by facilitating collaborative, critical, and inclusive conversations at all stages of the writing process. Working alongside peer mentors, writers develop strategies to write independently in academic and public settings. Appointments can be booked online at gwu.mywconline.</p>
-</section>
-</section>
-<section id="support-for-students-in-and-outside-the-classroom" class="level1">
-<h1>Support For Students in and Outside the Classroom</h1>
-<section id="disability-support-services-dss-202-994-8250" class="level2">
-<h2 class="anchored" data-anchor-id="disability-support-services-dss-202-994-8250">Disability Support Services (DSS) 202-994-8250</h2>
-<p>Any student who may need an accommodation based on the potential impact of a disability should contact Disability Support Services at disabilitysupport.gwu.edu to establish eligibility and to coordinate reasonable accommodation.</p>
-</section>
-<section id="student-health-center-202-994-5300-247" class="level2">
-<h2 class="anchored" data-anchor-id="student-health-center-202-994-5300-247">Student Health Center 202-994-5300, 24/7</h2>
-<p>The Student Health Center (SHC) offers medical, counseling/psychological, and psychiatric services to GW students. More information about the SHC is available at healthcenter.gwu.edu. Students experiencing a medical or mental health emergency on campus should contact GW Emergency Services at 202-994-6111, or off campus at 911.</p>
-</section>
-</section>
-<section id="gw-campus-emergency-information" class="level1">
-<h1>GW Campus Emergency Information</h1>
-<section id="gw-emergency-services-202-994-6111" class="level2">
-<h2 class="anchored" data-anchor-id="gw-emergency-services-202-994-6111">GW Emergency Services: 202-994-6111</h2>
-<p>For situation-specific instructions, refer to GW’s Emergency Procedures guide.<br>
-</p>
-</section>
-<section id="gw-alert" class="level2">
-<h2 class="anchored" data-anchor-id="gw-alert">GW Alert</h2>
-<p>GW Alert is an emergency notification system that sends alerts to the GW community. GW requests students, faculty, and staff maintain current contact information by logging on to alert.gwu.edu. Alerts are sent via email, text, social media, and other means, including the Guardian app. The Guardian app is a safety app that allows you to communicate quickly with GW Emergency Services, 911, and other resources. Learn more at safety.gwu.edu.</p>
-</section>
-<section id="protective-actions" class="level2">
-<h2 class="anchored" data-anchor-id="protective-actions">Protective Actions</h2>
-<p>GW prescribes four protective actions that can be issued by university officials depending on the type of emergency. All GW community members are expected to follow directions according to the specified protective action. The protective actions are Shelter, Evacuate, Secure, and Lockdown (details below). Learn more at safety.gwu.edu/gw-standard-emergency-statuses.</p>
-<section id="shelter" class="level4">
-<h4 class="anchored" data-anchor-id="shelter">Shelter</h4>
+<li><p>Create and enter a folder, e.g.:</p>
 <ul>
-<li><p>Protection from a specific hazard</p></li>
-<li><p>The hazard could be a tornado, earthquake, hazardous material spill, or other environmental emergency.</p></li>
-<li><p>Specific safety guidance will be shared on a case-by-case basis.</p></li>
-</ul>
-</section>
-<section id="action" class="level4">
-<h4 class="anchored" data-anchor-id="action">Action:</h4>
+<li><code>mkdir my-project &amp;&amp; cd my-project</code></li>
+</ul></li>
+<li><p>Run:</p>
 <ul>
-<li>Follow safety guidance for the hazard.</li>
-</ul>
-</section>
-<section id="evacuate" class="level4">
-<h4 class="anchored" data-anchor-id="evacuate">Evacuate</h4>
+<li><code>uv init</code></li>
+</ul></li>
+<li><p>This creates:</p>
 <ul>
-<li><p>Need to move people from one location to another.</p></li>
-<li><p>Students and staff should be prepared to follow specific instructions given by first responders and University officials.</p></li>
-</ul>
-</section>
-<section id="action-1" class="level4">
-<h4 class="anchored" data-anchor-id="action-1">Action:</h4>
+<li>A <code>pyproject.toml</code> file with basic project metadata and dependencies section. <a href="https://aeturrell.github.io/coding-for-economists/wrkflow-environments.html">aeturrell.github</a></li>
+<li>A dedicated virtual environment for this project (usually <code>.venv</code>). <a href="https://aeturrell.github.io/coding-for-economists/wrkflow-environments.html">aeturrell.github</a></li>
+</ul></li>
+</ul></li>
+<li><p>Add dependencies:</p>
 <ul>
-<li><p>Evacuate to a designated location.</p></li>
-<li><p>Leave belongings behind.</p></li>
-<li><p>Follow additional instructions from first responders.</p></li>
-</ul>
-</section>
-<section id="secure" class="level4">
-<h4 class="anchored" data-anchor-id="secure">Secure</h4>
+<li><code>uv add numpy pandas</code><br>
+</li>
+<li>The first call both creates/uses the project env and installs these packages, updating <code>pyproject.toml</code> and a lock file. <a href="https://www.datacamp.com/tutorial/python-uv">datacamp</a></li>
+</ul></li>
+<li><p>Run code with the project environment:</p>
 <ul>
-<li><p>Threat or hazard outside of buildings or around campus.</p></li>
-<li><p>ncreased security, secured building perimeter, increased situational awareness, and restricted access to entry doors.</p></li>
-</ul>
-</section>
-<section id="action-2" class="level4">
-<h4 class="anchored" data-anchor-id="action-2">Action:</h4>
+<li><p><code>uv run python main.py</code><br>
+</p></li>
+<li><p><code>uv run pytest</code></p></li>
+<li><p><code>uv run</code> ensures that the command uses the project’s virtual environment, even without manually activating it. <a href="https://docs.astral.sh/uv/">docs.astral</a></p></li>
+</ul></li>
+<li><p>Sync an existing project (e.g., after pulling from git):</p>
 <ul>
-<li><p>Go inside and stay inside.</p></li>
-<li><p>Activities inside may continue.</p></li>
-</ul>
-</section>
-<section id="lockdown" class="level4">
-<h4 class="anchored" data-anchor-id="lockdown">Lockdown</h4>
+<li><p>If <code>pyproject.toml</code> and lock file exist, run:</p>
 <ul>
-<li><p>Threat or hazard with the potential to impact individuals inside buildings.</p></li>
-<li><p>Room-based protocol that requires locking interior doors, turning off lights, and staying out of sight of corridor window.</p></li>
-</ul>
+<li><code>uv sync</code></li>
+</ul></li>
+<li><p>This creates (or updates) the project env to match the lock file. <a href="https://www.datacamp.com/tutorial/python-uv">datacamp</a></p></li>
+</ul></li>
+</ol>
 </section>
-<section id="action-3" class="level4">
-<h4 class="anchored" data-anchor-id="action-3">Action:</h4>
+<section id="teachingfriendly-patterns-and-tips" class="level2">
+<h2 class="anchored" data-anchor-id="teachingfriendly-patterns-and-tips">5. Teaching‑friendly patterns and tips</h2>
 <ul>
-<li><p>Locks, lights, out of sight</p></li>
-<li><p>Consider Run, Hide, Fight</p></li>
+<li><p>One‑liner for students to get started in a new repo:</p>
+<ul>
+<li><code>uv sync &amp;&amp; uv run python main.py</code><br>
+</li>
+<li>This handles “create env + install deps + run code” in two commands. <a href="https://www.datacamp.com/tutorial/python-uv">datacamp</a></li>
+</ul></li>
+<li><p>Switching Python versions in a project:</p>
+<ul>
+<li><p><code>uv python pin 3.11</code> writes <code>.python-version</code> with 3.11, then:</p>
+<ul>
+<li><code>uv sync</code> recreates/updates the env with that version. <a href="https://github.com/astral-sh/uv">github</a></li>
+</ul></li>
+</ul></li>
+<li><p>Using tools without polluting the project env:</p>
+<ul>
+<li><code>uvx ruff .</code> or <code>uv tool run black app.py</code> run tools in ephemeral or tool‑specific environments instead of the project venv. <a href="https://docs.astral.sh/uv/guides/tools/">docs.astral</a></li>
+</ul></li>
+<li><p>Guideline to give students:</p>
+<ul>
+<li>“Each project lives in its own folder. In that folder, run <code>uv init</code> once, then always use <code>uv add</code>, <code>uv sync</code>, and <code>uv run</code> from there.” <a href="https://aeturrell.github.io/coding-for-economists/wrkflow-environments.html">aeturrell.github</a></li>
+</ul></li>
 </ul>
-</section>
-<section id="classroom-emergency-lockdown-buttons" class="level3">
-<h3 class="anchored" data-anchor-id="classroom-emergency-lockdown-buttons">Classroom Emergency Lockdown Buttons</h3>
-<p>Some classrooms have been equipped with classroom emergency lockdown buttons. If the button is pushed, GWorld Card access to the room will be disabled, and GW Dispatch will be alerted. The door must be manually closed if it is not closed when the button is pushed. Anyone in the classroom will be able to exit, but no one will be able to get in.</p>
 
 
-</section>
-</section>
 </section>
 
 </main> <!-- /main -->

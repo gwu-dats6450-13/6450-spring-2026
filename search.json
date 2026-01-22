@@ -706,6 +706,85 @@
     ]
   },
   {
+    "objectID": "resources/uv.html",
+    "href": "resources/uv.html",
+    "title": "Using uv to manage Python environments",
+    "section": "",
+    "text": "uv is an extremely fast Python package and project manager. uv can both create virtual environments directly and manage them implicitly per project.",
+    "crumbs": [
+      "Home",
+      "Resources",
+      "Using uv to manage Python environments"
+    ]
+  },
+  {
+    "objectID": "resources/uv.html#install-uv",
+    "href": "resources/uv.html#install-uv",
+    "title": "Using uv to manage Python environments",
+    "section": "1. Install uv",
+    "text": "1. Install uv\n\nmacOS / Linux (shell):\n\nRun:\n\ncurl -LsSf https://astral.sh/uv/install.sh | sh\n\n\nThis downloads the latest standalone uv binary and adds it to your PATH (usually ~/.local/bin).\n\nWindows (PowerShell):\n\nRun:\n\nirm https://astral.sh/uv/install.ps1 | iex\n\n\nThis installs uv as a standalone executable similarly to the Unix script.\n\nVerify installation:\n\nRun uv --version to confirm that the command is available.",
+    "crumbs": [
+      "Home",
+      "Resources",
+      "Using uv to manage Python environments"
+    ]
+  },
+  {
+    "objectID": "resources/uv.html#quick-mental-model",
+    "href": "resources/uv.html#quick-mental-model",
+    "title": "Using uv to manage Python environments",
+    "section": "2. Quick mental model",
+    "text": "2. Quick mental model\n\nuv is an all‑in‑one tool that can:\n\nCreate and manage virtual environments (uv venv, uv run). docs.astral\nInstall and resolve packages with a pip‑compatible interface (uv add, uv pip). docs.astral\nManage Python versions if needed (uv python, uv venv --python ...). docs.astral\n\nYou can either:\n\nUse explicit virtualenv commands (uv venv, then uv pip install ...), or\nLet uv manage a per‑project environment implicitly via uv init and uv add. aeturrell.github",
+    "crumbs": [
+      "Home",
+      "Resources",
+      "Using uv to manage Python environments"
+    ]
+  },
+  {
+    "objectID": "resources/uv.html#explicit-classic-venv-workflow-with-uv",
+    "href": "resources/uv.html#explicit-classic-venv-workflow-with-uv",
+    "title": "Using uv to manage Python environments",
+    "section": "3. Explicit: “classic” venv workflow with uv",
+    "text": "3. Explicit: “classic” venv workflow with uv\nThis mirrors the traditional python -m venv + pip model but faster and more ergonomic. docs.astral\n\nCreate a virtual environment in the current directory:\n\nuv venv\n\nBy default, this creates .venv using the system’s default Python or a uv‑managed Python. docs.astral\nTo specify Python explicitly:\n\nuv venv --python 3.11\n\nIf 3.11 is not installed, uv can download and use it automatically. docs.astral\n\n\nActivate the environment:\n\nmacOS / Linux (bash/zsh/fish-like shells):\n\nsource .venv/bin/activate docs.astral\n\nWindows (PowerShell):\n\n.venv\\Scripts\\Activate.ps1 fastapi.tiangolo\n\n\nInstall packages into that environment:\n\nuv pip install numpy pandas\n\nThis is a drop‑in replacement for pip install ... but uses uv’s fast resolver and installer. docs.astral\n\nRun Python inside the environment:\n\nOnce activated, use python, ipython, or any tooling as usual. fastapi.tiangolo\n\nDeactivate:\n\nRun deactivate when done, just like with any venv. fastapi.tiangolo",
+    "crumbs": [
+      "Home",
+      "Resources",
+      "Using uv to manage Python environments"
+    ]
+  },
+  {
+    "objectID": "resources/uv.html#projectcentric-uv-manages-the-env-for-you",
+    "href": "resources/uv.html#projectcentric-uv-manages-the-env-for-you",
+    "title": "Using uv to manage Python environments",
+    "section": "4. Project‑centric: uv manages the env for you",
+    "text": "4. Project‑centric: uv manages the env for you\nThis is often simpler for teaching, because the same commands set up both project metadata and environments. aeturrell.github\n\nInitialize a new project directory:\n\nCreate and enter a folder, e.g.:\n\nmkdir my-project && cd my-project\n\nRun:\n\nuv init\n\nThis creates:\n\nA pyproject.toml file with basic project metadata and dependencies section. aeturrell.github\nA dedicated virtual environment for this project (usually .venv). aeturrell.github\n\n\nAdd dependencies:\n\nuv add numpy pandas\n\nThe first call both creates/uses the project env and installs these packages, updating pyproject.toml and a lock file. datacamp\n\nRun code with the project environment:\n\nuv run python main.py\n\nuv run pytest\nuv run ensures that the command uses the project’s virtual environment, even without manually activating it. docs.astral\n\nSync an existing project (e.g., after pulling from git):\n\nIf pyproject.toml and lock file exist, run:\n\nuv sync\n\nThis creates (or updates) the project env to match the lock file. datacamp",
+    "crumbs": [
+      "Home",
+      "Resources",
+      "Using uv to manage Python environments"
+    ]
+  },
+  {
+    "objectID": "resources/uv.html#teachingfriendly-patterns-and-tips",
+    "href": "resources/uv.html#teachingfriendly-patterns-and-tips",
+    "title": "Using uv to manage Python environments",
+    "section": "5. Teaching‑friendly patterns and tips",
+    "text": "5. Teaching‑friendly patterns and tips\n\nOne‑liner for students to get started in a new repo:\n\nuv sync && uv run python main.py\n\nThis handles “create env + install deps + run code” in two commands. datacamp\n\nSwitching Python versions in a project:\n\nuv python pin 3.11 writes .python-version with 3.11, then:\n\nuv sync recreates/updates the env with that version. github\n\n\nUsing tools without polluting the project env:\n\nuvx ruff . or uv tool run black app.py run tools in ephemeral or tool‑specific environments instead of the project venv. docs.astral\n\nGuideline to give students:\n\n“Each project lives in its own folder. In that folder, run uv init once, then always use uv add, uv sync, and uv run from there.” aeturrell.github",
+    "crumbs": [
+      "Home",
+      "Resources",
+      "Using uv to manage Python environments"
+    ]
+  },
+  {
+    "objectID": "labs/index.html",
+    "href": "labs/index.html",
+    "title": "Labs",
+    "section": "",
+    "text": "Lab\nThe lab for the class would involve a hands-on coding assignment provided through GitHub Classroom. You will start the lab in-class, myself and the TAs would be helping you with any questions with the lab and then you would need to turn in the lab by checking in your code and results in the GitHub repo (you will have until next class for this, but usually you would be able to do this much sooner)."
+  },
+  {
     "objectID": "labs/02-labs.html",
     "href": "labs/02-labs.html",
     "title": "Lab 2",
@@ -718,13 +797,6 @@
     "title": "Lab 2",
     "section": "",
     "text": "GitHub Classroom Link"
-  },
-  {
-    "objectID": "labs/index.html",
-    "href": "labs/index.html",
-    "title": "Labs",
-    "section": "",
-    "text": "Lab\nThe lab for the class would involve a hands-on coding assignment provided through GitHub Classroom. You will start the lab in-class, myself and the TAs would be helping you with any questions with the lab and then you would need to turn in the lab by checking in your code and results in the GitHub repo (you will have until next class for this, but usually you would be able to do this much sooner)."
   },
   {
     "objectID": "content/index.html",
