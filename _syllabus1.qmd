@@ -1,0 +1,79 @@
+
+---
+title: Syllabus
+subtitle: "DATS 6450.13: Applied Big Data Analytics"
+date: last-modified
+format:
+    html:
+        toc: true
+---
+
+::: callout-warning
+## Work in progress
+This syllabus is a work in progress and will be updated periodically until the beginning of classes on January 12, 2026. Please check back for the latest version.
+:::
+
+## Course Overview
+
+This course focuses on scalable analytics pipelines using both DuckDB and Apache Spark. Students first develop local analytical workflows using DuckDB and then expand to distributed computing using Spark. Comparative benchmarking and performance analysis are central throughout, emphasizing when and how to scale from local to distributed systems.
+
+***
+
+## Learning Outcomes
+
+Students completing the course will be able to:
+
+- Build data pipelines and transformations using DuckDB and PySpark.  
+- Understand concepts of parallelization, embarrasingly parallel problems, and applications in Python
+- Compare computational efficiency, memory management, and scalability between single-node, cluster and distributed frameworks.  
+- Optimize queries, caching, and partitioning strategies across engines.  
+- Apply Datashader or equivalent tools to visualize large datasets efficiently.  
+- Develop end-to-end reproducible analytics workflows integrating both systems.
+
+***
+
+## Weekly Plan
+
+| Topics                                                 | Key Learning Activities                                      |
+| ------------------------------------------------------ | ------------------------------------------------------------ |
+| Introduction to Big Data Concepts                      | Course overview, architecture spectrum (OLAP vs distributed), install Python, DuckDB, and Spark environments |
+| DuckDB Fundamentals                                    | SQL querying, Parquet handling, in-memory analytics, DuckDB file formats |
+| Advanced DuckDB Operations                             | Joins, aggregations, temporary views, persistent databases, performance tuning |
+| Developing workflows                                   | Sampling, DAGs, lazy evaluation                              |
+| Parallel and distributed computing                     | asyncio, multiprocessing, arrow, chunking computations       |
+| Python tools for larger data                           | Polars, Ray, RAPIDS                                          |
+| Concepts of distributed data and distributed computing | HDFS, Parquet                                                |
+| Apache Spark Fundamentals                              | RDDs, DataFrames, and SparkSession, cluster architecture overview |
+| Spark SQL and DataFrame APIs                           | Data transformations, joins, aggregations, caching versus DuckDB vectorization |
+| Distributed Computing and Partitioning                 | Spark partition tuning, shuffle optimization, DuckDB concurrency exploration |
+| Streaming data                                         | Spark Streaming, AWS Lambda, serverless computing            |
+| Working with Unstructured and Semi-Structured Data     | JSON, CSV, and Parquet workflows, MongoDB                    |
+| Spark NLP                                              | Special topic using John Snow Labs                           |
+| Machine Learning at Scale                              | Implement basic MLlib workflows; compare local vs distributed performance |
+| Modern machine learning                                | Tensorflow, Tensorflow Probablity, Keras,                    |
+|                                                        |                                                              |
+| Visualization and Reporting                            | Visualize billion-point datasets using Datashader; integrate results from DuckDB and Spark queries |
+| Case Studies and Systems Integration                   | Build a combined ETL → transformation → visualization pipeline using both tools |
+| Final Project Presentations                            | Students present applied big data projects that demonstrate performance scalability and explain design choices |
+
+###
+
+***
+
+## Example Weekly Hands-on Labs
+
+- **Week 3 Lab:** Local analytics pipeline in DuckDB, performing multi-table joins on Parquet data.  
+- **Week 7 Lab:** Rewrite the same workflow using SparkSQL; compare query plans and runtimes.  
+- **Week 8 Lab:** Benchmark DuckDB vs Spark: group-by time complexity and memory usage.  
+- **Week 12 Lab:** Run PySpark-compatible queries inside DuckDB’s Spark API for cross-compatibility experiments.  
+- **Week 13 Lab:** Use Datashader and HoloViews to visualize Spark-generated aggregations and DuckDB materialized tables.
+
+***
+
+## Final Project Examples
+
+1. **Hybrid Data Lake Analysis:** Transform raw CSVs with dbt + DuckDB, scale aggregation in Spark, visualize with Datashader.  
+2. **Benchmark Dashboard:** Develop a notebook comparing Spark and DuckDB performance under different query loads.  
+3. **Streaming + Aggregation Workflow:** Use Spark Structured Streaming with DuckDB analytical summarization.  
+
+***

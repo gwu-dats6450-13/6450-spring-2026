@@ -1,0 +1,71 @@
+
+
+# Parallel Programming Models {.section}
+
+
+## Distributed memory / Message Passing Model
+
+::: {style="text-align: center;"}
+<img src="parallelization-python/img/parallel1.png" width=600>
+:::
+
+## Data parallel model
+
+::: {style="text-align: center;"}
+<img src="parallelization-python/img/parallel2.png" width=600>
+:::
+
+## Hybrid model
+
+::: {style="text-align: center;"}
+<img src="parallelization-python/img/parallel4.png" width=500>
+:::
+::: {style="text-align: center;"}
+<img src="parallelization-python/img/parallel3.png" width=500>
+:::
+
+
+## Partitioning data
+
+::: {style="text-align: center;"}
+<img src="parallelization-python/img/parallel5.png" width=600>
+:::
+
+
+
+## Designing parallel programs
+
++ Data partitioning
++ Communication
++ Synchronization / Orchestration
++ Data dependencies
++ Load balancing
++ Input and Output (I/O)
++ Debugging
+
+::: {.fragment}
+
+A lot of these components are data engineering and DevOps issues
+:::
+::: {.fragment}
+
+Infrastructures have standardized many of these and have helped data scientists implement parallel programming much more easily
+:::
+::: {.fragment}
+
+We'll see in the lab how the `multiprocessing` module in Python makes parallel processing on a machine quite easy to implement
+:::
+
+## Parallel Data Processing for AI
+
+### Common AI Data Workloads
++ **Text preprocessing**: Tokenization, cleaning for LLM training
++ **Embedding generation**: Converting documents to vectors
++ **Data quality filtering**: Removing low-quality training samples
++ **Format conversion**: PDF to text, audio to features
++ **Synthetic data generation**: Using LLMs to create training data
++ **Deduplication**: Finding and removing duplicate content
+
+::: {.fragment}
+These operations are **embarrassingly parallel** - each document/sample can be processed independently
+:::

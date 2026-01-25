@@ -1,0 +1,129 @@
+---
+title: "Using uv to manage Python environments"
+---
+
+uv is an extremely fast Python package and project manager. 
+uv can both create virtual environments directly and manage them implicitly per project.  
+
+## 1. Install uv
+
+- macOS / Linux (shell):
+
+  - Run:  
+    - `curl -LsSf https://astral.sh/uv/install.sh | sh`  
+  - This downloads the latest standalone uv binary and adds it to your PATH (usually `~/.local/bin`). 
+
+- Windows (PowerShell):
+
+  - Run:  
+    - `irm https://astral.sh/uv/install.ps1 | iex`  s
+  - This installs uv as a standalone executable similarly to the Unix script. 
+
+- Verify installation:
+
+  - Run `uv --version` to confirm that the command is available. 
+
+## 2. Quick mental model
+
+- uv is an **all‑in‑one** tool that can:
+  - Create and manage virtual environments (`uv venv`, `uv run`). [docs.astral](https://docs.astral.sh/uv/)
+  - Install and resolve packages with a pip‑compatible interface (`uv add`, `uv pip`). [docs.astral](https://docs.astral.sh/uv/pip/environments/)
+  - Manage Python versions if needed (`uv python`, `uv venv --python ...`). [docs.astral](https://docs.astral.sh/uv/guides/install-python/)
+- You can either:
+  - Use explicit virtualenv commands (`uv venv`, then `uv pip install ...`), or
+  - Let uv manage a per‑project environment implicitly via `uv init` and `uv add`. [aeturrell.github](https://aeturrell.github.io/coding-for-economists/wrkflow-environments.html)
+
+## 3. Explicit: “classic” venv workflow with uv
+
+This mirrors the traditional `python -m venv` + `pip` model but faster and more ergonomic. [docs.astral](https://docs.astral.sh/uv/)
+
+1. Create a virtual environment in the current directory:
+
+   - `uv venv`  
+   - By default, this creates `.venv` using the system’s default Python or a uv‑managed Python. [docs.astral](https://docs.astral.sh/uv/pip/environments/)
+
+   - To specify Python explicitly:
+
+     - `uv venv --python 3.11`  
+     - If 3.11 is not installed, uv can download and use it automatically. [docs.astral](https://docs.astral.sh/uv/guides/install-python/)
+
+2. Activate the environment:
+
+   - macOS / Linux (bash/zsh/fish-like shells):
+
+     - `source .venv/bin/activate` [docs.astral](https://docs.astral.sh/uv/)
+
+   - Windows (PowerShell):
+
+     - `.venv\Scripts\Activate.ps1` [fastapi.tiangolo](https://fastapi.tiangolo.com/virtual-environments/)
+
+3. Install packages into that environment:
+
+   - `uv pip install numpy pandas`  
+   - This is a drop‑in replacement for `pip install ...` but uses uv’s fast resolver and installer. [docs.astral](https://docs.astral.sh/uv/pip/environments/)
+
+4. Run Python inside the environment:
+
+   - Once activated, use `python`, `ipython`, or any tooling as usual. [fastapi.tiangolo](https://fastapi.tiangolo.com/virtual-environments/)
+
+5. Deactivate:
+
+   - Run `deactivate` when done, just like with any venv. [fastapi.tiangolo](https://fastapi.tiangolo.com/virtual-environments/)
+
+## 4. Project‑centric: uv manages the env for you
+
+This is often simpler for teaching, because the same commands set up both project metadata and environments. [aeturrell.github](https://aeturrell.github.io/coding-for-economists/wrkflow-environments.html)
+
+1. Initialize a new project directory:
+
+   - Create and enter a folder, e.g.:
+
+     - `mkdir my-project && cd my-project`
+
+   - Run:
+
+     - `uv init`  
+
+   - This creates:
+     - A `pyproject.toml` file with basic project metadata and dependencies section. [aeturrell.github](https://aeturrell.github.io/coding-for-economists/wrkflow-environments.html)
+     - A dedicated virtual environment for this project (usually `.venv`). [aeturrell.github](https://aeturrell.github.io/coding-for-economists/wrkflow-environments.html)
+
+2. Add dependencies:
+
+   - `uv add numpy pandas`  
+   - The first call both creates/uses the project env and installs these packages, updating `pyproject.toml` and a lock file. [datacamp](https://www.datacamp.com/tutorial/python-uv)
+
+3. Run code with the project environment:
+
+   - `uv run python main.py`  
+   - `uv run pytest`  
+
+   - `uv run` ensures that the command uses the project’s virtual environment, even without manually activating it. [docs.astral](https://docs.astral.sh/uv/)
+
+4. Sync an existing project (e.g., after pulling from git):
+
+   - If `pyproject.toml` and lock file exist, run:
+
+     - `uv sync`  
+
+   - This creates (or updates) the project env to match the lock file. [datacamp](https://www.datacamp.com/tutorial/python-uv)
+
+## 5. Teaching‑friendly patterns and tips
+
+- One‑liner for students to get started in a new repo:
+
+  - `uv sync && uv run python main.py`  
+  - This handles “create env + install deps + run code” in two commands. [datacamp](https://www.datacamp.com/tutorial/python-uv)
+
+- Switching Python versions in a project:
+
+  - `uv python pin 3.11` writes `.python-version` with 3.11, then:
+
+    - `uv sync` recreates/updates the env with that version. [github](https://github.com/astral-sh/uv)
+
+- Using tools without polluting the project env:
+
+  - `uvx ruff .` or `uv tool run black app.py` run tools in ephemeral or tool‑specific environments instead of the project venv. [docs.astral](https://docs.astral.sh/uv/guides/tools/)
+
+- Guideline to give students:
+  - “Each project lives in its own folder. In that folder, run `uv init` once, then always use `uv add`, `uv sync`, and `uv run` from there.” [aeturrell.github](https://aeturrell.github.io/coding-for-economists/wrkflow-environments.html)

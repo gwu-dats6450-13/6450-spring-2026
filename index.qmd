@@ -1,7 +1,31 @@
 ---
-title: "DATS6450"
+title: "{{< var course.name >}}"
+subtitle: |
+  {{< var university.name >}}<br>
+  {{< var course.semester >}}
+toc: false
+date: last-modified
+date-format: "dddd MMM D, YYYY [at] hh:mm a"
+page-layout: full
 ---
 
-This is a Quarto website.
+::: {.callout-note icon="false"}
+## Course Information
+**Course Code:** {{< var course.number >}}  
+**Credits:** {{< var course.credits >}}  
+**Schedule:** {{< var course.schedule >}}  
+**Location:** {{< var course.location >}}
+:::
 
-To learn more about Quarto websites visit <https://quarto.org/docs/websites>.
+::: {.callout-note icon="false"}
+## Instructor
+**{{< var instructor.name >}}**  
+{{< var instructor.title >}}  
+
+**Email:** {{< var instructor.email_md >}}
+**Office Hours:** {{< var instructor.office_hours >}}
+:::
+
+## Course Description
+
+Applied Big Data Analytics (DATS 6450.13) teaches practical, hands‑on methods for building scalable analytics pipelines that start on a single machine and scale to distributed clusters. Students learn to develop local analytical workflows with DuckDB, translate and scale them with Apache Spark, and evaluate performance tradeoffs through comparative benchmarking, query tuning, partitioning and memory strategies. The course covers modern tooling (Polars, Ray, RAPIDS), Spark SQL/DataFrame APIs, Spark NLP and MLlib, and efficient visualization of very large datasets (Datashader), with emphasis on reproducible end‑to‑end workflows and a final project demonstrating design and performance decisions.

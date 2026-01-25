@@ -1,5 +1,53 @@
 ---
-title: "About"
+title: "Abhijit Das Gupta"
+about:
+  template: trestles
+  image: adg_headshot.jpg
+  links:
+    - icon: twitter
+      text: Twitter/X
+      href: https://twitter.com/webbedfeet
+    - icon: bluesky
+      text: Bluesky
+      href: https://bsky.app/profile/webbedfeet.bsky.social
+    - icon: github
+      text: Public Github
+      href: https://github.com/webbedfeet
+    - icon: linkedin
+      text: LinkedIn
+      href: https://www.linkedin.com/in/abhijit-dasgupta-70197713/
+    - icon: google-scholar
+      text: Google Scholar
+      href: https://scholar.google.com/citations?user=EgaGUCwAAAAJ&hl=en
+format:
+  html: 
+    sidebar: false
 ---
 
-About this site
+Abhijit Das Gupta is a _Data Science Director_ at AstraZeneca.
+He works at the interface of
+statistics and machine learning, with broad experience in statistical modeling
+and machine learning, bioinformatics, optimization, signal processing, and data
+visualization. He holds a PhD in Biostatistics with earlier training in
+Mathematical Statistics. He has been using R for over 25 years for a wide
+variety of applications in biomedical research, as well as for data-driven
+reports and presentations.  
+
+
+Abhijit is adjunct faculty at **George Washington University**, where he currently
+teaches courses in Applied Big Data Analysis . He is also adjunct faculty at George Mason
+University and Georgetown University. He is a
+certified [Carpentries](http://www.carpentries.org) instructor. He co-founded
+and organized the [Statistical Programming
+DC](http://www.meetup.com/stats-prog-dc) meetup (formerly R Users Group DC) for
+several years and got to know several luminaries in the field, including DJ
+Patil, Hadley Wickham, Max Kuhn, Frank Harrell and others.
+
+
+Outside of work, Abhijit is an aikido instructor holding a 5th degree black
+belt, having practiced the art since 1994. He teaches in Frederick County, MD.
+He is also active in community theater productions with [Ebong
+Theatrix](https://www.ebongtheatrix.org), a Bengali theater group in the DC
+area.
+
+Abhijit lives in Germantown, MD with his wife, children and golden retriever Jingle. 

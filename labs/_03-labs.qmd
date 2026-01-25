@@ -1,0 +1,242 @@
+---
+title: "Lab 3 Amazon Web Services (AWS) Setup Instructions"
+
+---
+
+
+Follow these instructions _step-by-step_ to setup your AWS environment. The screenshots may look a bit different than what you are seeing, but the flow is the same.
+
+::: callout-note
+You can click on any screenshot on this page to see its full size version.
+:::
+
+# Task 1: Accept the Invitation to join the AWS Classroom (the first time)
+
+1. In your student email inbox, you will have an email from _AWS Academy_ with the subject _Course Invitation_. 
+
+1. Open the email. Click on the _Get Started_ button as shown in the screenshot below.
+#[![](img/aws-email.png)](img/aws-email.png)
+
+1. Click on the _Create My Account_ button to create a new Canvas Account (note that this canvas account is different from your existing Georgetown canvas account).
+#[![](img/aws1.png)](img/aws1.png)
+
+1. Register your new account.
+#[![](img/aws2.png)](img/aws2.png)
+
+1. You should now be logged into _AWS Academy Learners Lab_ and seeing a screen like the one shown below. Click on _Learners Lab_
+#[![](img/aws4.png)](img/aws4.png)
+
+1. Scroll all the way to the bottom of the page and accept the _Terms & Conditions_.
+#[![](img/aws5-2.png)](img/aws5-2.png)
+
+1. You are now being logged in into the _AWS Console_. Notice the <font color="red">⬤</font> adjacent to the word _AWS_ towards the top left of the page. This indicates that the lab (i.e. the AWS resources) have not yet started. Click on the _play_ button along side _Start Lab_ on the to top right corner of the page to start the lab.
+#[![](img/aws6.png)](img/aws6.png)
+#[![](img/aws7.png)](img/aws7.png)
+
+1. Each _lab session_ that you start is at most 4 hours and you can see a timer showing the remaining time (hh:mm) on the ribbon along with the remaining budget out of the $50 allocated to each account. 
+#[![](img/aws-ribbon.png)](img/aws-ribbon.png)
+
+1. This environment is **long-lived**. When the session timer runs to 0:00, the session will end, but any data and resources that you created in the AWS account will be retained. If you later launch a new session (for example, the next day), you will find that your work is still in the lab environment.  Running EC2 instances will be stopped and then automatically restarted the next time you start a session. SageMaker notebook instances will be stopped, but not restarted the next time you start a session. 
+
+::: callout-important
+ Monitor your lab budget in the lab interface above. Whenever you have an active lab session, the latest known remaining budget information will display at the top of this screen. This data comes from AWS Budgets which typically updates every 8 to 12 hours. Therefore the remaining budget that you see may not reflect your most recent account activity.  If you exceed your lab budget your lab account will be disabled and all progress and resources will be lost. Therefore, it is important for you to manage your spending. Read about how to preserve your budget.
+:::
+
+## Login into the AWS Console
+
+The _AWS Console_ is your entry point into the AWS cloud. 
+
+1. Click on the AWS link alongside the <font color="lightgreen">⬤</font>.
+#[![](img/aws-console-launch1.png)](img/aws-console-launch1.png)
+
+1. A new tab will open in your browser, this is the _AWS Console_.
+#[![](img/aws8.png)](img/aws8.png)
+
+1. Note the URL in your browser's address bar, it will start with the name of the AWS region (such as _us-east-1_) in which your cloud resources are hosted. 
+
+1. Note the username on the top right hand corner, this is your _Federated Identity_. Also note that the you did not have to provide any credentials (username/password) to login into the AWS console. _How did this happen?_
+#[![](img/aws-console-ribbon.png)](img/aws-console-ribbon.png)
+
+
+### Logging into the AWS Console at a later time
+
+To access the AWS Console in the future, login to https://www.awsacademy.com/LMS_Login, go to _Learner Lab_ -> _Modules_ -> _Start Lab_.
+
+::: callout-note
+If you already had an AWS account prior to logging into AWS Academy you would need to login into the AWS Educate AWS account via an *Incognito Browser Window*.
+:::
+
+# Task 2: Create a SageMaker Studio Domain and Notebook
+
+The Amazon SageMaker Studio is one of the data science tools that we will be using during this course. We will set a SageMaker Studio domain and start a Jupyter Notebook as part of this task so that we can use it for future labs.
+
+::: callout-note
+
+1. All screenshots on this page are clickable i.e. you can click on these to see an enlarged version of the screenshot for better clarity.
+
+1. Pay special attention to portions of the screenshot highlighted in a red rectangle, they usually correspond to non-default options. If you miss any of these your SageMaker domain would not be created correctly and you may have to repeat the entire procedure.
+:::
+
+1. Navigate to SageMaker Studio.
+[![](img/1-landing-page.png)](img/1-landing-page.png)
+
+1. Select Amazon Sagemaker, Click on Domains on the side bar
+[![](img/2-domain-page.png)](img/2-domain-page.png)
+
+1. Select **Set up for organizations**.
+[![](img/2-1-domain-page.png)](img/2-1-domain-page.png)
+
+1. Click on Create Domain, This screen should pop up!
+[![](img/3-domain-setup.png)](img/3-domain-setup.png)
+
+1. Enter a name for your domain as shown above. Click on next
+
+1. Select **Use an existing role** and then select **LabRole**.
+[![](img/sm-iam.png)](img/sm-iam.png)
+
+1. On the next page, do the following:
+
+    - **Disable both settings under MLOps configuration**.
+    - Under **Canvas ready to use model configuration** section, select "Use existing role" -> "Custom IAM role ARN" and in the edit box type the ARN of the **LabRole** role. The ARN of the **LabRole** is of the form `arn:aws:iam::your_account_id:role/LabRole`, copy paste this string in the **Custom IAM role ARN** box and then replace `your_account_id` with the account id of your AWS account. You can find the account id of your AWS account in the top right corner of your browser window (it is highlighted in the red rectangle in this screenshot, enter it without the "-", for example `987733172745`).
+
+    [![](img/sm-configure-apps.png)](img/sm-configure-apps.png)
+    
+1. Follow the screenshot
+[![](img/12-Setup-step-4.png)](img/12-Setup-step-4.png)
+
+1. Click on next.
+[![](img/13-Setup-step4-next.png)](img/13-Setup-step4-next.png)
+
+1. Select Public Internet Access, follow the screenshot and click on next. **_Note that the subnet and security group ids for your account would be different from what you see in the screenshot. Select all the subnets in the drop down (we will discuss in class why this is required)._**
+[![](img/14-VPC-setup.png)](img/14-VPC-setup.png)
+
+1. Change the `Default space size` to 50 from the default of 5 and click next.
+[![](img/15-Storage-config.png)](img/15-Storage-config.png)
+
+1. Scroll down and click on next. Your Domain will now be created.
+[![](img/16-Domain-created.png)](img/16-Domain-created.png)
+
+>It takes the domain sometime to get created and in use, though it says to not refresh the page, you can go ahead and refresh the page after a minute or two. You will see the screenshot below stating that the domain is in use.
+
+[![](img/17-Domain-in-use.png)](img/17-Domain-in-use.png)
+
+## Part-3: Creating the User
+
+1. Now that you have created the domain, It is time to create a user in that domain. Easiest way to do this is to navigate to the Studio page on the sidebar and Clicking "Create user profile"
+[![](img/18-UserCreation.png)](img/18-UserCreation.png)
+
+1. Name your user, as a matter of convention set the username as your _NET ID_. Click on next.
+
+[![](img/19-User-Creation-1.png)](img/19-User-Creation-1.png)
+
+1. Follow the screenshot. 
+
+[![](img/20-User-Creation-2.png)](img/20-User-Creation-2.png)
+
+1. Disable all canvas permissions and Paste the ARN of your LabRole. Scroll Down
+
+[![](img/22-User-Canvas-Part-2.png)](img/22-User-Canvas-Part-2.png)
+
+1. Click on Next
+[![](img/23-User-Next.png)](img/23-User-Next.png)
+
+1. Scroll down
+[![](img/24-User-Step-4.png)](img/24-User-Step-4.png)
+
+1. Scroll down, click on next
+[![](img/25-User-final-next.png)](img/25-User-final-next.png)
+
+1. User should be created now.
+
+[![](img/26-user-created.png)](img/26-user-created.png)
+
+## Launching Sagemaker Studio
+
+1. Click on Domains on the sidebar. Select your domain and click on User Profiles.
+
+[![](img/27-domain-user-list.png)](img/27-domain-user-list.png)
+
+1. Select launch and Click on Studio
+
+[![](img/28-launch-studio.png)](img/28-launch-studio.png)
+
+
+::: callout-note
+This is called a _managed service_, you get to work on the notebook without having to deal with the creation steps for the underlying infrastructure. You can easily change this configuration as per the requirements of the analytics/machine learning job you are running.
+:::
+
+1. This should open up
+
+[![](img/29-studio-landing.png)](img/29-studio-landing.png)
+
+1. Select JupyterLab and Click on Create JupyterLab Space
+[![](img/30-Creating-Jupyter-space.png)](img/30-Creating-Jupyter-space.png)
+
+1. A Jupyter Notebook session should open up
+
+[![](img/31-Jupyter-landing.png)](img/31-Jupyter-landing.png)
+
+# Task 8: Use SageMaker Studio Notebook for analyzing a simple dataset
+
+We will analyze the a simple dataset using our freshly created SageMaker Studio environment.
+
+1. Clone the git repo for this lab into SageMaker.
+[![](img/aws-sm-git1.png)](img/aws-sm-git1.png)
+
+1. The URL of the git repo would be of the format shown in the screenshot below.
+[![](img/aws-sm-git2.png)](img/aws-sm-git2.png)
+
+1. Once the repo is cloned, double click on the repo folder and then on the _analytics.ipynb_ file in the repo. This will open the Jupyter notebook in a SageMaker Studio Notebook.
+[![](img/aws-sm-nb1.png)](img/aws-sm-nb1.png)
+
+1. The notebook downloads the dataset from your GitHub and has code to create an S3 bucket in your account and copy the dataset there. There are some tasks to be completed in the noteobok. **Complete tasks marked in the notebook and checkin the completed notebook in the git repo**.
+
+## Shutting down SageMaker Spaces
+
+It is important to shutdown SageMaker Studio when not in use so that you do not get billed for it when you are not using it.
+
+1. Navigate back to Sagemaker Studio, Select Jupyter Lab, Click on Stop
+[![](img/32-Jupyter-Shutdown.png)](img/32-Jupyter-Shutdown.png)
+
+::: callout-important
+
+At the end of this lab:
+
+1. Make sure you shutdown SageMaker Studio.
+
+1. Make sure you shutdown EC2 VM.
+
+1. Make sure you have ended the lab in AWS Educate by pressing the _End Lab_ button.
+:::
+
+## (Optional) Using VSCode Instead of Jupyter Notebooks
+
+
+SageMaker Studio Has added support for VSCode and the steps to run it are below:
+
+1. Navigate back to Sagemaker Studio, Select Code Editor, Click on Create Code Editor Space
+[![](img/33-VSC-1.png)](img/33-VSC-1.png)
+
+1. Follow the screenshot and click on Create Space
+[![](img/34-VSC-2.png)](img/34-VSC-2.png)
+
+1. Now select the instance type you want to use. Click on Run Space. Wait for a while then click on Open Code Editor.
+
+[![](img/35-VSC-3.png)](img/35-VSC-3.png)
+
+1. Now you can start using VS Code as you do on your local machine.
+
+[![](img/36-VSC-4.png)](img/36-VSC-4.png)
+
+::: callout-important
+
+This service also has to be shutdown as jupyter notebook. Since you only have 50$, not shutting a notebook down, can cost upto 20$ a day for instances such as `ml.g4dn.xlarge`. It is very important to shutdown the space after working on it. If you spend 50$ on this account, **YOU WILL LOSE ALL DATA**. NO, you cannot recover the data after the account is shutdown. Therefore it is recommended to make regular commits to github as you work on your assignments or labs.
+:::
+
+1. To stop Code Editor Space, Go back to Sagemaker Studio, Click on Code editor.
+[![](img/37-VSC-stop)](img/37-VSC-stop)
+
+
+## GitHub Classroom
+
+[GitHub Classroom Link]({{< var gh-classroom.lab02 >}})

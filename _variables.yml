@@ -1,33 +1,38 @@
-author: Abhijit Dasgupta
+author: "Abhijit Dasgupta"
 instructor:
-  all: Abhijit Dasgupta
+  name: "Abhijit Dasgupta"
+  title: "Adjunct Professor"
+  email: "abhijit.dasgupta@gwu.edu"
+  email_md: "[`{{< var instructor.email >}}`](mailto:{{< var instructor.email >}})"
+  office_hours: "Thursdays 5:10 PM - 6:10 PM (Phillips 416) or by appointment (online)"
 
-ta_list: >
-  \- [Viviana Luccioli](mailto:vcl16@georgetown.edu): Office Hours W 2-3pm in DSAN Suite or by appt <br/>
-  \- [Sai Prerana Mandalika](mailto:sm3906@georgetown.edu): Office Hours M 2-3pm & Fr 11-12 in DSAN Suite or by appt <br/>
-
+ta_list: 
 course:
-  name: Biological and Biomedical Data Science
-  number: DSAN 6150
-  url: https://gu-dsan.github.io/6150-fall-2024
-  number_code: "`dsan6150`"
-  email: abhijit.dasgupta@georgetown.edu
+  name: "Applied Big Data Analytics"
+  number: "DATS 6450.13"
+  credits: 3
+  url: https://gwu-dats6450-13.github.io/6450-spring-2026
+  number_code: "`dats6450`"
+  email: abhijit.dasgupta@gwu.edu
   email_md: "[{{< var course.email >}}](mailto:{{< var course.email >}})"
-  short_description: "Explore applications of data science in biological and biomedical contexts"
-  semester: Fall 2024
-  copyright_year: "2024"
-  slack: https://dsan6150fall2024.slack.com
+  short_description: "This course provides hands-on experience with big data analytics tools and techniques, focusing on practical applications in various domains."
+  semester: "Spring 2026"
+  copyright_year: "2026"
+  schedule: "Thursdays 6:10 PM - 8:40 PM"
+  location: "Phillips 416"
+  slack: "6450-spring-2026.slack.com"
   slack_md: "[`{{< var course.slack >}}`]({{< var course.slack >}})"
-  github_org: https://github.com/gu-dsan6150/
+  slack_join: https://join.slack.com/t/6450-spring-2026/shared_invite/zt-3nh9da585-T0CBYJd4vJwm7mLCEpnrKg
+  github_org: https://github.com/gwu-dats6450-13/
   github_org_md: "[`{{< var course.github_org >}}`]({{< var course.github_org >}})"
-  lms_course_url: https://georgetown.instructure.com/courses/193328
+  lms_course_url: 
   lms_course_url_md: "[`{{< var course.lms_course_url >}}`]({{< var course.lms_course_url >}})"
   website_md: "[`{{< var course.url >}}`]({{< var course.url >}})"
 
 gh-classroom:
   lab00: null
   lab01: null
-  lab02: null
+  lab02: "https://classroom.github.com/a/SwQLZvoA"
   lab03: null
   lab04: null
   lab05: null
@@ -41,23 +46,29 @@ gh-classroom:
   lab13: null
   lab14: null
   a01: null
-  a02: null
+  a02: "https://classroom.github.com/a/bSm-MVQn"
   a03: null
   a04: null
   a05: null
 
 university:
-  name: Georgetown University
-  url: https://www.georgetown.edu
-  email_format: "`NetID@georgetown.edu`"
-  lms: Canvas
-  lms_url: https://canvas.georgetown.edu
+  name: "George Washington University"
+  url: https://www.gwu.edu
+  email_format: "`NetID@email.gwu.edu`"
+  lms: "Blackboard"
+  lms_url: 
 
 school:
-  name: The Graduate School of Arts & Sciences
-  department: Data Science and Analytics
-  url: https://analytics.georgetown.edu
+  name: "Columbian College of Arts & Sciences"
+  department: "Data Science Program"
+  url: https://datasci.columbian.gwu.edu/
 
+due_dates:
+  assignment01: "January 30"
+  assignment02: "February 1, 11:59pm"
+  assignment03:
+  lab02: "January 30"
+  lab03: null
 
 
 

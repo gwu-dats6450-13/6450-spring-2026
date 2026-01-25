@@ -1,0 +1,44 @@
+/*-- scss:defaults --*/
+
+$color-salt: #61acf0;
+$color-acid: #00cc66;
+$color-fat: #f0a561;
+$color-heat: #e74a2f;
+
+/*-- scss:rules --*/
+/* From apreshill's sfah.css */
+.large {
+	font-size: 160%;
+}
+.salt {
+	color: $color-salt;
+	font-size: 200%;
+	font-weight: 700;
+}
+.fat {
+	color: $color-fat;
+	font-size: 200%;
+	font-weight: 700;
+}
+.acid {
+	color: $color-acid;
+	font-size: 200%;
+	font-weight: 700;
+}
+.heat {
+	color: $color-heat;
+	font-size: 200%;
+	font-weight: 700;
+}
+.saltinline {
+	color: $color-salt;
+}
+.fatinline {
+	color: $color-fat;
+}
+.acidinline {
+	color: $color-acid;
+}
+.heatinline {
+	color: $color-heat;
+}

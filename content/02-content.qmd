@@ -1,0 +1,21 @@
+## About today's class
+
+Scaling up on a single machine with Python multiprocessing.
+
+## Readings
+
+Readings for this lecture (to be completed ***before this class***):  
+Wolohan Ch. 1,2 (available on Blackboard)
+
+
+## Slides
+
+The slides for today's lesson are [available online](/slides/02-slides.qmd){target="_blank"} as an HTML file. You can also click in the slides below and navigate through them with your left and right arrow keys.
+
+## Lab
+Parallelization with Python and multiprocessing.
+The lab for today's lesson is [available online](/labs/02-labs.qmd){target="_blank"} as an HTML file.
+
+## Assignment
+
+The assignment for this week is available [here](/assignments/a02-parallelization.qmd){target="_blank"}

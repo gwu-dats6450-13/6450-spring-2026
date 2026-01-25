@@ -1,0 +1,8 @@
+---
+title: "Lab 2"
+
+---
+
+## GitHub Classroom
+
+[GitHub Classroom Link]({{< var gh-classroom.lab02 >}})

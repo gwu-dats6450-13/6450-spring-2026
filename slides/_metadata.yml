@@ -1,0 +1,49 @@
+execute:
+  echo: true
+  eval: true
+  cache: true
+  freeze: auto
+
+format:
+  live-revealjs:
+    theme: 
+      - default
+      - ../style/slides-reveal-adg.scss
+      - ../style/sfah.scss
+    auto-stretch: true
+    transition: fade
+    background-transition: fade
+    highlight-style: "a11y"
+    toc: false
+    code-fold: true
+    code-copy: true
+    pdf-separate-fragments: false
+    # fig-dpi: 300
+    fig-asp: 0.618
+    slide-level: 2
+    slide-number: c/t
+    margin: 0.1
+    view-distance: 3
+    link-external-newwindow: true
+  # smaller: true
+webr:
+  cell-options:
+    fig-width: 8
+    fig-height: 4
+    max-lines: 6
+    warning: false
+  resources: data
+  packages:
+    - tidyverse
+    - tidymodels
+    - janitor
+    - usdata
+
+lightbox: true
+chalkboard: true
+engine: knitr
+# revealjs-plugins: 
+#   - drop
+
+
+  

@@ -2,20 +2,72 @@ project:
   type: website
 
 website:
-  title: "DATS6450"
-  navbar:
+  # page-navigation: true
+  title: "DATS 6450.13"
+  site-url: "https://gwu-dats6450-13.github.io/6450-spring-2026/"
+  search: true
+  navbar: 
+    pinned: true
     left:
       - href: index.qmd
         text: Home
-      - about.qmd
+      - href: about.qmd
+        text: Instructor
+    right:
+      - syllabus.qmd
+      - text: "Content"
+        file: "content/index.qmd"
+      - icon: slack
+        aria-label: slack
+        href: "https://6450-spring-2026.slack.com"
+  sidebar:
+    background: "#fcc200" # Golden poppy
+    style: docked
+    search: false
+    contents:
+    - section: "Course content"
+      contents:
+        - text: "1. Course overview"
+          file: content/01-content.qmd
+        - file: content/02-content.qmd
+          text: "2. Parallel processing"
+    - section: "Resources"
+      contents:
+        - file: resources/uv.qmd
+  
+  page-footer:
+      left: |
+        Content {{< fa brands creative-commons >}} 2026<br>
+        Abhijit Dasgupta<br>
+        All content licensed under a {{< fa brands creative-commons >}}
+        {{< fa brands creative-commons-by >}} {{< fa brands creative-commons-nc >}}
+        [Creative Commons Attribution-NonCommercial 4.0 International license (CC BY-NC 4.0)](https://creativecommons.org/licenses/by-nc/4.0/)
+      right: |
+        Made with {{< fa brands r-project >}} and [Quarto](https://quarto.org/)<br>
+#      [Vie
 
 format:
   html:
     theme:
-      - cosmo
-      - brand
-    css: styles.css
+      light: [cerulean, style/html-sta313-adg.scss]
+      dark: [cerulean, style/html-sta313-adg.scss, style/html-dark.scss]
     toc: true
+    linkcolor: "#2d92a5" # Glossy Grape
+    code-copy: true
+    code-overflow: wrap
+    mainfont: "Atkinson Hyperlegible"
+    link-external-icon: true
+    link-external-newwindow: true
+
+execute:
+  warning: false
+  message: false
+  freeze: auto
+  eval: true
+  echo: false
+
+lightbox: true
+draft-mode: unlinked
 
 
-
+#      [View the source at {{< fa brands github >}} GitHub]({{< var course.github >}})
