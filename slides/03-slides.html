@@ -1,0 +1,1074 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-html/tabby.min.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-bb1cd4028f63a369ab283e072cb7d572.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/quarto-contrib/live-runtime/live-runtime.js" type="module"></script>
+<link href="../site_libs/quarto-contrib/live-runtime/live-runtime.css" rel="stylesheet">
+<script src="../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.8.25">
+
+  <title>DATS 6450.13 – Lecture 3</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="../site_libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="../site_libs/revealjs/dist/reveal.css">
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #767676;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #767676;  padding-left: 4px; }
+    div.sourceCode
+      { color: #545454; background-color: #fefefe; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #545454; } /* Normal */
+    code span.al { color: #7928a1; } /* Alert */
+    code span.an { color: #696969; } /* Annotation */
+    code span.at { color: #a55a00; } /* Attribute */
+    code span.bn { color: #7928a1; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #d91e18; } /* ControlFlow */
+    code span.ch { color: #008000; } /* Char */
+    code span.cn { color: #d91e18; } /* Constant */
+    code span.co { color: #696969; } /* Comment */
+    code span.cv { color: #696969; font-style: italic; } /* CommentVar */
+    code span.do { color: #696969; font-style: italic; } /* Documentation */
+    code span.dt { color: #7928a1; } /* DataType */
+    code span.dv { color: #7928a1; } /* DecVal */
+    code span.er { color: #7928a1; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #a55a00; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { } /* Import */
+    code span.in { color: #696969; } /* Information */
+    code span.kw { color: #d91e18; } /* Keyword */
+    code span.op { color: #00769e; } /* Operator */
+    code span.ot { color: #d91e18; } /* Other */
+    code span.pp { color: #7928a1; } /* Preprocessor */
+    code span.sc { color: #00769e; } /* SpecialChar */
+    code span.ss { color: #008000; } /* SpecialString */
+    code span.st { color: #008000; } /* String */
+    code span.va { color: #a55a00; } /* Variable */
+    code span.vs { color: #008000; } /* VerbatimString */
+    code span.wa { color: #696969; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-857c1e38c7f8756f363ea65e7ad620aa.css">
+  <link href="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="../site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="../site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="../site_libs/revealjs/plugin/reveal-chalkboard/font-awesome/css/all.css" rel="stylesheet">
+  <link href="../site_libs/revealjs/plugin/reveal-chalkboard/style.css" rel="stylesheet">
+  <link href="../site_libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
+    .reveal div.sourceCode {
+      margin: 0;
+      overflow: auto;
+    }
+    .reveal div.hanging-indent {
+      margin-left: 1em;
+      text-indent: -1em;
+    }
+    .reveal .slide:not(.center) {
+      height: 100%;
+    }
+    .reveal .slide.scrollable {
+      overflow-y: auto;
+    }
+    .reveal .footnotes {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide .absolute {
+      position: absolute;
+      display: block;
+    }
+    .reveal .footnotes ol {
+      counter-reset: ol;
+      list-style-type: none; 
+      margin-left: 0;
+    }
+    .reveal .footnotes ol li:before {
+      counter-increment: ol;
+      content: counter(ol) ". "; 
+    }
+    .reveal .footnotes ol li > p:first-child {
+      display: inline-block;
+    }
+    .reveal .slide ul,
+    .reveal .slide ol {
+      margin-bottom: 0.5em;
+    }
+    .reveal .slide ul li,
+    .reveal .slide ol li {
+      margin-top: 0.4em;
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide ul[role="tablist"] li {
+      margin-bottom: 0;
+    }
+    .reveal .slide ul li > *:first-child,
+    .reveal .slide ol li > *:first-child {
+      margin-block-start: 0;
+    }
+    .reveal .slide ul li > *:last-child,
+    .reveal .slide ol li > *:last-child {
+      margin-block-end: 0;
+    }
+    .reveal .slide .columns:nth-child(3) {
+      margin-block-start: 0.8em;
+    }
+    .reveal blockquote {
+      box-shadow: none;
+    }
+    .reveal .tippy-content>* {
+      margin-top: 0.2em;
+      margin-bottom: 0.7em;
+    }
+    .reveal .tippy-content>*:last-child {
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide > img.stretch.quarto-figure-center,
+    .reveal .slide > img.r-stretch.quarto-figure-center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-left,
+    .reveal .slide > img.r-stretch.quarto-figure-left  {
+      display: block;
+      margin-left: 0;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-right,
+    .reveal .slide > img.r-stretch.quarto-figure-right  {
+      display: block;
+      margin-left: auto;
+      margin-right: 0; 
+    }
+  </style>
+  <script type="module" src="../site_libs/quarto-ojs/quarto-ojs-runtime.js"></script>
+  <link href="../site_libs/quarto-ojs/quarto-ojs.css" rel="stylesheet">
+</head>
+<body class="quarto-light">
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide" class="quarto-title-block center">
+  <h1 class="title">Lecture 3</h1>
+  <p class="subtitle">The Cloud.</p>
+
+<div class="quarto-title-authors">
+</div>
+
+</section>
+<section id="look-back" class="slide level2">
+<h2>Look back</h2>
+<ul>
+<li>Great use of <strong>Slack</strong></li>
+<li>Big data definition</li>
+<li>Parallelization of computations</li>
+</ul>
+</section>
+<section id="agenda-and-goals-for-today" class="slide level2">
+<h2>Agenda and Goals for Today</h2>
+<ul>
+<li>Quick tour of the cloud services that are used in the course</li>
+<li>Extended Lab:
+<ul>
+<li>Setting up AWS accounts</li>
+<li>Starting VMs in the cloud and connecting to them</li>
+</ul></li>
+</ul>
+</section>
+<section id="glossary" class="slide level2">
+<h2>Glossary</h2>
+<table class="caption-top">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Term</th>
+<th>Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Local</strong></td>
+<td>Your current workstation (laptop, desktop, etc.), wherever you start the terminal/console application.</td>
+</tr>
+<tr class="even">
+<td><strong>Remote</strong></td>
+<td>Any machine you connect to via ssh or other means.</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="working-on-a-single-machine" class="slide level2">
+<h2>Working on a single machine</h2>
+<p>You are most likely using traditional data analysis tools, which are <strong>single threaded</strong> and run on <strong>a single machine</strong>.</p>
+<p><img src="img/r-logo.png" width="250"></p>
+<p><img src="img/python-logo.png"></p>
+</section>
+<section id="the-big-data-problem" class="slide level2">
+<h2>The <strong>BIG DATA</strong> problem</h2>
+
+<img src="img/moores.png" class="r-stretch"></section>
+<section id="is-moores-law-dead" class="slide level2">
+<h2>Is Moore’s Law Dead?</h2>
+</section>
+<section id="new-hardware" class="slide level2">
+<h2>New Hardware</h2>
+<h3 id="need">Need</h3>
+<ul>
+<li>The demand for data processing will not be met by relying on the same technology.</li>
+<li>The key to modern data processing is <strong>new semiconductors</strong>
+<ul>
+<li>Not just squeezing more transistors per area</li>
+<li>Need new compute architectures that are built and optimized for specialized functions</li>
+</ul></li>
+<li>Specialized edge hardware for Edge Computing</li>
+<li>While many declare Moore’s Law to be broken or no longer valid, in reality it’s not the law that is broken but rather a heat problem.</li>
+</ul>
+<h3 id="what">What</h3>
+<ul>
+<li><p>Graphic Processing Units (GPUs)</p></li>
+<li><p>Field Programmable Gate Arrays (FPGAs)</p></li>
+<li><p>Data Processing Units (DPUs)</p></li>
+<li><p>Photonic computing</p></li>
+</ul>
+</section>
+<section id="so-we-cant-store-or-process-data-on-a-single-machine-what-do-we-do" class="slide level2">
+<h2>So, we can’t store or process data on a single machine, what do we do?</h2>
+
+<img src="img/medium-6.png" width="800" class="r-stretch"></section>
+<section id="we-distribute" class="slide level2">
+<h2>We distribute</h2>
+<p>More CPUs, more memory, more storage!</p>
+
+<img src="img/distribute-the-data.png" width="600" class="r-stretch"></section>
+<section>
+<section id="how-do-we-do-that" class="title-slide slide level1 center">
+<h1>How do we do that?</h1>
+
+</section>
+<section id="simple-we-use-the-cloud" class="slide level2">
+<h2>Simple, we use the <strong>cloud</strong></h2>
+
+<img src="img/cloud-providers.png" width="800" class="r-stretch"></section>
+<section id="cloud-computing-is-a-big-deal" class="slide level2">
+<h2>Cloud computing is a big deal!</h2>
+<h3 id="benefits">Benefits</h3>
+<ul>
+<li><p>Provides access to low-cost computing</p></li>
+<li><p>Costs are decreasing every year</p></li>
+<li><p>Elastic</p></li>
+<li><p>PAAS works!</p></li>
+<li><p>Many other benefits…</p></li>
+</ul>
+
+<img src="img/scale-up-scale-out.png" class="r-stretch"></section>
+<section id="what-is-the-claaaaaaawd-the-cloud" class="slide level2">
+<h2>What is <strong>the claaaaaaawd</strong> (the cloud)</h2>
+
+<img src="https://media.giphy.com/media/YMXpTBoVQbL9N8MKZa/giphy.gif" class="r-stretch"></section>
+<section id="what-is-the-cloud" class="slide level2">
+<h2>What is the cloud?</h2>
+<h3 id="kloud-noun">\kloud\ noun</h3>
+<p><strong>the practice of storing regularly used computer data on multiple servers that can be accessed through the Internet</strong></p>
+<p><strong>Using someone else’s computer(s)</strong></p>
+</section>
+<section id="nist-definition" class="slide level2">
+<h2>NIST Definition</h2>
+
+<img src="img/cloud-nist.png" class="r-stretch"></section>
+<section id="service-models" class="slide level2">
+<h2>Service Models</h2>
+
+<img src="img/cloud-service-models-traditional.png" class="r-stretch"></section>
+<section id="section" class="slide level2">
+<h2></h2>
+
+<img src="img/cloud-service-models-hotel.png" class="r-stretch"></section>
+<section id="infrastructure-as-a-service-iaas" class="slide level2">
+<h2>Infrastructure as a Service (IaaS)</h2>
+<h3 id="what-is-iaas">What is IaaS?</h3>
+<ul>
+<li><strong>Virtualized computing resources</strong> delivered over the internet</li>
+<li>Provider manages: Physical hardware, virtualization, networking, storage</li>
+<li>You manage: Operating systems, applications, runtime, data, middleware</li>
+</ul>
+<h3 id="examples-use-cases">Examples &amp; Use Cases</h3>
+<ul>
+<li><strong>Amazon EC2</strong>, Microsoft Azure VMs, Google Compute Engine</li>
+<li><strong>Perfect for:</strong> Development environments, web hosting, backup &amp; recovery</li>
+<li><strong>Benefits:</strong> Rapid scaling, pay-as-you-go, global availability</li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a></a><span class="co"># Launch a virtual machine in seconds</span></span>
+<span id="cb1-2"><a></a><span class="ex">aws</span> ec2 run-instances <span class="at">--image-id</span> ami-12345 <span class="at">--instance-type</span> t3.xlarge</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="platform-as-a-service-paas" class="slide level2">
+<h2>Platform as a Service (PaaS)</h2>
+<h3 id="what-is-paas">What is PaaS?</h3>
+<ul>
+<li><strong>Complete development and deployment environment</strong> in the cloud</li>
+<li>Provider manages: Infrastructure, operating systems, runtime environments</li>
+<li>You manage: Applications and data</li>
+</ul>
+<h3 id="examples-use-cases-1">Examples &amp; Use Cases</h3>
+<ul>
+<li><strong>AWS Elastic Beanstalk</strong>, Google App Engine, Microsoft Azure App Service</li>
+<li><strong>Perfect for:</strong> Web applications, API development, microservices</li>
+<li><strong>Benefits:</strong> Faster development, automatic scaling, integrated DevOps</li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a></a><span class="co"># Deploy your app with minimal configuration</span></span>
+<span id="cb2-2"><a></a>git push heroku main  <span class="co"># App automatically deployed and scaled</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="software-as-a-service-saas" class="slide level2">
+<h2>Software as a Service (SaaS)</h2>
+<h3 id="what-is-saas">What is SaaS?</h3>
+<ul>
+<li><strong>Complete applications</strong> delivered over the internet</li>
+<li>Provider manages: Everything (infrastructure, platform, software)</li>
+<li>You manage: Your data and user access</li>
+</ul>
+<h3 id="examples-use-cases-2">Examples &amp; Use Cases</h3>
+<ul>
+<li><strong>Gmail</strong>, Salesforce, Microsoft 365, Slack, Zoom</li>
+<li><strong>Perfect for:</strong> Business applications, collaboration tools, CRM</li>
+<li><strong>Benefits:</strong> No installation, automatic updates, accessible anywhere</li>
+</ul>
+<h3 id="the-saas-revolution">The SaaS Revolution</h3>
+<ul>
+<li>80% of companies use SaaS applications</li>
+<li>$195 billion market size (2023)</li>
+</ul>
+</section>
+<section id="cloud-infrastructure-and-the-ai-revolution" class="slide level2">
+<h2>Cloud Infrastructure and the AI Revolution</h2>
+<h3 id="why-cloud-ai-perfect-match">Why Cloud + AI = Perfect Match</h3>
+<ul>
+<li><strong>Massive Computational Requirements</strong>
+<ul>
+<li>Training large language models requires thousands of GPUs</li>
+<li>Cloud provides elastic access to specialized hardware</li>
+</ul></li>
+<li><strong>Data Storage &amp; Processing</strong>
+<ul>
+<li>AI models need petabytes of training data</li>
+<li>Cloud offers unlimited, globally distributed storage</li>
+</ul></li>
+<li><strong>Cost Efficiency</strong>
+<ul>
+<li>Pay-per-use model for expensive AI hardware</li>
+<li>No upfront investment in GPU clusters</li>
+</ul></li>
+</ul>
+</section>
+<section id="the-data-center-explosion" class="slide level2 smaller">
+<h2>The Data Center Explosion</h2>
+<h3 id="the-numbers">The Numbers</h3>
+<ul>
+<li><strong>2024</strong>: Approximately <strong>12,000 data centers worldwide</strong> (not millions)</li>
+<li><strong>Power consumption</strong>: Over <strong>400 TWh annually</strong> (about <strong>1–1.3%</strong> of global electricity use)</li>
+<li><strong>Growth rate</strong>: <strong>8–11% per year</strong> (market CAGR), led by AI and cloud computing</li>
+</ul>
+<h3 id="whats-inside-modern-data-centers">What’s Inside Modern Data Centers?</h3>
+<ul>
+<li><strong>Specialized AI Chips</strong>: NVIDIA H100s, Google TPUs, custom silicon</li>
+<li><strong>Massive Scale</strong>: Facebook (Meta) data centers operate <strong>hundreds of thousands</strong> of servers worldwide</li>
+<li><strong>Global Networks</strong>: Hyperscale data centers leverage <strong>sub-second</strong> (near real-time) global data synchronization using high-speed optical networks</li>
+</ul>
+<h3 id="environmental-impact">Environmental Impact</h3>
+<ul>
+<li><strong>Cloud leaders pledge carbon neutrality by 2030</strong> (Google, Microsoft) or 2025 (AWS)</li>
+<li>Rapid <strong>innovation in cooling</strong> (liquid, AI optimization), <strong>renewable energy adoption</strong>, and <strong>efficient chip design</strong> is helping curb environmental impact</li>
+</ul>
+</section>
+<section class="slide level2">
+
+<h3 class="smaller" id="references">References</h3>
+<ul>
+<li>ABI Research data center statistics: https://www.abiresearch.com/blog/data-centers-by-region-size-company</li>
+<li>Data center count and growth: https://brightlio.com/data-center-stats/</li>
+<li>Data centers by country: https://www.statista.com/statistics/1228433/data-centers-worldwide-by-country/</li>
+<li>Number of colocation and hyperscale sites: https://www.linkedin.com/pulse/how-many-data-centers-world-where-built-heidi-fan-fkjxc</li>
+<li>Data center power consumption: https://www.datacenterdynamics.com/en/news/iea-data-center-energy-consumption-set-to-double-by-2030-to-945twh/</li>
+<li>Data center projections and market growth: https://finance.yahoo.com/news/data-center-market-size-hits-103000410.html</li>
+<li>AI hardware in data centers: https://www.ibm.com/think/topics/ai-data-center</li>
+<li>Facebook server estimates: https://www.datacenterknowledge.com/hyperscalers/the-facebook-data-center-faq, https://www.datacenterfrontier.com/hyperscale/article/11427952/facebook-showcases-its-40-million-square-feet-of-global-data-centers</li>
+<li>Data center network technology: https://www.datacenterdynamics.com/en/opinions/data-center-bandwidth-continues-to-climb-and-its-not-coming-back-down-any-time-soon/</li>
+<li>Cloud provider carbon neutrality: https://www.techmahindra.com/insights/views/sustainability-in-cloud/, https://bioscore.com/blog/green-cloud-computing-a-comprehensive-comparison-of-cloud-providers-sustainability-efforts</li>
+<li>Data center cooling innovations: https://www.utilitydive.com/news/2025-outlook-data-center-cooling-electricity-demand-ai-dual-phase-direct-to-chip-energy-efficiency/738120/, https://blog.equinix.com/blog/2024/08/27/how-liquid-cooling-enables-the-next-generation-of-tech-innovation/</li>
+<li>Comprehensive energy estimates: https://www.devsustainability.com/p/data-center-energy-and-ai-in-2025</li>
+<li>Data center growth drivers and energy: https://www.deloitte.com/us/en/insights/industry/technology/technology-media-and-telecom-predictions/2025/genai-power-consumption-creates-need-for-more-sustainable-data-centers.html</li>
+</ul>
+</section>
+<section id="gpu-infrastructure-the-ai-powerhouse" class="slide level2">
+<h2>GPU Infrastructure: The AI Powerhouse</h2>
+<h3 id="from-gaming-to-ai">From Gaming to AI</h3>
+<ul>
+<li><strong>Originally</strong>: Graphics processing for video games</li>
+<li><strong>Now</strong>: Parallel processing powerhouse for AI/ML workloads</li>
+<li><strong>Architecture</strong>: Thousands of cores vs.&nbsp;CPU’s 8-64 cores</li>
+</ul>
+<h3 id="cloud-gpu-offerings">Cloud GPU Offerings</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a></a><span class="co"># AWS GPU instances for different AI workloads</span></span>
+<span id="cb3-2"><a></a><span class="ex">p4d.24xlarge</span>   <span class="co"># 8x NVIDIA A100 (40GB) - $32/hour</span></span>
+<span id="cb3-3"><a></a><span class="ex">p3.16xlarge</span>    <span class="co"># 8x NVIDIA V100 (16GB) - $24/hour</span></span>
+<span id="cb3-4"><a></a><span class="ex">g4dn.xlarge</span>    <span class="co"># 1x NVIDIA T4 (16GB)   - $0.50/hour</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<h3 id="the-scale-challenge">The Scale Challenge</h3>
+<ul>
+<li><strong>GPT-4 training</strong>: Estimated 25,000 A100 GPUs for 6 months</li>
+<li><strong>Meta’s AI infrastructure</strong>: 350,000+ NVIDIA H100 chips</li>
+<li><strong>Cost</strong>: Single AI training run can cost $100M+</li>
+</ul>
+</section>
+<section id="distributed-computing-and-large-clusters" class="slide level2">
+<h2>Distributed Computing and Large Clusters</h2>
+<h3 id="modern-ai-requires-massive-clusters">Modern AI Requires Massive Clusters</h3>
+<ul>
+<li><strong>Model parallelism</strong>: Split models across multiple GPUs</li>
+<li><strong>Data parallelism</strong>: Process different data batches simultaneously<br>
+</li>
+<li><strong>Pipeline parallelism</strong>: Different layers on different GPUs</li>
+</ul>
+<h3 id="technologies-enabling-scale">Technologies Enabling Scale</h3>
+<ul>
+<li><strong>Kubernetes</strong>: Container orchestration for microservices</li>
+<li><strong>Apache Spark</strong>: Distributed data processing framework</li>
+<li><strong>Ray</strong>: Distributed AI/ML framework for Python</li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a></a><span class="co"># Distributed training with Ray</span></span>
+<span id="cb4-2"><a></a><span class="im">import</span> ray</span>
+<span id="cb4-3"><a></a><span class="im">from</span> ray <span class="im">import</span> tune</span>
+<span id="cb4-4"><a></a></span>
+<span id="cb4-5"><a></a><span class="co"># Scale across 1000+ machines automatically</span></span>
+<span id="cb4-6"><a></a>tune.run(train_model, resources_per_trial<span class="op">=</span>{<span class="st">"gpu"</span>: <span class="dv">8</span>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="data-storage-evolution" class="slide level2">
+<h2>Data Storage Evolution</h2>
+<h3 id="the-data-tsunami">The Data Tsunami</h3>
+<ul>
+<li><strong>2025 projection</strong>: 181 zettabytes of data globally</li>
+<li><strong>AI training datasets</strong>: CommonCrawl (800TB), ImageNet (150GB)</li>
+<li><strong>Real-time requirements</strong>: 1-10ms latency for inference and in some cases Sub-millisecond</li>
+</ul>
+<h3 id="storage-technologies">Storage Technologies</h3>
+<ul>
+<li><strong>Object Storage</strong>: Amazon S3, Google Cloud Storage (petabyte scale)</li>
+<li><strong>High-performance</strong>: NVMe SSDs, persistent memory</li>
+<li><strong>Distributed filesystems</strong>: HDFS, GlusterFS, Ceph</li>
+</ul>
+<h3 id="the-economics-of-data">The Economics of Data</h3>
+<ul>
+<li><strong>Storage costs</strong>: Dropped 99.9% since 1980</li>
+<li><strong>Transfer costs</strong>: Still significant for large datasets</li>
+<li><strong>Edge computing</strong>: Bringing compute closer to data sources</li>
+</ul>
+</section>
+<section id="the-evolution-of-the-cloud" class="slide level2">
+<h2>The evolution of the Cloud</h2>
+<table class="caption-top">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Yesterday</th>
+<th>Today</th>
+<th>Tomorrow</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Limited number of tools and vendors</td>
+<td>Many tools and vendors to work with</td>
+<td>Integrated tools and vendors</td>
+</tr>
+<tr class="even">
+<td>One platform - few devices</td>
+<td>Multiple platforms - many devices</td>
+<td>Connected platforms and devices</td>
+</tr>
+<tr class="odd">
+<td>Data is scarce but manageable</td>
+<td>Overabundance of data</td>
+<td>Data is used for important business decisions</td>
+</tr>
+<tr class="even">
+<td>IT has major influence and control</td>
+<td>IT has limited influence and control</td>
+<td>IT is strategic to the business</td>
+</tr>
+<tr class="odd">
+<td>People only work when they are at work</td>
+<td>People work wherever they want</td>
+<td>People have access to what they need, wherever they are</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="what-does-the-cloud-look-like" class="slide level2" data-background-image="http://i2.cdn.turner.com/money/dam/assets/140903164019-cloud-data-center-thumb-1280x720.png">
+<h2>What does the cloud look like?</h2>
+</section>
+<section id="virtual-visit-to-a-microsoft-azure-data-center" class="slide level2">
+<h2>Virtual Visit to a Microsoft Azure Data Center</h2>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/80aK2_iwMOs?si=vegkqoaPCpJqcg79" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen="">
+</iframe>
+<p><a href="img/msft-boydton.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img data-src="img/msft-boydton.png"></a></p>
+</section>
+<section id="microsoft-azure-data-center-in-boydton-va" class="slide level2">
+<h2>Microsoft Azure Data Center in Boydton, VA</h2>
+</section>
+<section id="loudon-county-va-is-called-cloudon" class="slide level2">
+<h2>Loudon County, VA is called “CLoudon”</h2>
+<ul>
+<li><p>How data centers power VA’s Loudon County: https://gcn.com/articles/2018/10/12/loudoun-county-data-centers.aspx</p></li>
+<li><p>The heart of “The Cloud” is in Virginia: https://www.cbsnews.com/news/cloud-computing-loudoun-county-virginia/</p></li>
+<li><p>CBS Sunday Morning Visits the Home of the Internet in Loudoun County: https://biz.loudoun.gov/2017/10/30/cbs-sunday-morning-visits-loudoun/</p></li>
+</ul>
+<p><a href="img/nova-datacenter-locations.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img data-src="img/nova-datacenter-locations.png"></a></p>
+</section>
+<section id="of-the-worlds-internet-traffic-passes-through-loudon-county-va" class="slide level2">
+<h2>70% of the world’s internet traffic passes through Loudon County, VA</h2>
+</section>
+<section id="references---saas-cloud-computing" class="slide level2">
+<h2>References - SaaS &amp; Cloud Computing</h2>
+<p><strong>SaaS and Cloud Computing Statistics:</strong></p>
+<ul>
+<li><a href="https://zylo.com/blog/saas-statistics/">1. Zylo: 111 Unmissable SaaS Statistics for 2025</a></li>
+<li><a href="https://www.spendesk.com/blog/saas-statistics/">2. Spendesk: 60+ eye-opening SaaS statistics (2025)</a></li>
+<li><a href="https://www.substly.com/en/blog/the-28-most-important-saas-statistics-in-2023">3. Substly: The 28 most important SaaS statistics in 2023</a></li>
+<li><a href="https://harpa.ai/blog/saas-industry-key-statistics-2023">4. Harpa AI: SaaS Industry Key Statistics 2023</a></li>
+<li><a href="https://www.contentbeta.com/blog/saas-video-statistics/">5. Content Beta: 110+ SaaS Statistics and Trends</a></li>
+<li><a href="https://www.statista.com/statistics/1233538/average-number-saas-apps-yearly/">6. Statista: Average number of SaaS apps used in the U.S. 2024</a></li>
+<li><a href="https://meetanshi.com/blog/saas-statistics/">7. Meetanshi: SaaS Statistics for 2025: Market Size, Growth, Trends &amp; More</a></li>
+</ul>
+</section>
+<section id="references---data-storage-ai-infrastructure" class="slide level2 smaller">
+<h2>References - Data Storage &amp; AI Infrastructure</h2>
+<p><strong>Global Data Volume &amp; AI Datasets:</strong></p>
+<ul>
+<li>2025 global data volume (181 zettabytes): https://rivery.io/blog/big-data-statistics-how-much-data-is-there-in-the-world/ [2], https://explodingtopics.com/blog/data-generated-per-day [6], https://www.pit.edu/news/data-analytics-statistics-and-trends-for-2025/ [7], https://www.forbes.com/councils/forbestechcouncil/2024/03/04/from-5mb-hard-drives-to-180-zettabytes-the-data-migration-challenge/ [9]</li>
+<li>CommonCrawl and ImageNet dataset sizes: https://www.ibm.com/think/topics/ai-data-center [10]</li>
+<li>AI inference latency and storage tech: https://www.ibm.com/think/topics/ai-data-center [10], https://www.rcrwireless.com/20250407/fundamentals/ai-optimized-data-center [11]</li>
+</ul>
+<p><strong>Storage Economics &amp; Technology:</strong></p>
+<ul>
+<li>Storage cost declines: https://humanprogress.org/trends/vastly-cheaper-computation/ [1], https://ourworldindata.org/data-insights/the-price-of-computer-storage-has-fallen-exponentially-since-the-1950s [8]</li>
+<li>Ongoing significance of transfer (egress) costs: https://lightedge.com/the-data-explosion-and-hidden-data-storage-costs-in-the-cloud-could-object-storage-be-the-answer/ [3]</li>
+<li>Edge computing trends: https://mondo.com/insights/evolution-data-storage-tapes-cloud-computing/ [5]</li>
+</ul>
+<p><strong>GPU Infrastructure &amp; AI Training Costs:</strong></p>
+<ul>
+<li>GPT-4 GPU count and training duration: https://www.genspark.ai/spark/how-many-gpus-are-needed-to-train-gpt4-o/56c3b449-f206-495f-bc9b-d06812bf4a33 [1], https://klu.ai/blog/gpt-4-llm [3], https://www.acorn.io/resources/learning-center/openai/ [5]</li>
+<li>Meta’s NVIDIA H100 GPUs: https://www.reddit.com/r/singularity/comments/1bi8rme/jensen_huang_just_gave_us_some_numbers_for_the/ [4]</li>
+<li>AI training cost estimates: https://www.genspark.ai/spark/how-many-gpus-are-needed-to-train-gpt4-o/56c3b449-f206-495f-bc9b-d06812bf4a33 [1], https://www.acorn.io/resources/learning-center/openai/ [5]</li>
+</ul>
+</section></section>
+<section id="time-for-lab" class="title-slide slide level1 center">
+<h1>Time for Lab!</h1>
+
+
+<script type="ojs-module-contents">
+eyJjb250ZW50cyI6W119
+</script>
+<div id="exercise-loading-indicator" class="exercise-loading-indicator d-none d-flex align-items-center gap-2">
+<div id="exercise-loading-status" class="d-flex gap-2">
+
+</div>
+<div class="spinner-grow spinner-grow-sm">
+
+</div>
+</div>
+<script type="vfs-file">
+W10=
+</script>
+</section>
+    </div>
+  <div class="quarto-auto-generated-content" style="display: none;">
+<div class="footer footer-default">
+
+</div>
+</div></div>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="../site_libs/revealjs/dist/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="../site_libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="../site_libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="../site_libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="../site_libs/revealjs/plugin/reveal-chalkboard/plugin.js"></script>
+  <script src="../site_libs/revealjs/plugin/quarto-support/support.js"></script>
+  
+
+  <script src="../site_libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="../site_libs/revealjs/plugin/search/search.js"></script>
+  <script src="../site_libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="../site_libs/revealjs/plugin/math/math.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+'controlsAuto': true,
+'previewLinksAuto': false,
+'pdfSeparateFragments': false,
+'autoAnimateEasing': "ease",
+'autoAnimateDuration': 1,
+'autoAnimateUnmatched': true,
+'jumpToSlide': true,
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleChalkboard(event)\"><kbd>b</kbd> Toggle Chalkboard</a></li>\n<li class=\"slide-tool-item\" data-item=\"6\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleNotesCanvas(event)\"><kbd>c</kbd> Toggle Notes Canvas</a></li>\n<li class=\"slide-tool-item\" data-item=\"7\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.downloadDrawings(event)\"><kbd>d</kbd> Download Drawings</a></li>\n<li class=\"slide-tool-item\" data-item=\"8\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'chalkboard': {"buttons":true},
+'smaller': false,
+ 
+        // Display controls in the bottom right corner
+        controls: false,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: false,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'edges',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: false,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'linear',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: false,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'fade',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'fade',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1050,
+
+        height: 700,
+
+        // Factor of the display size that should remain empty around the content
+        margin: 0.1,
+
+        math: {
+          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, RevealChalkboard, QuartoSupport,
+
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    <script type="ojs-module-contents">
+    eyJjb250ZW50cyI6W119
+    </script>
+    <script type="module">
+    if (window.location.protocol === "file:") { alert("The OJS runtime does not work with file:// URLs. Please use a web server to view this document."); }
+    window._ojs.paths.runtimeToDoc = "../../slides";
+    window._ojs.paths.runtimeToRoot = "../..";
+    window._ojs.paths.docToRoot = "..";
+    window._ojs.selfContained = false;
+    window._ojs.runtime.interpretFromScriptTags();
+    </script>
+    <script id="quarto-html-after-body" type="application/javascript">
+      window.document.addEventListener("DOMContentLoaded", function (event) {
+        const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+        tabsets.forEach(function(tabset) {
+          const tabby = new Tabby('#' + tabset.id);
+        });
+        const isCodeAnnotation = (el) => {
+          for (const clz of el.classList) {
+            if (clz.startsWith('code-annotation-')) {                     
+              return true;
+            }
+          }
+          return false;
+        }
+        const onCopySuccess = function(e) {
+          // button target
+          const button = e.trigger;
+          // don't keep focus
+          button.blur();
+          // flash "checked"
+          button.classList.add('code-copy-button-checked');
+          var currentTitle = button.getAttribute("title");
+          button.setAttribute("title", "Copied!");
+          let tooltip;
+          if (window.bootstrap) {
+            button.setAttribute("data-bs-toggle", "tooltip");
+            button.setAttribute("data-bs-placement", "left");
+            button.setAttribute("data-bs-title", "Copied!");
+            tooltip = new bootstrap.Tooltip(button, 
+              { trigger: "manual", 
+                customClass: "code-copy-button-tooltip",
+                offset: [0, -8]});
+            tooltip.show();    
+          }
+          setTimeout(function() {
+            if (tooltip) {
+              tooltip.hide();
+              button.removeAttribute("data-bs-title");
+              button.removeAttribute("data-bs-toggle");
+              button.removeAttribute("data-bs-placement");
+            }
+            button.setAttribute("title", currentTitle);
+            button.classList.remove('code-copy-button-checked');
+          }, 1000);
+          // clear code selection
+          e.clearSelection();
+        }
+        const getTextToCopy = function(trigger) {
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+        }
+        const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+          text: getTextToCopy
+        });
+        clipboard.on('success', onCopySuccess);
+        if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+          const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+            text: getTextToCopy,
+            container: window.document.getElementById('quarto-embedded-source-code-modal')
+          });
+          clipboardModal.on('success', onCopySuccess);
+        }
+          var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+          var mailtoRegex = new RegExp(/^mailto:/);
+            var filterRegex = new RegExp("https:\/\/gwu-dats6450-13\.github\.io\/6450-spring-2026\/");
+          var isInternal = (href) => {
+              return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+          }
+          // Inspect non-navigation links and adorn them if external
+         var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+          for (var i=0; i<links.length; i++) {
+            const link = links[i];
+            if (!isInternal(link.href)) {
+              // undo the damage that might have been done by quarto-nav.js in the case of
+              // links that we want to consider external
+              if (link.dataset.originalHref !== undefined) {
+                link.href = link.dataset.originalHref;
+              }
+                // target, if specified
+                link.setAttribute("target", "_blank");
+                if (link.getAttribute("rel") === null) {
+                  link.setAttribute("rel", "noopener");
+                }
+            }
+          }
+        function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+          const config = {
+            allowHTML: true,
+            maxWidth: 500,
+            delay: 100,
+            arrow: false,
+            appendTo: function(el) {
+                return el.closest('section.slide') || el.parentElement;
+            },
+            interactive: true,
+            interactiveBorder: 10,
+            theme: 'light-border',
+            placement: 'bottom-start',
+          };
+          if (contentFn) {
+            config.content = contentFn;
+          }
+          if (onTriggerFn) {
+            config.onTrigger = onTriggerFn;
+          }
+          if (onUntriggerFn) {
+            config.onUntrigger = onUntriggerFn;
+          }
+            config['offset'] = [0,0];
+            config['maxWidth'] = 700;
+          window.tippy(el, config); 
+        }
+        const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+        for (var i=0; i<noterefs.length; i++) {
+          const ref = noterefs[i];
+          tippyHover(ref, function() {
+            // use id or data attribute instead here
+            let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+            try { href = new URL(href).hash; } catch {}
+            const id = href.replace(/^#\/?/, "");
+            const note = window.document.getElementById(id);
+            if (note) {
+              return note.innerHTML;
+            } else {
+              return "";
+            }
+          });
+        }
+        const findCites = (el) => {
+          const parentEl = el.parentElement;
+          if (parentEl) {
+            const cites = parentEl.dataset.cites;
+            if (cites) {
+              return {
+                el,
+                cites: cites.split(' ')
+              };
+            } else {
+              return findCites(el.parentElement)
+            }
+          } else {
+            return undefined;
+          }
+        };
+        var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+        for (var i=0; i<bibliorefs.length; i++) {
+          const ref = bibliorefs[i];
+          const citeInfo = findCites(ref);
+          if (citeInfo) {
+            tippyHover(citeInfo.el, function() {
+              var popup = window.document.createElement('div');
+              citeInfo.cites.forEach(function(cite) {
+                var citeDiv = window.document.createElement('div');
+                citeDiv.classList.add('hanging-indent');
+                citeDiv.classList.add('csl-entry');
+                var biblioDiv = window.document.getElementById('ref-' + cite);
+                if (biblioDiv) {
+                  citeDiv.innerHTML = biblioDiv.innerHTML;
+                }
+                popup.appendChild(citeDiv);
+              });
+              return popup.innerHTML;
+            });
+          }
+        }
+      });
+      </script>
+    <script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
+    (function() {
+      let previousOnload = window.onload;
+      window.onload = () => {
+        if (previousOnload) {
+          previousOnload();
+        }
+        lightboxQuarto.on('slide_before_load', (data) => {
+          const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+          const href = trigger.getAttribute('href');
+          if (href !== null) {
+            const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+            if (imgEl !== null) {
+              const srcAttr = imgEl.getAttribute("src");
+              if (srcAttr && srcAttr.startsWith("data:")) {
+                slideConfig.href = srcAttr;
+              }
+            }
+          } 
+        });
+      
+        lightboxQuarto.on('slide_after_load', (data) => {
+          const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(slideNode);
+          }
+        });
+      
+      };
+      
+    })();
+              </script>
+    
+
+</body></html>
