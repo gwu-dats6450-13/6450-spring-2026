@@ -722,7 +722,7 @@
     "href": "resources/uv.html#install-uv",
     "title": "Using uv to manage Python environments",
     "section": "1. Install uv",
-    "text": "1. Install uv\n\nmacOS / Linux (shell):\n\nRun:\n\ncurl -LsSf https://astral.sh/uv/install.sh | sh\n\n\nThis downloads the latest standalone uv binary and adds it to your PATH (usually ~/.local/bin).\n\nWindows (PowerShell):\n\nRun:\n\nirm https://astral.sh/uv/install.ps1 | iex\n\n\nThis installs uv as a standalone executable similarly to the Unix script.\n\nVerify installation:\n\nRun uv --version to confirm that the command is available.",
+    "text": "1. Install uv\n\nmacOS / Linux (shell):\n\nRun:\n\ncurl -LsSf https://astral.sh/uv/install.sh | sh\n\n\nThis downloads the latest standalone uv binary and adds it to your PATH (usually ~/.local/bin).\n\nWindows (PowerShell):\n\nRun:\n\nirm https://astral.sh/uv/install.ps1 | iex s\n\nThis installs uv as a standalone executable similarly to the Unix script.\n\nVerify installation:\n\nRun uv --version to confirm that the command is available.",
     "crumbs": [
       "Home",
       "Resources",
@@ -778,13 +778,6 @@
     ]
   },
   {
-    "objectID": "labs/index.html",
-    "href": "labs/index.html",
-    "title": "Labs",
-    "section": "",
-    "text": "Lab\nThe lab for the class would involve a hands-on coding assignment provided through GitHub Classroom. You will start the lab in-class, myself and the TAs would be helping you with any questions with the lab and then you would need to turn in the lab by checking in your code and results in the GitHub repo (you will have until next class for this, but usually you would be able to do this much sooner)."
-  },
-  {
     "objectID": "labs/02-labs.html",
     "href": "labs/02-labs.html",
     "title": "Lab 2",
@@ -797,6 +790,20 @@
     "title": "Lab 2",
     "section": "",
     "text": "GitHub Classroom Link"
+  },
+  {
+    "objectID": "labs/index.html",
+    "href": "labs/index.html",
+    "title": "Labs",
+    "section": "",
+    "text": "Lab\nThe lab for the class would involve a hands-on coding assignment provided through GitHub Classroom. You will start the lab in-class, myself and the TAs would be helping you with any questions with the lab and then you would need to turn in the lab by checking in your code and results in the GitHub repo (you will have until next class for this, but usually you would be able to do this much sooner)."
+  },
+  {
+    "objectID": "assignments/a02-parallelization.html",
+    "href": "assignments/a02-parallelization.html",
+    "title": "Assignment 2: Parallelization",
+    "section": "",
+    "text": "Assignment 2 is available on Github Classroom and is due February 1, 11:59pm"
   },
   {
     "objectID": "content/index.html",
@@ -859,6 +866,18 @@
     "title": "DATS 6450.13",
     "section": "Lab",
     "text": "Lab\nParallelization with Python and multiprocessing. The lab for today’s lesson is available online as an HTML file.",
+    "crumbs": [
+      "Home",
+      "Course content",
+      "2. Parallel processing"
+    ]
+  },
+  {
+    "objectID": "content/02-content.html#assignment",
+    "href": "content/02-content.html#assignment",
+    "title": "DATS 6450.13",
+    "section": "Assignment",
+    "text": "Assignment\nThe assignment for this week is available here",
     "crumbs": [
       "Home",
       "Course content",

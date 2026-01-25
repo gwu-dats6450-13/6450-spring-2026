@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://gwu-dats6450-13.github.io/6450-spring-2026/syllabus.html</loc>
-    <lastmod>2026-01-22T07:22:19.696Z</lastmod>
+    <lastmod>2026-01-22T20:34:56.130Z</lastmod>
   </url>
   <url>
     <loc>https://gwu-dats6450-13.github.io/6450-spring-2026/slides/01-slides.html</loc>
@@ -10,7 +10,7 @@
   </url>
   <url>
     <loc>https://gwu-dats6450-13.github.io/6450-spring-2026/index.html</loc>
-    <lastmod>2026-01-15T21:20:17.249Z</lastmod>
+    <lastmod>2026-01-25T04:28:47.210Z</lastmod>
   </url>
   <url>
     <loc>https://gwu-dats6450-13.github.io/6450-spring-2026/content/01-content.html</loc>
@@ -18,15 +18,19 @@
   </url>
   <url>
     <loc>https://gwu-dats6450-13.github.io/6450-spring-2026/resources/uv.html</loc>
-    <lastmod>2026-01-22T08:17:23.780Z</lastmod>
+    <lastmod>2026-01-22T16:23:04.627Z</lastmod>
+  </url>
+  <url>
+    <loc>https://gwu-dats6450-13.github.io/6450-spring-2026/labs/02-labs.html</loc>
+    <lastmod>2026-01-22T07:12:32.348Z</lastmod>
   </url>
   <url>
     <loc>https://gwu-dats6450-13.github.io/6450-spring-2026/labs/index.html</loc>
     <lastmod>2025-12-09T04:48:01.829Z</lastmod>
   </url>
   <url>
-    <loc>https://gwu-dats6450-13.github.io/6450-spring-2026/labs/02-labs.html</loc>
-    <lastmod>2026-01-22T07:12:32.348Z</lastmod>
+    <loc>https://gwu-dats6450-13.github.io/6450-spring-2026/assignments/a02-parallelization.html</loc>
+    <lastmod>2026-01-25T04:23:48.243Z</lastmod>
   </url>
   <url>
     <loc>https://gwu-dats6450-13.github.io/6450-spring-2026/content/index.html</loc>
@@ -34,7 +38,7 @@
   </url>
   <url>
     <loc>https://gwu-dats6450-13.github.io/6450-spring-2026/content/02-content.html</loc>
-    <lastmod>2026-01-22T07:11:40.669Z</lastmod>
+    <lastmod>2026-01-25T04:25:28.277Z</lastmod>
   </url>
   <url>
     <loc>https://gwu-dats6450-13.github.io/6450-spring-2026/slides/02-slides.html</loc>
