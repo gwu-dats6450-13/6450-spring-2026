@@ -515,7 +515,7 @@ Note
 <section id="configure-instance-details" class="level3">
 <h3 class="anchored" data-anchor-id="configure-instance-details">Configure Instance Details</h3>
 <ol type="1">
-<li><p><strong>Name and tags</strong>: Give your instance a meaningful name, such as <code>{your-net-id}-dsan6k-dev</code> (replace <code>{your-net-id}</code> with your actual NET ID).</p></li>
+<li><p><strong>Name and tags</strong>: Give your instance a meaningful name, such as <code>{your-net-id}-datsbd-dev</code> (replace <code>{your-net-id}</code> with your actual NET ID).</p></li>
 <li><p><strong>Application and OS Images (Amazon Machine Image)</strong>:</p>
 <ul>
 <li>Select <strong>Ubuntu</strong></li>
@@ -526,12 +526,12 @@ Note
 <ul>
 <li>Select <strong>t3.large</strong> from the dropdown</li>
 <li>This provides 2 vCPUs and 8 GiB of memory, suitable for data science workloads</li>
-<li>As of September 2025 in us-east-1, this instance costs approximately $0.083 per hour (roughly $0.42 for 5 hours)</li>
+<li>As of September 2026 in us-east-1, this instance costs approximately $0.083 per hour (roughly $0.42 for 5 hours)</li>
 </ul></li>
 <li><p><strong>Key pair (login)</strong>:</p>
 <ul>
 <li>Click on <strong>Create new key pair</strong></li>
-<li>Key pair name: <code>{your-net-id}-dsan6k-f2025</code> (replace <code>{your-net-id}</code> with your actual NET ID)</li>
+<li>Key pair name: <code>{your-net-id}-datsbd-f2026</code> (replace <code>{your-net-id}</code> with your actual NET ID)</li>
 <li>Key pair type: <strong>RSA</strong></li>
 <li>Private key file format: Choose based on your operating system:
 <ul>
@@ -629,7 +629,7 @@ Note
 <ol start="2" type="1">
 <li><strong>Configure your bucket</strong>:
 <ul>
-<li><strong>Bucket name</strong>: Enter a unique name like <code>{your-net-id}-dsan6k-f2025</code> (replace <code>{your-net-id}</code> with your actual NET ID)
+<li><strong>Bucket name</strong>: Enter a unique name like <code>{your-net-id}-datsbd-f2026</code> (replace <code>{your-net-id}</code> with your actual NET ID)
 <ul>
 <li>Note: Bucket names must be globally unique across all AWS accounts, lowercase, and can contain only letters, numbers, and hyphens</li>
 </ul></li>
@@ -637,7 +637,7 @@ Note
 <li><strong>Object Ownership</strong>: Leave as default (ACLs disabled)</li>
 <li><strong>Block Public Access settings</strong>: Leave all boxes checked (block all public access) for security</li>
 <li><strong>Bucket Versioning</strong>: Leave as “Disable” for now</li>
-<li><strong>Tags</strong>: Optional - you can add tags like <code>course: dsan6000</code> if desired</li>
+<li><strong>Tags</strong>: Optional - you can add tags like <code>course: dats6450</code> if desired</li>
 <li><strong>Default encryption</strong>: Leave as default (Server-side encryption with Amazon S3 managed keys)</li>
 <li><strong>Advanced settings</strong>: Leave as default</li>
 </ul></li>
@@ -647,7 +647,7 @@ Note
 <section id="view-your-created-bucket" class="level2">
 <h2 class="anchored" data-anchor-id="view-your-created-bucket">View Your Created Bucket</h2>
 <p>After creation, you’ll be redirected to the S3 buckets list where you can see your newly created bucket.</p>
-<p><a href="img/aa1603-dsan6k-f2025-S3-bucket-S3.png"><img src="img/aa1603-dsan6k-f2025-S3-bucket-S3.png" class="img-fluid"></a></p>
+<p><a href="img/aa1603-datsbd-f2026-S3-bucket-S3.png"><img src="img/aa1603-datsbd-f2026-S3-bucket-S3.png" class="img-fluid"></a></p>
 </section>
 <section id="upload-a-test-file-to-your-bucket" class="level2">
 <h2 class="anchored" data-anchor-id="upload-a-test-file-to-your-bucket">Upload a Test File to Your Bucket</h2>
@@ -703,7 +703,7 @@ Important
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Remember to replace <code>your-bucket-name</code> with the actual name of the bucket you created (e.g., <code>{your-net-id}-dsan6k-f2025</code>).</p>
+<p>Remember to replace <code>your-bucket-name</code> with the actual name of the bucket you created (e.g., <code>{your-net-id}-datsbd-f2026</code>).</p>
 </div>
 </div>
 </section>
@@ -744,7 +744,7 @@ Important
 <li><p>Type <strong>“Remote-SSH: Open SSH Configuration File”</strong> and select it.</p></li>
 <li><p>Choose the configuration file to edit (usually <code>~/.ssh/config</code> on Mac/Linux or <code>C:\Users\YourUsername\.ssh\config</code> on Windows).</p></li>
 <li><p>Add the following configuration to the file:</p>
-<pre><code>Host dsan6000-ec2
+<pre><code>Host dats6450-ec2
     HostName YOUR_EC2_PUBLIC_DNS
     User ubuntu
     IdentityFile ~/path/to/your-key.pem</code></pre>
@@ -761,7 +761,7 @@ Important
 <ol type="1">
 <li><p>Press <code>F1</code> or open the command palette again.</p></li>
 <li><p>Type <strong>“Remote-SSH: Connect to Host”</strong> and select it.</p></li>
-<li><p>Select <strong>dsan6000-ec2</strong> from the list (or whatever name you gave your host).</p></li>
+<li><p>Select <strong>dats6450-ec2</strong> from the list (or whatever name you gave your host).</p></li>
 <li><p>VSCode will open a new window and connect to your EC2 instance.</p></li>
 <li><p>If prompted about the platform, select <strong>Linux</strong>.</p></li>
 <li><p>If this is your first connection, you’ll be asked to verify the authenticity of the host. Select <strong>Continue</strong>.</p></li>
@@ -802,20 +802,20 @@ Important
 <span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="ex">pip3</span> install jupyter notebook jupyterlab</span>
 <span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a working directory</span></span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> ~/dsan6000</span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~/dsan6000</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> ~/dats6450</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~/dats6450</span>
 <span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Test S3 access with your bucket</span></span>
 <span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Replace 'your-net-id' with your actual NET ID</span></span>
 <span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="ex">aws</span> s3 ls</span>
-<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="ex">aws</span> s3 ls s3://your-net-id-dsan6k-f2025/</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="ex">aws</span> s3 ls s3://your-net-id-datsbd-f2026/</span>
 <span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a test file and upload it to S3</span></span>
 <span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"Hello from EC2!"</span> <span class="op">&gt;</span> test.txt</span>
-<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a><span class="ex">aws</span> s3 cp test.txt s3://your-net-id-dsan6k-f2025/</span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a><span class="ex">aws</span> s3 cp test.txt s3://your-net-id-datsbd-f2026/</span>
 <span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Download the file back from S3</span></span>
-<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a><span class="ex">aws</span> s3 cp s3://your-net-id-dsan6k-f2025/test.txt downloaded-test.txt</span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a><span class="ex">aws</span> s3 cp s3://your-net-id-datsbd-f2026/test.txt downloaded-test.txt</span>
 <span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> downloaded-test.txt</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -848,7 +848,7 @@ Tip
 <h2 class="anchored" data-anchor-id="clone-the-repository">Clone the Repository</h2>
 <ol type="1">
 <li><p>In your VSCode terminal (connected to EC2), clone your assignment repository:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~/dsan6000</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~/dats6450</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone YOUR_ASSIGNMENT_REPO_URL</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> YOUR_REPO_NAME</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
 </ol>
