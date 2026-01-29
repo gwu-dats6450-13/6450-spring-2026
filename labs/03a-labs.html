@@ -1,0 +1,1433 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.25">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Abhijit Dasgupta">
+
+<title>Lab 2: EC2 Setup and VSCode Remote Development – DATS 6450.13</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-919c7ec90743d9b1e9761dff04b41dfc.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-0e6b5171f1292a58de0ff8a7af83c33b.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-919c7ec90743d9b1e9761dff04b41dfc.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-4fb7172170f618121aa23e0350298c57.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-abe39e8e48a41cb0cc67a090732d2a1f.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-4fb7172170f618121aa23e0350298c57.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/quarto-contrib/fontawesome6-6.7.2/all.min.css" rel="stylesheet">
+<link href="../site_libs/quarto-contrib/fontawesome6-6.7.2/latex-fontsize.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-sidebar docked nav-fixed fullcontent quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../index.html" class="navbar-brand navbar-brand-logo">
+    </a>
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">DATS 6450.13</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link active" href="../index.html" aria-current="page"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../about.html"> 
+<span class="menu-text">Instructor</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../syllabus.html"> 
+<span class="menu-text">Syllabus</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../content/index.html"> 
+<span class="menu-text">Content</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://6450-spring-2026.slack.com"> <i class="bi bi-slack" role="img" aria-label="slack">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Lab 2: EC2 Setup and VSCode Remote Development</li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+      <a href="../index.html" class="sidebar-logo-link">
+      </a>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Course content</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../content/01-content.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">1. Course overview</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../content/02-content.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2. Parallel processing</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../content/03-content.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">3. The Cloud</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Resources</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../resources/uv.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Using uv to manage Python environments</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Lab 2: EC2 Setup and VSCode Remote Development</h1>
+<p class="subtitle lead">DATS 6450.13 Spring 2026</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Abhijit Dasgupta </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>Follow these instructions <em>step-by-step</em> to setup your AWS EC2 environment. This EC2 instance will serve as your development environment throughout the semester, allowing you to run Python code and Jupyter notebooks using VSCode as your IDE.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>You can click on any screenshot on this page to see its full size version.</p>
+</div>
+</div>
+<section id="task-1-accept-the-invitation-to-join-the-aws-classroom-the-first-time" class="level1">
+<h1>Task 1: Accept the Invitation to join the AWS Classroom (the first time)</h1>
+<ol type="1">
+<li><p>In your student email inbox, you will have an email from <em>AWS Academy</em> with the subject <em>Course Invitation</em>.</p></li>
+<li><p>Open the email. Click on the <em>Get Started</em> button as shown in the screenshot below. #<a href="img/aws-email.png"><img src="img/aws-email.png" class="img-fluid"></a></p></li>
+<li><p>Click on the <em>Create My Account</em> button to create a new Canvas Account . #<a href="img/aws1.png"><img src="img/aws1.png" class="img-fluid"></a></p></li>
+<li><p>Register your new account. #<a href="img/aws2.png"><img src="img/aws2.png" class="img-fluid"></a></p></li>
+<li><p>You should now be logged into <em>AWS Academy Learners Lab</em> and seeing a screen like the one shown below. Click on <em>Learners Lab</em> #<a href="img/aws4.png"><img src="img/aws4.png" class="img-fluid"></a></p></li>
+<li><p>Scroll all the way to the bottom of the page and accept the <em>Terms &amp; Conditions</em>. #<a href="img/aws5-2.png"><img src="img/aws5-2.png" class="img-fluid"></a></p></li>
+<li><p>You are now being logged in into the <em>AWS Console</em>. Notice the <font color="red">⬤</font> adjacent to the word <em>AWS</em> towards the top left of the page. This indicates that the lab (i.e.&nbsp;the AWS resources) have not yet started. Click on the <em>play</em> button along side <em>Start Lab</em> on the to top right corner of the page to start the lab. #<a href="img/aws6.png"><img src="img/aws6.png" class="img-fluid"></a> #<a href="img/aws7.png"><img src="img/aws7.png" class="img-fluid"></a></p></li>
+<li><p>Each <em>lab session</em> that you start is at most 4 hours and you can see a timer showing the remaining time (hh:mm) on the ribbon along with the remaining budget out of the $50 allocated to each account. #<a href="img/aws-ribbon.png"><img src="img/aws-ribbon.png" class="img-fluid"></a></p></li>
+<li><p>This environment is <strong>long-lived</strong>. When the session timer runs to 0:00, the session will end, but any data and resources that you created in the AWS account will be retained. If you later launch a new session (for example, the next day), you will find that your work is still in the lab environment. Running EC2 instances will be stopped and then automatically restarted the next time you start a session.</p></li>
+</ol>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Monitor your lab budget in the lab interface above. Whenever you have an active lab session, the latest known remaining budget information will display at the top of this screen. This data comes from AWS Budgets which typically updates every 8 to 12 hours. Therefore the remaining budget that you see may not reflect your most recent account activity. If you exceed your lab budget your lab account will be disabled and all progress and resources will be lost. Therefore, it is important for you to manage your spending.</p>
+</div>
+</div>
+<section id="login-into-the-aws-console" class="level2">
+<h2 class="anchored" data-anchor-id="login-into-the-aws-console">Login into the AWS Console</h2>
+<p>The <em>AWS Console</em> is your entry point into the AWS cloud.</p>
+<ol type="1">
+<li><p>Click on the AWS link alongside the <font color="lightgreen">⬤</font>. #<a href="img/aws-console-launch1.png"><img src="img/aws-console-launch1.png" class="img-fluid"></a></p></li>
+<li><p>A new tab will open in your browser, this is the <em>AWS Console</em>. #<a href="img/aws8.png"><img src="img/aws8.png" class="img-fluid"></a></p></li>
+<li><p>Note the URL in your browser’s address bar, it will start with the name of the AWS region (such as <em>us-east-1</em>) in which your cloud resources are hosted.</p></li>
+<li><p>Note the username on the top right hand corner, this is your <em>Federated Identity</em>. Also note that the you did not have to provide any credentials (username/password) to login into the AWS console. <em>How did this happen?</em> #<a href="img/aws-console-ribbon.png"><img src="img/aws-console-ribbon.png" class="img-fluid"></a></p></li>
+</ol>
+<section id="logging-into-the-aws-console-at-a-later-time" class="level3">
+<h3 class="anchored" data-anchor-id="logging-into-the-aws-console-at-a-later-time">Logging into the AWS Console at a later time</h3>
+<p>To access the AWS Console in the future, login to https://www.awsacademy.com/LMS_Login, go to <em>Learner Lab</em> -&gt; <em>Modules</em> -&gt; <em>Start Lab</em>.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If you already had an AWS account prior to logging into AWS Academy you would need to login into the AWS Educate AWS account via an <em>Incognito Browser Window</em>.</p>
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="task-2-create-an-ec2-instance-for-development" class="level1">
+<h1>Task 2: Create an EC2 Instance for Development</h1>
+<p>Now we’ll create an EC2 instance that will serve as your development environment throughout the semester. This instance will run Ubuntu Linux and can be accessed remotely using VSCode.</p>
+<section id="navigate-to-ec2-service" class="level2">
+<h2 class="anchored" data-anchor-id="navigate-to-ec2-service">Navigate to EC2 Service</h2>
+<ol type="1">
+<li>From the AWS Console home page, click on the <strong>EC2</strong> service. You can find it under “Compute” or by using the search bar at the top.</li>
+</ol>
+<p><a href="img/Console-Home-Console-Home.png"><img src="img/Console-Home-Console-Home.png" class="img-fluid"></a></p>
+<ol start="2" type="1">
+<li>Once you’re in the EC2 Dashboard, click on the <strong>Launch instances</strong> button on the top right.</li>
+</ol>
+<p><a href="img/Home-EC2.png"><img src="img/Home-EC2.png" class="img-fluid"></a></p>
+</section>
+<section id="configure-your-instance" class="level2">
+<h2 class="anchored" data-anchor-id="configure-your-instance">Configure Your Instance</h2>
+<p>You’ll now be on the “Launch an instance” page. Follow these steps to configure your instance:</p>
+<section id="configure-instance-details" class="level3">
+<h3 class="anchored" data-anchor-id="configure-instance-details">Configure Instance Details</h3>
+<ol type="1">
+<li><p><strong>Name and tags</strong>: Give your instance a meaningful name, such as <code>{your-net-id}-dsan6k-dev</code> (replace <code>{your-net-id}</code> with your actual NET ID).</p></li>
+<li><p><strong>Application and OS Images (Amazon Machine Image)</strong>:</p>
+<ul>
+<li>Select <strong>Ubuntu</strong></li>
+<li>Choose <strong>Ubuntu Server 24.04 LTS (HVM), SSD Volume Type</strong> (or the latest Ubuntu LTS version available)</li>
+<li>Architecture: <strong>64-bit (x86)</strong></li>
+</ul></li>
+<li><p><strong>Instance type</strong>:</p>
+<ul>
+<li>Select <strong>t3.large</strong> from the dropdown</li>
+<li>This provides 2 vCPUs and 8 GiB of memory, suitable for data science workloads</li>
+<li>As of September 2025 in us-east-1, this instance costs approximately $0.083 per hour (roughly $0.42 for 5 hours)</li>
+</ul></li>
+<li><p><strong>Key pair (login)</strong>:</p>
+<ul>
+<li>Click on <strong>Create new key pair</strong></li>
+<li>Key pair name: <code>{your-net-id}-dsan6k-f2025</code> (replace <code>{your-net-id}</code> with your actual NET ID)</li>
+<li>Key pair type: <strong>RSA</strong></li>
+<li>Private key file format: Choose based on your operating system:
+<ul>
+<li><strong><code>.pem</code></strong> for Mac/Linux</li>
+<li><strong><code>.ppk</code></strong> for Windows (if using PuTTY)</li>
+</ul></li>
+<li>Click <strong>Create key pair</strong> and save the file securely - you’ll need this to connect to your instance</li>
+</ul></li>
+</ol>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>SAVE YOUR KEY PAIR FILE SECURELY!</strong> This file is your only way to access your EC2 instance. Store it in a safe location on your computer and never share it with anyone.</p>
+</div>
+</div>
+<ol start="5" type="1">
+<li><strong>Network settings</strong>:
+<ul>
+<li>Leave all settings as default (this includes VPC, subnet, auto-assign public IP, and security group settings)</li>
+<li>The default settings will automatically enable public IP and allow SSH access</li>
+</ul></li>
+<li><strong>Configure storage</strong>:
+<ul>
+<li>Change the root volume size from 8 GiB to <strong>100 GiB</strong></li>
+<li>Volume type: <strong>gp3</strong> (General Purpose SSD)</li>
+<li>This provides ample storage for datasets and software installations</li>
+</ul></li>
+<li><strong>Advanced details</strong> (expand this section):
+<ul>
+<li><strong>IAM instance profile</strong>: Select <strong>LabInstanceProfile</strong> from the dropdown</li>
+<li>This gives your EC2 instance permissions to access other AWS services</li>
+<li>Leave all other settings as default</li>
+</ul></li>
+<li><strong>Review and Launch</strong>:
+<ul>
+<li>Review all your settings</li>
+<li>Click the <strong>Launch instance</strong> button</li>
+</ul></li>
+</ol>
+<p><a href="img/Instances-EC2.png"><img src="img/Instances-EC2.png" class="img-fluid"></a></p>
+<p><a href="img/Launch-an-instance-EC2.png"><img src="img/Launch-an-instance-EC2.png" class="img-fluid"></a></p>
+</section>
+</section>
+<section id="wait-for-instance-to-initialize" class="level2">
+<h2 class="anchored" data-anchor-id="wait-for-instance-to-initialize">Wait for Instance to Initialize</h2>
+<ol type="1">
+<li><p>After clicking “Launch instance”, you’ll see a success message. Click on <strong>View all instances</strong> to go back to the instances list.</p></li>
+<li><p>Your new instance will appear in the list with a status of “Pending”. Wait a few minutes for it to change to “Running” and for the status checks to pass (2/2 checks passed).</p></li>
+<li><p>Once the instance is running, note down the <strong>Public IPv4 DNS</strong> - you’ll need this to connect via VSCode.</p></li>
+</ol>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The instance typically takes 1-2 minutes to fully initialize and become accessible.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="task-3-create-and-configure-an-s3-bucket" class="level1">
+<h1>Task 3: Create and Configure an S3 Bucket</h1>
+<p>Amazon S3 (Simple Storage Service) is AWS’s object storage service that allows you to store and retrieve data from anywhere on the web. In this task, you’ll create an S3 bucket to store datasets, code outputs, and other files for your projects.</p>
+<section id="navigate-to-s3-service" class="level2">
+<h2 class="anchored" data-anchor-id="navigate-to-s3-service">Navigate to S3 Service</h2>
+<ol type="1">
+<li><p>From the AWS Console home page, search for <strong>S3</strong> in the search bar at the top or find it under the “Storage” section.</p></li>
+<li><p>Click on <strong>S3</strong> to open the S3 dashboard.</p></li>
+</ol>
+<p><a href="img/Homepage-S3.png"><img src="img/Homepage-S3.png" class="img-fluid"></a></p>
+</section>
+<section id="view-s3-buckets-dashboard" class="level2">
+<h2 class="anchored" data-anchor-id="view-s3-buckets-dashboard">View S3 Buckets Dashboard</h2>
+<p>Once in the S3 service, you’ll see the main S3 buckets dashboard. This shows all your existing buckets (if any) and allows you to create new ones.</p>
+<p><a href="img/S3-buckets-S3.png"><img src="img/S3-buckets-S3.png" class="img-fluid"></a></p>
+</section>
+<section id="create-a-new-s3-bucket" class="level2">
+<h2 class="anchored" data-anchor-id="create-a-new-s3-bucket">Create a New S3 Bucket</h2>
+<ol type="1">
+<li>Click on the <strong>Create bucket</strong> button (orange button on the right side of the page).</li>
+</ol>
+<p><a href="img/Create-S3-bucket-S3.png"><img src="img/Create-S3-bucket-S3.png" class="img-fluid"></a></p>
+<ol start="2" type="1">
+<li><strong>Configure your bucket</strong>:
+<ul>
+<li><strong>Bucket name</strong>: Enter a unique name like <code>{your-net-id}-dsan6k-f2025</code> (replace <code>{your-net-id}</code> with your actual NET ID)
+<ul>
+<li>Note: Bucket names must be globally unique across all AWS accounts, lowercase, and can contain only letters, numbers, and hyphens</li>
+</ul></li>
+<li><strong>AWS Region</strong>: Leave as default (should match your EC2 region, typically us-east-1)</li>
+<li><strong>Object Ownership</strong>: Leave as default (ACLs disabled)</li>
+<li><strong>Block Public Access settings</strong>: Leave all boxes checked (block all public access) for security</li>
+<li><strong>Bucket Versioning</strong>: Leave as “Disable” for now</li>
+<li><strong>Tags</strong>: Optional - you can add tags like <code>course: dsan6000</code> if desired</li>
+<li><strong>Default encryption</strong>: Leave as default (Server-side encryption with Amazon S3 managed keys)</li>
+<li><strong>Advanced settings</strong>: Leave as default</li>
+</ul></li>
+<li>Scroll to the bottom and click <strong>Create bucket</strong>.</li>
+</ol>
+</section>
+<section id="view-your-created-bucket" class="level2">
+<h2 class="anchored" data-anchor-id="view-your-created-bucket">View Your Created Bucket</h2>
+<p>After creation, you’ll be redirected to the S3 buckets list where you can see your newly created bucket.</p>
+<p><a href="img/aa1603-dsan6k-f2025-S3-bucket-S3.png"><img src="img/aa1603-dsan6k-f2025-S3-bucket-S3.png" class="img-fluid"></a></p>
+</section>
+<section id="upload-a-test-file-to-your-bucket" class="level2">
+<h2 class="anchored" data-anchor-id="upload-a-test-file-to-your-bucket">Upload a Test File to Your Bucket</h2>
+<ol type="1">
+<li><p>Click on your bucket name to open it.</p></li>
+<li><p>Click the <strong>Upload</strong> button.</p></li>
+<li><p>Either drag and drop files or click <strong>Add files</strong> to browse and select files from your computer.</p></li>
+<li><p>For testing, you can create a simple text file on your computer with some content and upload it.</p></li>
+<li><p>After selecting your file(s), click <strong>Upload</strong> at the bottom of the page.</p></li>
+<li><p>Once uploaded, you’ll see a success message. Click <strong>Close</strong> to return to your bucket view.</p></li>
+</ol>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Your S3 bucket is now ready to use! You can upload datasets, store output files, and share data between different AWS services. The bucket name you created will be used in subsequent labs and assignments.</p>
+</div>
+</div>
+</section>
+<section id="working-with-s3-from-the-command-line" class="level2">
+<h2 class="anchored" data-anchor-id="working-with-s3-from-the-command-line">Working with S3 from the Command Line</h2>
+<p>Once you connect to your EC2 instance via VSCode (in the next section), you can interact with your S3 bucket using the AWS CLI, which is pre-installed on EC2 instances with the LabInstanceProfile. Here are some useful commands you’ll use:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># List all your S3 buckets</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">aws</span> s3 ls</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># List contents of a specific bucket</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="ex">aws</span> s3 ls s3://your-bucket-name/</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Upload a file to S3</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="ex">aws</span> s3 cp local-file.txt s3://your-bucket-name/</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Download a file from S3</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="ex">aws</span> s3 cp s3://your-bucket-name/file.txt ./</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Upload an entire directory</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="ex">aws</span> s3 sync ./local-folder s3://your-bucket-name/folder/</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Download an entire directory</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="ex">aws</span> s3 sync s3://your-bucket-name/folder/ ./local-folder</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Remember to replace <code>your-bucket-name</code> with the actual name of the bucket you created (e.g., <code>{your-net-id}-dsan6k-f2025</code>).</p>
+</div>
+</div>
+</section>
+</section>
+<section id="task-4-connect-to-ec2-instance-using-vscode" class="level1">
+<h1>Task 4: Connect to EC2 Instance using VSCode</h1>
+<p>Now that your EC2 instance is running, we’ll set up VSCode to connect to it remotely. This will allow you to write code, run Python scripts, and work with Jupyter notebooks directly on your EC2 instance using the familiar VSCode interface.</p>
+<section id="prerequisites" class="level2">
+<h2 class="anchored" data-anchor-id="prerequisites">Prerequisites</h2>
+<ol type="1">
+<li><p>Install <strong>Visual Studio Code</strong> on your local machine if you haven’t already: <a href="https://code.visualstudio.com/">Download VSCode</a></p></li>
+<li><p>Install the <strong>Remote - SSH</strong> extension in VSCode:</p>
+<ul>
+<li>Open VSCode</li>
+<li>Click on the Extensions icon in the sidebar (or press <code>Ctrl+Shift+X</code>)</li>
+<li>Search for “Remote - SSH”</li>
+<li>Install the extension by Microsoft</li>
+</ul></li>
+</ol>
+</section>
+<section id="video-tutorial" class="level2">
+<h2 class="anchored" data-anchor-id="video-tutorial">Video Tutorial</h2>
+<p>For a detailed walkthrough of connecting VSCode to an EC2 instance, watch this helpful video tutorial:</p>
+<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; background: #000;">
+<p><iframe src="https://www.youtube.com/embed/V9bjfDI20zo" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="" title="How to Connect VSCode to EC2 Instance"> </iframe></p>
+</div>
+<p>Alternatively, you can <a href="https://www.youtube.com/watch?v=V9bjfDI20zo">watch on YouTube directly</a>.</p>
+</section>
+<section id="step-by-step-connection-instructions" class="level2">
+<h2 class="anchored" data-anchor-id="step-by-step-connection-instructions">Step-by-Step Connection Instructions</h2>
+<section id="configure-ssh-connection" class="level3">
+<h3 class="anchored" data-anchor-id="configure-ssh-connection">Configure SSH Connection</h3>
+<ol type="1">
+<li><p><strong>Set up your SSH key permissions</strong> (Mac/Linux only):</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">chmod</span> 400 ~/path/to/your-key.pem</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Replace <code>~/path/to/your-key.pem</code> with the actual path to your downloaded key file.</p></li>
+<li><p><strong>Open VSCode</strong> and press <code>F1</code> or <code>Ctrl+Shift+P</code> (Windows/Linux) or <code>Cmd+Shift+P</code> (Mac) to open the command palette.</p></li>
+<li><p>Type <strong>“Remote-SSH: Open SSH Configuration File”</strong> and select it.</p></li>
+<li><p>Choose the configuration file to edit (usually <code>~/.ssh/config</code> on Mac/Linux or <code>C:\Users\YourUsername\.ssh\config</code> on Windows).</p></li>
+<li><p>Add the following configuration to the file:</p>
+<pre><code>Host dsan6000-ec2
+    HostName YOUR_EC2_PUBLIC_DNS
+    User ubuntu
+    IdentityFile ~/path/to/your-key.pem</code></pre>
+<p>Replace:</p>
+<ul>
+<li><code>YOUR_EC2_PUBLIC_DNS</code> with your instance’s public IPv4 DNS</li>
+<li><code>~/path/to/your-key.pem</code> with the actual path to your key file</li>
+</ul></li>
+<li><p>Save the configuration file.</p></li>
+</ol>
+</section>
+<section id="connect-to-your-instance" class="level3">
+<h3 class="anchored" data-anchor-id="connect-to-your-instance">Connect to Your Instance</h3>
+<ol type="1">
+<li><p>Press <code>F1</code> or open the command palette again.</p></li>
+<li><p>Type <strong>“Remote-SSH: Connect to Host”</strong> and select it.</p></li>
+<li><p>Select <strong>dsan6000-ec2</strong> from the list (or whatever name you gave your host).</p></li>
+<li><p>VSCode will open a new window and connect to your EC2 instance.</p></li>
+<li><p>If prompted about the platform, select <strong>Linux</strong>.</p></li>
+<li><p>If this is your first connection, you’ll be asked to verify the authenticity of the host. Select <strong>Continue</strong>.</p></li>
+</ol>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>⚠️ Important: AWS Session Expiration and EC2 Domain Name Changes
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Every time your AWS session ends (typically after 4 hours) and you restart it:</strong></p>
+<ul>
+<li>Your EC2 instance will <strong>automatically restart</strong> (give it ~2 minutes to become fully operational)</li>
+<li>The instance will have a <strong>NEW public IPv4 DNS/domain name</strong></li>
+<li>You <strong>MUST update the HostName</strong> in your VSCode SSH config file (<code>~/.ssh/config</code>) with the new DNS</li>
+<li><strong>Your data is safe!</strong> The storage is persistent - all your files, installed software, and work remain intact</li>
+<li>Only the compute infrastructure restarts with a new address</li>
+</ul>
+<p><strong>What this means for you:</strong> 1. After starting a new AWS session, wait 2 minutes for EC2 to fully start 2. Check the new public IPv4 DNS in the EC2 console 3. Update your VSCode SSH config with the new DNS 4. Reconnect VSCode to your instance</p>
+<p>Remember: <strong>The old hostname is gone, but your content persists!</strong></p>
+</div>
+</div>
+</section>
+<section id="initial-setup-on-ec2" class="level3">
+<h3 class="anchored" data-anchor-id="initial-setup-on-ec2">Initial Setup on EC2</h3>
+<p>Once connected, open a terminal in VSCode (<code>Terminal</code> → <code>New Terminal</code>) and run these commands to set up your development environment:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Update package list</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> apt update</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Install Python and essential tools</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> apt install <span class="at">-y</span> python3-pip python3-venv git</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Install Jupyter</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="ex">pip3</span> install jupyter notebook jupyterlab</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a working directory</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> ~/dsan6000</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~/dsan6000</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Test S3 access with your bucket</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Replace 'your-net-id' with your actual NET ID</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="ex">aws</span> s3 ls</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="ex">aws</span> s3 ls s3://your-net-id-dsan6k-f2025/</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a test file and upload it to S3</span></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"Hello from EC2!"</span> <span class="op">&gt;</span> test.txt</span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a><span class="ex">aws</span> s3 cp test.txt s3://your-net-id-dsan6k-f2025/</span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Download the file back from S3</span></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a><span class="ex">aws</span> s3 cp s3://your-net-id-dsan6k-f2025/test.txt downloaded-test.txt</span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> downloaded-test.txt</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>You can now use VSCode on your local machine to edit files, run Python scripts, and work with Jupyter notebooks directly on your EC2 instance. The Remote-SSH extension makes it feel like you’re working locally, but all computation happens on your EC2 instance.</p>
+<p>Additionally, your EC2 instance has AWS CLI pre-configured with the LabInstanceProfile, allowing you to seamlessly interact with S3 and other AWS services directly from the terminal.</p>
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="task-5-complete-todays-lab-assignment" class="level1">
+<h1>Task 5: Complete Today’s Lab Assignment</h1>
+<p>Now that you have your EC2 instance set up with VSCode, let’s complete today’s lab assignment.</p>
+<section id="accept-the-github-classroom-assignment" class="level2">
+<h2 class="anchored" data-anchor-id="accept-the-github-classroom-assignment">Accept the GitHub Classroom Assignment</h2>
+<ol type="1">
+<li><p>Click on the following link to accept the lab assignment: <a href="https://classroom.github.com/a/LzwXGbm_">GitHub Classroom Assignment - Lab 02</a></p></li>
+<li><p>Accept the assignment, which will create a private repository for you.</p></li>
+</ol>
+</section>
+<section id="clone-the-repository" class="level2">
+<h2 class="anchored" data-anchor-id="clone-the-repository">Clone the Repository</h2>
+<ol type="1">
+<li><p>In your VSCode terminal (connected to EC2), clone your assignment repository:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~/dsan6000</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone YOUR_ASSIGNMENT_REPO_URL</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> YOUR_REPO_NAME</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
+</ol>
+</section>
+<section id="review-the-assignment" class="level2">
+<h2 class="anchored" data-anchor-id="review-the-assignment">Review the Assignment</h2>
+<p>The assignment is based on analyzing a dataset using cloud computing resources. You can review the <code>analytics.ipynb</code> notebook in your repo.</p>
+</section>
+<section id="complete-the-tasks" class="level2">
+<h2 class="anchored" data-anchor-id="complete-the-tasks">Complete the Tasks</h2>
+<ol type="1">
+<li><p>Open the <code>analytics.ipynb</code> notebook in VSCode:</p>
+<ul>
+<li>Click on the notebook file in the VSCode explorer</li>
+<li>VSCode will automatically open it with Jupyter support</li>
+</ul></li>
+<li><p>The notebook contains several tasks related to:</p>
+<ul>
+<li>Loading and exploring a dataset</li>
+<li>Creating an S3 bucket in your AWS account</li>
+<li>Uploading data to S3</li>
+<li>Performing basic data analysis</li>
+</ul></li>
+<li><p>Work through each cell in the notebook, completing the tasks marked with “TODO” or “Task”.</p></li>
+<li><p>Make sure to:</p>
+<ul>
+<li>Run all cells and verify the output</li>
+<li>Complete all required tasks</li>
+<li>Add your analysis and observations where requested</li>
+</ul></li>
+</ol>
+</section>
+<section id="submit-your-work" class="level2">
+<h2 class="anchored" data-anchor-id="submit-your-work">Submit Your Work</h2>
+<ol type="1">
+<li><p>After completing all tasks, save your notebook.</p></li>
+<li><p>Commit and push your changes to GitHub:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> add .</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> commit <span class="at">-m</span> <span class="st">"Complete Lab 02 - EC2 and data analysis"</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> push origin main</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
+</ol>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Make sure to commit and push your completed notebook to your GitHub repository before the deadline.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="important-shutting-down-your-resources" class="level1">
+<h1>Important: Shutting Down Your Resources</h1>
+<p>To avoid unnecessary charges to your AWS account, it’s crucial to properly shut down your resources when not in use.</p>
+<section id="stop-your-ec2-instance" class="level2">
+<h2 class="anchored" data-anchor-id="stop-your-ec2-instance">Stop Your EC2 Instance</h2>
+<p>When you’re done working:</p>
+<ol type="1">
+<li>Go to the EC2 Dashboard in AWS Console</li>
+<li>Select your instance</li>
+<li>Click <strong>Instance State</strong> → <strong>Stop instance</strong></li>
+<li>Confirm the action</li>
+</ol>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Stopping</strong> an instance preserves your data and allows you to restart it later. <strong>Terminating</strong> an instance permanently deletes it and all associated data.</p>
+</div>
+</div>
+</section>
+<section id="end-your-lab-session" class="level2">
+<h2 class="anchored" data-anchor-id="end-your-lab-session">End Your Lab Session</h2>
+<ol type="1">
+<li>Return to the AWS Academy Learner Lab page</li>
+<li>Click the <strong>End Lab</strong> button</li>
+<li>This will stop the billing timer for your session</li>
+</ol>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>At the end of each work session:</strong></p>
+<ol type="1">
+<li><strong>Stop your EC2 instance</strong> (not terminate - stop preserves your work)</li>
+<li><strong>End the lab</strong> in AWS Academy to stop the billing timer</li>
+<li>Remember you have a <strong>$50 budget</strong> for the entire semester - use it wisely!</li>
+</ol>
+<p><strong>Budget Management Tips:</strong> - A stopped instance costs only for storage (minimal) - A running t3.xlarge instance costs approximately $0.22 per hour - Always stop instances when not actively using them - Set up billing alerts in AWS to monitor your spending</p>
+</div>
+</div>
+</section>
+<section id="restarting-your-work" class="level2">
+<h2 class="anchored" data-anchor-id="restarting-your-work">Restarting Your Work</h2>
+<p>When you want to continue working:</p>
+<ol type="1">
+<li>Start a new lab session in AWS Academy</li>
+<li>Go to EC2 Dashboard</li>
+<li>Select your instance and click <strong>Instance State</strong> → <strong>Start instance</strong></li>
+<li>Wait for it to enter “Running” state</li>
+<li>Connect via VSCode as before (the DNS might change - check the new public IPv4 DNS)</li>
+</ol>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Your data and installed software persist on the instance between sessions, so you can pick up right where you left off!</p>
+</div>
+</div>
+<hr>
+</section>
+<section id="github-classroom-link" class="level2">
+<h2 class="anchored" data-anchor-id="github-classroom-link">GitHub Classroom Link</h2>
+<p>Complete today’s assignment here: <a href="https://classroom.github.com/a/SwQLZvoA">https://classroom.github.com/a/SwQLZvoA</a></p>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/gwu-dats6450-13\.github\.io\/6450-spring-2026\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+            // default icon
+            link.classList.add("external");
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>Content <i class="fa-brands fa-creative-commons" aria-label="creative-commons"></i> 2026<br> Abhijit Dasgupta<br> All content licensed under a <i class="fa-brands fa-creative-commons" aria-label="creative-commons"></i> <i class="fa-brands fa-creative-commons-by" aria-label="creative-commons-by"></i> <i class="fa-brands fa-creative-commons-nc" aria-label="creative-commons-nc"></i> <a href="https://creativecommons.org/licenses/by-nc/4.0/">Creative Commons Attribution-NonCommercial 4.0 International license (CC BY-NC 4.0)</a></p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+<p>Made with <i class="fa-brands fa-r-project" aria-label="r-project"></i> and <a href="https://quarto.org/">Quarto</a><br></p>
+</div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

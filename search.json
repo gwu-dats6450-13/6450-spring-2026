@@ -900,6 +900,216 @@
     "text": "Lab\nThe lab for the class would involve a hands-on coding assignment provided through GitHub Classroom. You will start the lab in-class, myself and the TAs would be helping you with any questions with the lab and then you would need to turn in the lab by checking in your code and results in the GitHub repo (you will have until next class for this, but usually you would be able to do this much sooner)."
   },
   {
+    "objectID": "labs/03a-labs.html",
+    "href": "labs/03a-labs.html",
+    "title": "Lab 2: EC2 Setup and VSCode Remote Development",
+    "section": "",
+    "text": "Follow these instructions step-by-step to setup your AWS EC2 environment. This EC2 instance will serve as your development environment throughout the semester, allowing you to run Python code and Jupyter notebooks using VSCode as your IDE."
+  },
+  {
+    "objectID": "labs/03a-labs.html#login-into-the-aws-console",
+    "href": "labs/03a-labs.html#login-into-the-aws-console",
+    "title": "Lab 2: EC2 Setup and VSCode Remote Development",
+    "section": "Login into the AWS Console",
+    "text": "Login into the AWS Console\nThe AWS Console is your entry point into the AWS cloud.\n\nClick on the AWS link alongside the ⬤. #\nA new tab will open in your browser, this is the AWS Console. #\nNote the URL in your browser’s address bar, it will start with the name of the AWS region (such as us-east-1) in which your cloud resources are hosted.\nNote the username on the top right hand corner, this is your Federated Identity. Also note that the you did not have to provide any credentials (username/password) to login into the AWS console. How did this happen? #\n\n\nLogging into the AWS Console at a later time\nTo access the AWS Console in the future, login to https://www.awsacademy.com/LMS_Login, go to Learner Lab -&gt; Modules -&gt; Start Lab.\n\n\n\n\n\n\nNote\n\n\n\nIf you already had an AWS account prior to logging into AWS Academy you would need to login into the AWS Educate AWS account via an Incognito Browser Window."
+  },
+  {
+    "objectID": "labs/03a-labs.html#navigate-to-ec2-service",
+    "href": "labs/03a-labs.html#navigate-to-ec2-service",
+    "title": "Lab 2: EC2 Setup and VSCode Remote Development",
+    "section": "Navigate to EC2 Service",
+    "text": "Navigate to EC2 Service\n\nFrom the AWS Console home page, click on the EC2 service. You can find it under “Compute” or by using the search bar at the top.\n\n\n\nOnce you’re in the EC2 Dashboard, click on the Launch instances button on the top right."
+  },
+  {
+    "objectID": "labs/03a-labs.html#configure-your-instance",
+    "href": "labs/03a-labs.html#configure-your-instance",
+    "title": "Lab 2: EC2 Setup and VSCode Remote Development",
+    "section": "Configure Your Instance",
+    "text": "Configure Your Instance\nYou’ll now be on the “Launch an instance” page. Follow these steps to configure your instance:\n\nConfigure Instance Details\n\nName and tags: Give your instance a meaningful name, such as {your-net-id}-dsan6k-dev (replace {your-net-id} with your actual NET ID).\nApplication and OS Images (Amazon Machine Image):\n\nSelect Ubuntu\nChoose Ubuntu Server 24.04 LTS (HVM), SSD Volume Type (or the latest Ubuntu LTS version available)\nArchitecture: 64-bit (x86)\n\nInstance type:\n\nSelect t3.large from the dropdown\nThis provides 2 vCPUs and 8 GiB of memory, suitable for data science workloads\nAs of September 2025 in us-east-1, this instance costs approximately $0.083 per hour (roughly $0.42 for 5 hours)\n\nKey pair (login):\n\nClick on Create new key pair\nKey pair name: {your-net-id}-dsan6k-f2025 (replace {your-net-id} with your actual NET ID)\nKey pair type: RSA\nPrivate key file format: Choose based on your operating system:\n\n.pem for Mac/Linux\n.ppk for Windows (if using PuTTY)\n\nClick Create key pair and save the file securely - you’ll need this to connect to your instance\n\n\n\n\n\n\n\n\nImportant\n\n\n\nSAVE YOUR KEY PAIR FILE SECURELY! This file is your only way to access your EC2 instance. Store it in a safe location on your computer and never share it with anyone.\n\n\n\nNetwork settings:\n\nLeave all settings as default (this includes VPC, subnet, auto-assign public IP, and security group settings)\nThe default settings will automatically enable public IP and allow SSH access\n\nConfigure storage:\n\nChange the root volume size from 8 GiB to 100 GiB\nVolume type: gp3 (General Purpose SSD)\nThis provides ample storage for datasets and software installations\n\nAdvanced details (expand this section):\n\nIAM instance profile: Select LabInstanceProfile from the dropdown\nThis gives your EC2 instance permissions to access other AWS services\nLeave all other settings as default\n\nReview and Launch:\n\nReview all your settings\nClick the Launch instance button"
+  },
+  {
+    "objectID": "labs/03a-labs.html#wait-for-instance-to-initialize",
+    "href": "labs/03a-labs.html#wait-for-instance-to-initialize",
+    "title": "Lab 2: EC2 Setup and VSCode Remote Development",
+    "section": "Wait for Instance to Initialize",
+    "text": "Wait for Instance to Initialize\n\nAfter clicking “Launch instance”, you’ll see a success message. Click on View all instances to go back to the instances list.\nYour new instance will appear in the list with a status of “Pending”. Wait a few minutes for it to change to “Running” and for the status checks to pass (2/2 checks passed).\nOnce the instance is running, note down the Public IPv4 DNS - you’ll need this to connect via VSCode.\n\n\n\n\n\n\n\nNote\n\n\n\nThe instance typically takes 1-2 minutes to fully initialize and become accessible."
+  },
+  {
+    "objectID": "labs/03a-labs.html#navigate-to-s3-service",
+    "href": "labs/03a-labs.html#navigate-to-s3-service",
+    "title": "Lab 2: EC2 Setup and VSCode Remote Development",
+    "section": "Navigate to S3 Service",
+    "text": "Navigate to S3 Service\n\nFrom the AWS Console home page, search for S3 in the search bar at the top or find it under the “Storage” section.\nClick on S3 to open the S3 dashboard."
+  },
+  {
+    "objectID": "labs/03a-labs.html#view-s3-buckets-dashboard",
+    "href": "labs/03a-labs.html#view-s3-buckets-dashboard",
+    "title": "Lab 2: EC2 Setup and VSCode Remote Development",
+    "section": "View S3 Buckets Dashboard",
+    "text": "View S3 Buckets Dashboard\nOnce in the S3 service, you’ll see the main S3 buckets dashboard. This shows all your existing buckets (if any) and allows you to create new ones."
+  },
+  {
+    "objectID": "labs/03a-labs.html#create-a-new-s3-bucket",
+    "href": "labs/03a-labs.html#create-a-new-s3-bucket",
+    "title": "Lab 2: EC2 Setup and VSCode Remote Development",
+    "section": "Create a New S3 Bucket",
+    "text": "Create a New S3 Bucket\n\nClick on the Create bucket button (orange button on the right side of the page).\n\n\n\nConfigure your bucket:\n\nBucket name: Enter a unique name like {your-net-id}-dsan6k-f2025 (replace {your-net-id} with your actual NET ID)\n\nNote: Bucket names must be globally unique across all AWS accounts, lowercase, and can contain only letters, numbers, and hyphens\n\nAWS Region: Leave as default (should match your EC2 region, typically us-east-1)\nObject Ownership: Leave as default (ACLs disabled)\nBlock Public Access settings: Leave all boxes checked (block all public access) for security\nBucket Versioning: Leave as “Disable” for now\nTags: Optional - you can add tags like course: dsan6000 if desired\nDefault encryption: Leave as default (Server-side encryption with Amazon S3 managed keys)\nAdvanced settings: Leave as default\n\nScroll to the bottom and click Create bucket."
+  },
+  {
+    "objectID": "labs/03a-labs.html#view-your-created-bucket",
+    "href": "labs/03a-labs.html#view-your-created-bucket",
+    "title": "Lab 2: EC2 Setup and VSCode Remote Development",
+    "section": "View Your Created Bucket",
+    "text": "View Your Created Bucket\nAfter creation, you’ll be redirected to the S3 buckets list where you can see your newly created bucket."
+  },
+  {
+    "objectID": "labs/03a-labs.html#upload-a-test-file-to-your-bucket",
+    "href": "labs/03a-labs.html#upload-a-test-file-to-your-bucket",
+    "title": "Lab 2: EC2 Setup and VSCode Remote Development",
+    "section": "Upload a Test File to Your Bucket",
+    "text": "Upload a Test File to Your Bucket\n\nClick on your bucket name to open it.\nClick the Upload button.\nEither drag and drop files or click Add files to browse and select files from your computer.\nFor testing, you can create a simple text file on your computer with some content and upload it.\nAfter selecting your file(s), click Upload at the bottom of the page.\nOnce uploaded, you’ll see a success message. Click Close to return to your bucket view.\n\n\n\n\n\n\n\nTip\n\n\n\nYour S3 bucket is now ready to use! You can upload datasets, store output files, and share data between different AWS services. The bucket name you created will be used in subsequent labs and assignments."
+  },
+  {
+    "objectID": "labs/03a-labs.html#working-with-s3-from-the-command-line",
+    "href": "labs/03a-labs.html#working-with-s3-from-the-command-line",
+    "title": "Lab 2: EC2 Setup and VSCode Remote Development",
+    "section": "Working with S3 from the Command Line",
+    "text": "Working with S3 from the Command Line\nOnce you connect to your EC2 instance via VSCode (in the next section), you can interact with your S3 bucket using the AWS CLI, which is pre-installed on EC2 instances with the LabInstanceProfile. Here are some useful commands you’ll use:\n# List all your S3 buckets\naws s3 ls\n\n# List contents of a specific bucket\naws s3 ls s3://your-bucket-name/\n\n# Upload a file to S3\naws s3 cp local-file.txt s3://your-bucket-name/\n\n# Download a file from S3\naws s3 cp s3://your-bucket-name/file.txt ./\n\n# Upload an entire directory\naws s3 sync ./local-folder s3://your-bucket-name/folder/\n\n# Download an entire directory\naws s3 sync s3://your-bucket-name/folder/ ./local-folder\n\n\n\n\n\n\nImportant\n\n\n\nRemember to replace your-bucket-name with the actual name of the bucket you created (e.g., {your-net-id}-dsan6k-f2025)."
+  },
+  {
+    "objectID": "labs/03a-labs.html#prerequisites",
+    "href": "labs/03a-labs.html#prerequisites",
+    "title": "Lab 2: EC2 Setup and VSCode Remote Development",
+    "section": "Prerequisites",
+    "text": "Prerequisites\n\nInstall Visual Studio Code on your local machine if you haven’t already: Download VSCode\nInstall the Remote - SSH extension in VSCode:\n\nOpen VSCode\nClick on the Extensions icon in the sidebar (or press Ctrl+Shift+X)\nSearch for “Remote - SSH”\nInstall the extension by Microsoft"
+  },
+  {
+    "objectID": "labs/03a-labs.html#video-tutorial",
+    "href": "labs/03a-labs.html#video-tutorial",
+    "title": "Lab 2: EC2 Setup and VSCode Remote Development",
+    "section": "Video Tutorial",
+    "text": "Video Tutorial\nFor a detailed walkthrough of connecting VSCode to an EC2 instance, watch this helpful video tutorial:\n\n \n\nAlternatively, you can watch on YouTube directly."
+  },
+  {
+    "objectID": "labs/03a-labs.html#step-by-step-connection-instructions",
+    "href": "labs/03a-labs.html#step-by-step-connection-instructions",
+    "title": "Lab 2: EC2 Setup and VSCode Remote Development",
+    "section": "Step-by-Step Connection Instructions",
+    "text": "Step-by-Step Connection Instructions\n\nConfigure SSH Connection\n\nSet up your SSH key permissions (Mac/Linux only):\nchmod 400 ~/path/to/your-key.pem\nReplace ~/path/to/your-key.pem with the actual path to your downloaded key file.\nOpen VSCode and press F1 or Ctrl+Shift+P (Windows/Linux) or Cmd+Shift+P (Mac) to open the command palette.\nType “Remote-SSH: Open SSH Configuration File” and select it.\nChoose the configuration file to edit (usually ~/.ssh/config on Mac/Linux or C:\\Users\\YourUsername\\.ssh\\config on Windows).\nAdd the following configuration to the file:\nHost dsan6000-ec2\n    HostName YOUR_EC2_PUBLIC_DNS\n    User ubuntu\n    IdentityFile ~/path/to/your-key.pem\nReplace:\n\nYOUR_EC2_PUBLIC_DNS with your instance’s public IPv4 DNS\n~/path/to/your-key.pem with the actual path to your key file\n\nSave the configuration file.\n\n\n\nConnect to Your Instance\n\nPress F1 or open the command palette again.\nType “Remote-SSH: Connect to Host” and select it.\nSelect dsan6000-ec2 from the list (or whatever name you gave your host).\nVSCode will open a new window and connect to your EC2 instance.\nIf prompted about the platform, select Linux.\nIf this is your first connection, you’ll be asked to verify the authenticity of the host. Select Continue.\n\n\n\n\n\n\n\nWarning⚠️ Important: AWS Session Expiration and EC2 Domain Name Changes\n\n\n\nEvery time your AWS session ends (typically after 4 hours) and you restart it:\n\nYour EC2 instance will automatically restart (give it ~2 minutes to become fully operational)\nThe instance will have a NEW public IPv4 DNS/domain name\nYou MUST update the HostName in your VSCode SSH config file (~/.ssh/config) with the new DNS\nYour data is safe! The storage is persistent - all your files, installed software, and work remain intact\nOnly the compute infrastructure restarts with a new address\n\nWhat this means for you: 1. After starting a new AWS session, wait 2 minutes for EC2 to fully start 2. Check the new public IPv4 DNS in the EC2 console 3. Update your VSCode SSH config with the new DNS 4. Reconnect VSCode to your instance\nRemember: The old hostname is gone, but your content persists!\n\n\n\n\nInitial Setup on EC2\nOnce connected, open a terminal in VSCode (Terminal → New Terminal) and run these commands to set up your development environment:\n# Update package list\nsudo apt update\n\n# Install Python and essential tools\nsudo apt install -y python3-pip python3-venv git\n\n# Install Jupyter\npip3 install jupyter notebook jupyterlab\n\n# Create a working directory\nmkdir ~/dsan6000\ncd ~/dsan6000\n\n# Test S3 access with your bucket\n# Replace 'your-net-id' with your actual NET ID\naws s3 ls\naws s3 ls s3://your-net-id-dsan6k-f2025/\n\n# Create a test file and upload it to S3\necho \"Hello from EC2!\" &gt; test.txt\naws s3 cp test.txt s3://your-net-id-dsan6k-f2025/\n\n# Download the file back from S3\naws s3 cp s3://your-net-id-dsan6k-f2025/test.txt downloaded-test.txt\ncat downloaded-test.txt\n\n\n\n\n\n\nTip\n\n\n\nYou can now use VSCode on your local machine to edit files, run Python scripts, and work with Jupyter notebooks directly on your EC2 instance. The Remote-SSH extension makes it feel like you’re working locally, but all computation happens on your EC2 instance.\nAdditionally, your EC2 instance has AWS CLI pre-configured with the LabInstanceProfile, allowing you to seamlessly interact with S3 and other AWS services directly from the terminal."
+  },
+  {
+    "objectID": "labs/03a-labs.html#accept-the-github-classroom-assignment",
+    "href": "labs/03a-labs.html#accept-the-github-classroom-assignment",
+    "title": "Lab 2: EC2 Setup and VSCode Remote Development",
+    "section": "Accept the GitHub Classroom Assignment",
+    "text": "Accept the GitHub Classroom Assignment\n\nClick on the following link to accept the lab assignment: GitHub Classroom Assignment - Lab 02\nAccept the assignment, which will create a private repository for you."
+  },
+  {
+    "objectID": "labs/03a-labs.html#clone-the-repository",
+    "href": "labs/03a-labs.html#clone-the-repository",
+    "title": "Lab 2: EC2 Setup and VSCode Remote Development",
+    "section": "Clone the Repository",
+    "text": "Clone the Repository\n\nIn your VSCode terminal (connected to EC2), clone your assignment repository:\ncd ~/dsan6000\ngit clone YOUR_ASSIGNMENT_REPO_URL\ncd YOUR_REPO_NAME"
+  },
+  {
+    "objectID": "labs/03a-labs.html#review-the-assignment",
+    "href": "labs/03a-labs.html#review-the-assignment",
+    "title": "Lab 2: EC2 Setup and VSCode Remote Development",
+    "section": "Review the Assignment",
+    "text": "Review the Assignment\nThe assignment is based on analyzing a dataset using cloud computing resources. You can review the analytics.ipynb notebook in your repo."
+  },
+  {
+    "objectID": "labs/03a-labs.html#complete-the-tasks",
+    "href": "labs/03a-labs.html#complete-the-tasks",
+    "title": "Lab 2: EC2 Setup and VSCode Remote Development",
+    "section": "Complete the Tasks",
+    "text": "Complete the Tasks\n\nOpen the analytics.ipynb notebook in VSCode:\n\nClick on the notebook file in the VSCode explorer\nVSCode will automatically open it with Jupyter support\n\nThe notebook contains several tasks related to:\n\nLoading and exploring a dataset\nCreating an S3 bucket in your AWS account\nUploading data to S3\nPerforming basic data analysis\n\nWork through each cell in the notebook, completing the tasks marked with “TODO” or “Task”.\nMake sure to:\n\nRun all cells and verify the output\nComplete all required tasks\nAdd your analysis and observations where requested"
+  },
+  {
+    "objectID": "labs/03a-labs.html#submit-your-work",
+    "href": "labs/03a-labs.html#submit-your-work",
+    "title": "Lab 2: EC2 Setup and VSCode Remote Development",
+    "section": "Submit Your Work",
+    "text": "Submit Your Work\n\nAfter completing all tasks, save your notebook.\nCommit and push your changes to GitHub:\ngit add .\ngit commit -m \"Complete Lab 02 - EC2 and data analysis\"\ngit push origin main\n\n\n\n\n\n\n\nImportant\n\n\n\nMake sure to commit and push your completed notebook to your GitHub repository before the deadline."
+  },
+  {
+    "objectID": "labs/03a-labs.html#stop-your-ec2-instance",
+    "href": "labs/03a-labs.html#stop-your-ec2-instance",
+    "title": "Lab 2: EC2 Setup and VSCode Remote Development",
+    "section": "Stop Your EC2 Instance",
+    "text": "Stop Your EC2 Instance\nWhen you’re done working:\n\nGo to the EC2 Dashboard in AWS Console\nSelect your instance\nClick Instance State → Stop instance\nConfirm the action\n\n\n\n\n\n\n\nNote\n\n\n\nStopping an instance preserves your data and allows you to restart it later. Terminating an instance permanently deletes it and all associated data."
+  },
+  {
+    "objectID": "labs/03a-labs.html#end-your-lab-session",
+    "href": "labs/03a-labs.html#end-your-lab-session",
+    "title": "Lab 2: EC2 Setup and VSCode Remote Development",
+    "section": "End Your Lab Session",
+    "text": "End Your Lab Session\n\nReturn to the AWS Academy Learner Lab page\nClick the End Lab button\nThis will stop the billing timer for your session\n\n\n\n\n\n\n\nImportant\n\n\n\nAt the end of each work session:\n\nStop your EC2 instance (not terminate - stop preserves your work)\nEnd the lab in AWS Academy to stop the billing timer\nRemember you have a $50 budget for the entire semester - use it wisely!\n\nBudget Management Tips: - A stopped instance costs only for storage (minimal) - A running t3.xlarge instance costs approximately $0.22 per hour - Always stop instances when not actively using them - Set up billing alerts in AWS to monitor your spending"
+  },
+  {
+    "objectID": "labs/03a-labs.html#restarting-your-work",
+    "href": "labs/03a-labs.html#restarting-your-work",
+    "title": "Lab 2: EC2 Setup and VSCode Remote Development",
+    "section": "Restarting Your Work",
+    "text": "Restarting Your Work\nWhen you want to continue working:\n\nStart a new lab session in AWS Academy\nGo to EC2 Dashboard\nSelect your instance and click Instance State → Start instance\nWait for it to enter “Running” state\nConnect via VSCode as before (the DNS might change - check the new public IPv4 DNS)\n\n\n\n\n\n\n\nTip\n\n\n\nYour data and installed software persist on the instance between sessions, so you can pick up right where you left off!"
+  },
+  {
+    "objectID": "labs/03a-labs.html#github-classroom-link",
+    "href": "labs/03a-labs.html#github-classroom-link",
+    "title": "Lab 2: EC2 Setup and VSCode Remote Development",
+    "section": "GitHub Classroom Link",
+    "text": "GitHub Classroom Link\nComplete today’s assignment here: https://classroom.github.com/a/SwQLZvoA"
+  },
+  {
+    "objectID": "labs/03-labs.html",
+    "href": "labs/03-labs.html",
+    "title": "Lab 3 Amazon Web Services (AWS) Setup Instructions",
+    "section": "",
+    "text": "Follow these instructions step-by-step to setup your AWS environment. The screenshots may look a bit different than what you are seeing, but the flow is the same."
+  },
+  {
+    "objectID": "labs/03-labs.html#login-into-the-aws-console",
+    "href": "labs/03-labs.html#login-into-the-aws-console",
+    "title": "Lab 3 Amazon Web Services (AWS) Setup Instructions",
+    "section": "Login into the AWS Console",
+    "text": "Login into the AWS Console\nThe AWS Console is your entry point into the AWS cloud.\n\nClick on the AWS link alongside the ⬤. #\nA new tab will open in your browser, this is the AWS Console. #\nNote the URL in your browser’s address bar, it will start with the name of the AWS region (such as us-east-1) in which your cloud resources are hosted.\nNote the username on the top right hand corner, this is your Federated Identity. Also note that the you did not have to provide any credentials (username/password) to login into the AWS console. How did this happen? #\n\n\nLogging into the AWS Console at a later time\nTo access the AWS Console in the future, login to https://www.awsacademy.com/LMS_Login, go to Learner Lab -&gt; Modules -&gt; Start Lab.\n\n\n\n\n\n\nNote\n\n\n\nIf you already had an AWS account prior to logging into AWS Academy you would need to login into the AWS Educate AWS account via an Incognito Browser Window."
+  },
+  {
+    "objectID": "labs/03-labs.html#part-3-creating-the-user",
+    "href": "labs/03-labs.html#part-3-creating-the-user",
+    "title": "Lab 3 Amazon Web Services (AWS) Setup Instructions",
+    "section": "Part-3: Creating the User",
+    "text": "Part-3: Creating the User\n\nNow that you have created the domain, It is time to create a user in that domain. Easiest way to do this is to navigate to the Studio page on the sidebar and Clicking “Create user profile” \nName your user, as a matter of convention set the username as your NET ID. Click on next.\n\n\n\nFollow the screenshot.\n\n\n\nDisable all canvas permissions and Paste the ARN of your LabRole. Scroll Down\n\n\n\nClick on Next \nScroll down \nScroll down, click on next \nUser should be created now."
+  },
+  {
+    "objectID": "labs/03-labs.html#launching-sagemaker-studio",
+    "href": "labs/03-labs.html#launching-sagemaker-studio",
+    "title": "Lab 3 Amazon Web Services (AWS) Setup Instructions",
+    "section": "Launching Sagemaker Studio",
+    "text": "Launching Sagemaker Studio\n\nClick on Domains on the sidebar. Select your domain and click on User Profiles.\n\n\n\nSelect launch and Click on Studio\n\n\n\n\n\n\n\n\nNote\n\n\n\nThis is called a managed service, you get to work on the notebook without having to deal with the creation steps for the underlying infrastructure. You can easily change this configuration as per the requirements of the analytics/machine learning job you are running.\n\n\n\nThis should open up\n\n\n\nSelect JupyterLab and Click on Create JupyterLab Space \nA Jupyter Notebook session should open up"
+  },
+  {
+    "objectID": "labs/03-labs.html#shutting-down-sagemaker-spaces",
+    "href": "labs/03-labs.html#shutting-down-sagemaker-spaces",
+    "title": "Lab 3 Amazon Web Services (AWS) Setup Instructions",
+    "section": "Shutting down SageMaker Spaces",
+    "text": "Shutting down SageMaker Spaces\nIt is important to shutdown SageMaker Studio when not in use so that you do not get billed for it when you are not using it.\n\nNavigate back to Sagemaker Studio, Select Jupyter Lab, Click on Stop \n\n\n\n\n\n\n\nImportant\n\n\n\nAt the end of this lab:\n\nMake sure you shutdown SageMaker Studio.\nMake sure you shutdown EC2 VM.\nMake sure you have ended the lab in AWS Educate by pressing the End Lab button."
+  },
+  {
+    "objectID": "labs/03-labs.html#optional-using-vscode-instead-of-jupyter-notebooks",
+    "href": "labs/03-labs.html#optional-using-vscode-instead-of-jupyter-notebooks",
+    "title": "Lab 3 Amazon Web Services (AWS) Setup Instructions",
+    "section": "(Optional) Using VSCode Instead of Jupyter Notebooks",
+    "text": "(Optional) Using VSCode Instead of Jupyter Notebooks\nSageMaker Studio Has added support for VSCode and the steps to run it are below:\n\nNavigate back to Sagemaker Studio, Select Code Editor, Click on Create Code Editor Space \nFollow the screenshot and click on Create Space \nNow select the instance type you want to use. Click on Run Space. Wait for a while then click on Open Code Editor.\n\n\n\nNow you can start using VS Code as you do on your local machine.\n\n\n\n\n\n\n\n\nImportant\n\n\n\nThis service also has to be shutdown as jupyter notebook. Since you only have 50\\(, not shutting a notebook down, can cost upto 20\\) a day for instances such as ml.g4dn.xlarge. It is very important to shutdown the space after working on it. If you spend 50$ on this account, YOU WILL LOSE ALL DATA. NO, you cannot recover the data after the account is shutdown. Therefore it is recommended to make regular commits to github as you work on your assignments or labs.\n\n\n\nTo stop Code Editor Space, Go back to Sagemaker Studio, Click on Code editor."
+  },
+  {
+    "objectID": "labs/03-labs.html#github-classroom",
+    "href": "labs/03-labs.html#github-classroom",
+    "title": "Lab 3 Amazon Web Services (AWS) Setup Instructions",
+    "section": "GitHub Classroom",
+    "text": "GitHub Classroom\nGitHub Classroom Link"
+  },
+  {
     "objectID": "assignments/a02-parallelization.html",
     "href": "assignments/a02-parallelization.html",
     "title": "Assignment 2: Parallelization",
@@ -959,7 +1169,7 @@
     "href": "content/03-content.html#lab",
     "title": "DATS 6450.13",
     "section": "Lab",
-    "text": "Lab\n(2026-01-25) The lab is being updated to meet GWU AWS Academy instances",
+    "text": "Lab\nIn this lab you will learn to set up your AWS Learner Lab environment and be able to use AWS resources for this class",
     "crumbs": [
       "Home",
       "Course content",

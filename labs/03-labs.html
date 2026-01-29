@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>content – DATS 6450.13</title>
+<title>Lab 3 Amazon Web Services (AWS) Setup Instructions – DATS 6450.13</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -74,6 +74,35 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -293,7 +322,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../content/01-content.html">Course content</a></li><li class="breadcrumb-item"><a href="../content/03-content.html">3. The Cloud</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Lab 3 Amazon Web Services (AWS) Setup Instructions</li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -332,7 +361,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../content/03-content.html" class="sidebar-item-text sidebar-link active">
+  <a href="../content/03-content.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">3. The Cloud</span></a>
   </div>
 </li>
@@ -365,29 +394,77 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#about-todays-class" id="toc-about-todays-class" class="nav-link active" data-scroll-target="#about-todays-class">About today’s class</a></li>
-  <li><a href="#readings" id="toc-readings" class="nav-link" data-scroll-target="#readings">Readings</a></li>
-  <li><a href="#slides" id="toc-slides" class="nav-link" data-scroll-target="#slides">Slides</a></li>
-  <li><a href="#lab" id="toc-lab" class="nav-link" data-scroll-target="#lab">Lab</a></li>
+  <li><a href="#task-1-accept-the-invitation-to-join-the-aws-classroom-the-first-time" id="toc-task-1-accept-the-invitation-to-join-the-aws-classroom-the-first-time" class="nav-link active" data-scroll-target="#task-1-accept-the-invitation-to-join-the-aws-classroom-the-first-time">Task 1: Accept the Invitation to join the AWS Classroom (the first time)</a>
+  <ul class="collapse">
+  <li><a href="#login-into-the-aws-console" id="toc-login-into-the-aws-console" class="nav-link" data-scroll-target="#login-into-the-aws-console">Login into the AWS Console</a>
+  <ul class="collapse">
+  <li><a href="#logging-into-the-aws-console-at-a-later-time" id="toc-logging-into-the-aws-console-at-a-later-time" class="nav-link" data-scroll-target="#logging-into-the-aws-console-at-a-later-time">Logging into the AWS Console at a later time</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#task-2-create-a-sagemaker-studio-domain-and-notebook" id="toc-task-2-create-a-sagemaker-studio-domain-and-notebook" class="nav-link" data-scroll-target="#task-2-create-a-sagemaker-studio-domain-and-notebook">Task 2: Create a SageMaker Studio Domain and Notebook</a>
+  <ul class="collapse">
+  <li><a href="#part-3-creating-the-user" id="toc-part-3-creating-the-user" class="nav-link" data-scroll-target="#part-3-creating-the-user">Part-3: Creating the User</a></li>
+  <li><a href="#launching-sagemaker-studio" id="toc-launching-sagemaker-studio" class="nav-link" data-scroll-target="#launching-sagemaker-studio">Launching Sagemaker Studio</a></li>
+  </ul></li>
+  <li><a href="#task-8-use-sagemaker-studio-notebook-for-analyzing-a-simple-dataset" id="toc-task-8-use-sagemaker-studio-notebook-for-analyzing-a-simple-dataset" class="nav-link" data-scroll-target="#task-8-use-sagemaker-studio-notebook-for-analyzing-a-simple-dataset">Task 8: Use SageMaker Studio Notebook for analyzing a simple dataset</a>
+  <ul class="collapse">
+  <li><a href="#shutting-down-sagemaker-spaces" id="toc-shutting-down-sagemaker-spaces" class="nav-link" data-scroll-target="#shutting-down-sagemaker-spaces">Shutting down SageMaker Spaces</a></li>
+  <li><a href="#optional-using-vscode-instead-of-jupyter-notebooks" id="toc-optional-using-vscode-instead-of-jupyter-notebooks" class="nav-link" data-scroll-target="#optional-using-vscode-instead-of-jupyter-notebooks">(Optional) Using VSCode Instead of Jupyter Notebooks</a></li>
+  <li><a href="#github-classroom" id="toc-github-classroom" class="nav-link" data-scroll-target="#github-classroom">GitHub Classroom</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../content/01-content.html">Course content</a></li><li class="breadcrumb-item"><a href="../content/03-content.html">3. The Cloud</a></li></ol></nav></header>
+<main class="content" id="quarto-document-content">
+
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Lab 3 Amazon Web Services (AWS) Setup Instructions</h1>
+</div>
 
 
 
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
 
 
-<section id="about-todays-class" class="level2">
-<h2 class="anchored" data-anchor-id="about-todays-class">About today’s class</h2>
-<p>Introduction to the cloud and cloud services used in this semester</p>
-</section>
-<section id="readings" class="level2">
-<h2 class="anchored" data-anchor-id="readings">Readings</h2>
-<p>Readings for this lecture (to be completed <strong><em>before this class</em></strong>):<br>
-- <a href="https://learning.oreilly.com/library/view/what-is-the/9781492052913/ch01.html" target="_blank">Laberis - What is the Cloud, 2019</a><br>
-- <a href="https://ebookcentral.proquest.com/lib/gwu/detail.action?docID=472836" target="_blank">Rittinghouse - Cloud Computing : Implementation, Management, and Security</a> Chapter 2</p>
+</header>
+
+
+<p>Follow these instructions <em>step-by-step</em> to setup your AWS environment. The screenshots may look a bit different than what you are seeing, but the flow is the same.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>You can click on any screenshot on this page to see its full size version.</p>
+</div>
+</div>
+<section id="task-1-accept-the-invitation-to-join-the-aws-classroom-the-first-time" class="level1">
+<h1>Task 1: Accept the Invitation to join the AWS Classroom (the first time)</h1>
+<ol type="1">
+<li><p>In your student email inbox, you will have an email from <em>AWS Academy</em> with the subject <em>Course Invitation</em>.</p></li>
+<li><p>Open the email. Click on the <em>Get Started</em> button as shown in the screenshot below. #<a href="img/aws-email.png"><img src="img/aws-email.png" class="img-fluid"></a></p></li>
+<li><p>Click on the <em>Create My Account</em> button to create a new Canvas Account #<a href="img/aws1.png"><img src="img/aws1.png" class="img-fluid"></a></p></li>
+<li><p>Register your new account. #<a href="img/aws2.png"><img src="img/aws2.png" class="img-fluid"></a></p></li>
+<li><p>You should now be logged into <em>AWS Academy Learners Lab</em> and seeing a screen like the one shown below. Click on <em>Learners Lab</em> #<a href="img/aws4.png"><img src="img/aws4.png" class="img-fluid"></a></p></li>
+<li><p>Scroll all the way to the bottom of the page and accept the <em>Terms &amp; Conditions</em>. #<a href="img/aws5-2.png"><img src="img/aws5-2.png" class="img-fluid"></a></p></li>
+<li><p>You are now being logged in into the <em>AWS Console</em>. Notice the <font color="red">⬤</font> adjacent to the word <em>AWS</em> towards the top left of the page. This indicates that the lab (i.e.&nbsp;the AWS resources) have not yet started. Click on the <em>play</em> button along side <em>Start Lab</em> on the to top right corner of the page to start the lab. #<a href="img/aws6.png"><img src="img/aws6.png" class="img-fluid"></a> #<a href="img/aws7.png"><img src="img/aws7.png" class="img-fluid"></a></p></li>
+<li><p>Each <em>lab session</em> that you start is at most 4 hours and you can see a timer showing the remaining time (hh:mm) on the ribbon along with the remaining budget out of the $50 allocated to each account. #<a href="img/aws-ribbon.png"><img src="img/aws-ribbon.png" class="img-fluid"></a></p></li>
+<li><p>This environment is <strong>long-lived</strong>. When the session timer runs to 0:00, the session will end, but any data and resources that you created in the AWS account will be retained. If you later launch a new session (for example, the next day), you will find that your work is still in the lab environment. Running EC2 instances will be stopped and then automatically restarted the next time you start a session. SageMaker notebook instances will be stopped, but not restarted the next time you start a session.</p></li>
+</ol>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -398,20 +475,206 @@ Important
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Laberis’s book is from O’Reilly. O’Reilly books are available at GWU online at <a href="https://go.oreilly.com/gwu-edu" target="_blank">O’Reilly Online Learning</a>. You may need to go via this link to login via GWU before you can get access to the book. I have a Chrome browser where I have a profile for GWU which is logged in to GWU and found that the link works directly there.</p>
-<p>Rittinghouse’s book is also available for free to GWU people; you may have to log in to your GWU account from this link for access.</p>
+<p>Monitor your lab budget in the lab interface above. Whenever you have an active lab session, the latest known remaining budget information will display at the top of this screen. This data comes from AWS Budgets which typically updates every 8 to 12 hours. Therefore the remaining budget that you see may not reflect your most recent account activity. If you exceed your lab budget your lab account will be disabled and all progress and resources will be lost. Therefore, it is important for you to manage your spending. Read about how to preserve your budget.</p>
+</div>
+</div>
+<section id="login-into-the-aws-console" class="level2">
+<h2 class="anchored" data-anchor-id="login-into-the-aws-console">Login into the AWS Console</h2>
+<p>The <em>AWS Console</em> is your entry point into the AWS cloud.</p>
+<ol type="1">
+<li><p>Click on the AWS link alongside the <font color="lightgreen">⬤</font>. #<a href="img/aws-console-launch1.png"><img src="img/aws-console-launch1.png" class="img-fluid"></a></p></li>
+<li><p>A new tab will open in your browser, this is the <em>AWS Console</em>. #<a href="img/aws8.png"><img src="img/aws8.png" class="img-fluid"></a></p></li>
+<li><p>Note the URL in your browser’s address bar, it will start with the name of the AWS region (such as <em>us-east-1</em>) in which your cloud resources are hosted.</p></li>
+<li><p>Note the username on the top right hand corner, this is your <em>Federated Identity</em>. Also note that the you did not have to provide any credentials (username/password) to login into the AWS console. <em>How did this happen?</em> #<a href="img/aws-console-ribbon.png"><img src="img/aws-console-ribbon.png" class="img-fluid"></a></p></li>
+</ol>
+<section id="logging-into-the-aws-console-at-a-later-time" class="level3">
+<h3 class="anchored" data-anchor-id="logging-into-the-aws-console-at-a-later-time">Logging into the AWS Console at a later time</h3>
+<p>To access the AWS Console in the future, login to https://www.awsacademy.com/LMS_Login, go to <em>Learner Lab</em> -&gt; <em>Modules</em> -&gt; <em>Start Lab</em>.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If you already had an AWS account prior to logging into AWS Academy you would need to login into the AWS Educate AWS account via an <em>Incognito Browser Window</em>.</p>
 </div>
 </div>
 </section>
-<section id="slides" class="level2">
-<h2 class="anchored" data-anchor-id="slides">Slides</h2>
-<p>The slides for today’s lesson are <a href="../slides/03-slides.html" target="_blank">available online</a> as an HTML file. You can also click in the slides below and navigate through them with your left and right arrow keys.</p>
 </section>
-<section id="lab" class="level2">
-<h2 class="anchored" data-anchor-id="lab">Lab</h2>
-<p>In <a href="../labs/03a-labs.html">this lab</a> you will learn to set up your AWS Learner Lab environment and be able to use AWS resources for this class</p>
+</section>
+<section id="task-2-create-a-sagemaker-studio-domain-and-notebook" class="level1">
+<h1>Task 2: Create a SageMaker Studio Domain and Notebook</h1>
+<p>The Amazon SageMaker Studio is one of the data science tools that we will be using during this course. We will set a SageMaker Studio domain and start a Jupyter Notebook as part of this task so that we can use it for future labs.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li><p>All screenshots on this page are clickable i.e.&nbsp;you can click on these to see an enlarged version of the screenshot for better clarity.</p></li>
+<li><p>Pay special attention to portions of the screenshot highlighted in a red rectangle, they usually correspond to non-default options. If you miss any of these your SageMaker domain would not be created correctly and you may have to repeat the entire procedure.</p></li>
+</ol>
+</div>
+</div>
+<ol type="1">
+<li><p>Navigate to SageMaker Studio. <a href="img/1-landing-page.png"><img src="img/1-landing-page.png" class="img-fluid"></a></p></li>
+<li><p>Select Amazon Sagemaker, Click on Domains on the side bar <a href="img/2-domain-page.png"><img src="img/2-domain-page.png" class="img-fluid"></a></p></li>
+<li><p>Select <strong>Set up for organizations</strong>. <a href="img/2-1-domain-page.png"><img src="img/2-1-domain-page.png" class="img-fluid"></a></p></li>
+<li><p>Click on Create Domain, This screen should pop up! <a href="img/3-domain-setup.png"><img src="img/3-domain-setup.png" class="img-fluid"></a></p></li>
+<li><p>Enter a name for your domain as shown above. Click on next</p></li>
+<li><p>Select <strong>Use an existing role</strong> and then select <strong>LabRole</strong>. <a href="img/sm-iam.png"><img src="img/sm-iam.png" class="img-fluid"></a></p></li>
+<li><p>On the next page, do the following:</p>
+<ul>
+<li><strong>Disable both settings under MLOps configuration</strong>.</li>
+<li>Under <strong>Canvas ready to use model configuration</strong> section, select “Use existing role” -&gt; “Custom IAM role ARN” and in the edit box type the ARN of the <strong>LabRole</strong> role. The ARN of the <strong>LabRole</strong> is of the form <code>arn:aws:iam::your_account_id:role/LabRole</code>, copy paste this string in the <strong>Custom IAM role ARN</strong> box and then replace <code>your_account_id</code> with the account id of your AWS account. You can find the account id of your AWS account in the top right corner of your browser window (it is highlighted in the red rectangle in this screenshot, enter it without the “-”, for example <code>987733172745</code>).</li>
+</ul>
+<p><a href="img/sm-configure-apps.png"><img src="img/sm-configure-apps.png" class="img-fluid"></a></p></li>
+<li><p>Follow the screenshot <a href="img/12-Setup-step-4.png"><img src="img/12-Setup-step-4.png" class="img-fluid"></a></p></li>
+<li><p>Click on next. <a href="img/13-Setup-step4-next.png"><img src="img/13-Setup-step4-next.png" class="img-fluid"></a></p></li>
+<li><p>Select Public Internet Access, follow the screenshot and click on next. <strong><em>Note that the subnet and security group ids for your account would be different from what you see in the screenshot. Select all the subnets in the drop down (we will discuss in class why this is required).</em></strong> <a href="img/14-VPC-setup.png"><img src="img/14-VPC-setup.png" class="img-fluid"></a></p></li>
+<li><p>Change the <code>Default space size</code> to 50 from the default of 5 and click next. <a href="img/15-Storage-config.png"><img src="img/15-Storage-config.png" class="img-fluid"></a></p></li>
+<li><p>Scroll down and click on next. Your Domain will now be created. <a href="img/16-Domain-created.png"><img src="img/16-Domain-created.png" class="img-fluid"></a></p></li>
+</ol>
+<blockquote class="blockquote">
+<p>It takes the domain sometime to get created and in use, though it says to not refresh the page, you can go ahead and refresh the page after a minute or two. You will see the screenshot below stating that the domain is in use.</p>
+</blockquote>
+<p><a href="img/17-Domain-in-use.png"><img src="img/17-Domain-in-use.png" class="img-fluid"></a></p>
+<section id="part-3-creating-the-user" class="level2">
+<h2 class="anchored" data-anchor-id="part-3-creating-the-user">Part-3: Creating the User</h2>
+<ol type="1">
+<li><p>Now that you have created the domain, It is time to create a user in that domain. Easiest way to do this is to navigate to the Studio page on the sidebar and Clicking “Create user profile” <a href="img/18-UserCreation.png"><img src="img/18-UserCreation.png" class="img-fluid"></a></p></li>
+<li><p>Name your user, as a matter of convention set the username as your <em>NET ID</em>. Click on next.</p></li>
+</ol>
+<p><a href="img/19-User-Creation-1.png"><img src="img/19-User-Creation-1.png" class="img-fluid"></a></p>
+<ol type="1">
+<li>Follow the screenshot.</li>
+</ol>
+<p><a href="img/20-User-Creation-2.png"><img src="img/20-User-Creation-2.png" class="img-fluid"></a></p>
+<ol type="1">
+<li>Disable all canvas permissions and Paste the ARN of your LabRole. Scroll Down</li>
+</ol>
+<p><a href="img/22-User-Canvas-Part-2.png"><img src="img/22-User-Canvas-Part-2.png" class="img-fluid"></a></p>
+<ol type="1">
+<li><p>Click on Next <a href="img/23-User-Next.png"><img src="img/23-User-Next.png" class="img-fluid"></a></p></li>
+<li><p>Scroll down <a href="img/24-User-Step-4.png"><img src="img/24-User-Step-4.png" class="img-fluid"></a></p></li>
+<li><p>Scroll down, click on next <a href="img/25-User-final-next.png"><img src="img/25-User-final-next.png" class="img-fluid"></a></p></li>
+<li><p>User should be created now.</p></li>
+</ol>
+<p><a href="img/26-user-created.png"><img src="img/26-user-created.png" class="img-fluid"></a></p>
+</section>
+<section id="launching-sagemaker-studio" class="level2">
+<h2 class="anchored" data-anchor-id="launching-sagemaker-studio">Launching Sagemaker Studio</h2>
+<ol type="1">
+<li>Click on Domains on the sidebar. Select your domain and click on User Profiles.</li>
+</ol>
+<p><a href="img/27-domain-user-list.png"><img src="img/27-domain-user-list.png" class="img-fluid"></a></p>
+<ol type="1">
+<li>Select launch and Click on Studio</li>
+</ol>
+<p><a href="img/28-launch-studio.png"><img src="img/28-launch-studio.png" class="img-fluid"></a></p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>This is called a <em>managed service</em>, you get to work on the notebook without having to deal with the creation steps for the underlying infrastructure. You can easily change this configuration as per the requirements of the analytics/machine learning job you are running.</p>
+</div>
+</div>
+<ol type="1">
+<li>This should open up</li>
+</ol>
+<p><a href="img/29-studio-landing.png"><img src="img/29-studio-landing.png" class="img-fluid"></a></p>
+<ol type="1">
+<li><p>Select JupyterLab and Click on Create JupyterLab Space <a href="img/30-Creating-Jupyter-space.png"><img src="img/30-Creating-Jupyter-space.png" class="img-fluid"></a></p></li>
+<li><p>A Jupyter Notebook session should open up</p></li>
+</ol>
+<p><a href="img/31-Jupyter-landing.png"><img src="img/31-Jupyter-landing.png" class="img-fluid"></a></p>
+</section>
+</section>
+<section id="task-8-use-sagemaker-studio-notebook-for-analyzing-a-simple-dataset" class="level1">
+<h1>Task 8: Use SageMaker Studio Notebook for analyzing a simple dataset</h1>
+<p>We will analyze the a simple dataset using our freshly created SageMaker Studio environment.</p>
+<ol type="1">
+<li><p>Clone the git repo for this lab into SageMaker. <a href="img/aws-sm-git1.png"><img src="img/aws-sm-git1.png" class="img-fluid"></a></p></li>
+<li><p>The URL of the git repo would be of the format shown in the screenshot below. <a href="img/aws-sm-git2.png"><img src="img/aws-sm-git2.png" class="img-fluid"></a></p></li>
+<li><p>Once the repo is cloned, double click on the repo folder and then on the <em>analytics.ipynb</em> file in the repo. This will open the Jupyter notebook in a SageMaker Studio Notebook. <a href="img/aws-sm-nb1.png"><img src="img/aws-sm-nb1.png" class="img-fluid"></a></p></li>
+<li><p>The notebook downloads the dataset from your GitHub and has code to create an S3 bucket in your account and copy the dataset there. There are some tasks to be completed in the noteobok. <strong>Complete tasks marked in the notebook and checkin the completed notebook in the git repo</strong>.</p></li>
+</ol>
+<section id="shutting-down-sagemaker-spaces" class="level2">
+<h2 class="anchored" data-anchor-id="shutting-down-sagemaker-spaces">Shutting down SageMaker Spaces</h2>
+<p>It is important to shutdown SageMaker Studio when not in use so that you do not get billed for it when you are not using it.</p>
+<ol type="1">
+<li>Navigate back to Sagemaker Studio, Select Jupyter Lab, Click on Stop <a href="img/32-Jupyter-Shutdown.png"><img src="img/32-Jupyter-Shutdown.png" class="img-fluid"></a></li>
+</ol>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>At the end of this lab:</p>
+<ol type="1">
+<li><p>Make sure you shutdown SageMaker Studio.</p></li>
+<li><p>Make sure you shutdown EC2 VM.</p></li>
+<li><p>Make sure you have ended the lab in AWS Educate by pressing the <em>End Lab</em> button.</p></li>
+</ol>
+</div>
+</div>
+</section>
+<section id="optional-using-vscode-instead-of-jupyter-notebooks" class="level2">
+<h2 class="anchored" data-anchor-id="optional-using-vscode-instead-of-jupyter-notebooks">(Optional) Using VSCode Instead of Jupyter Notebooks</h2>
+<p>SageMaker Studio Has added support for VSCode and the steps to run it are below:</p>
+<ol type="1">
+<li><p>Navigate back to Sagemaker Studio, Select Code Editor, Click on Create Code Editor Space <a href="img/33-VSC-1.png"><img src="img/33-VSC-1.png" class="img-fluid"></a></p></li>
+<li><p>Follow the screenshot and click on Create Space <a href="img/34-VSC-2.png"><img src="img/34-VSC-2.png" class="img-fluid"></a></p></li>
+<li><p>Now select the instance type you want to use. Click on Run Space. Wait for a while then click on Open Code Editor.</p></li>
+</ol>
+<p><a href="img/35-VSC-3.png"><img src="img/35-VSC-3.png" class="img-fluid"></a></p>
+<ol type="1">
+<li>Now you can start using VS Code as you do on your local machine.</li>
+</ol>
+<p><a href="img/36-VSC-4.png"><img src="img/36-VSC-4.png" class="img-fluid"></a></p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>This service also has to be shutdown as jupyter notebook. Since you only have 50<span class="math inline">\(, not shutting a notebook down, can cost upto 20\)</span> a day for instances such as <code>ml.g4dn.xlarge</code>. It is very important to shutdown the space after working on it. If you spend 50$ on this account, <strong>YOU WILL LOSE ALL DATA</strong>. NO, you cannot recover the data after the account is shutdown. Therefore it is recommended to make regular commits to github as you work on your assignments or labs.</p>
+</div>
+</div>
+<ol type="1">
+<li>To stop Code Editor Space, Go back to Sagemaker Studio, Click on Code editor. <a href="img/37-VSC-stop"><img src="img/37-VSC-stop.png" class="img-fluid"></a></li>
+</ol>
+</section>
+<section id="github-classroom" class="level2">
+<h2 class="anchored" data-anchor-id="github-classroom">GitHub Classroom</h2>
+<p><a href="https://classroom.github.com/a/SwQLZvoA">GitHub Classroom Link</a></p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
