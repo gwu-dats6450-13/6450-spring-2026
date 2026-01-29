@@ -526,12 +526,12 @@ Note
 <ul>
 <li>Select <strong>t3.large</strong> from the dropdown</li>
 <li>This provides 2 vCPUs and 8 GiB of memory, suitable for data science workloads</li>
-<li>As of September 2026 in us-east-1, this instance costs approximately $0.083 per hour (roughly $0.42 for 5 hours)</li>
+<li>As of September 2025 in us-east-1, this instance costs approximately $0.083 per hour (roughly $0.42 for 5 hours)</li>
 </ul></li>
 <li><p><strong>Key pair (login)</strong>:</p>
 <ul>
 <li>Click on <strong>Create new key pair</strong></li>
-<li>Key pair name: <code>{your-net-id}-datsbd-f2026</code> (replace <code>{your-net-id}</code> with your actual NET ID)</li>
+<li>Key pair name: <code>{your-net-id}-datsbd-s2026</code> (replace <code>{your-net-id}</code> with your actual NET ID)</li>
 <li>Key pair type: <strong>RSA</strong></li>
 <li>Private key file format: Choose based on your operating system:
 <ul>
@@ -629,7 +629,7 @@ Note
 <ol start="2" type="1">
 <li><strong>Configure your bucket</strong>:
 <ul>
-<li><strong>Bucket name</strong>: Enter a unique name like <code>{your-net-id}-datsbd-f2026</code> (replace <code>{your-net-id}</code> with your actual NET ID)
+<li><strong>Bucket name</strong>: Enter a unique name like <code>{your-net-id}-datsbd-s2026</code> (replace <code>{your-net-id}</code> with your actual NET ID)
 <ul>
 <li>Note: Bucket names must be globally unique across all AWS accounts, lowercase, and can contain only letters, numbers, and hyphens</li>
 </ul></li>
@@ -647,7 +647,7 @@ Note
 <section id="view-your-created-bucket" class="level2">
 <h2 class="anchored" data-anchor-id="view-your-created-bucket">View Your Created Bucket</h2>
 <p>After creation, you’ll be redirected to the S3 buckets list where you can see your newly created bucket.</p>
-<p><a href="img/aa1603-datsbd-f2026-S3-bucket-S3.png"><img src="img/aa1603-datsbd-f2026-S3-bucket-S3.png" class="img-fluid"></a></p>
+<p><a href="img/aa1603-datsbd-s2026-S3-bucket-S3.png"><img src="img/aa1603-datsbd-s2026-S3-bucket-S3.png" class="img-fluid"></a></p>
 </section>
 <section id="upload-a-test-file-to-your-bucket" class="level2">
 <h2 class="anchored" data-anchor-id="upload-a-test-file-to-your-bucket">Upload a Test File to Your Bucket</h2>
@@ -703,7 +703,7 @@ Important
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Remember to replace <code>your-bucket-name</code> with the actual name of the bucket you created (e.g., <code>{your-net-id}-datsbd-f2026</code>).</p>
+<p>Remember to replace <code>your-bucket-name</code> with the actual name of the bucket you created (e.g., <code>{your-net-id}-datsbd-s2026</code>).</p>
 </div>
 </div>
 </section>
@@ -808,14 +808,14 @@ Important
 <span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Test S3 access with your bucket</span></span>
 <span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Replace 'your-net-id' with your actual NET ID</span></span>
 <span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="ex">aws</span> s3 ls</span>
-<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="ex">aws</span> s3 ls s3://your-net-id-datsbd-f2026/</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="ex">aws</span> s3 ls s3://your-net-id-datsbd-s2026/</span>
 <span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a test file and upload it to S3</span></span>
 <span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"Hello from EC2!"</span> <span class="op">&gt;</span> test.txt</span>
-<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a><span class="ex">aws</span> s3 cp test.txt s3://your-net-id-datsbd-f2026/</span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a><span class="ex">aws</span> s3 cp test.txt s3://your-net-id-datsbd-s2026/</span>
 <span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Download the file back from S3</span></span>
-<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a><span class="ex">aws</span> s3 cp s3://your-net-id-datsbd-f2026/test.txt downloaded-test.txt</span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a><span class="ex">aws</span> s3 cp s3://your-net-id-datsbd-s2026/test.txt downloaded-test.txt</span>
 <span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> downloaded-test.txt</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
