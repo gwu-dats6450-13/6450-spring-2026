@@ -17,6 +17,15 @@ $font-family-alternative: "Roboto", sans-serif;
 $link-color: $accent;
 $hover-color: lighten($link-color, 40%);
 
+$fonts: (
+  'text': (
+    'name': 'Atkinson Hyperlegible'
+  ),
+  'title': (
+    'name': 'Atkinson Hyperlegible',
+  )
+);
+
 /*-- scss:rules --*/
 
 h1,
