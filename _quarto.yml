@@ -31,6 +31,8 @@ website:
           file: content/01-content.qmd
         - file: content/02-content.qmd
           text: "2. Parallel processing"
+        - file: content/03-content.qmd
+          text: "3. The Cloud"
     - section: "Resources"
       contents:
         - file: resources/uv.qmd
