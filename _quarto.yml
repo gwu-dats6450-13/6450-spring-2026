@@ -51,13 +51,11 @@ website:
 format:
   html:
     theme:
-      light: [cerulean, style/html-sta313-adg.scss]
-      dark: [cerulean, style/html-sta313-adg.scss, style/html-dark.scss]
+      - style/html-sta313-adg.scss
     toc: true
     linkcolor: "#2d92a5" # Glossy Grape
     code-copy: true
     code-overflow: wrap
-    mainfont: "Atkinson Hyperlegible"
     link-external-icon: true
     link-external-newwindow: true
 
