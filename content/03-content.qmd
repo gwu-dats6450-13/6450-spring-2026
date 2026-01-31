@@ -1,0 +1,23 @@
+## About today's class
+
+Introduction to the cloud and cloud services used in this semester
+
+## Readings
+
+Readings for this lecture (to be completed ***before this class***):  
+- [Laberis - What is the Cloud, 2019]({{< var reading.lebris >}}){target="_blank"}  
+- [Rittinghouse - Cloud Computing : Implementation, Management, and Security]({{< var reading.rittinghouse >}}){target="_blank"} Chapter 2 
+
+::: {.callout-important}
+Laberis's book is from O'Reilly. O'Reilly books are available at GWU online at [O'Reilly Online Learning](https://go.oreilly.com/gwu-edu){target="_blank"}. You may need to go via this link to login via GWU before you can get access to the book. I have a Chrome browser where I have a profile for GWU which is logged in to GWU and found that the link works directly there. 
+
+Rittinghouse's book is also available for free to GWU people; you may have to log in to your GWU account from this link for access.
+:::
+
+## Slides
+
+The slides for today's lesson are [available online](/slides/03-slides.qmd){target="_blank"} as an HTML file. You can also click in the slides below and navigate through them with your left and right arrow keys.
+
+## Lab
+
+In [this lab](/labs/03a-labs.qmd) you will learn to set up your AWS Learner Lab environment and be able to use AWS resources for this class

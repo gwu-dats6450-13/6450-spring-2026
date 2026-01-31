@@ -33,7 +33,7 @@ gh-classroom:
   lab00: null
   lab01: null
   lab02: "https://classroom.github.com/a/SwQLZvoA"
-  lab03: null
+  lab03: "https://classroom.github.com/a/g_bDAB_g"
   lab04: null
   lab05: null
   lab06: null
@@ -70,5 +70,13 @@ due_dates:
   lab02: "January 30"
   lab03: null
 
+reading :
+  lebris: https://learning.oreilly.com/library/view/what-is-the/9781492052913/ch01.html
+  rittinghouse: https://ebookcentral.proquest.com/lib/gwu/detail.action?docID=472836
+  wolohan: https://www.manning.com/books/mastering-large-datasets-with-python
+  ghemawat: https://static.googleusercontent.com/media/research.google.com/en//archive/gfs-sosp2003.pdf
+  dean: https://static.googleusercontent.com/media/research.google.com/en//archive/mapreduce-osdi04.pdf
+  rocklin: http://conference.scipy.org.s3-website-us-east-1.amazonaws.com/proceedings/scipy2015/pdfs/matthew_rocklin.pdf
+  damji: https://pages.databricks.com/rs/094-YMS-629/images/LearningSpark2.0.pdf
 
 
