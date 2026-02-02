@@ -126,7 +126,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../content/01-content.html">Course content</a></li><li class="breadcrumb-item"><a href="../content/02-content.html">2. Parallel processing</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../content/01-content.html">Course content</a></li><li class="breadcrumb-item"><a href="../content/04-content.html">4. Polars, DuckDB and Parquet</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -159,7 +159,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../content/02-content.html" class="sidebar-item-text sidebar-link active">
+  <a href="../content/02-content.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">2. Parallel processing</span></a>
   </div>
 </li>
@@ -171,7 +171,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../content/04-content.html" class="sidebar-item-text sidebar-link">
+  <a href="../content/04-content.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">4. Polars, DuckDB and Parquet</span></a>
   </div>
 </li>
@@ -213,31 +213,32 @@ ul.task-list li input[type="checkbox"] {
 </nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../content/01-content.html">Course content</a></li><li class="breadcrumb-item"><a href="../content/02-content.html">2. Parallel processing</a></li></ol></nav></header>
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../content/01-content.html">Course content</a></li><li class="breadcrumb-item"><a href="../content/04-content.html">4. Polars, DuckDB and Parquet</a></li></ol></nav></header>
 
 
 
 
 <section id="about-todays-class" class="level2">
 <h2 class="anchored" data-anchor-id="about-todays-class">About today’s class</h2>
-<p>Scaling up on a single machine with Python multiprocessing.</p>
+<p>This week, we look at big data tools that work synergistically for data analytics. These tools are meant for big-ish data, and leverage the Parquet file format. We can process TB-level data easily using these tools, and they can work well with AWS S3 storage. The tools we explore for the next two weeks are Polars and DuckDB, leveraging Parquet and (often) living on S3.</p>
+<p>All our work will be done on AWS, so make sure you’re set up following <a href="../labs/03a-labs.html">Lab 3</a>.</p>
 </section>
 <section id="readings" class="level2">
 <h2 class="anchored" data-anchor-id="readings">Readings</h2>
-<p>Readings for this lecture (to be completed <strong><em>before this class</em></strong>):<br>
-Wolohan Ch. 1,2 (available on Blackboard)</p>
+<p>Readings for this lecture (to be completed <strong><em>before this class</em></strong>):</p>
+<ul>
+<li><p><a href="https://learning.oreilly.com/library/view/duckdb-up-and/9781098159689/">DuckDB Up and Running</a> by Wei-Meng Lee (2025). Chapters 2, 4, 8. (Available via <a href="https://go.oreilly.com/gwu-edu" target="_blank">O’Reilly Online Learning</a> through the Gelman Library)</p></li>
+<li><p><a href="https://learning.oreilly.com/library/view/python-polars-the/9781098156077/" target="_blank">Python Polars: The Definitive Guide</a> by Jannsens &amp; Nieuwdorp (2025). Chapter 5 (Available via <a href="https://go.oreilly.com/gwu-edu" target="_blank">O’Reilly Online Learning</a> through the Gelman Library)</p></li>
+</ul>
 </section>
 <section id="slides" class="level2">
 <h2 class="anchored" data-anchor-id="slides">Slides</h2>
-<p>The slides for today’s lesson are <a href="../slides/02-slides.html" target="_blank">available online</a> as an HTML file. You can also click in the slides below and navigate through them with your left and right arrow keys.</p>
 </section>
 <section id="lab" class="level2">
 <h2 class="anchored" data-anchor-id="lab">Lab</h2>
-<p>Parallelization with Python and multiprocessing. The lab for today’s lesson is <a href="../labs/02-labs.html" target="_blank">available online</a> as an HTML file.</p>
 </section>
 <section id="assignment" class="level2">
 <h2 class="anchored" data-anchor-id="assignment">Assignment</h2>
-<p>The assignment for this week is available <a href="../assignments/a02-parallelization.html" target="_blank">here</a></p>
 
 
 </section>
