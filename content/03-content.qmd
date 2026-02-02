@@ -21,3 +21,10 @@ The slides for today's lesson are [available online](/slides/03-slides.qmd){targ
 ## Lab
 
 In [this lab](/labs/03a-labs.qmd) you will learn to set up your AWS Learner Lab environment and be able to use AWS resources for this class
+
+## Assignment
+
+This week's assignment is introducing you to working with AWS. We will explore the data for this assignment more in next week's laboratory. The assignment for this week is available [here](/assignments/a03-cloud.qmd){target="_blank"}
+
+
+

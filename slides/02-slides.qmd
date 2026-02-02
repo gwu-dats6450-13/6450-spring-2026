@@ -9,10 +9,10 @@ subtitle: "Parallelization"
 
 ## Agenda and Goals for Today
 
--   Scaling up and scaling out for AI data pipelines
+-   Scaling up and scaling out for data pipelines
 -   Parallelization fundamentals for data processing
 -   Map and Reduce functions
--   Parallel data preparation for AI/ML workloads
+-   Parallel data preparation for  workloads
 -   Distributed data processing frameworks (Spark, Ray, Dask)
 -   Lab Preview: Parallelization with Python
     -   Use the `multiprocessing` module

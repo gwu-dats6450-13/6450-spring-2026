@@ -11,31 +11,55 @@ website:
     left:
       - href: index.qmd
         text: Home
+    right:
       - href: about.qmd
         text: Instructor
-    right:
       - syllabus.qmd
       - text: "Content"
         file: "content/index.qmd"
+      - text: Labs
+        file: labs/index.qmd
+      - text: References
+        file: site-content/references.qmd
       - icon: slack
         aria-label: slack
         href: "https://6450-spring-2026.slack.com"
   sidebar:
-    background: "#fcc200" # Golden poppy
-    style: docked
-    search: false
-    contents:
-    - section: "Course content"
+    - title: "Content"
+      background: "#fcc200" # Golden poppy
+      style: docked
+      search: false
       contents:
-        - text: "1. Course overview"
-          file: content/01-content.qmd
-        - file: content/02-content.qmd
-          text: "2. Parallel processing"
-        - file: content/03-content.qmd
-          text: "3. The Cloud"
-    - section: "Resources"
+        - section: Overview
+          contents:
+            - file: content/index.qmd
+        - section: "Course content"
+          contents:
+            - text: "1. Course overview"
+              file: content/01-content.qmd
+            - file: content/02-content.qmd
+              text: "2. Parallel processing"
+            - file: content/03-content.qmd
+              text: "3. The Cloud"
+            - file: content/04-content.qmd
+              text: "4. Polars, DuckDB and Parquet"
+    - title: "Resources"
       contents:
         - file: resources/uv.qmd
+    - title: Labs
+      style: docked
+      search: false
+      background: "#fcc200" 
+      contents:
+        - section: Overview
+          contents:
+            - labs/index.qmd
+        - section: Lab content
+          contents:
+            - text: "02: Parallelization"
+              file: labs/02-labs.qmd
+            - text: "03: The Cloud"
+              file: labs/03a-labs.qmd
   
   page-footer:
       left: |

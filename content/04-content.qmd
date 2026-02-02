@@ -1,0 +1,19 @@
+## About today's class
+
+This week, we look at big data tools that work synergistically for data analytics. These tools are meant for big-ish data, and leverage the Parquet file format. We can process TB-level data easily using these tools, and they can work well with AWS S3 storage. The tools we explore for the next two weeks are Polars and DuckDB, leveraging Parquet and (often) living on S3.
+
+All our work will be done on AWS, so make sure you're set up following [Lab 3](/labs/03a-labs.qmd).
+
+## Readings
+
+Readings for this lecture (to be completed ***before this class***):
+
+-   [DuckDB Up and Running](https://learning.oreilly.com/library/view/duckdb-up-and/9781098159689/) by Wei-Meng Lee (2025). Chapters 2, 4, 8. (Available via [O'Reilly Online Learning](https://go.oreilly.com/gwu-edu){target="_blank"} through the Gelman Library)
+
+-   [Python Polars: The Definitive Guide](https://learning.oreilly.com/library/view/python-polars-the/9781098156077/){target="_blank"} by Jannsens & Nieuwdorp (2025). Chapter 5 (Available via [O'Reilly Online Learning](https://go.oreilly.com/gwu-edu){target="_blank"} through the Gelman Library)
+
+## Slides
+
+## Lab
+
+## Assignment

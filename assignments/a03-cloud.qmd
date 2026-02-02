@@ -1,0 +1,5 @@
+---
+title: "Assignment 2: Parallelization"
+---
+
+Assignment 3 is available on [Github Classroom]({{< var gh-classroom.a03 >}}) and is due {{< var due_dates.assignment03 >}}

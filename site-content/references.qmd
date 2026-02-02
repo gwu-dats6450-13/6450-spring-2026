@@ -1,0 +1,21 @@
+---
+title: "Reference Materials"
+---
+
+# Books
+
+::: callout-tip
+## Accessibility
+
+Books linked here, unless specifically stated, are either open-source and freely available, or available via the GWU Gelman Library through licensing agreements with [O'Reilly Online Learning](https://go.oreilly.com/gwu-edu){target="_blank"} and other services.
+:::
+
+## Big Data and the cloud
+
+[![](images/paste-5.png){width="80"}](https://learning.oreilly.com/library/view/-/9781617296239/)
+
+## Polars and DuckDB
+
+[![](images/paste-1.png){width="76"}](https://learning.oreilly.com/library/view/-/9781098156077/) [![](images/paste-2.png){width="81"}](https://learning.oreilly.com/library/view/-/9781805121152/)
+
+[![](images/paste-3.png){width="76"}](https://learning.oreilly.com/library/view/-/9781098159689/) [![](images/paste-4.png){width="80"}](https://learning.oreilly.com/library/view/duckdb-in-action/9781633437258/)
