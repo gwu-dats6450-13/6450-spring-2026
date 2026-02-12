@@ -19,6 +19,8 @@ website:
         file: "content/index.qmd"
       - text: Labs
         file: labs/index.qmd
+      - text: Project
+        file: project/project.qmd
       - text: References
         file: site-content/references.qmd
       - icon: slack

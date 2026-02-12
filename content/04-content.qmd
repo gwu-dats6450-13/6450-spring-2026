@@ -14,6 +14,12 @@ Readings for this lecture (to be completed ***before this class***):
 
 ## Slides
 
+The slides for this week are available [online](/slides/04-slides.qmd). 
+
 ## Lab
+
+This week the formal lab will explore 1 year of the NYC Taxi dataset using Parquet, Polars and DuckDB, showing the advantages of columnar formatting, smart partitioning and no-copy analytics. 
+
+The Github Classroom link is [{{<var gh-classroom.lab04 >}}]({{< var gh-classroom.lab04 >}}) and is due {{< var due_dates.lab04 >}}
 
 ## Assignment

@@ -34,7 +34,7 @@ gh-classroom:
   lab01: null
   lab02: "https://classroom.github.com/a/SwQLZvoA"
   lab03: "https://classroom.github.com/a/g_bDAB_g"
-  lab04: null
+  lab04: "https://classroom.github.com/a/0Y73uVoM"
   lab05: null
   lab06: null
   lab07: null
@@ -69,6 +69,7 @@ due_dates:
   assignment03: "February 8, 11:59pm"
   lab02: "January 30"
   lab03: null
+  lab04: "February 12"
 
 reading :
   lebris: https://learning.oreilly.com/library/view/what-is-the/9781492052913/ch01.html

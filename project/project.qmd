@@ -1,0 +1,98 @@
+---
+title: "Project Overview"
+format: html
+---
+
+## Overview
+
+This is an end-semester group project for DSAN 6000 focused on **big data analysis at scale**. The core objective is to work with a large dataset containing **at least a few hundred million rows** and apply big data processing techniques to answer interesting, relevant business questions that can **only be answered by examining large amounts of data**.
+
+### Project Requirements
+
+**Dataset Scale:**
+- Minimum: Several hundred million rows
+- Recommended: Multi-GB to hundreds of GB
+- The dataset must be large enough that traditional tools (pandas on a single machine) would struggle or fail
+
+**Big Data Technologies:**
+- **Primary:** Apache Spark on an EC2 cluster (distributed computing)
+- **Optional:** AWS Athena for SQL-based queries, multiprocessing with Polars, or other distributed frameworks
+- The key is demonstrating techniques that scale beyond single-machine processing
+
+**Analysis Components:**
+
+1. **Exploratory Data Analysis (EDA)** - Answer questions through statistical analysis, temporal patterns, and visualizations
+2. **Natural Language Processing (NLP)** - Apply text mining techniques like sentiment analysis, topic modeling, and entity extraction (if your dataset has text)
+3. **Machine Learning (ML)** - Train and evaluate predictive models to answer questions requiring classification, regression, or clustering
+4. **Comprehensive Reporting** - Present findings in a coherent, well-structured website with clear narratives
+
+**Project Approach:**
+
+Start by defining a **high-level problem statement** relevant to your dataset, then break it down into **10 specific, answerable questions** across EDA, NLP, and ML. This approach ensures your analysis is focused and comprehensive.
+
+### Example: NYC Taxi Dataset
+
+**High-Level Problem:** *"How can we optimize NYC taxi operations to maximize revenue and improve customer satisfaction?"*
+
+This broad problem can be broken down into specific questions at different complexity levels:
+
+**EDA Questions (Statistical & Temporal Analysis):**
+- How do taxi demand patterns vary by time of day, day of week, and season across different NYC boroughs?
+- What is the relationship between trip distance and fare amount, and how do outliers affect pricing?
+- Which pickup/dropoff location pairs generate the highest revenue, and how has this changed over time?
+- How do tip percentages vary by payment method, and what does this reveal about passenger behavior?
+- Can we identify temporal patterns in surge pricing or high-demand periods?
+
+**NLP Questions (if dataset included text feedback):**
+- What are the most common topics discussed in passenger/driver feedback?
+- How does sentiment in feedback correlate with tip amounts or ratings?
+- What service issues are most frequently mentioned during rush hours vs. off-peak times?
+- Can we identify emerging complaints or trends in service quality over time?
+
+**ML Questions (Predictive Modeling):**
+- Can we predict high-tip trips based on trip characteristics (time, location, distance)?
+- What factors best predict trip duration, and can we build a model more accurate than GPS estimates?
+- Can we classify trips into customer segments (commuters, tourists, business travelers) based on patterns?
+- Can we predict demand at specific locations to optimize taxi fleet deployment?
+
+### Deliverables
+
+Your team will produce:
+- **Clean, well-documented Spark code** demonstrating big data techniques
+- **Comprehensive analysis** spanning EDA, NLP (if applicable), and ML
+- **Professional website** presenting findings, visualizations, and insights
+- **Final report** with clear business recommendations based on your analysis
+
+## Important: All Work Done on Spark Cluster
+
+## Dataset
+
+### Recommended: Reddit Dataset
+
+We will provide starter code and instructions for working with the **Reddit dataset** (comments and submissions from June 2023 - July 2024). This is a large-scale dataset (~446 GB) ideal for demonstrating big data skills.
+
+
+### Using Your Own Dataset
+
+If you prefer to use a different dataset, you must:
+
+1. Get professor approval for your chosen dataset
+2. Ensure it's large enough to demonstrate big data techniques
+3. Figure out data acquisition and preprocessing on your own (the Reddit instructions won't apply)
+
+**Where to find large datasets:**
+
+- [AWS Open Data Registry](https://registry.opendata.aws/) - Datasets already on S3
+- [Google Dataset Search](https://datasetsearch.research.google.com/)
+- [Common Crawl](https://commoncrawl.org/) - Web crawl data
+- [GitHub Archive](https://www.gharchive.org/) - GitHub activity data
+
+
+**Examples of suitable large-scale datasets:**
+
+- Wikipedia dumps
+- News article archives
+- Government data (census, weather, transportation)
+- Scientific datasets (genomics, astronomy, climate)
+- E-commerce transaction data
+- IoT sensor data

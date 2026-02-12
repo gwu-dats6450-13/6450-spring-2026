@@ -1,0 +1,57 @@
+---
+title: "Lecture 4"
+subtitle: "Parquet, DuckDB, Polars: A holy trinity"
+---
+
+
+## Agenda and Goals for Today
+
+:::: {.columns}
+::: {.column width="50%"}
+
+### Lecture
+
+* Distributed file systems
+* Modern file types
+* Working with large tabular data on a single node
+  * DuckDB
+  * Polars
+
+:::
+
+
+::: {.column width="50%"}
+
+### Lab
+
+* Run a similar task with Pandas, polars and duckdb
+
+:::
+::::
+
+## Review
+
+- We've introduced the cloud environment on AWS (or a version of it)
+- We've learned to move data to it
+- We've learned that parallelization in some problems can help with speeding computations
+
+## Looking forward
+
+- Today we'll start looking at how to store data for efficiency, and tools to compute efficiently on it
+- Some parallelization is happening under the hood, but it is being utilized
+- We'll start seeing the advantages of lazy evaluation, which requires thought and planning
+- Compute takes time and infrastructure, but the final product is often small
+
+- OLAP tools can work for a lot of the ETL work you'd need. We'll spend today and next week on that
+- We'll then proceed to how to actually analyze big data using models, leading us to Apache Spark
+- A cool part of the tools we're using is that they don't actually copy the data (saving time, I/O cost)
+
+{{< include filesystems-and-filetypes/_filesystems-and-filetypes.qmd >}}
+{{< include polars/_polars.qmd >}}
+{{< include duckdb/_duckdb.qmd >}}
+
+
+
+## GitHub Classroom
+
+[GitHub Classroom Link]({{< var gh-classroom.a04 >}})

@@ -212,7 +212,16 @@ Your S3 bucket is now ready to use! You can upload datasets, store output files,
 
 ## Working with S3 from the Command Line
 
-Once you connect to your EC2 instance via VSCode (in the next section), you can interact with your S3 bucket using the AWS CLI, which is pre-installed on EC2 instances with the LabInstanceProfile. Here are some useful commands you'll use:
+Once you connect to your EC2 instance via VSCode (in the next section), you can interact with your S3 bucket using the AWS CLI. You can install the AWS CLI in your VM by the following shell commands:
+
+```shell
+sudo apt install unzip
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+unzip awscliv2.zip
+sudo ./aws/install
+```
+
+Here are some useful commands you'll use:
 
 ```bash
 # List all your S3 buckets
@@ -350,6 +359,15 @@ pip3 install jupyter notebook jupyterlab
 mkdir ~/dats6450
 cd ~/dats6450
 
+# Install the AWS CLI 
+
+
+sudo apt install unzip
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+unzip awscliv2.zip
+sudo ./aws/install
+
+
 # Test S3 access with your bucket
 # Replace 'your-net-id' with your actual NET ID
 aws s3 ls
@@ -362,6 +380,22 @@ aws s3 cp test.txt s3://your-net-id-datsbd-s2026/
 # Download the file back from S3
 aws s3 cp s3://your-net-id-datsbd-s2026/test.txt downloaded-test.txt
 cat downloaded-test.txt
+
+# Install uv
+
+curl -LsSf https://astral.sh/uv/install.sh | sh
+
+# Install gh
+
+(type -p wget >/dev/null || (sudo apt update && sudo apt install wget -y)) \
+	&& sudo mkdir -p -m 755 /etc/apt/keyrings \
+	&& out=$(mktemp) && wget -nv -O$out https://cli.github.com/packages/githubcli-archive-keyring.gpg \
+	&& cat $out | sudo tee /etc/apt/keyrings/githubcli-archive-keyring.gpg > /dev/null \
+	&& sudo chmod go+r /etc/apt/keyrings/githubcli-archive-keyring.gpg \
+	&& sudo mkdir -p -m 755 /etc/apt/sources.list.d \
+	&& echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null \
+	&& sudo apt update \
+	&& sudo apt install gh -y
 ```
 
 ::: callout-tip
