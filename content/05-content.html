@@ -138,7 +138,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../content/01-content.html">Course content</a></li><li class="breadcrumb-item"><a href="../content/01-content.html">1. Course overview</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../content/01-content.html">Course content</a></li><li class="breadcrumb-item"><a href="../content/05-content.html">5. Modern tools, continued</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -182,7 +182,7 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../content/01-content.html" class="sidebar-item-text sidebar-link active">
+  <a href="../content/01-content.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">1. Course overview</span></a>
   </div>
 </li>
@@ -206,7 +206,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../content/05-content.html" class="sidebar-item-text sidebar-link">
+  <a href="../content/05-content.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">5. Modern tools, continued</span></a>
   </div>
 </li>
@@ -225,26 +225,47 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#about-todays-class" id="toc-about-todays-class" class="nav-link active" data-scroll-target="#about-todays-class">About today’s class</a></li>
   <li><a href="#readings" id="toc-readings" class="nav-link" data-scroll-target="#readings">Readings</a></li>
   <li><a href="#slides" id="toc-slides" class="nav-link" data-scroll-target="#slides">Slides</a></li>
+  <li><a href="#lab" id="toc-lab" class="nav-link" data-scroll-target="#lab">Lab</a></li>
+  <li><a href="#assignment" id="toc-assignment" class="nav-link" data-scroll-target="#assignment">Assignment</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../content/01-content.html">Course content</a></li><li class="breadcrumb-item"><a href="../content/01-content.html">1. Course overview</a></li></ol></nav></header>
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../content/01-content.html">Course content</a></li><li class="breadcrumb-item"><a href="../content/05-content.html">5. Modern tools, continued</a></li></ol></nav></header>
 
 
 
 
 <section id="about-todays-class" class="level2">
 <h2 class="anchored" data-anchor-id="about-todays-class">About today’s class</h2>
-<p>Course overview, big data concepts, cloud computing and evolution of cloud technologies.</p>
+<p>This week, we continue to look at big data tools that work synergistically for data analytics. These tools are meant for big-ish data, and leverage the Parquet file format. We can process TB-level data easily using these tools, and they can work well with AWS S3 storage.</p>
+<p>All our work will be done on AWS, so make sure you’re set up following <a href="../labs/03a-labs.html">Lab 3</a>.</p>
 </section>
 <section id="readings" class="level2">
 <h2 class="anchored" data-anchor-id="readings">Readings</h2>
-<p>No prescribed readings for this lecture</p>
+<p>No new readings for this week, but you should have completed the readings for last week (to be completed <strong><em>before this class</em></strong>):</p>
+<ul>
+<li><p><a href="https://learning.oreilly.com/library/view/duckdb-up-and/9781098159689/">DuckDB Up and Running</a> by Wei-Meng Lee (2025). Chapters 2, 4, 8. (Available via <a href="https://go.oreilly.com/gwu-edu" target="_blank">O’Reilly Online Learning</a> through the Gelman Library)</p></li>
+<li><p><a href="https://learning.oreilly.com/library/view/python-polars-the/9781098156077/" target="_blank">Python Polars: The Definitive Guide</a> by Jannsens &amp; Nieuwdorp (2025). Chapter 5 (Available via <a href="https://go.oreilly.com/gwu-edu" target="_blank">O’Reilly Online Learning</a> through the Gelman Library)</p></li>
+</ul>
 </section>
 <section id="slides" class="level2">
 <h2 class="anchored" data-anchor-id="slides">Slides</h2>
-<p>The slides for today’s lesson are <a href="../slides/01-slides.html" target="_blank">available online</a> as an HTML file. You can also click in the slides below and navigate through them with your left and right arrow keys.</p>
+<p>The slides for this week are available <a href="../slides/05-slides.html">online</a>.</p>
+</section>
+<section id="lab" class="level2">
+<h2 class="anchored" data-anchor-id="lab">Lab</h2>
+<p>This week the formal lab will explore 1 year of the NYC Taxi dataset using Parquet and Polars, showing the advantages of columnar formatting, smart partitioning and no-copy analytics.</p>
+<p>The Github Classroom link is <a href=""></a> and is due <strong>?var:due_dates.lab05</strong></p>
+</section>
+<section id="assignment" class="level2">
+<h2 class="anchored" data-anchor-id="assignment">Assignment</h2>
+<p>There are two assignments this week:</p>
+<ol type="1">
+<li><strong>Assignment 5</strong>: This assignment will focus on using Polars and DuckDB for data analysis on Parquet datasets. The assignment will be released on Friday, February 13th, and will be due on Sunday, February 22rd.</li>
+<li><strong>Project Milestone 1</strong>: The first milestone for the final project will be due on Wednesday, February 21nd. This milestone will require you to submit a project proposal outlining your research question, data sources, and proposed analysis methods. The proposal should be approximately 1-2 pages in length and should demonstrate a clear understanding of the data and methods you plan to use for your final project. If you are not using the Reddit dataset, your proposal will also need to include a data acquisition plan detailing how you will obtain and prepare your dataset for analysis, and <strong>this plan must be approved by the instructor before you proceed with your project</strong>.</li>
+</ol>
+<p>Information about the Reddit dataset is available <a href="../project/reddit-s3-copy-instructions.html">here</a></p>
 
 
 </section>

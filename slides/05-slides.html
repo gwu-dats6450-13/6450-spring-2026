@@ -1,0 +1,2254 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-html/tabby.min.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-bb1cd4028f63a369ab283e072cb7d572.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.8.25">
+
+  <title>DATS 6450.13 – Writing Good GitHub Commits</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="../site_libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="../site_libs/revealjs/dist/reveal.css">
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #767676;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #767676;  padding-left: 4px; }
+    div.sourceCode
+      { color: #545454; background-color: #fefefe; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #545454; } /* Normal */
+    code span.al { color: #7928a1; } /* Alert */
+    code span.an { color: #696969; } /* Annotation */
+    code span.at { color: #a55a00; } /* Attribute */
+    code span.bn { color: #7928a1; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #d91e18; } /* ControlFlow */
+    code span.ch { color: #008000; } /* Char */
+    code span.cn { color: #d91e18; } /* Constant */
+    code span.co { color: #696969; } /* Comment */
+    code span.cv { color: #696969; font-style: italic; } /* CommentVar */
+    code span.do { color: #696969; font-style: italic; } /* Documentation */
+    code span.dt { color: #7928a1; } /* DataType */
+    code span.dv { color: #7928a1; } /* DecVal */
+    code span.er { color: #7928a1; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #a55a00; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { } /* Import */
+    code span.in { color: #696969; } /* Information */
+    code span.kw { color: #d91e18; } /* Keyword */
+    code span.op { color: #00769e; } /* Operator */
+    code span.ot { color: #d91e18; } /* Other */
+    code span.pp { color: #7928a1; } /* Preprocessor */
+    code span.sc { color: #00769e; } /* SpecialChar */
+    code span.ss { color: #008000; } /* SpecialString */
+    code span.st { color: #008000; } /* String */
+    code span.va { color: #a55a00; } /* Variable */
+    code span.vs { color: #008000; } /* VerbatimString */
+    code span.wa { color: #696969; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-857c1e38c7f8756f363ea65e7ad620aa.css">
+  <link href="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="../site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="../site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="../site_libs/revealjs/plugin/reveal-chalkboard/font-awesome/css/all.css" rel="stylesheet">
+  <link href="../site_libs/revealjs/plugin/reveal-chalkboard/style.css" rel="stylesheet">
+  <link href="../site_libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
+    .reveal div.sourceCode {
+      margin: 0;
+      overflow: auto;
+    }
+    .reveal div.hanging-indent {
+      margin-left: 1em;
+      text-indent: -1em;
+    }
+    .reveal .slide:not(.center) {
+      height: 100%;
+    }
+    .reveal .slide.scrollable {
+      overflow-y: auto;
+    }
+    .reveal .footnotes {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide .absolute {
+      position: absolute;
+      display: block;
+    }
+    .reveal .footnotes ol {
+      counter-reset: ol;
+      list-style-type: none; 
+      margin-left: 0;
+    }
+    .reveal .footnotes ol li:before {
+      counter-increment: ol;
+      content: counter(ol) ". "; 
+    }
+    .reveal .footnotes ol li > p:first-child {
+      display: inline-block;
+    }
+    .reveal .slide ul,
+    .reveal .slide ol {
+      margin-bottom: 0.5em;
+    }
+    .reveal .slide ul li,
+    .reveal .slide ol li {
+      margin-top: 0.4em;
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide ul[role="tablist"] li {
+      margin-bottom: 0;
+    }
+    .reveal .slide ul li > *:first-child,
+    .reveal .slide ol li > *:first-child {
+      margin-block-start: 0;
+    }
+    .reveal .slide ul li > *:last-child,
+    .reveal .slide ol li > *:last-child {
+      margin-block-end: 0;
+    }
+    .reveal .slide .columns:nth-child(3) {
+      margin-block-start: 0.8em;
+    }
+    .reveal blockquote {
+      box-shadow: none;
+    }
+    .reveal .tippy-content>* {
+      margin-top: 0.2em;
+      margin-bottom: 0.7em;
+    }
+    .reveal .tippy-content>*:last-child {
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide > img.stretch.quarto-figure-center,
+    .reveal .slide > img.r-stretch.quarto-figure-center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-left,
+    .reveal .slide > img.r-stretch.quarto-figure-left  {
+      display: block;
+      margin-left: 0;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-right,
+    .reveal .slide > img.r-stretch.quarto-figure-right  {
+      display: block;
+      margin-left: auto;
+      margin-right: 0; 
+    }
+  </style>
+</head>
+<body class="quarto-light">
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide" class="quarto-title-block center">
+  <h1 class="title">Writing Good GitHub Commits</h1>
+  <p class="subtitle">Best Practices for Clear Version Control</p>
+
+<div class="quarto-title-authors">
+</div>
+
+</section>
+<section class="slide level2">
+
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource css number-lines code-with-copy"><code class="sourceCode css"><span id="cb1-1"><a></a><span class="co">/* Start normal */</span></span>
+<span id="cb1-2"><a></a><span class="fu">.bold-on</span> {</span>
+<span id="cb1-3"><a></a>  <span class="kw">font-weight</span><span class="ch">:</span> <span class="dv">normal</span><span class="op">;</span></span>
+<span id="cb1-4"><a></a>  <span class="co">/*transition: font-weight 0.3s ease-in-out;*/</span></span>
+<span id="cb1-5"><a></a>}</span>
+<span id="cb1-6"><a></a></span>
+<span id="cb1-7"><a></a><span class="co">/* When fragment is activated, Reveal.js adds .visible */</span></span>
+<span id="cb1-8"><a></a><span class="fu">.bold-on.visible</span> {</span>
+<span id="cb1-9"><a></a>  <span class="kw">font-weight</span><span class="ch">:</span> <span class="dv">bold</span><span class="op">;</span></span>
+<span id="cb1-10"><a></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<style type="text/css">
+/* Start normal */
+.bold-on {
+  font-weight: normal;
+  /*transition: font-weight 0.3s ease-in-out;*/
+}
+
+/* When fragment is activated, Reveal.js adds .visible */
+.bold-on.visible {
+  font-weight: bold;
+}
+</style>
+</div>
+</section>
+<section id="agenda-and-goals-for-today" class="slide level2">
+<h2>Agenda and Goals for Today</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<h3 id="lecture">Lecture</h3>
+<ul>
+<li>Review: The modern data stack</li>
+<li>The DataFrame fragmentation problem</li>
+<li>Narwhals: Unified DataFrame API</li>
+<li>Ibis: Unified database interface</li>
+<li>Building portable data pipelines</li>
+</ul>
+</div><div class="column" style="width:50%;">
+<h3 id="lab">Lab</h3>
+<ul>
+<li>Write code that works across Pandas, Polars</li>
+</ul>
+</div></div>
+</section>
+<section id="review-where-weve-been" class="slide level2">
+<h2>Review: Where We’ve Been</h2>
+<ul>
+<li><strong>Week 2</strong>: Parallelization in Python</li>
+<li><strong>Week 4</strong>: The holy trinity - Parquet, DuckDB, Polars
+<ul>
+<li>Columnar storage formats</li>
+<li>OLAP databases</li>
+<li>Modern DataFrame libraries</li>
+</ul></li>
+</ul>
+<p><strong>Problem</strong>: We now have many great tools, but they don’t talk to each other easily</p>
+</section>
+<section>
+<section id="first-a-digression" class="title-slide slide level1 center">
+<h1>First, a digression</h1>
+
+</section>
+<section id="why-commits-matter" class="slide level2">
+<h2>Why Commits Matter</h2>
+<ul>
+<li><strong>Communication</strong> with your future self and teammates</li>
+<li><strong>History</strong> of project evolution</li>
+<li><strong>Debugging</strong> by identifying when issues were introduced</li>
+<li><strong>Documentation</strong> of decision-making</li>
+</ul>
+</section>
+<section id="anatomy-of-a-good-commit" class="slide level2">
+<h2>Anatomy of a Good Commit</h2>
+<pre><code>&lt;type&gt;: &lt;subject&gt;
+
+&lt;body&gt;
+
+&lt;footer&gt;</code></pre>
+<aside class="notes">
+<p>The commit message has three parts: subject, body, and footer</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="the-subject-line" class="slide level2">
+<h2>The Subject Line</h2>
+<p><strong>Keep it short and descriptive (50 characters or less)</strong></p>
+<p>Good examples:</p>
+<pre><code>Fix login button alignment on mobile
+Add user authentication middleware
+Update README with installation steps</code></pre>
+</section>
+<section id="subject-line-rules" class="slide level2">
+<h2>Subject Line Rules</h2>
+<ol type="1">
+<li>Use <strong>imperative mood</strong> (“Add feature” not “Added feature”)</li>
+<li><strong>Capitalize</strong> the first letter</li>
+<li><strong>No period</strong> at the end</li>
+<li>Be <strong>specific</strong> about what changed</li>
+</ol>
+</section>
+<section id="bad-subject-lines" class="slide level2">
+<h2>❌ Bad Subject Lines</h2>
+<pre><code>Fixed stuff
+Updated files
+Changes
+WIP
+asdfasdf</code></pre>
+<p>These tell us nothing about what actually changed!</p>
+</section>
+<section id="good-subject-lines" class="slide level2">
+<h2>✅ Good Subject Lines</h2>
+<pre><code>Fix memory leak in data processing loop
+Add validation for email input fields
+Refactor database query for performance
+Remove deprecated API endpoints</code></pre>
+<p>Clear, concise, and descriptive!</p>
+</section>
+<section id="the-body-optional" class="slide level2">
+<h2>The Body (Optional)</h2>
+<p>Use when you need to explain:</p>
+<ul>
+<li><strong>Why</strong> the change was made</li>
+<li><strong>What</strong> problem it solves</li>
+<li><strong>How</strong> it differs from previous behavior</li>
+<li>Any <strong>side effects</strong> or <strong>limitations</strong></li>
+</ul>
+</section>
+<section id="body-example" class="slide level2">
+<h2>Body Example</h2>
+<pre><code>Fix duplicate entries in user search results
+
+The search query was not properly deduplicating
+results when users had multiple roles. Added
+DISTINCT clause to SQL query and updated tests
+to verify unique results.
+
+Fixes #234</code></pre>
+</section>
+<section id="commit-best-practices" class="slide level2">
+<h2>Commit Best Practices</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<h3 id="do">Do</h3>
+<ul>
+<li>One logical change per commit</li>
+<li>Test before committing</li>
+<li>Commit often</li>
+<li>Write for others</li>
+</ul>
+</div><div class="column" style="width:50%;">
+<h3 id="dont">Don’t</h3>
+<ul>
+<li>Mix unrelated changes</li>
+<li>Commit broken code</li>
+<li>Use vague messages</li>
+<li>Commit sensitive data</li>
+</ul>
+</div></div>
+</section>
+<section id="atomic-commits" class="slide level2">
+<h2>Atomic Commits</h2>
+<p><strong>Each commit should be a single, complete unit of work</strong></p>
+<p>✅ Good:</p>
+<ul>
+<li>Commit 1: Add user model</li>
+<li>Commit 2: Add user controller</li>
+<li>Commit 3: Add user routes</li>
+</ul>
+<p>❌ Bad:</p>
+<ul>
+<li>Commit 1: Add user feature, fix typo in README, update dependencies</li>
+</ul>
+</section>
+<section id="conventional-commits" class="slide level2">
+<h2>Conventional Commits</h2>
+<p>A standardized format for commit messages:</p>
+<pre><code>feat: add user profile page
+fix: resolve null pointer in checkout
+docs: update API documentation
+style: format code with prettier
+refactor: simplify error handling
+test: add unit tests for auth service
+chore: update dependencies</code></pre>
+</section>
+<section id="common-types" class="slide level2">
+<h2>Common Types</h2>
+<ul>
+<li><strong>feat</strong>: A new feature</li>
+<li><strong>fix</strong>: A bug fix</li>
+<li><strong>docs</strong>: Documentation only changes</li>
+<li><strong>style</strong>: Code style changes (formatting, etc.)</li>
+<li><strong>refactor</strong>: Code restructuring without changing behavior</li>
+<li><strong>test</strong>: Adding or updating tests</li>
+<li><strong>chore</strong>: Maintenance tasks</li>
+</ul>
+</section>
+<section id="when-to-commit" class="slide level2">
+<h2>When to Commit?</h2>
+<p>Commit when you’ve completed a <strong>logical unit of work</strong>:</p>
+<ul>
+<li>✅ Finished a function</li>
+<li>✅ Fixed a bug</li>
+<li>✅ Added a test</li>
+<li>✅ Refactored a component</li>
+</ul>
+<p>❌ Not at end of day “just to save”</p>
+</section>
+<section id="the-golden-rule" class="slide level2">
+<h2>The Golden Rule</h2>
+<blockquote>
+<p>Write commit messages that will help someone (including future you) understand what changed and why, without having to look at the diff.</p>
+</blockquote>
+</section>
+<section id="quick-checklist" class="slide level2">
+<h2>Quick Checklist</h2>
+<p>Before committing, ask yourself:</p>
+<ul class="task-list">
+<li><label><input type="checkbox">Is the subject clear and concise?</label></li>
+<li><label><input type="checkbox">Does it explain <strong>what</strong> changed?</label></li>
+<li><label><input type="checkbox">If needed, does the body explain <strong>why</strong>?</label></li>
+<li><label><input type="checkbox">Is this a single logical change?</label></li>
+<li><label><input type="checkbox">Have I tested this change?</label></li>
+</ul>
+</section>
+<section id="resources" class="slide level2">
+<h2>Resources</h2>
+<ul>
+<li><a href="https://www.conventionalcommits.org/">Conventional Commits</a></li>
+<li><a href="https://chris.beams.io/posts/git-commit/">How to Write a Git Commit Message</a></li>
+<li><a href="https://github.com/erlang/otp/wiki/writing-good-commit-messages">GitHub Commit Best Practices</a></li>
+</ul>
+</section>
+<section id="git-collaboration-models" class="slide level2">
+<h2>Git Collaboration Models</h2>
+<p>Different workflows for different team sizes and needs:</p>
+<ul>
+<li><strong>Centralized Workflow</strong></li>
+<li><strong>Feature Branch Workflow</strong></li>
+<li><strong>Gitflow Workflow</strong></li>
+<li><strong>Forking Workflow</strong></li>
+</ul>
+</section>
+<section id="centralized-workflow" class="slide level2">
+<h2>Centralized Workflow</h2>
+<p><strong>Best for</strong>: Small teams, simple projects</p>
+<pre><code>main branch
+    |
+    *---*---*---*</code></pre>
+<ul>
+<li>Everyone commits directly to <code>main</code></li>
+<li>Pull before you push</li>
+<li>Linear history</li>
+<li>Simple but risky</li>
+</ul>
+</section>
+<section id="feature-branch-workflow" class="slide level2">
+<h2>Feature Branch Workflow</h2>
+<p><strong>Best for</strong>: Most teams</p>
+<pre><code>main     *---*---*-------*
+              \         /
+feature        *---*---*</code></pre>
+<ul>
+<li>Create branch for each feature</li>
+<li>Merge back to <code>main</code> when done</li>
+<li>Use Pull Requests for review</li>
+<li>Keeps <code>main</code> stable</li>
+</ul>
+</section>
+<section id="feature-branch-example" class="slide level2">
+<h2>Feature Branch Example</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a></a><span class="co"># Create and switch to feature branch</span></span>
+<span id="cb10-2"><a></a><span class="fu">git</span> checkout <span class="at">-b</span> feature/user-auth</span>
+<span id="cb10-3"><a></a></span>
+<span id="cb10-4"><a></a><span class="co"># Make changes and commit</span></span>
+<span id="cb10-5"><a></a><span class="fu">git</span> add .</span>
+<span id="cb10-6"><a></a><span class="fu">git</span> commit <span class="at">-m</span> <span class="st">"feat: add login endpoint"</span></span>
+<span id="cb10-7"><a></a></span>
+<span id="cb10-8"><a></a><span class="co"># Push and create Pull Request</span></span>
+<span id="cb10-9"><a></a><span class="fu">git</span> push origin feature/user-auth</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="gitflow-workflow" class="slide level2">
+<h2>Gitflow Workflow</h2>
+<p><strong>Best for</strong>: Scheduled releases, larger teams</p>
+<pre><code>main      *---------*---------*
+           \       / \       /
+develop     *--*--*---*--*--*
+             \   /     \   /
+feature       *-*       *-*</code></pre>
+<ul>
+<li><code>main</code>: production-ready code</li>
+<li><code>develop</code>: integration branch</li>
+<li><code>feature/*</code>: new features</li>
+<li><code>release/*</code>: preparing releases</li>
+<li><code>hotfix/*</code>: emergency fixes</li>
+</ul>
+</section>
+<section id="forking-workflow" class="slide level2">
+<h2>Forking Workflow</h2>
+<p><strong>Best for</strong>: Open source projects</p>
+<ol type="1">
+<li>Fork repository to your account</li>
+<li>Clone your fork locally</li>
+<li>Create feature branch</li>
+<li>Push to your fork</li>
+<li>Open Pull Request to original repo</li>
+</ol>
+<p>Maintainers control what gets merged.</p>
+</section>
+<section id="pull-request-best-practices" class="slide level2">
+<h2>Pull Request Best Practices</h2>
+<ul>
+<li><strong>Clear title</strong> following commit conventions</li>
+<li><strong>Description</strong> explaining the change</li>
+<li><strong>Link related issues</strong> (Fixes #123)</li>
+<li><strong>Request reviewers</strong> explicitly</li>
+<li><strong>Keep PRs small</strong> and focused</li>
+<li><strong>Respond to feedback</strong> promptly</li>
+</ul>
+</section>
+<section id="code-review-tips" class="slide level2">
+<h2>Code Review Tips</h2>
+<p><strong>As Author</strong>:</p>
+<ul>
+<li>Write clear PR description</li>
+<li>Self-review before requesting</li>
+<li>Be open to feedback</li>
+</ul>
+<p><strong>As Reviewer</strong>:</p>
+<ul>
+<li>Be constructive and specific</li>
+<li>Ask questions, don’t demand</li>
+<li>Approve when ready, not perfect</li>
+</ul>
+</section>
+<section id="merge-strategies" class="slide level2">
+<h2>Merge Strategies</h2>
+<p><strong>Merge Commit</strong>: Preserves all history</p>
+<pre><code>*---*---*-------*  main
+         \     /
+          *---*    feature</code></pre>
+<p><strong>Squash</strong>: Combines commits into one</p>
+<pre><code>*---*---*---*  main</code></pre>
+<p><strong>Rebase</strong>: Linear history</p>
+<pre><code>*---*---*---*---*  main</code></pre>
+</section>
+<section id="handling-conflicts" class="slide level2">
+<h2>Handling Conflicts</h2>
+<p>When merges conflict:</p>
+<ol type="1">
+<li>Pull latest changes</li>
+<li>Resolve conflicts in files</li>
+<li>Test the resolution</li>
+<li>Commit the merge</li>
+<li>Push changes</li>
+</ol>
+<p><strong>Tip</strong>: Communicate with your team to avoid conflicts!</p>
+</section>
+<section id="branch-protection-rules" class="slide level2">
+<h2>Branch Protection Rules</h2>
+<p>Protect important branches on GitHub:</p>
+<ul>
+<li>Require Pull Request reviews</li>
+<li>Require status checks to pass</li>
+<li>Require signed commits</li>
+<li>Restrict who can push</li>
+<li>Require linear history</li>
+</ul>
+</section>
+<section id="team-workflow-tips" class="slide level2">
+<h2>Team Workflow Tips</h2>
+<ul>
+<li><strong>Agree on a workflow</strong> as a team</li>
+<li><strong>Document conventions</strong> in CONTRIBUTING.md</li>
+<li><strong>Use branch naming conventions</strong> (feature/, fix/, docs/)</li>
+<li><strong>Keep branches short-lived</strong></li>
+<li><strong>Communicate</strong> about major changes</li>
+</ul>
+</section>
+<section id="thank-you" class="slide level2">
+<h2>Thank You!</h2>
+<p><strong>Remember</strong>: Good commits make collaboration easier and your project history more valuable.</p>
+<p>Questions?</p>
+</section></section>
+<section>
+<section id="zero-copy-data-access" class="title-slide slide level1 center">
+<h1>Zero-Copy Data Access</h1>
+
+</section>
+<section id="the-traditional-problem" class="slide level2">
+<h2>The Traditional Problem</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><strong>Old Approach</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a></a><span class="co"># CSV: Read entire file</span></span>
+<span id="cb15-2"><a></a>df <span class="op">=</span> pd.read_csv(<span class="st">"data.csv"</span>)</span>
+<span id="cb15-3"><a></a><span class="co"># Copy into memory</span></span>
+<span id="cb15-4"><a></a><span class="co"># Parse text → objects</span></span>
+<span id="cb15-5"><a></a><span class="co"># High memory overhead</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column" style="width:50%;">
+<p><strong>Consequences</strong></p>
+<ul>
+<li>Multiple copies in memory</li>
+<li>Slow parsing (text → typed data)</li>
+<li>Memory spikes during load</li>
+<li>Limited by RAM size</li>
+</ul>
+</div></div>
+</section>
+<section id="what-is-zero-copy-access" class="slide level2">
+<h2>What is Zero-Copy Access?</h2>
+<p><strong>Zero-copy</strong> means reading data without duplicating it in memory</p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><strong>Key Idea</strong></p>
+<ul>
+<li>Data stays on disk (memory-mapped)</li>
+<li>Direct access to bytes</li>
+<li>No intermediate parsing</li>
+<li>Share data between processes</li>
+</ul>
+</div><div class="column" style="width:50%;">
+<p><strong>Benefits</strong></p>
+<ul>
+<li>🚀 Faster startup</li>
+<li>💾 Lower memory usage</li>
+<li>🔄 Efficient sharing</li>
+<li>📊 Query before loading</li>
+</ul>
+</div></div>
+</section>
+<section id="apache-parquet-designed-for-zero-copy" class="slide level2">
+<h2>Apache Parquet: Designed for Zero-Copy</h2>
+<p><strong>Columnar binary format with metadata</strong></p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a></a><span class="im">import</span> polars <span class="im">as</span> pl</span>
+<span id="cb16-2"><a></a></span>
+<span id="cb16-3"><a></a><span class="co"># Metadata tells us structure without reading data</span></span>
+<span id="cb16-4"><a></a>schema <span class="op">=</span> pl.scan_parquet(<span class="st">"data.parquet"</span>).schema</span>
+<span id="cb16-5"><a></a></span>
+<span id="cb16-6"><a></a><span class="co"># Read only what you need</span></span>
+<span id="cb16-7"><a></a>df <span class="op">=</span> pl.scan_parquet(<span class="st">"data.parquet"</span>).select(<span class="st">"col1"</span>, <span class="st">"col2"</span>).collect()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><strong>Why Parquet enables zero-copy:</strong></p>
+<ul>
+<li>Binary format (no text parsing)</li>
+<li>Columnar layout (read only needed columns)</li>
+<li>Built-in statistics (skip chunks via metadata)</li>
+<li>Apache Arrow compatible</li>
+</ul>
+</section>
+<section id="apache-arrow-the-memory-standard" class="slide level2">
+<h2>Apache Arrow: The Memory Standard</h2>
+<p><strong>Arrow is the common in-memory format</strong></p>
+<pre><code>┌─────────────┐
+│   Parquet   │ (on disk)
+└──────┬──────┘
+       │ zero-copy map
+       ↓
+┌─────────────┐
+│Arrow Memory │ (columnar buffers)
+└──────┬──────┘
+       ├───→ Polars (zero-copy)
+       ├───→ DuckDB (zero-copy)
+       └───→ PyArrow (zero-copy)</code></pre>
+<p><strong>No serialization between tools!</strong></p>
+</section>
+<section id="polars-zero-copy-native" class="slide level2">
+<h2>Polars: Zero-Copy Native</h2>
+<p><strong>Built on Arrow from the ground up</strong></p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a></a><span class="im">import</span> polars <span class="im">as</span> pl</span>
+<span id="cb18-2"><a></a></span>
+<span id="cb18-3"><a></a><span class="co"># Lazy scan: no data loaded yet</span></span>
+<span id="cb18-4"><a></a>lazy_df <span class="op">=</span> pl.scan_parquet(<span class="st">"taxi_*.parquet"</span>)</span>
+<span id="cb18-5"><a></a></span>
+<span id="cb18-6"><a></a><span class="co"># Build query plan (still no copy)</span></span>
+<span id="cb18-7"><a></a>query <span class="op">=</span> (lazy_df</span>
+<span id="cb18-8"><a></a>    .<span class="bu">filter</span>(pl.col(<span class="st">"distance"</span>) <span class="op">&gt;</span> <span class="dv">5</span>)</span>
+<span id="cb18-9"><a></a>    .group_by(<span class="st">"borough"</span>)</span>
+<span id="cb18-10"><a></a>    .agg(pl.col(<span class="st">"fare"</span>).mean())</span>
+<span id="cb18-11"><a></a>)</span>
+<span id="cb18-12"><a></a></span>
+<span id="cb18-13"><a></a><span class="co"># Execute: stream through data, minimal copies</span></span>
+<span id="cb18-14"><a></a>result <span class="op">=</span> query.collect()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><strong>Advantages:</strong> Query optimization, predicate pushdown, parallel streaming</p>
+</section>
+<section id="duckdb-zero-copy-sql" class="slide level2">
+<h2>DuckDB: Zero-Copy SQL</h2>
+<p><strong>Analytical database designed for zero-copy</strong></p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a></a><span class="im">import</span> duckdb</span>
+<span id="cb19-2"><a></a></span>
+<span id="cb19-3"><a></a><span class="co"># Query parquet directly (no load step)</span></span>
+<span id="cb19-4"><a></a>result <span class="op">=</span> duckdb.sql(<span class="st">"""</span></span>
+<span id="cb19-5"><a></a><span class="st">    SELECT borough, AVG(fare) as avg_fare</span></span>
+<span id="cb19-6"><a></a><span class="st">    FROM 'taxi_*.parquet'</span></span>
+<span id="cb19-7"><a></a><span class="st">    WHERE distance &gt; 5</span></span>
+<span id="cb19-8"><a></a><span class="st">    GROUP BY borough</span></span>
+<span id="cb19-9"><a></a><span class="st">"""</span>).pl()  <span class="co"># Returns Polars DataFrame (zero-copy)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><strong>DuckDB → Polars is zero-copy</strong> (both use Arrow)</p>
+</section>
+<section id="memory-mapping-in-action" class="slide level2">
+<h2>Memory Mapping in Action</h2>
+<p><strong>How it works under the hood:</strong></p>
+<ol type="1">
+<li><strong>mmap()</strong> system call maps file to virtual memory</li>
+<li>OS loads pages on-demand (lazy loading)</li>
+<li>Multiple processes share same physical pages</li>
+<li>OS manages paging (better than manual reads)</li>
+</ol>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a></a><span class="co"># Conceptually what happens:</span></span>
+<span id="cb20-2"><a></a>file_bytes <span class="op">=</span> mmap.mmap(fd, length, access<span class="op">=</span>mmap.ACCESS_READ)</span>
+<span id="cb20-3"><a></a><span class="co"># Arrow views these bytes directly as typed arrays</span></span>
+<span id="cb20-4"><a></a><span class="co"># No copy, no parsing!</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="real-performance-impact" class="slide level2">
+<h2>Real Performance Impact</h2>
+<p><strong>Example: 1GB Parquet file</strong></p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Operation</th>
+<th>Traditional</th>
+<th>Zero-Copy</th>
+<th>Speedup</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Load time</td>
+<td>8.2s</td>
+<td>0.3s</td>
+<td><strong>27x</strong></td>
+</tr>
+<tr class="even">
+<td>Memory use</td>
+<td>2.5 GB</td>
+<td>1.1 GB</td>
+<td><strong>2.3x</strong></td>
+</tr>
+<tr class="odd">
+<td>Filter</td>
+<td>3.1s</td>
+<td>0.4s</td>
+<td><strong>7.8x</strong></td>
+</tr>
+<tr class="even">
+<td>Column select</td>
+<td>8.2s</td>
+<td>0.05s</td>
+<td><strong>164x</strong></td>
+</tr>
+</tbody>
+</table>
+<p><em>Zero-copy reads only what’s needed, when it’s needed</em></p>
+</section>
+<section id="interoperability-benefits" class="slide level2">
+<h2>Interoperability Benefits</h2>
+<p><strong>Seamless data sharing:</strong></p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a></a><span class="im">import</span> polars <span class="im">as</span> pl</span>
+<span id="cb21-2"><a></a><span class="im">import</span> duckdb</span>
+<span id="cb21-3"><a></a></span>
+<span id="cb21-4"><a></a><span class="co"># Polars reads parquet (zero-copy)</span></span>
+<span id="cb21-5"><a></a>df <span class="op">=</span> pl.scan_parquet(<span class="st">"data.parquet"</span>).collect()</span>
+<span id="cb21-6"><a></a></span>
+<span id="cb21-7"><a></a><span class="co"># Pass to DuckDB (zero-copy)</span></span>
+<span id="cb21-8"><a></a>result <span class="op">=</span> duckdb.sql(<span class="st">"SELECT * FROM df WHERE x &gt; 10"</span>).pl()</span>
+<span id="cb21-9"><a></a></span>
+<span id="cb21-10"><a></a><span class="co"># Convert to pandas (copy needed, but only once)</span></span>
+<span id="cb21-11"><a></a>pandas_df <span class="op">=</span> result.to_pandas()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><strong>Arrow is the lingua franca</strong> of modern data tools</p>
+</section>
+<section id="best-practices" class="slide level2">
+<h2>Best Practices</h2>
+<p><strong>To maximize zero-copy benefits:</strong></p>
+<ol type="1">
+<li><strong>Use Parquet</strong> for storage (not CSV)</li>
+<li><strong>Use lazy evaluation</strong> when possible (<code>scan_parquet</code>, not <code>read_parquet</code>)</li>
+<li><strong>Filter early</strong> (predicate pushdown)</li>
+<li><strong>Select columns</strong> before collecting (projection pushdown)</li>
+<li><strong>Partition data</strong> for better selectivity</li>
+<li><strong>Stay in Arrow ecosystem</strong> (Polars/DuckDB/PyArrow)</li>
+</ol>
+</section>
+<section id="when-copies-still-happen" class="slide level2">
+<h2>When Copies Still Happen</h2>
+<p><strong>Zero-copy isn’t always possible:</strong></p>
+<ul>
+<li>Converting to pandas (different memory layout)</li>
+<li>Complex string operations (may need materialization)</li>
+<li>Writing results to disk</li>
+<li>Network transfers</li>
+<li>Some aggregations (need intermediate buffers)</li>
+</ul>
+<p><strong>But:</strong> Even when copies happen, they’re minimized and strategic</p>
+</section>
+<section id="summary" class="slide level2">
+<h2>Summary</h2>
+<p><strong>Zero-copy data access advantages:</strong></p>
+<p>✅ <strong>Performance</strong>: Faster loads, lower latency ✅ <strong>Efficiency</strong>: Reduced memory footprint<br>
+✅ <strong>Scalability</strong>: Work with larger-than-RAM datasets<br>
+✅ <strong>Interoperability</strong>: Share data between tools seamlessly<br>
+✅ <strong>Simplicity</strong>: Query before loading, explore without cost</p>
+<p><strong>The ecosystem:</strong> Parquet (storage) + Arrow (memory) + Polars/DuckDB (compute)</p>
+</section>
+<section id="resources-1" class="slide level2">
+<h2>Resources</h2>
+<p><strong>Learn More:</strong></p>
+<ul>
+<li><a href="https://arrow.apache.org/">Apache Arrow</a></li>
+<li><a href="https://parquet.apache.org/">Apache Parquet</a></li>
+<li><a href="https://pola-rs.github.io/polars/">Polars Documentation</a></li>
+<li><a href="https://duckdb.org/">DuckDB Documentation</a></li>
+</ul>
+<p><strong>Key concept:</strong> Modern data tools separate <em>storage</em> from <em>compute</em>, enabling zero-copy workflows</p>
+</section>
+<section id="the-dataframe-fragmentation-problem" class="slide level2">
+<h2>The DataFrame Fragmentation Problem</h2>
+<div class="highlight-box">
+<p><strong>The Landscape in 2025:</strong></p>
+</div>
+<ul>
+<li><strong>Pandas</strong>: The original, still widely used</li>
+<li><strong>Polars</strong>: Fast, Rust-based, growing adoption</li>
+<li><strong>PyArrow</strong>: Direct Arrow Table manipulation</li>
+<li><strong>Dask</strong>: Distributed computing</li>
+<li><strong>Modin</strong>: Parallel Pandas</li>
+<li><strong>cuDF</strong>: GPU-accelerated DataFrames</li>
+</ul>
+<p><strong>Each has different APIs, syntax, and capabilities</strong></p>
+</section>
+<section id="why-this-matters" class="slide level2">
+<h2>Why This Matters</h2>
+<p><strong>For Library Authors:</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a></a><span class="kw">def</span> process_data(df):  <span class="co"># What type is df?</span></span>
+<span id="cb22-2"><a></a>    <span class="co"># Works with Pandas</span></span>
+<span id="cb22-3"><a></a>    result <span class="op">=</span> df.groupby(<span class="st">'category'</span>)[<span class="st">'value'</span>].mean()</span>
+<span id="cb22-4"><a></a>    </span>
+<span id="cb22-5"><a></a>    <span class="co"># Breaks with Polars</span></span>
+<span id="cb22-6"><a></a>    <span class="co"># Polars uses: df.group_by('category').agg(pl.col('value').mean())</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>For Data Scientists:</strong></p>
+<ul>
+<li>Lock-in to specific libraries</li>
+<li>Hard to switch when requirements change</li>
+<li>Code becomes non-portable</li>
+<li>Organizational silos</li>
+</ul>
+</section>
+<section id="enter-narwhals" class="slide level2">
+<h2>Enter: Narwhals 🦄</h2>
+<p><a href="img/narwhals.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img data-src="img/narwhals.png" width="200"></a></p>
+<p><strong>“Write once, run on any DataFrame”</strong></p>
+<p>A lightweight compatibility layer providing a unified API across:</p>
+<p><strong>Full API support:</strong> cuDF, Modin, <span class="fragment highlight-blue" data-fragment-index="1">pandas, Polars, PyArrow</span>.<br>
+<strong>Lazy-only support:</strong> Daft, <span class="fragment highlight-blue" data-fragment-index="1">Dask, DuckDB, Ibis, PySpark</span>, SQLFrame.</p>
+<aside class="notes">
+<p>Narwhals provides a minimal, fast abstraction layer that lets you write DataFrame code once and run it on any backend. It’s extremely lightweight (~50kb) and adds negligible overhead.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="narwhals-philosophy" class="slide level2">
+<h2>Narwhals Philosophy</h2>
+<div class="highlight-box">
+<p><strong>Design Principles:</strong></p>
+</div>
+<ol type="1">
+<li><strong>Lightweight</strong>: Minimal overhead, lazy when possible</li>
+<li><strong>Expressive</strong>: Polars-like syntax (modern and consistent) (uses a <a href="https://narwhals-dev.github.io/narwhals/api-reference/">subset of the Polars API</a>)</li>
+<li><strong>Interoperable</strong>: Easy conversion to/from native types</li>
+<li><strong>Type-safe</strong>: Full type hints for better IDE support</li>
+<li><strong>Zero-cost</strong>: Abstraction that doesn’t sacrifice performance</li>
+</ol>
+<p><strong>Key insight</strong>: You work with native objects, Narwhals just provides a common interface</p>
+</section>
+<section id="narwhals-basic-example" class="slide level2">
+<h2>Narwhals: Basic Example</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a></a><span class="im">import</span> narwhals <span class="im">as</span> nw</span>
+<span id="cb23-2"><a></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb23-3"><a></a><span class="im">import</span> polars <span class="im">as</span> pl</span>
+<span id="cb23-4"><a></a></span>
+<span id="cb23-5"><a></a><span class="co"># Works with Pandas DataFrame</span></span>
+<span id="cb23-6"><a></a>df_pandas <span class="op">=</span> pd.DataFrame({<span class="st">'a'</span>: [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>], <span class="st">'b'</span>: [<span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>]})</span>
+<span id="cb23-7"><a></a></span>
+<span id="cb23-8"><a></a><span class="co"># Works with Polars DataFrame  </span></span>
+<span id="cb23-9"><a></a>df_polars <span class="op">=</span> pl.DataFrame({<span class="st">'a'</span>: [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>], <span class="st">'b'</span>: [<span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>]})</span>
+<span id="cb23-10"><a></a></span>
+<span id="cb23-11"><a></a><span class="co"># Same code for both!</span></span>
+<span id="cb23-12"><a></a><span class="kw">def</span> process(df):</span>
+<span id="cb23-13"><a></a>    df_nw <span class="op">=</span> nw.from_native(df)</span>
+<span id="cb23-14"><a></a>    result <span class="op">=</span> df_nw.<span class="bu">filter</span>(nw.col(<span class="st">'a'</span>) <span class="op">&gt;</span> <span class="dv">1</span>).select(nw.col(<span class="st">'b'</span>).<span class="bu">sum</span>())</span>
+<span id="cb23-15"><a></a>    <span class="cf">return</span> nw.to_native(result)</span>
+<span id="cb23-16"><a></a></span>
+<span id="cb23-17"><a></a>process(df_pandas)  <span class="co"># Returns pandas DataFrame</span></span>
+<span id="cb23-18"><a></a>process(df_polars)  <span class="co"># Returns polars DataFrame</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="narwhals-key-operations" class="slide level2">
+<h2>Narwhals: Key Operations</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a></a><span class="im">import</span> narwhals <span class="im">as</span> nw</span>
+<span id="cb24-2"><a></a></span>
+<span id="cb24-3"><a></a><span class="kw">def</span> analyze_data(df):</span>
+<span id="cb24-4"><a></a>    df <span class="op">=</span> nw.from_native(df)</span>
+<span id="cb24-5"><a></a>    </span>
+<span id="cb24-6"><a></a>    result <span class="op">=</span> (</span>
+<span id="cb24-7"><a></a>        df</span>
+<span id="cb24-8"><a></a>        .<span class="bu">filter</span>(nw.col(<span class="st">'age'</span>) <span class="op">&gt;</span> <span class="dv">18</span>)</span>
+<span id="cb24-9"><a></a>        .with_columns([</span>
+<span id="cb24-10"><a></a>            (nw.col(<span class="st">'salary'</span>) <span class="op">*</span> <span class="fl">1.1</span>).alias(<span class="st">'salary_adjusted'</span>),</span>
+<span id="cb24-11"><a></a>            nw.col(<span class="st">'name'</span>).<span class="bu">str</span>.to_uppercase().alias(<span class="st">'name_upper'</span>)</span>
+<span id="cb24-12"><a></a>        ])</span>
+<span id="cb24-13"><a></a>        .group_by(<span class="st">'department'</span>)</span>
+<span id="cb24-14"><a></a>        .agg([</span>
+<span id="cb24-15"><a></a>            nw.col(<span class="st">'salary_adjusted'</span>).mean().alias(<span class="st">'avg_salary'</span>),</span>
+<span id="cb24-16"><a></a>            nw.col(<span class="st">'age'</span>).<span class="bu">max</span>().alias(<span class="st">'max_age'</span>)</span>
+<span id="cb24-17"><a></a>        ])</span>
+<span id="cb24-18"><a></a>        .sort(<span class="st">'avg_salary'</span>, descending<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb24-19"><a></a>    )</span>
+<span id="cb24-20"><a></a>    </span>
+<span id="cb24-21"><a></a>    <span class="cf">return</span> nw.to_native(result)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="narwhals-lazy-evaluation" class="slide level2">
+<h2>Narwhals: Lazy Evaluation</h2>
+<p><strong>Narwhals supports both eager and lazy execution modes:</strong></p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a></a><span class="im">import</span> narwhals <span class="im">as</span> nw</span>
+<span id="cb25-2"><a></a><span class="im">import</span> polars <span class="im">as</span> pl</span>
+<span id="cb25-3"><a></a></span>
+<span id="cb25-4"><a></a><span class="co"># Eager mode (like Pandas)</span></span>
+<span id="cb25-5"><a></a>df_pandas <span class="op">=</span> pd.DataFrame({<span class="st">'a'</span>: [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>], <span class="st">'b'</span>: [<span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>]})</span>
+<span id="cb25-6"><a></a>df_nw <span class="op">=</span> nw.from_native(df_pandas)</span>
+<span id="cb25-7"><a></a>result <span class="op">=</span> df_nw.<span class="bu">filter</span>(nw.col(<span class="st">'a'</span>) <span class="op">&gt;</span> <span class="dv">1</span>).select(<span class="st">'b'</span>)  <span class="co"># Executes immediately</span></span>
+<span id="cb25-8"><a></a></span>
+<span id="cb25-9"><a></a><span class="co"># Lazy mode (like Polars LazyFrame)</span></span>
+<span id="cb25-10"><a></a>df_lazy <span class="op">=</span> pl.LazyFrame({<span class="st">'a'</span>: [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>], <span class="st">'b'</span>: [<span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>]})</span>
+<span id="cb25-11"><a></a>df_nw <span class="op">=</span> nw.from_native(df_lazy)</span>
+<span id="cb25-12"><a></a>result <span class="op">=</span> df_nw.<span class="bu">filter</span>(nw.col(<span class="st">'a'</span>) <span class="op">&gt;</span> <span class="dv">1</span>).select(<span class="st">'b'</span>)  <span class="co"># Builds query plan</span></span>
+<span id="cb25-13"><a></a>final <span class="op">=</span> result.collect()  <span class="co"># Execute optimized query</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="narwhals-lazy-execution-benefits" class="slide level2">
+<h2>Narwhals: Lazy Execution Benefits</h2>
+<p><strong>Why use lazy evaluation?</strong></p>
+<ol type="1">
+<li><strong>Query optimization</strong>: Backend can reorder and optimize operations</li>
+<li><strong>Memory efficiency</strong>: Only materialize what’s needed</li>
+<li><strong>Predicate pushdown</strong>: Filters applied early</li>
+<li><strong>Projection pushdown</strong>: Only read required columns</li>
+</ol>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a></a><span class="co"># Lazy mode allows optimization</span></span>
+<span id="cb26-2"><a></a>df_lazy <span class="op">=</span> nw.from_native(pl.scan_parquet(<span class="st">'large_file.parquet'</span>))</span>
+<span id="cb26-3"><a></a></span>
+<span id="cb26-4"><a></a>result <span class="op">=</span> (</span>
+<span id="cb26-5"><a></a>    df_lazy</span>
+<span id="cb26-6"><a></a>    .select([<span class="st">'date'</span>, <span class="st">'amount'</span>, <span class="st">'category'</span>])  <span class="co"># Only read these columns</span></span>
+<span id="cb26-7"><a></a>    .<span class="bu">filter</span>(nw.col(<span class="st">'date'</span>).dt.year() <span class="op">==</span> <span class="dv">2024</span>)  <span class="co"># Filter at read time</span></span>
+<span id="cb26-8"><a></a>    .group_by(<span class="st">'category'</span>)</span>
+<span id="cb26-9"><a></a>    .agg(nw.col(<span class="st">'amount'</span>).<span class="bu">sum</span>())</span>
+<span id="cb26-10"><a></a>)</span>
+<span id="cb26-11"><a></a></span>
+<span id="cb26-12"><a></a><span class="co"># Optimized plan is executed only on collect()</span></span>
+<span id="cb26-13"><a></a>final <span class="op">=</span> result.collect()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="narwhals-checking-execution-mode" class="slide level2">
+<h2>Narwhals: Checking Execution Mode</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a></a><span class="im">import</span> narwhals <span class="im">as</span> nw</span>
+<span id="cb27-2"><a></a></span>
+<span id="cb27-3"><a></a><span class="kw">def</span> process_data(df):</span>
+<span id="cb27-4"><a></a>    df_nw <span class="op">=</span> nw.from_native(df)</span>
+<span id="cb27-5"><a></a>    </span>
+<span id="cb27-6"><a></a>    <span class="co"># Check if lazy or eager</span></span>
+<span id="cb27-7"><a></a>    <span class="cf">if</span> <span class="bu">hasattr</span>(df_nw, <span class="st">'collect'</span>):</span>
+<span id="cb27-8"><a></a>        <span class="bu">print</span>(<span class="st">"Lazy evaluation supported!"</span>)</span>
+<span id="cb27-9"><a></a>        result <span class="op">=</span> (</span>
+<span id="cb27-10"><a></a>            df_nw</span>
+<span id="cb27-11"><a></a>            .<span class="bu">filter</span>(nw.col(<span class="st">'value'</span>) <span class="op">&gt;</span> <span class="dv">100</span>)</span>
+<span id="cb27-12"><a></a>            .select([<span class="st">'id'</span>, <span class="st">'value'</span>])</span>
+<span id="cb27-13"><a></a>        )</span>
+<span id="cb27-14"><a></a>        <span class="cf">return</span> result.collect()  <span class="co"># Materialize result</span></span>
+<span id="cb27-15"><a></a>    <span class="cf">else</span>:</span>
+<span id="cb27-16"><a></a>        <span class="bu">print</span>(<span class="st">"Eager evaluation"</span>)</span>
+<span id="cb27-17"><a></a>        result <span class="op">=</span> (</span>
+<span id="cb27-18"><a></a>            df_nw</span>
+<span id="cb27-19"><a></a>            .<span class="bu">filter</span>(nw.col(<span class="st">'value'</span>) <span class="op">&gt;</span> <span class="dv">100</span>)</span>
+<span id="cb27-20"><a></a>            .select([<span class="st">'id'</span>, <span class="st">'value'</span>])</span>
+<span id="cb27-21"><a></a>        )</span>
+<span id="cb27-22"><a></a>        <span class="cf">return</span> nw.to_native(result)</span>
+<span id="cb27-23"><a></a></span>
+<span id="cb27-24"><a></a><span class="co"># Works with both Pandas (eager) and Polars LazyFrame (lazy)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="narwhals-when-to-use-it" class="slide level2">
+<h2>Narwhals: When to Use It</h2>
+<p><strong>✅ Great for:</strong></p>
+<ul>
+<li>Building reusable data processing libraries</li>
+<li>Writing code for teams with different tool preferences</li>
+<li>Prototyping with flexibility to switch backends</li>
+<li>Teaching/documentation that should work everywhere</li>
+</ul>
+<p><strong>❌ Not ideal for:</strong></p>
+<ul>
+<li>Performance-critical inner loops (use native APIs)</li>
+<li>Features specific to one backend</li>
+<li>When you know you’ll only use one library</li>
+</ul>
+</section>
+<section id="moving-to-databases-the-sql-problem" class="slide level2">
+<h2>Moving to Databases: The SQL Problem</h2>
+<p><strong>Challenge</strong>: Each database has slightly different SQL dialects</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb28"><pre class="sourceCode numberSource sql number-lines code-with-copy"><code class="sourceCode sql"><span id="cb28-1"><a></a><span class="co">-- PostgreSQL</span></span>
+<span id="cb28-2"><a></a><span class="kw">SELECT</span> <span class="op">*</span> <span class="kw">FROM</span> <span class="kw">table</span> <span class="kw">LIMIT</span> <span class="dv">10</span>;</span>
+<span id="cb28-3"><a></a></span>
+<span id="cb28-4"><a></a><span class="co">-- SQL Server</span></span>
+<span id="cb28-5"><a></a><span class="kw">SELECT</span> TOP <span class="dv">10</span> <span class="op">*</span> <span class="kw">FROM</span> <span class="kw">table</span>;</span>
+<span id="cb28-6"><a></a></span>
+<span id="cb28-7"><a></a><span class="co">-- Oracle</span></span>
+<span id="cb28-8"><a></a><span class="kw">SELECT</span> <span class="op">*</span> <span class="kw">FROM</span> <span class="kw">table</span> <span class="kw">WHERE</span> <span class="kw">ROWNUM</span> <span class="op">&lt;=</span> <span class="dv">10</span>;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Plus</strong>: Many more differences in date functions, string operations, window functions, etc.</p>
+</section>
+<section id="enter-ibis" class="slide level2">
+<h2>Enter: Ibis</h2>
+<p><a href="img/ibis-logo.svg" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img data-src="img/ibis-logo.svg" width="200"></a></p>
+<p><strong>“The portable Python dataframe library”</strong></p>
+<p>A unified Python interface to:</p>
+<ul>
+<li>20+ database backends (DuckDB, PostgreSQL, BigQuery, Snowflake, etc.)</li>
+<li>Local DataFrames (Pandas, Polars)</li>
+<li>Cloud data warehouses</li>
+<li>File formats (Parquet, CSV)</li>
+</ul>
+<aside class="notes">
+<p>Ibis translates Python expressions into optimized SQL for each backend. It’s like having a universal translator for databases.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="ibis-philosophy" class="slide level2">
+<h2>Ibis Philosophy</h2>
+<div class="highlight-box">
+<p><strong>Design Principles:</strong></p>
+</div>
+<ol type="1">
+<li><strong>Lazy Evaluation</strong>: Build expression trees, execute when needed</li>
+<li><strong>Backend Agnostic</strong>: Same code works on any database</li>
+<li><strong>Pythonic</strong>: No SQL string manipulation</li>
+<li><strong>Type-safe</strong>: Column types are known and checked</li>
+<li><strong>Optimized</strong>: Pushes computation to the database</li>
+</ol>
+<p><strong>Key insight</strong>: Let databases do what they’re good at, orchestrate from Python</p>
+</section>
+<section id="ibis-basic-example" class="slide level2">
+<h2>Ibis: Basic Example</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a></a><span class="im">import</span> ibis</span>
+<span id="cb29-2"><a></a></span>
+<span id="cb29-3"><a></a><span class="co"># Connect to different backends with same interface</span></span>
+<span id="cb29-4"><a></a>duckdb_con <span class="op">=</span> ibis.duckdb.<span class="ex">connect</span>(<span class="st">'data.ddb'</span>)</span>
+<span id="cb29-5"><a></a>postgres_con <span class="op">=</span> ibis.postgres.<span class="ex">connect</span>(host<span class="op">=</span><span class="st">'localhost'</span>, database<span class="op">=</span><span class="st">'mydb'</span>)</span>
+<span id="cb29-6"><a></a>bigquery_con <span class="op">=</span> ibis.bigquery.<span class="ex">connect</span>(project_id<span class="op">=</span><span class="st">'my-project'</span>)</span>
+<span id="cb29-7"><a></a></span>
+<span id="cb29-8"><a></a><span class="co"># Same query works on all!</span></span>
+<span id="cb29-9"><a></a><span class="kw">def</span> analyze(con):</span>
+<span id="cb29-10"><a></a>    table <span class="op">=</span> con.table(<span class="st">'sales'</span>)</span>
+<span id="cb29-11"><a></a>    </span>
+<span id="cb29-12"><a></a>    result <span class="op">=</span> (</span>
+<span id="cb29-13"><a></a>        table</span>
+<span id="cb29-14"><a></a>        .<span class="bu">filter</span>(table.amount <span class="op">&gt;</span> <span class="dv">100</span>)</span>
+<span id="cb29-15"><a></a>        .group_by(<span class="st">'product'</span>)</span>
+<span id="cb29-16"><a></a>        .aggregate(total<span class="op">=</span>table.amount.<span class="bu">sum</span>())</span>
+<span id="cb29-17"><a></a>        .order_by(ibis.desc(<span class="st">'total'</span>))</span>
+<span id="cb29-18"><a></a>    )</span>
+<span id="cb29-19"><a></a>    </span>
+<span id="cb29-20"><a></a>    <span class="cf">return</span> result.execute()  <span class="co"># Returns pandas DataFrame</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="ibis-rich-expression-api" class="slide level2">
+<h2>Ibis: Rich Expression API</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a></a><span class="im">import</span> ibis</span>
+<span id="cb30-2"><a></a><span class="im">from</span> ibis <span class="im">import</span> _</span>
+<span id="cb30-3"><a></a></span>
+<span id="cb30-4"><a></a>con <span class="op">=</span> ibis.duckdb.<span class="ex">connect</span>()</span>
+<span id="cb30-5"><a></a>orders <span class="op">=</span> con.table(<span class="st">'orders'</span>)</span>
+<span id="cb30-6"><a></a></span>
+<span id="cb30-7"><a></a>result <span class="op">=</span> (</span>
+<span id="cb30-8"><a></a>    orders</span>
+<span id="cb30-9"><a></a>    .<span class="bu">filter</span>(_.order_date.year() <span class="op">==</span> <span class="dv">2024</span>)</span>
+<span id="cb30-10"><a></a>    .mutate(</span>
+<span id="cb30-11"><a></a>        month<span class="op">=</span>_.order_date.month(),</span>
+<span id="cb30-12"><a></a>        revenue<span class="op">=</span>_.quantity <span class="op">*</span> _.price,</span>
+<span id="cb30-13"><a></a>        is_large<span class="op">=</span>_.quantity <span class="op">&gt;</span> <span class="dv">100</span></span>
+<span id="cb30-14"><a></a>    )</span>
+<span id="cb30-15"><a></a>    .group_by([<span class="st">'month'</span>, <span class="st">'category'</span>])</span>
+<span id="cb30-16"><a></a>    .agg(</span>
+<span id="cb30-17"><a></a>        total_revenue<span class="op">=</span>_.revenue.<span class="bu">sum</span>(),</span>
+<span id="cb30-18"><a></a>        avg_quantity<span class="op">=</span>_.quantity.mean(),</span>
+<span id="cb30-19"><a></a>        order_count<span class="op">=</span>_.count()</span>
+<span id="cb30-20"><a></a>    )</span>
+<span id="cb30-21"><a></a>    .<span class="bu">filter</span>(_.total_revenue <span class="op">&gt;</span> <span class="dv">10000</span>)</span>
+<span id="cb30-22"><a></a>    .order_by([_.month, ibis.desc(_.total_revenue)])</span>
+<span id="cb30-23"><a></a>)</span>
+<span id="cb30-24"><a></a></span>
+<span id="cb30-25"><a></a><span class="co"># This generates optimized SQL for the backend</span></span>
+<span id="cb30-26"><a></a>result.execute()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="ibis-supported-backends" class="slide level2">
+<h2>Ibis: Supported Backends</h2>
+<p><strong>Databases:</strong></p>
+<ul>
+<li>PostgreSQL, MySQL, SQLite</li>
+<li>DuckDB, DataFusion</li>
+<li>Snowflake, BigQuery, Redshift</li>
+<li>ClickHouse, Trino</li>
+<li>SQL Server, Oracle</li>
+</ul>
+<p><strong>DataFrames:</strong></p>
+<ul>
+<li>Pandas, Polars, PyArrow</li>
+</ul>
+<p><strong>Files:</strong></p>
+<ul>
+<li>Parquet, CSV (via DuckDB backend)</li>
+</ul>
+<p><strong>All with the same Python API!</strong></p>
+</section>
+<section id="ibis-lazy-evaluation" class="slide level2">
+<h2>Ibis: Lazy Evaluation</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a></a><span class="im">import</span> ibis</span>
+<span id="cb31-2"><a></a></span>
+<span id="cb31-3"><a></a>con <span class="op">=</span> ibis.duckdb.<span class="ex">connect</span>()</span>
+<span id="cb31-4"><a></a>table <span class="op">=</span> con.table(<span class="st">'large_table'</span>)</span>
+<span id="cb31-5"><a></a></span>
+<span id="cb31-6"><a></a><span class="co"># Build the query (no execution yet)</span></span>
+<span id="cb31-7"><a></a>query <span class="op">=</span> (</span>
+<span id="cb31-8"><a></a>    table</span>
+<span id="cb31-9"><a></a>    .<span class="bu">filter</span>(table.amount <span class="op">&gt;</span> <span class="dv">1000</span>)</span>
+<span id="cb31-10"><a></a>    .group_by(<span class="st">'category'</span>)</span>
+<span id="cb31-11"><a></a>    .aggregate(total<span class="op">=</span>table.amount.<span class="bu">sum</span>())</span>
+<span id="cb31-12"><a></a>)</span>
+<span id="cb31-13"><a></a></span>
+<span id="cb31-14"><a></a><span class="co"># Inspect the generated SQL</span></span>
+<span id="cb31-15"><a></a><span class="bu">print</span>(query.<span class="bu">compile</span>())</span>
+<span id="cb31-16"><a></a></span>
+<span id="cb31-17"><a></a><span class="co"># Execute when ready</span></span>
+<span id="cb31-18"><a></a>result <span class="op">=</span> query.execute()  <span class="co"># This runs the query</span></span>
+<span id="cb31-19"><a></a></span>
+<span id="cb31-20"><a></a><span class="co"># Or stream for large results</span></span>
+<span id="cb31-21"><a></a><span class="cf">for</span> batch <span class="kw">in</span> query.to_pyarrow_batches():</span>
+<span id="cb31-22"><a></a>    process(batch)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="combining-narwhals-and-ibis" class="slide level2">
+<h2>Combining Narwhals and Ibis</h2>
+<p><strong>Use them together for maximum portability!</strong></p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a></a><span class="im">import</span> ibis</span>
+<span id="cb32-2"><a></a><span class="im">import</span> narwhals <span class="im">as</span> nw</span>
+<span id="cb32-3"><a></a></span>
+<span id="cb32-4"><a></a><span class="co"># Extract from database with Ibis</span></span>
+<span id="cb32-5"><a></a>con <span class="op">=</span> ibis.duckdb.<span class="ex">connect</span>(<span class="st">'warehouse.ddb'</span>)</span>
+<span id="cb32-6"><a></a>sales <span class="op">=</span> con.table(<span class="st">'sales'</span>).execute()  <span class="co"># pandas DataFrame</span></span>
+<span id="cb32-7"><a></a></span>
+<span id="cb32-8"><a></a><span class="co"># Transform with Narwhals (works with pandas or polars)</span></span>
+<span id="cb32-9"><a></a><span class="kw">def</span> transform(df):</span>
+<span id="cb32-10"><a></a>    df <span class="op">=</span> nw.from_native(df)</span>
+<span id="cb32-11"><a></a>    <span class="cf">return</span> (</span>
+<span id="cb32-12"><a></a>        df</span>
+<span id="cb32-13"><a></a>        .with_columns([(nw.col(<span class="st">'amount'</span>) <span class="op">*</span> <span class="fl">1.1</span>).alias(<span class="st">'amount_tax'</span>)])</span>
+<span id="cb32-14"><a></a>        .<span class="bu">filter</span>(nw.col(<span class="st">'amount_tax'</span>) <span class="op">&gt;</span> <span class="dv">100</span>)</span>
+<span id="cb32-15"><a></a>        .to_native()</span>
+<span id="cb32-16"><a></a>    )</span>
+<span id="cb32-17"><a></a></span>
+<span id="cb32-18"><a></a>transformed <span class="op">=</span> transform(sales)</span>
+<span id="cb32-19"><a></a></span>
+<span id="cb32-20"><a></a><span class="co"># Load back to database with Ibis</span></span>
+<span id="cb32-21"><a></a>con.create_table(<span class="st">'sales_processed'</span>, transformed)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="real-world-pipeline-example" class="slide level2">
+<h2>Real-World Pipeline Example</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a></a><span class="im">import</span> ibis</span>
+<span id="cb33-2"><a></a><span class="im">import</span> narwhals <span class="im">as</span> nw</span>
+<span id="cb33-3"><a></a></span>
+<span id="cb33-4"><a></a><span class="kw">def</span> etl_pipeline(source_db, dest_db, frame_backend<span class="op">=</span><span class="st">'pandas'</span>):</span>
+<span id="cb33-5"><a></a>    <span class="co"># EXTRACT: Read from any database</span></span>
+<span id="cb33-6"><a></a>    source <span class="op">=</span> ibis.<span class="ex">connect</span>(source_db)</span>
+<span id="cb33-7"><a></a>    raw_data <span class="op">=</span> source.table(<span class="st">'events'</span>).<span class="bu">filter</span>(_.date <span class="op">&gt;=</span> <span class="st">'2024-01-01'</span>).execute()</span>
+<span id="cb33-8"><a></a>    </span>
+<span id="cb33-9"><a></a>    <span class="co"># TRANSFORM: Process with any DataFrame library</span></span>
+<span id="cb33-10"><a></a>    <span class="kw">def</span> transform(df):</span>
+<span id="cb33-11"><a></a>        df <span class="op">=</span> nw.from_native(df)</span>
+<span id="cb33-12"><a></a>        <span class="cf">return</span> (</span>
+<span id="cb33-13"><a></a>            df</span>
+<span id="cb33-14"><a></a>            .with_columns([</span>
+<span id="cb33-15"><a></a>                nw.col(<span class="st">'event_time'</span>).dt.hour().alias(<span class="st">'hour'</span>),</span>
+<span id="cb33-16"><a></a>                nw.col(<span class="st">'user_id'</span>).cast(nw.String).alias(<span class="st">'user_id_str'</span>)</span>
+<span id="cb33-17"><a></a>            ])</span>
+<span id="cb33-18"><a></a>            .group_by([<span class="st">'hour'</span>, <span class="st">'event_type'</span>])</span>
+<span id="cb33-19"><a></a>            .agg([nw.col(<span class="st">'user_id'</span>).n_unique().alias(<span class="st">'unique_users'</span>)])</span>
+<span id="cb33-20"><a></a>            .to_native()</span>
+<span id="cb33-21"><a></a>        )</span>
+<span id="cb33-22"><a></a>    </span>
+<span id="cb33-23"><a></a>    processed <span class="op">=</span> transform(raw_data)</span>
+<span id="cb33-24"><a></a>    </span>
+<span id="cb33-25"><a></a>    <span class="co"># LOAD: Write to any database</span></span>
+<span id="cb33-26"><a></a>    dest <span class="op">=</span> ibis.<span class="ex">connect</span>(dest_db)</span>
+<span id="cb33-27"><a></a>    dest.create_table(<span class="st">'event_summary'</span>, processed, overwrite<span class="op">=</span><span class="va">True</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="performance-considerations" class="slide level2">
+<h2>Performance Considerations</h2>
+<p><strong>Narwhals:</strong></p>
+<ul>
+<li>Negligible overhead (~1-2% typically)</li>
+<li>Works with native objects, just wraps the API</li>
+<li>No data copying unless converting between backends</li>
+</ul>
+<p><strong>Ibis:</strong></p>
+<ul>
+<li>Pushes computation to database (often faster than local)</li>
+<li>Lazy evaluation means efficient query planning</li>
+<li>Can generate suboptimal SQL in complex cases (rare)</li>
+</ul>
+<p><strong>Best practice</strong>: Profile both native and unified APIs for your use case</p>
+</section>
+<section id="when-to-use-each-tool" class="slide level2">
+<h2>When to Use Each Tool</h2>
+<p><strong>Use Narwhals when:</strong></p>
+<ul>
+<li>Writing library code for others</li>
+<li>Building data processing functions</li>
+<li>Wanting flexibility in DataFrame backend</li>
+<li>Working across team with different preferences</li>
+</ul>
+<p><strong>Use Ibis when:</strong></p>
+<ul>
+<li>Querying multiple databases</li>
+<li>Building cloud-agnostic pipelines</li>
+<li>Need to switch data warehouses</li>
+<li>Want Python instead of SQL strings</li>
+</ul>
+<p><strong>Use both when:</strong></p>
+<ul>
+<li>Building full ETL/ELT pipelines</li>
+<li>Maximum portability is required</li>
+</ul>
+</section>
+<section id="getting-started-installation" class="slide level2">
+<h2>Getting Started: Installation</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb34"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb34-1"><a></a><span class="co"># Install narwhals</span></span>
+<span id="cb34-2"><a></a><span class="ex">pip</span> install narwhals</span>
+<span id="cb34-3"><a></a></span>
+<span id="cb34-4"><a></a><span class="co"># Install ibis with specific backends</span></span>
+<span id="cb34-5"><a></a><span class="ex">pip</span> install <span class="st">'ibis-framework[duckdb]'</span></span>
+<span id="cb34-6"><a></a><span class="ex">pip</span> install <span class="st">'ibis-framework[postgres]'</span></span>
+<span id="cb34-7"><a></a><span class="ex">pip</span> install <span class="st">'ibis-framework[bigquery]'</span></span>
+<span id="cb34-8"><a></a></span>
+<span id="cb34-9"><a></a><span class="co"># Or install multiple backends</span></span>
+<span id="cb34-10"><a></a><span class="ex">pip</span> install <span class="st">'ibis-framework[duckdb,postgres,snowflake]'</span></span>
+<span id="cb34-11"><a></a></span>
+<span id="cb34-12"><a></a><span class="co"># Narwhals automatically detects installed DataFrame libraries</span></span>
+<span id="cb34-13"><a></a><span class="co"># No additional configuration needed!</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="code-migration-strategy" class="slide level2">
+<h2>Code Migration Strategy</h2>
+<p><strong>Step 1</strong>: Identify portable operations</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb35"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a></a><span class="co"># Before (pandas-specific)</span></span>
+<span id="cb35-2"><a></a>df.groupby(<span class="st">'col'</span>)[<span class="st">'value'</span>].mean()</span>
+<span id="cb35-3"><a></a></span>
+<span id="cb35-4"><a></a><span class="co"># After (narwhals)</span></span>
+<span id="cb35-5"><a></a>nw.from_native(df).group_by(<span class="st">'col'</span>).agg(nw.col(<span class="st">'value'</span>).mean())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Step 2</strong>: Wrap in functions</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb36"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a></a><span class="kw">def</span> my_analysis(df):</span>
+<span id="cb36-2"><a></a>    df <span class="op">=</span> nw.from_native(df)</span>
+<span id="cb36-3"><a></a>    <span class="co"># ... narwhals operations ...</span></span>
+<span id="cb36-4"><a></a>    <span class="cf">return</span> nw.to_native(result)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Step 3</strong>: Gradually migrate critical paths</p>
+</section>
+<section id="best-practices-1" class="slide level2">
+<h2>Best Practices</h2>
+<ol type="1">
+<li><strong>Start with the interface layer</strong>: Wrap your data access in Narwhals/Ibis</li>
+<li><strong>Document backend requirements</strong>: Some features may be backend-specific</li>
+<li><strong>Test across backends</strong>: CI/CD should test multiple DataFrame/DB engines</li>
+<li><strong>Profile before optimizing</strong>: Unified APIs are usually fast enough</li>
+<li><strong>Use type hints</strong>: Both libraries support full typing</li>
+<li><strong>Leverage lazy evaluation</strong>: Build queries, execute when ready</li>
+</ol>
+</section>
+<section id="limitations-to-know" class="slide level2">
+<h2>Limitations to Know</h2>
+<p><strong>Narwhals:</strong></p>
+<ul>
+<li>Not all DataFrame features are supported (by design)</li>
+<li>Some operations may be slightly different across backends</li>
+<li>Extension types (categorical, etc.) may behave differently</li>
+</ul>
+<p><strong>Ibis:</strong></p>
+<ul>
+<li>SQL dialect differences can still leak through</li>
+<li>Some backends have limited feature support</li>
+<li>Requires connection setup for each backend</li>
+</ul>
+<p><strong>Solution</strong>: Read the docs, test thoroughly, have fallback plans</p>
+</section>
+<section id="community-and-resources" class="slide level2">
+<h2>Community and Resources</h2>
+<p><strong>Narwhals:</strong></p>
+<ul>
+<li>GitHub: <code>narwhals-dev/narwhals</code></li>
+<li>Docs: <code>narwhals-dev.github.io/narwhals</code></li>
+<li>Discord community for support</li>
+</ul>
+<p><strong>Ibis:</strong></p>
+<ul>
+<li>GitHub: <code>ibis-project/ibis</code></li>
+<li>Docs: <code>ibis-project.org</code></li>
+<li>Active Zulip chat</li>
+</ul>
+<p><strong>Both projects are actively maintained and growing!</strong></p>
+</section>
+
+<section id="key-takeaways" class="slide level2">
+<h2>Key Takeaways</h2>
+<div class="highlight-box">
+<p><strong>Remember:</strong></p>
+</div>
+<ol type="1">
+<li><strong>Narwhals</strong> = Unified DataFrame API for local computation</li>
+<li><strong>Ibis</strong> = Unified interface to databases and warehouses</li>
+<li><strong>Together</strong> = Portable, backend-agnostic data pipelines</li>
+<li><strong>Trade-off</strong> = Slight abstraction cost for massive flexibility</li>
+<li><strong>Future-proof</strong> = Code survives technology changes</li>
+</ol>
+<p><em>Write portable code today, thank yourself tomorrow</em></p>
+</section>
+<section id="hive-style-partitioning-for-parquet" class="slide level2">
+<h2>Hive-Style Partitioning for Parquet</h2>
+<p><strong>Directory-based data organization pattern:</strong></p>
+<pre><code>data/
+├── year=2024/
+│   ├── month=01/
+│   │   ├── day=01/
+│   │   │   └── data.parquet
+│   │   └── day=02/
+│   │       └── data.parquet
+│   └── month=02/
+│       └── day=01/
+│           └── data.parquet
+└── year=2025/
+    └── month=01/
+        └── day=01/
+            └── data.parquet</code></pre>
+<p><strong>Partition keys are encoded in directory structure, not file contents</strong></p>
+</section>
+<section id="hive-partitioning-how-it-works" class="slide level2">
+<h2>Hive Partitioning: How It Works</h2>
+<p><strong>Key concept</strong>: Organize files by column values in nested directories</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb38"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a></a><span class="co"># Writing partitioned data</span></span>
+<span id="cb38-2"><a></a><span class="im">import</span> polars <span class="im">as</span> pl</span>
+<span id="cb38-3"><a></a></span>
+<span id="cb38-4"><a></a>df <span class="op">=</span> pl.DataFrame({</span>
+<span id="cb38-5"><a></a>    <span class="st">'date'</span>: [<span class="st">'2024-01-01'</span>, <span class="st">'2024-01-02'</span>, <span class="st">'2024-02-01'</span>],</span>
+<span id="cb38-6"><a></a>    <span class="st">'product'</span>: [<span class="st">'A'</span>, <span class="st">'B'</span>, <span class="st">'A'</span>],</span>
+<span id="cb38-7"><a></a>    <span class="st">'sales'</span>: [<span class="dv">100</span>, <span class="dv">200</span>, <span class="dv">150</span>]</span>
+<span id="cb38-8"><a></a>})</span>
+<span id="cb38-9"><a></a></span>
+<span id="cb38-10"><a></a><span class="co"># Create partitions by date components</span></span>
+<span id="cb38-11"><a></a>df <span class="op">=</span> df.with_columns([</span>
+<span id="cb38-12"><a></a>    pl.col(<span class="st">'date'</span>).<span class="bu">str</span>.to_date().dt.year().alias(<span class="st">'year'</span>),</span>
+<span id="cb38-13"><a></a>    pl.col(<span class="st">'date'</span>).<span class="bu">str</span>.to_date().dt.month().alias(<span class="st">'month'</span>)</span>
+<span id="cb38-14"><a></a>])</span>
+<span id="cb38-15"><a></a></span>
+<span id="cb38-16"><a></a><span class="co"># Write with Hive partitioning</span></span>
+<span id="cb38-17"><a></a>df.write_parquet(<span class="st">'data'</span>, partition_by<span class="op">=</span>[<span class="st">'year'</span>, <span class="st">'month'</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Result</strong>: Files organized in <code>year=2024/month=01/</code> directories</p>
+</section>
+<section id="why-hive-partitioning-matters" class="slide level2">
+<h2>Why Hive Partitioning Matters</h2>
+<p><strong>🚀 Performance Benefits:</strong></p>
+<ol type="1">
+<li><strong>Partition pruning</strong>: Skip entire directories when filtering</li>
+<li><strong>Parallel I/O</strong>: Read only relevant partitions concurrently</li>
+<li><strong>Reduced memory</strong>: Don’t load unnecessary data</li>
+<li><strong>Faster queries</strong>: Orders of magnitude speedup on large datasets</li>
+</ol>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb39"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a></a><span class="co"># Without partitioning: scan entire dataset</span></span>
+<span id="cb39-2"><a></a>df <span class="op">=</span> pl.scan_parquet(<span class="st">'data/*.parquet'</span>)</span>
+<span id="cb39-3"><a></a>result <span class="op">=</span> df.<span class="bu">filter</span>(pl.col(<span class="st">'year'</span>) <span class="op">==</span> <span class="dv">2024</span>).collect()</span>
+<span id="cb39-4"><a></a></span>
+<span id="cb39-5"><a></a><span class="co"># With partitioning: only read year=2024/ directory</span></span>
+<span id="cb39-6"><a></a>df <span class="op">=</span> pl.scan_parquet(<span class="st">'data/**/*.parquet'</span>, hive_partitioning<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb39-7"><a></a>result <span class="op">=</span> df.<span class="bu">filter</span>(pl.col(<span class="st">'year'</span>) <span class="op">==</span> <span class="dv">2024</span>).collect()  <span class="co"># Much faster!</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="partition-pruning-in-action" class="slide level2">
+<h2>Partition Pruning in Action</h2>
+<p><strong>Example</strong>: 1TB dataset, 3 years of data</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb40"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a></a><span class="im">import</span> ibis</span>
+<span id="cb40-2"><a></a></span>
+<span id="cb40-3"><a></a><span class="co"># Connect to DuckDB (great Parquet support)</span></span>
+<span id="cb40-4"><a></a>con <span class="op">=</span> ibis.duckdb.<span class="ex">connect</span>()</span>
+<span id="cb40-5"><a></a></span>
+<span id="cb40-6"><a></a><span class="co"># Query with automatic partition pruning</span></span>
+<span id="cb40-7"><a></a>table <span class="op">=</span> con.read_parquet(</span>
+<span id="cb40-8"><a></a>    <span class="st">'data/**/*.parquet'</span>,</span>
+<span id="cb40-9"><a></a>    hive_partitioning<span class="op">=</span><span class="va">True</span></span>
+<span id="cb40-10"><a></a>)</span>
+<span id="cb40-11"><a></a></span>
+<span id="cb40-12"><a></a><span class="co"># Only reads ~340GB (1 year) instead of 1TB</span></span>
+<span id="cb40-13"><a></a>recent <span class="op">=</span> table.<span class="bu">filter</span>(table.year <span class="op">==</span> <span class="dv">2024</span>).execute()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Benchmark</strong>: 3x-10x faster queries on partitioned data</p>
+</section>
+<section id="choosing-good-partition-keys" class="slide level2">
+<h2>Choosing Good Partition Keys</h2>
+<p><strong>✅ Good partition keys:</strong></p>
+<ul>
+<li><strong>High cardinality but not too high</strong>: 10-1000 partitions ideal</li>
+<li><strong>Common filter columns</strong>: Date/time, region, category</li>
+<li><strong>Evenly distributed data</strong>: Avoid skew</li>
+<li><strong>Stable values</strong>: Don’t change over time</li>
+</ul>
+<p><strong>❌ Avoid:</strong></p>
+<ul>
+<li><strong>Too many partitions</strong>: User ID, transaction ID (millions of dirs)</li>
+<li><strong>Unbalanced partitions</strong>: Status with 99% “active”, 1% “inactive”</li>
+<li><strong>Rarely queried columns</strong>: Columns you never filter on</li>
+</ul>
+</section>
+<section id="partition-strategy-examples" class="slide level2">
+<h2>Partition Strategy Examples</h2>
+<p><strong>Time-series data:</strong></p>
+<pre><code>year=2024/month=12/day=15/data.parquet  # Fine-grained
+year=2024/month=12/data.parquet          # Medium
+year=2024/data.parquet                    # Coarse</code></pre>
+<p><strong>Multi-dimensional:</strong></p>
+<pre><code>region=us/category=electronics/data.parquet
+region=eu/category=books/data.parquet</code></pre>
+<p><strong>Best practice</strong>: Start with coarser partitions, refine if needed</p>
+</section>
+<section id="reading-partitioned-data" class="slide level2">
+<h2>Reading Partitioned Data</h2>
+<p><strong>All modern tools support Hive partitioning:</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb43"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a></a><span class="co"># Polars</span></span>
+<span id="cb43-2"><a></a>df <span class="op">=</span> pl.scan_parquet(<span class="st">'data/**/*.parquet'</span>, hive_partitioning<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb43-3"><a></a></span>
+<span id="cb43-4"><a></a><span class="co"># DuckDB</span></span>
+<span id="cb43-5"><a></a>con.execute(<span class="st">"SELECT * FROM read_parquet('data/**/*.parquet', hive_partitioning=true)"</span>)</span>
+<span id="cb43-6"><a></a></span>
+<span id="cb43-7"><a></a><span class="co"># Ibis</span></span>
+<span id="cb43-8"><a></a>table <span class="op">=</span> con.read_parquet(<span class="st">'data/**/*.parquet'</span>, hive_partitioning<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb43-9"><a></a></span>
+<span id="cb43-10"><a></a><span class="co"># PyArrow</span></span>
+<span id="cb43-11"><a></a><span class="im">import</span> pyarrow.parquet <span class="im">as</span> pq</span>
+<span id="cb43-12"><a></a>ds <span class="op">=</span> pq.ParquetDataset(<span class="st">'data/'</span>, partitioning<span class="op">=</span><span class="st">'hive'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Partition columns automatically added to DataFrame</strong></p>
+</section>
+<section id="writing-partitioned-data" class="slide level2">
+<h2>Writing Partitioned Data</h2>
+<p><strong>Create partitions when writing:</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb44"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a></a><span class="co"># Polars</span></span>
+<span id="cb44-2"><a></a>df.write_parquet(<span class="st">'data'</span>, partition_by<span class="op">=</span>[<span class="st">'year'</span>, <span class="st">'month'</span>])</span>
+<span id="cb44-3"><a></a></span>
+<span id="cb44-4"><a></a><span class="co"># PyArrow</span></span>
+<span id="cb44-5"><a></a><span class="im">import</span> pyarrow.parquet <span class="im">as</span> pq</span>
+<span id="cb44-6"><a></a>pq.write_to_dataset(</span>
+<span id="cb44-7"><a></a>    table,</span>
+<span id="cb44-8"><a></a>    root_path<span class="op">=</span><span class="st">'data'</span>,</span>
+<span id="cb44-9"><a></a>    partition_cols<span class="op">=</span>[<span class="st">'year'</span>, <span class="st">'month'</span>]</span>
+<span id="cb44-10"><a></a>)</span>
+<span id="cb44-11"><a></a></span>
+<span id="cb44-12"><a></a><span class="co"># Ibis with DuckDB</span></span>
+<span id="cb44-13"><a></a>con.create_table(<span class="st">'output'</span>, df, temp<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb44-14"><a></a>con.execute(<span class="st">"""</span></span>
+<span id="cb44-15"><a></a><span class="st">    COPY (SELECT * FROM output) </span></span>
+<span id="cb44-16"><a></a><span class="st">    TO 'data' (FORMAT PARQUET, PARTITION_BY (year, month))</span></span>
+<span id="cb44-17"><a></a><span class="st">"""</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="partitioning-best-practices" class="slide level2">
+<h2>Partitioning Best Practices</h2>
+<ol type="1">
+<li><strong>Partition size</strong>: Target 100MB-1GB per file (not too small/large)</li>
+<li><strong>Partition count</strong>: Keep under 1000 directories if possible</li>
+<li><strong>Schema evolution</strong>: Partition keys should be stable</li>
+<li><strong>Metadata</strong>: Consider partition discovery overhead</li>
+<li><strong>Compression</strong>: Works with partitioning (zstd recommended)</li>
+</ol>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb45"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a></a><span class="co"># Good: 365 partitions (daily for 1 year)</span></span>
+<span id="cb45-2"><a></a>partition_by<span class="op">=</span>[<span class="st">'year'</span>, <span class="st">'month'</span>, <span class="st">'day'</span>]</span>
+<span id="cb45-3"><a></a></span>
+<span id="cb45-4"><a></a><span class="co"># Bad: Millions of partitions</span></span>
+<span id="cb45-5"><a></a>partition_by<span class="op">=</span>[<span class="st">'user_id'</span>]  <span class="co"># Too many!</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="real-world-example-sales-analytics" class="slide level2">
+<h2>Real-World Example: Sales Analytics</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb46"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a></a><span class="im">import</span> polars <span class="im">as</span> pl</span>
+<span id="cb46-2"><a></a><span class="im">from</span> datetime <span class="im">import</span> datetime</span>
+<span id="cb46-3"><a></a></span>
+<span id="cb46-4"><a></a><span class="co"># Generate sales data</span></span>
+<span id="cb46-5"><a></a>sales <span class="op">=</span> pl.DataFrame({</span>
+<span id="cb46-6"><a></a>    <span class="st">'timestamp'</span>: [...],  <span class="co"># 10M rows</span></span>
+<span id="cb46-7"><a></a>    <span class="st">'product_id'</span>: [...],</span>
+<span id="cb46-8"><a></a>    <span class="st">'amount'</span>: [...],</span>
+<span id="cb46-9"><a></a>    <span class="st">'region'</span>: [...]</span>
+<span id="cb46-10"><a></a>})</span>
+<span id="cb46-11"><a></a></span>
+<span id="cb46-12"><a></a><span class="co"># Prepare for partitioning</span></span>
+<span id="cb46-13"><a></a>sales <span class="op">=</span> sales.with_columns([</span>
+<span id="cb46-14"><a></a>    pl.col(<span class="st">'timestamp'</span>).dt.year().alias(<span class="st">'year'</span>),</span>
+<span id="cb46-15"><a></a>    pl.col(<span class="st">'timestamp'</span>).dt.month().alias(<span class="st">'month'</span>),</span>
+<span id="cb46-16"><a></a>    pl.col(<span class="st">'region'</span>).alias(<span class="st">'region'</span>)</span>
+<span id="cb46-17"><a></a>])</span>
+<span id="cb46-18"><a></a></span>
+<span id="cb46-19"><a></a><span class="co"># Write partitioned (100s of files, organized by year/month/region)</span></span>
+<span id="cb46-20"><a></a>sales.write_parquet(<span class="st">'sales_data'</span>, partition_by<span class="op">=</span>[<span class="st">'year'</span>, <span class="st">'month'</span>, <span class="st">'region'</span>])</span>
+<span id="cb46-21"><a></a></span>
+<span id="cb46-22"><a></a><span class="co"># Fast queries: only scan relevant partitions</span></span>
+<span id="cb46-23"><a></a>q <span class="op">=</span> pl.scan_parquet(<span class="st">'sales_data/**/*.parquet'</span>, hive_partitioning<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb46-24"><a></a>q.<span class="bu">filter</span>(</span>
+<span id="cb46-25"><a></a>    (pl.col(<span class="st">'year'</span>) <span class="op">==</span> <span class="dv">2024</span>) <span class="op">&amp;</span> </span>
+<span id="cb46-26"><a></a>    (pl.col(<span class="st">'region'</span>) <span class="op">==</span> <span class="st">'US'</span>)</span>
+<span id="cb46-27"><a></a>).group_by(<span class="st">'product_id'</span>).agg(pl.col(<span class="st">'amount'</span>).<span class="bu">sum</span>())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="partitioning-column-pruning-maximum-speed" class="slide level2">
+<h2>Partitioning + Column Pruning = Maximum Speed</h2>
+<p><strong>Combine two optimizations:</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb47"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a></a><span class="co"># Only read specific columns from specific partitions</span></span>
+<span id="cb47-2"><a></a>q <span class="op">=</span> (</span>
+<span id="cb47-3"><a></a>    pl.scan_parquet(<span class="st">'data/**/*.parquet'</span>, hive_partitioning<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb47-4"><a></a>    .select([<span class="st">'product_id'</span>, <span class="st">'amount'</span>])  <span class="co"># Column pruning</span></span>
+<span id="cb47-5"><a></a>    .<span class="bu">filter</span>(pl.col(<span class="st">'year'</span>) <span class="op">==</span> <span class="dv">2024</span>)     <span class="co"># Partition pruning</span></span>
+<span id="cb47-6"><a></a>)</span>
+<span id="cb47-7"><a></a></span>
+<span id="cb47-8"><a></a><span class="co"># Reads minimal data:</span></span>
+<span id="cb47-9"><a></a><span class="co"># ✓ Only 2024 directories (not 2022, 2023)  </span></span>
+<span id="cb47-10"><a></a><span class="co"># ✓ Only 2 columns (not all 50)</span></span>
+<span id="cb47-11"><a></a><span class="co"># ✓ Compressed Parquet format</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Result</strong>: Queries on TBs feel like queries on MBs</p>
+</section>
+<section id="when-not-to-partition" class="slide level2">
+<h2>When NOT to Partition</h2>
+<p><strong>Skip partitioning if:</strong></p>
+<ul>
+<li>Dataset is small (&lt;10GB)</li>
+<li>No clear filter patterns</li>
+<li>Data changes frequently (many small updates)</li>
+<li>You need flexibility to change partition keys</li>
+</ul>
+<p><strong>In these cases, flat Parquet files may be simpler and just as fast</strong></p>
+</section>
+<section id="understanding-null-vs-nan-in-python" class="slide level2">
+<h2>Understanding Null vs NaN in Python</h2>
+<p><strong>Two distinct concepts often confused:</strong></p>
+<ul>
+<li><strong><code>None</code> / <code>null</code></strong>: Absence of a value (missing data)</li>
+<li><strong><code>NaN</code></strong>: “Not a Number” - a specific floating-point value (IEEE 754)</li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb48"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a></a><span class="im">import</span> math</span>
+<span id="cb48-2"><a></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb48-3"><a></a></span>
+<span id="cb48-4"><a></a><span class="co"># None is Python's null</span></span>
+<span id="cb48-5"><a></a>x <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb48-6"><a></a><span class="bu">print</span>(<span class="bu">type</span>(x))  <span class="co"># &lt;class 'NoneType'&gt;</span></span>
+<span id="cb48-7"><a></a></span>
+<span id="cb48-8"><a></a><span class="co"># NaN is a float value</span></span>
+<span id="cb48-9"><a></a>y <span class="op">=</span> <span class="bu">float</span>(<span class="st">'nan'</span>)</span>
+<span id="cb48-10"><a></a><span class="bu">print</span>(<span class="bu">type</span>(y))  <span class="co"># &lt;class 'float'&gt;</span></span>
+<span id="cb48-11"><a></a><span class="bu">print</span>(y <span class="op">==</span> y)   <span class="co"># False (NaN != NaN by IEEE 754)</span></span>
+<span id="cb48-12"><a></a><span class="bu">print</span>(math.isnan(y))  <span class="co"># True</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Key difference</strong>: <code>NaN</code> is a value; <code>None</code> represents no value</p>
+</section>
+<section id="null-vs-nan-semantic-meaning" class="slide level2">
+<h2>Null vs NaN: Semantic Meaning</h2>
+<p><strong>When to use each:</strong></p>
+<p><strong><code>None</code> / <code>null</code>:</strong> - Data wasn’t collected - Not applicable for this record - Missing in the source system - Any data type (strings, integers, dates)</p>
+<p><strong><code>NaN</code>:</strong> - Mathematical undefined result (<code>0/0</code>, <code>∞ - ∞</code>) - Propagates through numeric calculations - Specific to floating-point arithmetic - Only for numeric types</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb49"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb49-1"><a></a><span class="co"># Appropriate uses</span></span>
+<span id="cb49-2"><a></a>age <span class="op">=</span> <span class="va">None</span>          <span class="co"># Person didn't provide age</span></span>
+<span id="cb49-3"><a></a>price <span class="op">=</span> <span class="bu">float</span>(<span class="st">'nan'</span>)  <span class="co"># Invalid calculation result</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="the-pandas-problem" class="slide level2">
+<h2>The Pandas Problem</h2>
+<p><strong>Pandas historically conflated <code>None</code> and <code>NaN</code>:</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb50"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb50-1"><a></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb50-2"><a></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb50-3"><a></a></span>
+<span id="cb50-4"><a></a><span class="co"># Creating a Series with None</span></span>
+<span id="cb50-5"><a></a>s <span class="op">=</span> pd.Series([<span class="dv">1</span>, <span class="va">None</span>, <span class="dv">3</span>])</span>
+<span id="cb50-6"><a></a><span class="bu">print</span>(s)</span>
+<span id="cb50-7"><a></a><span class="co"># 0    1.0</span></span>
+<span id="cb50-8"><a></a><span class="co"># 1    NaN  # None became NaN!</span></span>
+<span id="cb50-9"><a></a><span class="co"># 2    3.0</span></span>
+<span id="cb50-10"><a></a></span>
+<span id="cb50-11"><a></a><span class="co"># Type was converted to float64</span></span>
+<span id="cb50-12"><a></a><span class="bu">print</span>(s.dtype)  <span class="co"># float64</span></span>
+<span id="cb50-13"><a></a></span>
+<span id="cb50-14"><a></a><span class="co"># Can't represent integer + null without nullable types</span></span>
+<span id="cb50-15"><a></a><span class="co"># Integer columns become float just to handle missing data</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Problem</strong>: Lost distinction between missing data and invalid calculations</p>
+</section>
+<section id="pandas-type-coercion-issues" class="slide level2">
+<h2>Pandas: Type Coercion Issues</h2>
+<p><strong>The old Pandas behavior:</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb51"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb51-1"><a></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb51-2"><a></a></span>
+<span id="cb51-3"><a></a><span class="co"># Integer column with missing value</span></span>
+<span id="cb51-4"><a></a>data <span class="op">=</span> pd.Series([<span class="dv">1</span>, <span class="dv">2</span>, <span class="va">None</span>, <span class="dv">4</span>])</span>
+<span id="cb51-5"><a></a><span class="bu">print</span>(data.dtype)  <span class="co"># float64 (not int64!)</span></span>
+<span id="cb51-6"><a></a></span>
+<span id="cb51-7"><a></a><span class="co"># String column with missing value  </span></span>
+<span id="cb51-8"><a></a>names <span class="op">=</span> pd.Series([<span class="st">'Alice'</span>, <span class="va">None</span>, <span class="st">'Charlie'</span>])</span>
+<span id="cb51-9"><a></a><span class="bu">print</span>(names.dtype)  <span class="co"># object</span></span>
+<span id="cb51-10"><a></a></span>
+<span id="cb51-11"><a></a><span class="co"># Even boolean columns!</span></span>
+<span id="cb51-12"><a></a>flags <span class="op">=</span> pd.Series([<span class="va">True</span>, <span class="va">False</span>, <span class="va">None</span>])</span>
+<span id="cb51-13"><a></a><span class="bu">print</span>(flags.dtype)  <span class="co"># object (not bool!)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Why?</strong>: NumPy arrays don’t support <code>null</code> for most types, so Pandas used <code>NaN</code> and float64</p>
+</section>
+<section id="modern-solution-nullable-types" class="slide level2">
+<h2>Modern Solution: Nullable Types</h2>
+<p><strong>Pandas 1.0+ introduced proper nullable types:</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb52"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb52-1"><a></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb52-2"><a></a></span>
+<span id="cb52-3"><a></a><span class="co"># Use nullable integer</span></span>
+<span id="cb52-4"><a></a>data <span class="op">=</span> pd.Series([<span class="dv">1</span>, <span class="dv">2</span>, <span class="va">None</span>, <span class="dv">4</span>], dtype<span class="op">=</span><span class="st">'Int64'</span>)  <span class="co"># Capital I</span></span>
+<span id="cb52-5"><a></a><span class="bu">print</span>(data.dtype)  <span class="co"># Int64</span></span>
+<span id="cb52-6"><a></a><span class="bu">print</span>(data)</span>
+<span id="cb52-7"><a></a><span class="co"># 0       1</span></span>
+<span id="cb52-8"><a></a><span class="co"># 1       2</span></span>
+<span id="cb52-9"><a></a><span class="co"># 2    &lt;NA&gt;  # Proper null marker</span></span>
+<span id="cb52-10"><a></a><span class="co"># 3       4</span></span>
+<span id="cb52-11"><a></a></span>
+<span id="cb52-12"><a></a><span class="co"># Nullable boolean</span></span>
+<span id="cb52-13"><a></a>flags <span class="op">=</span> pd.Series([<span class="va">True</span>, <span class="va">False</span>, <span class="va">None</span>], dtype<span class="op">=</span><span class="st">'boolean'</span>)</span>
+<span id="cb52-14"><a></a><span class="bu">print</span>(flags.dtype)  <span class="co"># boolean</span></span>
+<span id="cb52-15"><a></a></span>
+<span id="cb52-16"><a></a><span class="co"># Nullable string</span></span>
+<span id="cb52-17"><a></a>names <span class="op">=</span> pd.Series([<span class="st">'Alice'</span>, <span class="va">None</span>, <span class="st">'Charlie'</span>], dtype<span class="op">=</span><span class="st">'string'</span>)</span>
+<span id="cb52-18"><a></a><span class="bu">print</span>(names.dtype)  <span class="co"># string</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong><code>&lt;NA&gt;</code> is Pandas’ null sentinel, distinct from <code>NaN</code></strong></p>
+</section>
+<section id="polars-clear-null-semantics" class="slide level2">
+<h2>Polars: Clear Null Semantics</h2>
+<p><strong>Polars has null handling right from the start:</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb53"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb53-1"><a></a><span class="im">import</span> polars <span class="im">as</span> pl</span>
+<span id="cb53-2"><a></a></span>
+<span id="cb53-3"><a></a><span class="co"># Integer column with null - no type coercion!</span></span>
+<span id="cb53-4"><a></a>data <span class="op">=</span> pl.Series(<span class="st">'values'</span>, [<span class="dv">1</span>, <span class="dv">2</span>, <span class="va">None</span>, <span class="dv">4</span>])</span>
+<span id="cb53-5"><a></a><span class="bu">print</span>(data.dtype)  <span class="co"># Int64 (not Float64!)</span></span>
+<span id="cb53-6"><a></a></span>
+<span id="cb53-7"><a></a><span class="co"># Nulls work with any type</span></span>
+<span id="cb53-8"><a></a>names <span class="op">=</span> pl.Series(<span class="st">'names'</span>, [<span class="st">'Alice'</span>, <span class="va">None</span>, <span class="st">'Charlie'</span>])</span>
+<span id="cb53-9"><a></a><span class="bu">print</span>(names.dtype)  <span class="co"># Utf8</span></span>
+<span id="cb53-10"><a></a></span>
+<span id="cb53-11"><a></a>flags <span class="op">=</span> pl.Series(<span class="st">'flags'</span>, [<span class="va">True</span>, <span class="va">False</span>, <span class="va">None</span>])</span>
+<span id="cb53-12"><a></a><span class="bu">print</span>(flags.dtype)  <span class="co"># Boolean</span></span>
+<span id="cb53-13"><a></a></span>
+<span id="cb53-14"><a></a><span class="co"># NULL is a distinct value, not NaN</span></span>
+<span id="cb53-15"><a></a><span class="bu">print</span>(data.null_count())  <span class="co"># 1</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Polars</strong>: <code>null</code> is null, <code>NaN</code> is <code>NaN</code>, types are preserved</p>
+</section>
+<section id="checking-for-missing-values" class="slide level2">
+<h2>Checking for Missing Values</h2>
+<p><strong>Different approaches across tools:</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb54"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb54-1"><a></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb54-2"><a></a><span class="im">import</span> polars <span class="im">as</span> pl</span>
+<span id="cb54-3"><a></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb54-4"><a></a></span>
+<span id="cb54-5"><a></a><span class="co"># Pandas (checks for both None and NaN)</span></span>
+<span id="cb54-6"><a></a>s <span class="op">=</span> pd.Series([<span class="dv">1</span>, <span class="va">None</span>, <span class="bu">float</span>(<span class="st">'nan'</span>), <span class="dv">4</span>])</span>
+<span id="cb54-7"><a></a><span class="bu">print</span>(s.isna())   <span class="co"># [False, True, True, False]</span></span>
+<span id="cb54-8"><a></a><span class="bu">print</span>(s.isnull()) <span class="co"># Same as isna()</span></span>
+<span id="cb54-9"><a></a></span>
+<span id="cb54-10"><a></a><span class="co"># Polars (explicit about nulls)</span></span>
+<span id="cb54-11"><a></a>s <span class="op">=</span> pl.Series([<span class="dv">1</span>, <span class="va">None</span>, <span class="bu">float</span>(<span class="st">'nan'</span>), <span class="dv">4</span>])</span>
+<span id="cb54-12"><a></a><span class="bu">print</span>(s.is_null())     <span class="co"># [False, True, False, False]</span></span>
+<span id="cb54-13"><a></a><span class="bu">print</span>(s.is_nan())      <span class="co"># [False, False, True, False]</span></span>
+<span id="cb54-14"><a></a></span>
+<span id="cb54-15"><a></a><span class="co"># NumPy (only checks for NaN)</span></span>
+<span id="cb54-16"><a></a>arr <span class="op">=</span> np.array([<span class="dv">1</span>, np.nan, <span class="dv">4</span>])</span>
+<span id="cb54-17"><a></a><span class="bu">print</span>(np.isnan(arr))  <span class="co"># [False, True, False]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Polars distinguishes null from NaN; Pandas often doesn’t</strong></p>
+</section>
+<section id="narwhals-handling-nulls-portably" class="slide level2">
+<h2>Narwhals: Handling Nulls Portably</h2>
+<p><strong>Narwhals follows Polars semantics:</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb55"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb55-1"><a></a><span class="im">import</span> narwhals <span class="im">as</span> nw</span>
+<span id="cb55-2"><a></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb55-3"><a></a><span class="im">import</span> polars <span class="im">as</span> pl</span>
+<span id="cb55-4"><a></a></span>
+<span id="cb55-5"><a></a><span class="kw">def</span> handle_missing(df):</span>
+<span id="cb55-6"><a></a>    df <span class="op">=</span> nw.from_native(df)</span>
+<span id="cb55-7"><a></a>    <span class="cf">return</span> (</span>
+<span id="cb55-8"><a></a>        df</span>
+<span id="cb55-9"><a></a>        .<span class="bu">filter</span>(<span class="op">~</span>nw.col(<span class="st">'value'</span>).is_null())  <span class="co"># Remove nulls</span></span>
+<span id="cb55-10"><a></a>        .with_columns(</span>
+<span id="cb55-11"><a></a>            nw.col(<span class="st">'value'</span>).fill_null(<span class="dv">0</span>)      <span class="co"># Replace nulls with 0</span></span>
+<span id="cb55-12"><a></a>        )</span>
+<span id="cb55-13"><a></a>    )</span>
+<span id="cb55-14"><a></a></span>
+<span id="cb55-15"><a></a><span class="co"># Works consistently across backends</span></span>
+<span id="cb55-16"><a></a>df_pandas <span class="op">=</span> pd.DataFrame({<span class="st">'value'</span>: [<span class="dv">1</span>, <span class="va">None</span>, <span class="dv">3</span>]})</span>
+<span id="cb55-17"><a></a>df_polars <span class="op">=</span> pl.DataFrame({<span class="st">'value'</span>: [<span class="dv">1</span>, <span class="va">None</span>, <span class="dv">3</span>]})</span>
+<span id="cb55-18"><a></a></span>
+<span id="cb55-19"><a></a>handle_missing(df_pandas)  <span class="co"># Treats None/NaN as null</span></span>
+<span id="cb55-20"><a></a>handle_missing(df_polars)  <span class="co"># Native null handling</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Recommendation</strong>: Use Narwhals/Polars semantics for clarity</p>
+</section>
+<section id="best-practices-null-handling" class="slide level2">
+<h2>Best Practices: Null Handling</h2>
+<p><strong>Modern recommendations:</strong></p>
+<ol type="1">
+<li><strong>Use nullable dtypes in Pandas</strong>: <code>Int64</code>, <code>boolean</code>, <code>string</code></li>
+<li><strong>Prefer Polars</strong> for new projects (clean null semantics)</li>
+<li><strong>Avoid mixing <code>None</code> and <code>NaN</code></strong> in the same context</li>
+<li><strong>Be explicit</strong>: Use <code>is_null()</code> / <code>is_nan()</code> separately</li>
+<li><strong>Document assumptions</strong>: What does missing mean in your data?</li>
+</ol>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb56"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb56-1"><a></a><span class="co"># Good: Clear intent</span></span>
+<span id="cb56-2"><a></a>df <span class="op">=</span> pl.DataFrame({</span>
+<span id="cb56-3"><a></a>    <span class="st">'age'</span>: pl.Series([<span class="dv">25</span>, <span class="va">None</span>, <span class="dv">30</span>], dtype<span class="op">=</span>pl.Int64),  <span class="co"># Missing</span></span>
+<span id="cb56-4"><a></a>    <span class="st">'score'</span>: pl.Series([<span class="fl">1.5</span>, <span class="bu">float</span>(<span class="st">'nan'</span>), <span class="fl">2.0</span>])       <span class="co"># Invalid calculation</span></span>
+<span id="cb56-5"><a></a>})</span>
+<span id="cb56-6"><a></a></span>
+<span id="cb56-7"><a></a><span class="co"># Bad: Ambiguous</span></span>
+<span id="cb56-8"><a></a>df <span class="op">=</span> pd.DataFrame({</span>
+<span id="cb56-9"><a></a>    <span class="st">'age'</span>: [<span class="dv">25</span>, np.nan, <span class="dv">30</span>],  <span class="co"># Is this missing or invalid?</span></span>
+<span id="cb56-10"><a></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="next-week" class="slide level2">
+<h2>Next Week</h2>
+<ul>
+<li>Deep dive into Apache Spark</li>
+<li>Distributed computing at scale</li>
+<li>When local tools aren’t enough</li>
+<li>How Spark relates to the tools we’ve learned</li>
+</ul>
+<p><strong>The tools we’ve covered are powerful for single-node workloads—Spark takes us to multi-node clusters</strong></p>
+</section>
+<section id="github-classroom" class="slide level2">
+<h2>GitHub Classroom</h2>
+<p><a href="">GitHub Classroom Link</a></p>
+
+
+</section></section>
+    </div>
+  <div class="quarto-auto-generated-content" style="display: none;">
+<div class="footer footer-default">
+
+</div>
+</div></div>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="../site_libs/revealjs/dist/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="../site_libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="../site_libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="../site_libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="../site_libs/revealjs/plugin/reveal-chalkboard/plugin.js"></script>
+  <script src="../site_libs/revealjs/plugin/quarto-support/support.js"></script>
+  
+
+  <script src="../site_libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="../site_libs/revealjs/plugin/search/search.js"></script>
+  <script src="../site_libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="../site_libs/revealjs/plugin/math/math.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+'controlsAuto': true,
+'previewLinksAuto': false,
+'pdfSeparateFragments': false,
+'autoAnimateEasing': "ease",
+'autoAnimateDuration': 1,
+'autoAnimateUnmatched': true,
+'jumpToSlide': true,
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleChalkboard(event)\"><kbd>b</kbd> Toggle Chalkboard</a></li>\n<li class=\"slide-tool-item\" data-item=\"6\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleNotesCanvas(event)\"><kbd>c</kbd> Toggle Notes Canvas</a></li>\n<li class=\"slide-tool-item\" data-item=\"7\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.downloadDrawings(event)\"><kbd>d</kbd> Download Drawings</a></li>\n<li class=\"slide-tool-item\" data-item=\"8\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'chalkboard': {"buttons":true},
+'smaller': false,
+ 
+        // Display controls in the bottom right corner
+        controls: false,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: false,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'edges',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: false,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'linear',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: false,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'fade',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'fade',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1050,
+
+        height: 700,
+
+        // Factor of the display size that should remain empty around the content
+        margin: 0.1,
+
+        math: {
+          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, RevealChalkboard, QuartoSupport,
+
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    
+    <script>
+      // htmlwidgets need to know to resize themselves when slides are shown/hidden.
+      // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
+      // slide changes (different for each slide format).
+      (function () {
+        // dispatch for htmlwidgets
+        function fireSlideEnter() {
+          const event = window.document.createEvent("Event");
+          event.initEvent("slideenter", true, true);
+          window.document.dispatchEvent(event);
+        }
+
+        function fireSlideChanged(previousSlide, currentSlide) {
+          fireSlideEnter();
+
+          // dispatch for shiny
+          if (window.jQuery) {
+            if (previousSlide) {
+              window.jQuery(previousSlide).trigger("hidden");
+            }
+            if (currentSlide) {
+              window.jQuery(currentSlide).trigger("shown");
+            }
+          }
+        }
+
+        // hookup for slidy
+        if (window.w3c_slidy) {
+          window.w3c_slidy.add_observer(function (slide_num) {
+            // slide_num starts at position 1
+            fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
+          });
+        }
+
+      })();
+    </script>
+
+    <script id="quarto-html-after-body" type="application/javascript">
+      window.document.addEventListener("DOMContentLoaded", function (event) {
+        const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+        tabsets.forEach(function(tabset) {
+          const tabby = new Tabby('#' + tabset.id);
+        });
+        const isCodeAnnotation = (el) => {
+          for (const clz of el.classList) {
+            if (clz.startsWith('code-annotation-')) {                     
+              return true;
+            }
+          }
+          return false;
+        }
+        const onCopySuccess = function(e) {
+          // button target
+          const button = e.trigger;
+          // don't keep focus
+          button.blur();
+          // flash "checked"
+          button.classList.add('code-copy-button-checked');
+          var currentTitle = button.getAttribute("title");
+          button.setAttribute("title", "Copied!");
+          let tooltip;
+          if (window.bootstrap) {
+            button.setAttribute("data-bs-toggle", "tooltip");
+            button.setAttribute("data-bs-placement", "left");
+            button.setAttribute("data-bs-title", "Copied!");
+            tooltip = new bootstrap.Tooltip(button, 
+              { trigger: "manual", 
+                customClass: "code-copy-button-tooltip",
+                offset: [0, -8]});
+            tooltip.show();    
+          }
+          setTimeout(function() {
+            if (tooltip) {
+              tooltip.hide();
+              button.removeAttribute("data-bs-title");
+              button.removeAttribute("data-bs-toggle");
+              button.removeAttribute("data-bs-placement");
+            }
+            button.setAttribute("title", currentTitle);
+            button.classList.remove('code-copy-button-checked');
+          }, 1000);
+          // clear code selection
+          e.clearSelection();
+        }
+        const getTextToCopy = function(trigger) {
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+        }
+        const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+          text: getTextToCopy
+        });
+        clipboard.on('success', onCopySuccess);
+        if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+          const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+            text: getTextToCopy,
+            container: window.document.getElementById('quarto-embedded-source-code-modal')
+          });
+          clipboardModal.on('success', onCopySuccess);
+        }
+          var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+          var mailtoRegex = new RegExp(/^mailto:/);
+            var filterRegex = new RegExp("https:\/\/gwu-dats6450-13\.github\.io\/6450-spring-2026\/");
+          var isInternal = (href) => {
+              return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+          }
+          // Inspect non-navigation links and adorn them if external
+         var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+          for (var i=0; i<links.length; i++) {
+            const link = links[i];
+            if (!isInternal(link.href)) {
+              // undo the damage that might have been done by quarto-nav.js in the case of
+              // links that we want to consider external
+              if (link.dataset.originalHref !== undefined) {
+                link.href = link.dataset.originalHref;
+              }
+                // target, if specified
+                link.setAttribute("target", "_blank");
+                if (link.getAttribute("rel") === null) {
+                  link.setAttribute("rel", "noopener");
+                }
+            }
+          }
+        function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+          const config = {
+            allowHTML: true,
+            maxWidth: 500,
+            delay: 100,
+            arrow: false,
+            appendTo: function(el) {
+                return el.closest('section.slide') || el.parentElement;
+            },
+            interactive: true,
+            interactiveBorder: 10,
+            theme: 'light-border',
+            placement: 'bottom-start',
+          };
+          if (contentFn) {
+            config.content = contentFn;
+          }
+          if (onTriggerFn) {
+            config.onTrigger = onTriggerFn;
+          }
+          if (onUntriggerFn) {
+            config.onUntrigger = onUntriggerFn;
+          }
+            config['offset'] = [0,0];
+            config['maxWidth'] = 700;
+          window.tippy(el, config); 
+        }
+        const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+        for (var i=0; i<noterefs.length; i++) {
+          const ref = noterefs[i];
+          tippyHover(ref, function() {
+            // use id or data attribute instead here
+            let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+            try { href = new URL(href).hash; } catch {}
+            const id = href.replace(/^#\/?/, "");
+            const note = window.document.getElementById(id);
+            if (note) {
+              return note.innerHTML;
+            } else {
+              return "";
+            }
+          });
+        }
+        const findCites = (el) => {
+          const parentEl = el.parentElement;
+          if (parentEl) {
+            const cites = parentEl.dataset.cites;
+            if (cites) {
+              return {
+                el,
+                cites: cites.split(' ')
+              };
+            } else {
+              return findCites(el.parentElement)
+            }
+          } else {
+            return undefined;
+          }
+        };
+        var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+        for (var i=0; i<bibliorefs.length; i++) {
+          const ref = bibliorefs[i];
+          const citeInfo = findCites(ref);
+          if (citeInfo) {
+            tippyHover(citeInfo.el, function() {
+              var popup = window.document.createElement('div');
+              citeInfo.cites.forEach(function(cite) {
+                var citeDiv = window.document.createElement('div');
+                citeDiv.classList.add('hanging-indent');
+                citeDiv.classList.add('csl-entry');
+                var biblioDiv = window.document.getElementById('ref-' + cite);
+                if (biblioDiv) {
+                  citeDiv.innerHTML = biblioDiv.innerHTML;
+                }
+                popup.appendChild(citeDiv);
+              });
+              return popup.innerHTML;
+            });
+          }
+        }
+      });
+      </script>
+    <script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
+    (function() {
+      let previousOnload = window.onload;
+      window.onload = () => {
+        if (previousOnload) {
+          previousOnload();
+        }
+        lightboxQuarto.on('slide_before_load', (data) => {
+          const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+          const href = trigger.getAttribute('href');
+          if (href !== null) {
+            const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+            if (imgEl !== null) {
+              const srcAttr = imgEl.getAttribute("src");
+              if (srcAttr && srcAttr.startsWith("data:")) {
+                slideConfig.href = srcAttr;
+              }
+            }
+          } 
+        });
+      
+        lightboxQuarto.on('slide_after_load', (data) => {
+          const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(slideNode);
+          }
+        });
+      
+      };
+      
+    })();
+              </script>
+    
+
+</body></html>

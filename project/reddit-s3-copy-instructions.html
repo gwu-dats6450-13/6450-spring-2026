@@ -1,0 +1,997 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.25">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>reddit-s3-copy-instructions – DATS 6450.13</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-bf77a05ce6ba3f5649b1c5bec9928afc.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-6b004257f0dbb1693ec0baad8927575f.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/quarto-contrib/fontawesome6-6.7.2/all.min.css" rel="stylesheet">
+<link href="../site_libs/quarto-contrib/fontawesome6-6.7.2/latex-fontsize.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../index.html" class="navbar-brand navbar-brand-logo">
+    </a>
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">DATS 6450.13</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../about.html"> 
+<span class="menu-text">Instructor</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../syllabus.html"> 
+<span class="menu-text">Syllabus</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../content/index.html"> 
+<span class="menu-text">Content</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../labs/index.html"> 
+<span class="menu-text">Labs</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../project/project.html"> 
+<span class="menu-text">Project</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../site-content/references.html"> 
+<span class="menu-text">References</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://6450-spring-2026.slack.com"> <i class="bi bi-slack" role="img" aria-label="slack">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#reddit-dataset-s3-copy-instructions" id="toc-reddit-dataset-s3-copy-instructions" class="nav-link active" data-scroll-target="#reddit-dataset-s3-copy-instructions">Reddit Dataset S3 Copy Instructions</a>
+  <ul class="collapse">
+  <li><a href="#overview" id="toc-overview" class="nav-link" data-scroll-target="#overview">Overview</a></li>
+  <li><a href="#source-dataset-information" id="toc-source-dataset-information" class="nav-link" data-scroll-target="#source-dataset-information">Source Dataset Information</a>
+  <ul class="collapse">
+  <li><a href="#folder-structure" id="toc-folder-structure" class="nav-link" data-scroll-target="#folder-structure">Folder Structure</a></li>
+  <li><a href="#dataset-statistics" id="toc-dataset-statistics" class="nav-link" data-scroll-target="#dataset-statistics">Dataset Statistics</a></li>
+  </ul></li>
+  <li><a href="#copy-instructions" id="toc-copy-instructions" class="nav-link" data-scroll-target="#copy-instructions">Copy Instructions</a>
+  <ul class="collapse">
+  <li><a href="#prerequisites" id="toc-prerequisites" class="nav-link" data-scroll-target="#prerequisites">Prerequisites</a></li>
+  <li><a href="#create-destination-bucket-first-optional" id="toc-create-destination-bucket-first-optional" class="nav-link" data-scroll-target="#create-destination-bucket-first-optional">Create Destination Bucket First (Optional)</a></li>
+  <li><a href="#basic-copy-command" id="toc-basic-copy-command" class="nav-link" data-scroll-target="#basic-copy-command">Basic Copy Command</a></li>
+  </ul></li>
+  <li><a href="#estimated-transfer-time" id="toc-estimated-transfer-time" class="nav-link" data-scroll-target="#estimated-transfer-time">Estimated Transfer Time</a></li>
+  <li><a href="#cost-estimate" id="toc-cost-estimate" class="nav-link" data-scroll-target="#cost-estimate">Cost Estimate</a>
+  <ul class="collapse">
+  <li><a href="#same-region-copy-e.g.-us-east-1-to-us-east-1" id="toc-same-region-copy-e.g.-us-east-1-to-us-east-1" class="nav-link" data-scroll-target="#same-region-copy-e.g.-us-east-1-to-us-east-1">Same Region Copy (e.g., US-EAST-1 to US-EAST-1)</a></li>
+  <li><a href="#storage-cost-ongoing" id="toc-storage-cost-ongoing" class="nav-link" data-scroll-target="#storage-cost-ongoing">Storage Cost (Ongoing)</a></li>
+  <li><a href="#cross-region-copy-e.g.-us-east-1-to-us-west-2" id="toc-cross-region-copy-e.g.-us-east-1-to-us-west-2" class="nav-link" data-scroll-target="#cross-region-copy-e.g.-us-east-1-to-us-west-2">Cross-Region Copy (e.g., US-EAST-1 to US-WEST-2)</a></li>
+  </ul></li>
+  <li><a href="#monitoring-progress" id="toc-monitoring-progress" class="nav-link" data-scroll-target="#monitoring-progress">Monitoring Progress</a></li>
+  <li><a href="#verify-copy-completion" id="toc-verify-copy-completion" class="nav-link" data-scroll-target="#verify-copy-completion">Verify Copy Completion</a></li>
+  <li><a href="#data-format-information" id="toc-data-format-information" class="nav-link" data-scroll-target="#data-format-information">Data Format Information</a></li>
+  <li><a href="#next-steps-after-copying-data" id="toc-next-steps-after-copying-data" class="nav-link" data-scroll-target="#next-steps-after-copying-data">Next Steps After Copying Data</a>
+  <ul class="collapse">
+  <li><a href="#set-up-your-spark-cluster" id="toc-set-up-your-spark-cluster" class="nav-link" data-scroll-target="#set-up-your-spark-cluster">1. Set Up Your Spark Cluster</a></li>
+  <li><a href="#filter-data-to-subreddits-of-interest" id="toc-filter-data-to-subreddits-of-interest" class="nav-link" data-scroll-target="#filter-data-to-subreddits-of-interest">2. Filter Data to Subreddits of Interest</a></li>
+  <li><a href="#customize-the-filtering" id="toc-customize-the-filtering" class="nav-link" data-scroll-target="#customize-the-filtering">3. Customize the Filtering</a></li>
+  <li><a href="#start-your-analysis" id="toc-start-your-analysis" class="nav-link" data-scroll-target="#start-your-analysis">4. Start Your Analysis</a></li>
+  </ul></li>
+  <li><a href="#example-spark-read-commands" id="toc-example-spark-read-commands" class="nav-link" data-scroll-target="#example-spark-read-commands">Example Spark Read Commands</a>
+  <ul class="collapse">
+  <li><a href="#reading-full-dataset" id="toc-reading-full-dataset" class="nav-link" data-scroll-target="#reading-full-dataset">Reading Full Dataset</a></li>
+  <li><a href="#reading-filtered-project-data" id="toc-reading-filtered-project-data" class="nav-link" data-scroll-target="#reading-filtered-project-data">Reading Filtered Project Data</a></li>
+  <li><a href="#reading-specific-time-periods" id="toc-reading-specific-time-periods" class="nav-link" data-scroll-target="#reading-specific-time-periods">Reading Specific Time Periods</a></li>
+  <li><a href="#filtering-after-reading" id="toc-filtering-after-reading" class="nav-link" data-scroll-target="#filtering-after-reading">Filtering After Reading</a></li>
+  </ul></li>
+  <li><a href="#data-schema" id="toc-data-schema" class="nav-link" data-scroll-target="#data-schema">Data Schema</a>
+  <ul class="collapse">
+  <li><a href="#comments-schema-17-columns" id="toc-comments-schema-17-columns" class="nav-link" data-scroll-target="#comments-schema-17-columns">Comments Schema (17 columns)</a></li>
+  <li><a href="#submissions-schema-21-columns" id="toc-submissions-schema-21-columns" class="nav-link" data-scroll-target="#submissions-schema-21-columns">Submissions Schema (21 columns)</a></li>
+  </ul></li>
+  <li><a href="#notes" id="toc-notes" class="nav-link" data-scroll-target="#notes">Notes</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
+
+
+
+
+<section id="reddit-dataset-s3-copy-instructions" class="level1">
+<h1>Reddit Dataset S3 Copy Instructions</h1>
+<p><em>Created: 2026-02-12</em></p>
+<section id="overview" class="level2">
+<h2 class="anchored" data-anchor-id="overview">Overview</h2>
+<p>This document contains instructions and information for copying the Reddit parquet dataset from the source bucket to your own S3 bucket.</p>
+</section>
+<section id="source-dataset-information" class="level2">
+<h2 class="anchored" data-anchor-id="source-dataset-information">Source Dataset Information</h2>
+<p><strong>Source Bucket:</strong> <code>s3://dsan6000-datasets/reddit/parquet/</code></p>
+<section id="folder-structure" class="level3">
+<h3 class="anchored" data-anchor-id="folder-structure">Folder Structure</h3>
+<pre><code>s3://dsan6000-datasets/reddit/parquet/
+├── comments/
+│   ├── yyyy=2023/
+│   │   ├── mm=06/  (June 2023)
+│   │   ├── mm=07/  (July 2023)
+│   │   ├── mm=08/  (August 2023)
+│   │   ├── mm=09/  (September 2023)
+│   │   ├── mm=10/  (October 2023)
+│   │   ├── mm=11/  (November 2023)
+│   │   └── mm=12/  (December 2023)
+│   └── yyyy=2024/
+│       ├── mm=01/  (January 2024)
+│       ├── mm=02/  (February 2024)
+│       ├── mm=03/  (March 2024)
+│       ├── mm=04/  (April 2024)
+│       ├── mm=05/  (May 2024)
+│       ├── mm=06/  (June 2024)
+│       └── mm=07/  (July 2024)
+└── submissions/
+    ├── yyyy=2023/
+    │   ├── mm=06/  (June 2023)
+    │   ├── mm=07/  (July 2023)
+    │   ├── mm=08/  (August 2023)
+    │   ├── mm=09/  (September 2023)
+    │   ├── mm=10/  (October 2023)
+    │   ├── mm=11/  (November 2023)
+    │   └── mm=12/  (December 2023)
+    └── yyyy=2024/
+        ├── mm=01/  (January 2024)
+        ├── mm=02/  (February 2024)
+        ├── mm=03/  (March 2024)
+        ├── mm=04/  (April 2024)
+        ├── mm=05/  (May 2024)
+        ├── mm=06/  (June 2024)
+        └── mm=07/  (July 2024)</code></pre>
+</section>
+<section id="dataset-statistics" class="level3">
+<h3 class="anchored" data-anchor-id="dataset-statistics">Dataset Statistics</h3>
+<section id="comments-directory" class="level4">
+<h4 class="anchored" data-anchor-id="comments-directory">Comments Directory</h4>
+<ul>
+<li><strong>Path:</strong> <code>s3://dsan6000-datasets/reddit/parquet/comments/</code></li>
+<li><strong>Total Files:</strong> 3,680 parquet files</li>
+<li><strong>Total Size:</strong> 369.6 GiB</li>
+<li><strong>File Size Range:</strong> ~95-107 MiB per file</li>
+<li><strong>Partitioning:</strong> Hive-style partitioning by year/month (yyyy=YYYY/mm=MM)</li>
+</ul>
+</section>
+<section id="submissions-directory" class="level4">
+<h4 class="anchored" data-anchor-id="submissions-directory">Submissions Directory</h4>
+<ul>
+<li><strong>Path:</strong> <code>s3://dsan6000-datasets/reddit/parquet/submissions/</code></li>
+<li><strong>Total Files:</strong> 575 parquet files</li>
+<li><strong>Total Size:</strong> 76.3 GiB</li>
+<li><strong>File Size Range:</strong> ~95-107 MiB per file</li>
+<li><strong>Partitioning:</strong> Hive-style partitioning by year/month (yyyy=YYYY/mm=MM)</li>
+</ul>
+</section>
+<section id="combined-totals" class="level4">
+<h4 class="anchored" data-anchor-id="combined-totals">Combined Totals</h4>
+<ul>
+<li><strong>Total Files:</strong> 4,255 parquet files</li>
+<li><strong>Total Size:</strong> ~445.9 GiB (369.6 + 76.3)</li>
+<li><strong>Time Period:</strong> June 2023 - July 2024 (14 months)
+<ul>
+<li><strong>2023:</strong> June - December (7 months)</li>
+<li><strong>2024:</strong> January - July (7 months)</li>
+</ul></li>
+<li><strong>Data Source:</strong> Reddit comments and submissions archives</li>
+</ul>
+</section>
+</section>
+</section>
+<section id="copy-instructions" class="level2">
+<h2 class="anchored" data-anchor-id="copy-instructions">Copy Instructions</h2>
+<section id="prerequisites" class="level3">
+<h3 class="anchored" data-anchor-id="prerequisites">Prerequisites</h3>
+<ol type="1">
+<li>AWS CLI configured with appropriate credentials</li>
+<li>Sufficient IAM permissions for S3 operations</li>
+<li>Note: Source bucket uses requester-pays pricing</li>
+</ol>
+</section>
+<section id="create-destination-bucket-first-optional" class="level3">
+<h3 class="anchored" data-anchor-id="create-destination-bucket-first-optional">Create Destination Bucket First (Optional)</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create the destination bucket if it doesn't exist</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="va">NET_ID</span><span class="op">=</span><span class="st">"your-net-id"</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="ex">aws</span> s3 mb s3://<span class="va">${NET_ID}</span>-dats6450-datasets <span class="at">--region</span> us-east-1</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="basic-copy-command" class="level3">
+<h3 class="anchored" data-anchor-id="basic-copy-command">Basic Copy Command</h3>
+<p>Replace <code>your-net-id</code> with your actual net-id:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Set your net-id</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="va">NET_ID</span><span class="op">=</span><span class="st">"your-net-id"</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Copy the entire dataset</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="ex">aws</span> s3 sync <span class="dt">\</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  s3://dsan6000-datasets/reddit/parquet/ <span class="dt">\</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  s3://<span class="va">${NET_ID}</span>-dats6450-datasets/reddit/parquet/ <span class="dt">\</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">--request-payer</span> requester <span class="dt">\</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">--region</span> us-east-1</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+</section>
+<section id="estimated-transfer-time" class="level2">
+<h2 class="anchored" data-anchor-id="estimated-transfer-time">Estimated Transfer Time</h2>
+<ul>
+<li><strong>Same Region (US-EAST-1 to US-EAST-1):</strong> 30 minutes to 2 hours</li>
+<li><strong>Cross Region:</strong> 2-4 hours</li>
+<li><strong>Depends on:</strong> Network conditions, parallelization settings, AWS infrastructure load</li>
+</ul>
+</section>
+<section id="cost-estimate" class="level2">
+<h2 class="anchored" data-anchor-id="cost-estimate">Cost Estimate</h2>
+<section id="same-region-copy-e.g.-us-east-1-to-us-east-1" class="level3">
+<h3 class="anchored" data-anchor-id="same-region-copy-e.g.-us-east-1-to-us-east-1">Same Region Copy (e.g., US-EAST-1 to US-EAST-1)</h3>
+<ul>
+<li><strong>Data Transfer:</strong> $0 (no charge within same region)</li>
+<li><strong>GET Requests:</strong> ~$0.002 (4,255 requests × $0.0004 per 1,000)</li>
+<li><strong>PUT Requests:</strong> ~$0.02 (4,255 requests × $0.005 per 1,000)</li>
+<li><strong>Requester-Pays Charges:</strong> Minimal (you pay for GET requests as requester)</li>
+<li><strong>Total One-Time Cost:</strong> ~$0.02 (essentially free)</li>
+</ul>
+</section>
+<section id="storage-cost-ongoing" class="level3">
+<h3 class="anchored" data-anchor-id="storage-cost-ongoing">Storage Cost (Ongoing)</h3>
+<ul>
+<li><strong>Standard S3 Storage:</strong> 446 GiB × $0.023/GB/month = ~$10.26/month</li>
+<li><strong>Intelligent-Tiering:</strong> Could reduce costs if data is infrequently accessed</li>
+</ul>
+</section>
+<section id="cross-region-copy-e.g.-us-east-1-to-us-west-2" class="level3">
+<h3 class="anchored" data-anchor-id="cross-region-copy-e.g.-us-east-1-to-us-west-2">Cross-Region Copy (e.g., US-EAST-1 to US-WEST-2)</h3>
+<ul>
+<li><strong>Data Transfer OUT:</strong> 446 GiB × $0.02/GB = ~$9.12</li>
+<li><strong>Request Costs:</strong> ~$0.02</li>
+<li><strong>Total Cross-Region Cost:</strong> ~$9.14</li>
+</ul>
+</section>
+</section>
+<section id="monitoring-progress" class="level2">
+<h2 class="anchored" data-anchor-id="monitoring-progress">Monitoring Progress</h2>
+<p>The <code>aws s3 sync</code> command will display progress as it copies:</p>
+<pre><code>Completed 256.0 KiB/~446.0 GiB (12.5 MiB/s) with 1 file(s) remaining</code></pre>
+</section>
+<section id="verify-copy-completion" class="level2">
+<h2 class="anchored" data-anchor-id="verify-copy-completion">Verify Copy Completion</h2>
+<p>After the copy completes, verify the file count and size:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Check comments</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="ex">aws</span> s3 ls s3://<span class="va">${NET_ID}</span>-dats6450-datasets/reddit/parquet/comments/ <span class="dt">\</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">--recursive</span> <span class="at">--summarize</span> <span class="at">--human-readable</span> <span class="kw">|</span> <span class="fu">tail</span> <span class="at">-3</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Check submissions</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="ex">aws</span> s3 ls s3://<span class="va">${NET_ID}</span>-dats6450-datasets/reddit/parquet/submissions/ <span class="dt">\</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">--recursive</span> <span class="at">--summarize</span> <span class="at">--human-readable</span> <span class="kw">|</span> <span class="fu">tail</span> <span class="at">-3</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Expected output: - Comments: 3,680 objects, 369.6 GiB - Submissions: 575 objects, 76.3 GiB</p>
+</section>
+<section id="data-format-information" class="level2">
+<h2 class="anchored" data-anchor-id="data-format-information">Data Format Information</h2>
+<ul>
+<li><strong>Format:</strong> Apache Parquet (columnar storage)</li>
+<li><strong>Compression:</strong> Parquet files are already compressed</li>
+<li><strong>Schema:</strong> Reddit API schema for comments and submissions</li>
+<li><strong>Partitioning:</strong> Hive-style partitioning enables efficient filtering by year/month in Spark/Hive</li>
+</ul>
+</section>
+<section id="next-steps-after-copying-data" class="level2">
+<h2 class="anchored" data-anchor-id="next-steps-after-copying-data">Next Steps After Copying Data</h2>
+<section id="set-up-your-spark-cluster" class="level3">
+<h3 class="anchored" data-anchor-id="set-up-your-spark-cluster">1. Set Up Your Spark Cluster</h3>
+<p>Follow instructions in <a href="spark-cluster/README.md">spark-cluster/README.md</a> to: - Launch master and worker nodes - Configure S3 access - Test cluster connectivity</p>
+</section>
+<section id="filter-data-to-subreddits-of-interest" class="level3">
+<h3 class="anchored" data-anchor-id="filter-data-to-subreddits-of-interest">2. Filter Data to Subreddits of Interest</h3>
+<p>The full dataset is ~446 GB. For most analyses, you’ll want to filter to specific subreddits. Use the provided example script:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># On your Spark cluster master node</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> spark-cluster/cluster-files</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> reddit_data_filter_example.py <span class="op">&lt;</span>your-net-id<span class="op">&gt;</span> spark://<span class="op">&lt;</span>master-ip<span class="op">&gt;</span>:7077</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>This script will: - Read the full Reddit dataset from your S3 bucket - Filter by subreddits defined in <code>EXAMPLE_SUBREDDITS</code> - Select commonly useful columns - Save filtered data to a new S3 prefix for your project</p>
+<p><strong>Output locations:</strong> - <code>s3://&lt;your-net-id&gt;-dats6450-datasets/project/reddit/parquet/comments/</code> - <code>s3://&lt;your-net-id&gt;-dats6450-datasets/project/reddit/parquet/submissions/</code></p>
+</section>
+<section id="customize-the-filtering" class="level3">
+<h3 class="anchored" data-anchor-id="customize-the-filtering">3. Customize the Filtering</h3>
+<p>Edit <a href="spark-cluster/cluster-files/reddit_data_filter_example.py">reddit_data_filter_example.py</a>:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Change these subreddits to match your research questions</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>EXAMPLE_SUBREDDITS: List[<span class="bu">str</span>] <span class="op">=</span> [</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"datascience"</span>,</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"MachineLearning"</span>,</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"artificial"</span>,</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Add your subreddits here</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Useful columns included by default:</strong></p>
+<p><strong>Comments:</strong> - <code>id</code>, <code>subreddit</code>, <code>author</code>, <code>body</code>, <code>score</code> - <code>created_utc</code>, <code>parent_id</code>, <code>link_id</code> - <code>controversiality</code>, <code>gilded</code></p>
+<p><strong>Submissions:</strong> - <code>id</code>, <code>subreddit</code>, <code>author</code>, <code>title</code>, <code>selftext</code> - <code>score</code>, <code>created_utc</code>, <code>num_comments</code>, <code>url</code>, <code>over_18</code></p>
+</section>
+<section id="start-your-analysis" class="level3">
+<h3 class="anchored" data-anchor-id="start-your-analysis">4. Start Your Analysis</h3>
+<p>Once you have filtered data: - Begin EDA (Exploratory Data Analysis) - Perform NLP tasks (sentiment analysis, topic modeling) - Build ML models - Create visualizations for your website</p>
+</section>
+</section>
+<section id="example-spark-read-commands" class="level2">
+<h2 class="anchored" data-anchor-id="example-spark-read-commands">Example Spark Read Commands</h2>
+<section id="reading-full-dataset" class="level3">
+<h3 class="anchored" data-anchor-id="reading-full-dataset">Reading Full Dataset</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Read all comments (full dataset)</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>df_comments <span class="op">=</span> spark.read.parquet(</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    <span class="ss">f"s3a://</span><span class="sc">{</span>net_id<span class="sc">}</span><span class="ss">-dsan6000-datasets/reddit/parquet/comments/"</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Read all submissions (full dataset)</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>df_submissions <span class="op">=</span> spark.read.parquet(</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    <span class="ss">f"s3a://</span><span class="sc">{</span>net_id<span class="sc">}</span><span class="ss">-dsan6000-datasets/reddit/parquet/submissions/"</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="reading-filtered-project-data" class="level3">
+<h3 class="anchored" data-anchor-id="reading-filtered-project-data">Reading Filtered Project Data</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Read your filtered comments</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>df_comments_filtered <span class="op">=</span> spark.read.parquet(</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    <span class="ss">f"s3a://</span><span class="sc">{</span>net_id<span class="sc">}</span><span class="ss">-dats6450-datasets/project/reddit/parquet/comments/"</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Read your filtered submissions</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>df_submissions_filtered <span class="op">=</span> spark.read.parquet(</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    <span class="ss">f"s3a://</span><span class="sc">{</span>net_id<span class="sc">}</span><span class="ss">-dats6450-datasets/project/reddit/parquet/submissions/"</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="reading-specific-time-periods" class="level3">
+<h3 class="anchored" data-anchor-id="reading-specific-time-periods">Reading Specific Time Periods</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter by specific month from full dataset</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>df_june_comments <span class="op">=</span> spark.read.parquet(</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    <span class="ss">f"s3a://</span><span class="sc">{</span>net_id<span class="sc">}</span><span class="ss">-dats6450-datasets/reddit/parquet/comments/yyyy=2023/mm=06/"</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter by year</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>df_2024_submissions <span class="op">=</span> spark.read.parquet(</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>    <span class="ss">f"s3a://</span><span class="sc">{</span>net_id<span class="sc">}</span><span class="ss">-dats6450-datasets/reddit/parquet/submissions/yyyy=2024/"</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="filtering-after-reading" class="level3">
+<h3 class="anchored" data-anchor-id="filtering-after-reading">Filtering After Reading</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.functions <span class="im">import</span> col, from_unixtime, to_date</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Read filtered data</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> spark.read.parquet(</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    <span class="ss">f"s3a://</span><span class="sc">{</span>net_id<span class="sc">}</span><span class="ss">-dats6450-datasets/project/reddit/parquet/comments/"</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Add date column for easier filtering</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df.withColumn(<span class="st">"date"</span>, to_date(from_unixtime(col(<span class="st">"created_utc"</span>))))</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter by date range</span></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>df_filtered <span class="op">=</span> df.<span class="bu">filter</span>(</span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>    (col(<span class="st">"date"</span>) <span class="op">&gt;=</span> <span class="st">"2023-06-01"</span>) <span class="op">&amp;</span> (col(<span class="st">"date"</span>) <span class="op">&lt;=</span> <span class="st">"2023-12-31"</span>)</span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter by score threshold</span></span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>df_popular <span class="op">=</span> df.<span class="bu">filter</span>(col(<span class="st">"score"</span>) <span class="op">&gt;=</span> <span class="dv">10</span>)</span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter by subreddit (if you need subset of your filtered data)</span></span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>df_ml_only <span class="op">=</span> df.<span class="bu">filter</span>(col(<span class="st">"subreddit"</span>) <span class="op">==</span> <span class="st">"MachineLearning"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+</section>
+<section id="data-schema" class="level2">
+<h2 class="anchored" data-anchor-id="data-schema">Data Schema</h2>
+<section id="comments-schema-17-columns" class="level3">
+<h3 class="anchored" data-anchor-id="comments-schema-17-columns">Comments Schema (17 columns)</h3>
+<pre><code>author                         String
+author_flair_css_class         String
+author_flair_text              String
+body                           String      # Comment text content
+controversiality               Int64       # 0 or 1
+created_utc                    Int64       # Unix timestamp
+distinguished                  String
+edited                         Float64
+gilded                         Int64       # Number of gildings
+id                             String      # Unique comment ID
+link_id                        String      # Parent submission ID
+parent_id                      String      # Parent comment/submission ID
+retrieved_on                   Int64
+score                          Int64       # Upvotes - downvotes
+stickied                       Boolean
+subreddit                      String      # Subreddit name
+subreddit_id                   String</code></pre>
+</section>
+<section id="submissions-schema-21-columns" class="level3">
+<h3 class="anchored" data-anchor-id="submissions-schema-21-columns">Submissions Schema (21 columns)</h3>
+<pre><code>author                         String
+author_flair_css_class         String
+author_flair_text              String
+created_utc                    Int64       # Unix timestamp
+distinguished                  String
+domain                         String
+edited                         Float64
+id                             String      # Unique submission ID
+is_self                        Boolean     # Is text post
+locked                         Boolean
+num_comments                   Int64       # Comment count
+over_18                        Boolean     # NSFW flag
+quarantine                     Boolean
+retrieved_on                   Int64
+score                          Int64       # Upvotes - downvotes
+selftext                       String      # Post body text
+stickied                       Boolean
+subreddit                      String      # Subreddit name
+subreddit_id                   String
+title                          String      # Post title
+url                            String      # Post URL</code></pre>
+</section>
+</section>
+<section id="notes" class="level2">
+<h2 class="anchored" data-anchor-id="notes">Notes</h2>
+<ul>
+<li>The source bucket uses requester-pays, so ensure you include <code>--request-payer requester</code></li>
+<li>AWS CLI automatically handles multipart uploads for large files</li>
+<li>The <code>sync</code> command only copies new/changed files (safe to re-run)</li>
+<li>Data covers 14 months of Reddit activity (June 2023 - July 2024)</li>
+<li>Both comments and submissions maintain Reddit’s original data structure</li>
+<li>Use partition filtering (yyyy=YYYY/mm=MM) for efficient queries on time ranges</li>
+<li>Filter to specific subreddits early to reduce data size and processing time</li>
+</ul>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/gwu-dats6450-13\.github\.io\/6450-spring-2026\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+            // default icon
+            link.classList.add("external");
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>Content <i class="fa-brands fa-creative-commons" aria-label="creative-commons"></i> 2026<br> Abhijit Dasgupta<br> All content licensed under a <i class="fa-brands fa-creative-commons" aria-label="creative-commons"></i> <i class="fa-brands fa-creative-commons-by" aria-label="creative-commons-by"></i> <i class="fa-brands fa-creative-commons-nc" aria-label="creative-commons-nc"></i> <a href="https://creativecommons.org/licenses/by-nc/4.0/">Creative Commons Attribution-NonCommercial 4.0 International license (CC BY-NC 4.0)</a></p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+<p>Made with <i class="fa-brands fa-r-project" aria-label="r-project"></i> and <a href="https://quarto.org/">Quarto</a><br></p>
+</div>
+  </div>
+</footer>
+
+
+
+
+</body></html>
