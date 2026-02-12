@@ -1,0 +1,441 @@
+# Narwhals and Ibis Examples
+
+## Narwhals: Cross-Backend DataFrame Processing
+
+### Basic Operations
+
+```{python}
+#| echo: true
+#| eval: false
+
+import narwhals as nw
+import pandas as pd
+import polars as pl
+
+# Create sample data in both formats
+pandas_df = pd.DataFrame({
+    'name': ['Alice', 'Bob', 'Charlie', 'David'],
+    'age': [25, 30, 35, 40],
+    'salary': [50000, 60000, 75000, 90000],
+    'department': ['IT', 'HR', 'IT', 'Finance']
+})
+
+polars_df = pl.DataFrame({
+    'name': ['Alice', 'Bob', 'Charlie', 'David'],
+    'age': [25, 30, 35, 40],
+    'salary': [50000, 60000, 75000, 90000],
+    'department': ['IT', 'HR', 'IT', 'Finance']
+})
+
+# Single function works with both!
+def compute_stats(df):
+    df = nw.from_native(df)
+    
+    result = (
+        df
+        .filter(nw.col('age') >= 30)
+        .with_columns([
+            (nw.col('salary') * 1.15).alias('salary_projected')
+        ])
+        .group_by('department')
+        .agg([
+            nw.col('salary_projected').mean().alias('avg_salary'),
+            nw.col('age').min().alias('min_age'),
+            nw.len().alias('count')
+        ])
+    )
+    
+    return nw.to_native(result)
+
+# Works with pandas
+print("Pandas result:")
+print(compute_stats(pandas_df))
+
+# Works with polars  
+print("\nPolars result:")
+print(compute_stats(polars_df))
+```
+
+### String Operations
+
+```{python}
+#| echo: true
+#| eval: false
+
+import narwhals as nw
+
+def clean_names(df):
+    df = nw.from_native(df)
+    
+    result = df.with_columns([
+        nw.col('name').str.to_lowercase().alias('name_lower'),
+        nw.col('name').str.len().alias('name_length'),
+        nw.col('department').str.replace('IT', 'Technology').alias('dept_full')
+    ])
+    
+    return nw.to_native(result)
+
+# Works with any backend
+cleaned_pandas = clean_names(pandas_df)
+cleaned_polars = clean_names(polars_df)
+```
+
+### Date Operations
+
+```{python}
+#| echo: true
+#| eval: false
+
+import narwhals as nw
+import pandas as pd
+from datetime import datetime, timedelta
+
+df = pd.DataFrame({
+    'date': pd.date_range('2024-01-01', periods=10, freq='D'),
+    'sales': [100, 150, 200, 175, 225, 250, 300, 275, 325, 350]
+})
+
+def analyze_dates(df):
+    df = nw.from_native(df)
+    
+    result = df.with_columns([
+        nw.col('date').dt.year().alias('year'),
+        nw.col('date').dt.month().alias('month'),
+        nw.col('date').dt.day().alias('day'),
+        nw.col('date').dt.weekday().alias('weekday')
+    ])
+    
+    return nw.to_native(result)
+
+result = analyze_dates(df)
+```
+
+## Ibis: Cross-Database Queries
+
+### Connecting to Different Backends
+
+```{python}
+#| echo: true
+#| eval: false
+
+import ibis
+
+# DuckDB (in-memory or file)
+duckdb_con = ibis.duckdb.connect()
+duckdb_file = ibis.duckdb.connect('analytics.ddb')
+
+# SQLite
+sqlite_con = ibis.sqlite.connect('data.db')
+
+# PostgreSQL
+postgres_con = ibis.postgres.connect(
+    host='localhost',
+    port=5432,
+    database='mydb',
+    user='user',
+    password='password'
+)
+
+# Read from files directly (via DuckDB)
+con = ibis.duckdb.connect()
+table = con.read_parquet('data.parquet')
+csv_table = con.read_csv('data.csv')
+```
+
+### Basic Queries
+
+```{python}
+#| echo: true
+#| eval: false
+
+import ibis
+from ibis import _
+
+con = ibis.duckdb.connect()
+
+# Create a table from a DataFrame
+import pandas as pd
+df = pd.DataFrame({
+    'product': ['A', 'B', 'A', 'C', 'B', 'A'],
+    'quantity': [10, 20, 15, 30, 25, 12],
+    'price': [100, 200, 100, 300, 200, 100]
+})
+
+con.create_table('sales', df)
+sales = con.table('sales')
+
+# Query with Ibis
+result = (
+    sales
+    .mutate(revenue=_.quantity * _.price)
+    .group_by('product')
+    .agg(
+        total_quantity=_.quantity.sum(),
+        total_revenue=_.revenue.sum(),
+        avg_price=_.price.mean()
+    )
+    .order_by(ibis.desc('total_revenue'))
+)
+
+# Execute and get pandas DataFrame
+result.execute()
+```
+
+### Complex Aggregations
+
+```{python}
+#| echo: true
+#| eval: false
+
+import ibis
+from ibis import _
+
+con = ibis.duckdb.connect()
+
+# Sample e-commerce data
+orders = con.read_csv('orders.csv')
+
+analysis = (
+    orders
+    .filter(_.order_date >= '2024-01-01')
+    .mutate(
+        month=_.order_date.month(),
+        revenue=_.quantity * _.unit_price,
+        is_bulk=_.quantity > 100
+    )
+    .group_by(['month', 'category', 'is_bulk'])
+    .agg(
+        order_count=_.count(),
+        total_revenue=_.revenue.sum(),
+        avg_order_value=_.revenue.mean(),
+        unique_customers=_.customer_id.nunique()
+    )
+    .filter(_.total_revenue > 10000)
+    .order_by([_.month, ibis.desc(_.total_revenue)])
+)
+
+# View the generated SQL
+print(analysis.compile())
+
+# Execute
+result = analysis.execute()
+```
+
+### Window Functions
+
+```{python}
+#| echo: true
+#| eval: false
+
+import ibis
+from ibis import _
+
+con = ibis.duckdb.connect()
+sales = con.table('daily_sales')
+
+# Calculate running totals and rankings
+result = (
+    sales
+    .mutate(
+        running_total=_.amount.sum().over(
+            ibis.window(order_by=_.date, rows=(None, 0))
+        ),
+        rank=ibis.rank().over(
+            ibis.window(partition_by=_.category, order_by=ibis.desc(_.amount))
+        ),
+        pct_of_category=_.amount / _.amount.sum().over(
+            ibis.window(partition_by=_.category)
+        )
+    )
+    .filter(_.rank <= 10)  # Top 10 per category
+)
+
+result.execute()
+```
+
+### Joins Across Databases
+
+```{python}
+#| echo: true
+#| eval: false
+
+import ibis
+
+# Connect to different sources
+duckdb_con = ibis.duckdb.connect('warehouse.ddb')
+sqlite_con = ibis.sqlite.connect('operational.db')
+
+# Get tables from different databases
+customers = duckdb_con.table('customers')
+orders = sqlite_con.table('orders')
+
+# Join works across connections (data moved to DuckDB)
+result = (
+    orders
+    .join(customers, orders.customer_id == customers.id)
+    .group_by(customers.country)
+    .agg(
+        total_orders=orders.count(),
+        total_revenue=orders.amount.sum()
+    )
+)
+
+result.execute()
+```
+
+## Combining Narwhals and Ibis
+
+### Full ETL Pipeline
+
+```{python}
+#| echo: true
+#| eval: false
+
+import ibis
+import narwhals as nw
+import polars as pl
+
+def etl_pipeline(source_path, dest_db, use_polars=True):
+    # EXTRACT: Read from file with Ibis
+    con = ibis.duckdb.connect()
+    raw_data = con.read_parquet(source_path).execute()
+    
+    # Convert to desired backend
+    if use_polars:
+        raw_data = pl.from_pandas(raw_data)
+    
+    # TRANSFORM: Use Narwhals for portable transformations
+    def transform(df):
+        df = nw.from_native(df)
+        
+        return (
+            df
+            .filter(nw.col('status') == 'active')
+            .with_columns([
+                nw.col('created_at').dt.year().alias('year'),
+                nw.col('created_at').dt.month().alias('month'),
+                (nw.col('revenue') - nw.col('cost')).alias('profit')
+            ])
+            .group_by(['year', 'month', 'category'])
+            .agg([
+                nw.col('profit').sum().alias('total_profit'),
+                nw.col('revenue').sum().alias('total_revenue'),
+                nw.len().alias('transaction_count')
+            ])
+            .filter(nw.col('total_profit') > 0)
+            .to_native()
+        )
+    
+    transformed = transform(raw_data)
+    
+    # LOAD: Write back with Ibis
+    dest_con = ibis.connect(dest_db)
+    dest_con.create_table('monthly_summary', transformed, overwrite=True)
+    
+    return f"Pipeline complete. Processed {len(transformed)} rows."
+
+# Run with Polars backend
+result = etl_pipeline('raw_data.parquet', 'analytics.ddb', use_polars=True)
+print(result)
+```
+
+### Testing Across Backends
+
+```{python}
+#| echo: true
+#| eval: false
+
+import narwhals as nw
+import pandas as pd
+import polars as pl
+import pytest
+
+def business_logic(df):
+    """This function should work with any DataFrame backend"""
+    df = nw.from_native(df)
+    
+    result = (
+        df
+        .filter(nw.col('amount') > 100)
+        .group_by('category')
+        .agg([
+            nw.col('amount').sum().alias('total'),
+            nw.col('amount').mean().alias('average')
+        ])
+        .sort('total', descending=True)
+    )
+    
+    return nw.to_native(result)
+
+# Test data
+data = {
+    'category': ['A', 'B', 'A', 'C', 'B'],
+    'amount': [150, 200, 120, 90, 180]
+}
+
+# Test with Pandas
+pandas_result = business_logic(pd.DataFrame(data))
+assert isinstance(pandas_result, pd.DataFrame)
+
+# Test with Polars
+polars_result = business_logic(pl.DataFrame(data))
+assert isinstance(polars_result, pl.DataFrame)
+
+# Results should be equivalent
+pd.testing.assert_frame_equal(
+    pandas_result,
+    polars_result.to_pandas()
+)
+
+print("✓ Tests passed across all backends!")
+```
+
+## Performance Comparison
+
+```{python}
+#| echo: true
+#| eval: false
+
+import narwhals as nw
+import pandas as pd
+import polars as pl
+import time
+
+# Create large dataset
+n = 1_000_000
+data = {
+    'id': range(n),
+    'value': [i * 2 for i in range(n)],
+    'category': ['A', 'B', 'C', 'D'] * (n // 4)
+}
+
+pandas_df = pd.DataFrame(data)
+polars_df = pl.DataFrame(data)
+
+def benchmark_operation(df, backend_name):
+    start = time.time()
+    
+    df = nw.from_native(df)
+    result = (
+        df
+        .filter(nw.col('value') > 500000)
+        .group_by('category')
+        .agg([
+            nw.col('value').sum().alias('total'),
+            nw.col('value').mean().alias('average')
+        ])
+    )
+    result = nw.to_native(result)
+    
+    elapsed = time.time() - start
+    print(f"{backend_name}: {elapsed:.3f} seconds")
+    return result
+
+print("Benchmark: Filter and aggregate 1M rows")
+pandas_result = benchmark_operation(pandas_df, "Pandas")
+polars_result = benchmark_operation(polars_df, "Polars")
+```
+
+::: notes
+Narwhals adds minimal overhead while Polars itself is significantly faster than Pandas for most operations. The abstraction layer doesn't prevent you from getting the performance benefits of modern backends.
+:::

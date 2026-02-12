@@ -1,0 +1,1126 @@
+---
+title: "Lecture 5"
+subtitle: "Unified Data Access with Narwhals and Ibis"
+engine: knitr
+---
+
+```{css}
+/* Start normal */
+.bold-on {
+  font-weight: normal;
+  /*transition: font-weight 0.3s ease-in-out;*/
+}
+
+/* When fragment is activated, Reveal.js adds .visible */
+.bold-on.visible {
+  font-weight: bold;
+}
+```
+
+
+## Agenda and Goals for Today
+
+:::: {.columns}
+::: {.column width="50%"}
+
+### Lecture
+
+* Review: The modern data stack
+* The DataFrame fragmentation problem
+* Narwhals: Unified DataFrame API
+* Ibis: Unified database interface
+* Building portable data pipelines
+
+:::
+
+
+::: {.column width="50%"}
+
+### Lab
+
+* Write code that works across Pandas, Polars, and PyArrow
+* Query multiple databases with the same Ibis code
+* Build a portable analytics pipeline
+
+:::
+::::
+
+## Review: Where We've Been
+
+- **Week 2**: Parallelization in Python
+- **Week 4**: The holy trinity - Parquet, DuckDB, Polars
+  - Columnar storage formats
+  - OLAP databases
+  - Modern DataFrame libraries
+
+**Problem**: We now have many great tools, but they don't talk to each other easily
+
+## The DataFrame Fragmentation Problem
+
+::: highlight-box
+**The Landscape in 2025:**
+:::
+
+- **Pandas**: The original, still widely used
+- **Polars**: Fast, Rust-based, growing adoption
+- **PyArrow**: Direct Arrow Table manipulation
+- **Dask**: Distributed computing
+- **Modin**: Parallel Pandas
+- **cuDF**: GPU-accelerated DataFrames
+
+**Each has different APIs, syntax, and capabilities**
+
+## Why This Matters
+
+**For Library Authors:**
+
+```python
+def process_data(df):  # What type is df?
+    # Works with Pandas
+    result = df.groupby('category')['value'].mean()
+    
+    # Breaks with Polars
+    # Polars uses: df.group_by('category').agg(pl.col('value').mean())
+```
+
+**For Data Scientists:**
+
+- Lock-in to specific libraries
+- Hard to switch when requirements change
+- Code becomes non-portable
+- Organizational silos
+
+## Enter: Narwhals 🦄
+
+![](img/narwhals.png){width=200}
+
+**"Write once, run on any DataFrame"**
+
+A lightweight compatibility layer providing a unified API across:
+
+**Full API support:** cuDF, Modin, [pandas, Polars, PyArrow]{.fragment .highlight-blue fragment-index=1}.  
+**Lazy-only support:** Daft, [Dask, DuckDB, Ibis, PySpark]{.fragment .highlight-blue fragment-index=1}, SQLFrame.
+
+::: notes
+Narwhals provides a minimal, fast abstraction layer that lets you write DataFrame code once and run it on any backend. It's extremely lightweight (~50kb) and adds negligible overhead.
+:::
+
+## Narwhals Philosophy
+
+::: highlight-box
+**Design Principles:**
+:::
+
+1. **Lightweight**: Minimal overhead, lazy when possible
+2. **Expressive**: Polars-like syntax (modern and consistent) (uses a [subset of the Polars API](https://narwhals-dev.github.io/narwhals/api-reference/))
+3. **Interoperable**: Easy conversion to/from native types
+4. **Type-safe**: Full type hints for better IDE support
+5. **Zero-cost**: Abstraction that doesn't sacrifice performance
+
+**Key insight**: You work with native objects, Narwhals just provides a common interface
+
+
+## Narwhals: Basic Example
+
+```{python}
+#| echo: true
+#| code-fold: false
+#| eval: false
+
+import narwhals as nw
+import pandas as pd
+import polars as pl
+
+# Works with Pandas DataFrame
+df_pandas = pd.DataFrame({'a': [1, 2, 3], 'b': [4, 5, 6]})
+
+# Works with Polars DataFrame  
+df_polars = pl.DataFrame({'a': [1, 2, 3], 'b': [4, 5, 6]})
+
+# Same code for both!
+def process(df):
+    df_nw = nw.from_native(df)
+    result = df_nw.filter(nw.col('a') > 1).select(nw.col('b').sum())
+    return nw.to_native(result)
+
+process(df_pandas)  # Returns pandas DataFrame
+process(df_polars)  # Returns polars DataFrame
+```
+
+## Narwhals: Key Operations
+
+```{python}
+#| echo: true
+#| eval: false
+#| code-fold: false
+
+import narwhals as nw
+
+def analyze_data(df):
+    df = nw.from_native(df)
+    
+    result = (
+        df
+        .filter(nw.col('age') > 18)
+        .with_columns([
+            (nw.col('salary') * 1.1).alias('salary_adjusted'),
+            nw.col('name').str.to_uppercase().alias('name_upper')
+        ])
+        .group_by('department')
+        .agg([
+            nw.col('salary_adjusted').mean().alias('avg_salary'),
+            nw.col('age').max().alias('max_age')
+        ])
+        .sort('avg_salary', descending=True)
+    )
+    
+    return nw.to_native(result)
+```
+
+
+
+## Narwhals: Lazy Evaluation
+
+**Narwhals supports both eager and lazy execution modes:**
+
+```{python}
+#| echo: true
+#| eval: false
+
+import narwhals as nw
+import polars as pl
+
+# Eager mode (like Pandas)
+df_pandas = pd.DataFrame({'a': [1, 2, 3], 'b': [4, 5, 6]})
+df_nw = nw.from_native(df_pandas)
+result = df_nw.filter(nw.col('a') > 1).select('b')  # Executes immediately
+
+# Lazy mode (like Polars LazyFrame)
+df_lazy = pl.LazyFrame({'a': [1, 2, 3], 'b': [4, 5, 6]})
+df_nw = nw.from_native(df_lazy)
+result = df_nw.filter(nw.col('a') > 1).select('b')  # Builds query plan
+final = result.collect()  # Execute optimized query
+```
+
+## Narwhals: Lazy Execution Benefits
+
+**Why use lazy evaluation?**
+
+1. **Query optimization**: Backend can reorder and optimize operations
+2. **Memory efficiency**: Only materialize what's needed
+3. **Predicate pushdown**: Filters applied early
+4. **Projection pushdown**: Only read required columns
+
+```{python}
+#| echo: true
+#| eval: false
+
+# Lazy mode allows optimization
+df_lazy = nw.from_native(pl.scan_parquet('large_file.parquet'))
+
+result = (
+    df_lazy
+    .select(['date', 'amount', 'category'])  # Only read these columns
+    .filter(nw.col('date').dt.year() == 2024)  # Filter at read time
+    .group_by('category')
+    .agg(nw.col('amount').sum())
+)
+
+# Optimized plan is executed only on collect()
+final = result.collect()
+```
+
+## Narwhals: Checking Execution Mode
+
+```{python}
+#| echo: true
+#| eval: false
+
+import narwhals as nw
+
+def process_data(df):
+    df_nw = nw.from_native(df)
+    
+    # Check if lazy or eager
+    if hasattr(df_nw, 'collect'):
+        print("Lazy evaluation supported!")
+        result = (
+            df_nw
+            .filter(nw.col('value') > 100)
+            .select(['id', 'value'])
+        )
+        return result.collect()  # Materialize result
+    else:
+        print("Eager evaluation")
+        result = (
+            df_nw
+            .filter(nw.col('value') > 100)
+            .select(['id', 'value'])
+        )
+        return nw.to_native(result)
+
+# Works with both Pandas (eager) and Polars LazyFrame (lazy)
+```
+
+## Narwhals: When to Use It
+
+**✅ Great for:**
+
+- Building reusable data processing libraries
+- Writing code for teams with different tool preferences
+- Prototyping with flexibility to switch backends
+- Teaching/documentation that should work everywhere
+
+**❌ Not ideal for:**
+
+- Performance-critical inner loops (use native APIs)
+- Features specific to one backend
+- When you know you'll only use one library
+
+## Moving to Databases: The SQL Problem
+
+**Challenge**: Each database has slightly different SQL dialects
+
+```sql
+-- PostgreSQL
+SELECT * FROM table LIMIT 10;
+
+-- SQL Server
+SELECT TOP 10 * FROM table;
+
+-- Oracle
+SELECT * FROM table WHERE ROWNUM <= 10;
+```
+
+**Plus**: Many more differences in date functions, string operations, window functions, etc.
+
+## Enter: Ibis 🦆
+
+![](img/ibis-logo.png){width=200}
+
+**"The portable Python dataframe library"**
+
+A unified Python interface to:
+
+- 20+ database backends (DuckDB, PostgreSQL, BigQuery, Snowflake, etc.)
+- Local DataFrames (Pandas, Polars)
+- Cloud data warehouses
+- File formats (Parquet, CSV)
+
+::: notes
+Ibis translates Python expressions into optimized SQL for each backend. It's like having a universal translator for databases.
+:::
+
+## Ibis Philosophy
+
+::: highlight-box
+**Design Principles:**
+:::
+
+1. **Lazy Evaluation**: Build expression trees, execute when needed
+2. **Backend Agnostic**: Same code works on any database
+3. **Pythonic**: No SQL string manipulation
+4. **Type-safe**: Column types are known and checked
+5. **Optimized**: Pushes computation to the database
+
+**Key insight**: Let databases do what they're good at, orchestrate from Python
+
+## Ibis: Basic Example
+
+```{python}
+#| echo: true
+#| eval: false
+
+import ibis
+
+# Connect to different backends with same interface
+duckdb_con = ibis.duckdb.connect('data.ddb')
+postgres_con = ibis.postgres.connect(host='localhost', database='mydb')
+bigquery_con = ibis.bigquery.connect(project_id='my-project')
+
+# Same query works on all!
+def analyze(con):
+    table = con.table('sales')
+    
+    result = (
+        table
+        .filter(table.amount > 100)
+        .group_by('product')
+        .aggregate(total=table.amount.sum())
+        .order_by(ibis.desc('total'))
+    )
+    
+    return result.execute()  # Returns pandas DataFrame
+```
+
+## Ibis: Rich Expression API
+
+```{python}
+#| echo: true
+#| eval: false
+
+import ibis
+from ibis import _
+
+con = ibis.duckdb.connect()
+orders = con.table('orders')
+
+result = (
+    orders
+    .filter(_.order_date.year() == 2024)
+    .mutate(
+        month=_.order_date.month(),
+        revenue=_.quantity * _.price,
+        is_large=_.quantity > 100
+    )
+    .group_by(['month', 'category'])
+    .agg(
+        total_revenue=_.revenue.sum(),
+        avg_quantity=_.quantity.mean(),
+        order_count=_.count()
+    )
+    .filter(_.total_revenue > 10000)
+    .order_by([_.month, ibis.desc(_.total_revenue)])
+)
+
+# This generates optimized SQL for the backend
+result.execute()
+```
+
+## Ibis: Supported Backends
+
+**Databases:**
+
+- PostgreSQL, MySQL, SQLite
+- DuckDB, DataFusion
+- Snowflake, BigQuery, Redshift
+- ClickHouse, Trino
+- SQL Server, Oracle
+
+**DataFrames:**
+
+- Pandas, Polars, PyArrow
+
+**Files:**
+
+- Parquet, CSV (via DuckDB backend)
+
+**All with the same Python API!**
+
+## Ibis: Lazy Evaluation
+
+```{python}
+#| echo: true
+#| eval: false
+
+import ibis
+
+con = ibis.duckdb.connect()
+table = con.table('large_table')
+
+# Build the query (no execution yet)
+query = (
+    table
+    .filter(table.amount > 1000)
+    .group_by('category')
+    .aggregate(total=table.amount.sum())
+)
+
+# Inspect the generated SQL
+print(query.compile())
+
+# Execute when ready
+result = query.execute()  # This runs the query
+
+# Or stream for large results
+for batch in query.to_pyarrow_batches():
+    process(batch)
+```
+
+## Combining Narwhals and Ibis
+
+**Use them together for maximum portability!**
+
+```{python}
+#| echo: true
+#| eval: false
+
+import ibis
+import narwhals as nw
+
+# Extract from database with Ibis
+con = ibis.duckdb.connect('warehouse.ddb')
+sales = con.table('sales').execute()  # pandas DataFrame
+
+# Transform with Narwhals (works with pandas or polars)
+def transform(df):
+    df = nw.from_native(df)
+    return (
+        df
+        .with_columns([(nw.col('amount') * 1.1).alias('amount_tax')])
+        .filter(nw.col('amount_tax') > 100)
+        .to_native()
+    )
+
+transformed = transform(sales)
+
+# Load back to database with Ibis
+con.create_table('sales_processed', transformed)
+```
+
+## Real-World Pipeline Example
+
+```{python}
+#| echo: true
+#| eval: false
+
+import ibis
+import narwhals as nw
+
+def etl_pipeline(source_db, dest_db, frame_backend='pandas'):
+    # EXTRACT: Read from any database
+    source = ibis.connect(source_db)
+    raw_data = source.table('events').filter(_.date >= '2024-01-01').execute()
+    
+    # TRANSFORM: Process with any DataFrame library
+    def transform(df):
+        df = nw.from_native(df)
+        return (
+            df
+            .with_columns([
+                nw.col('event_time').dt.hour().alias('hour'),
+                nw.col('user_id').cast(nw.String).alias('user_id_str')
+            ])
+            .group_by(['hour', 'event_type'])
+            .agg([nw.col('user_id').n_unique().alias('unique_users')])
+            .to_native()
+        )
+    
+    processed = transform(raw_data)
+    
+    # LOAD: Write to any database
+    dest = ibis.connect(dest_db)
+    dest.create_table('event_summary', processed, overwrite=True)
+```
+
+## Performance Considerations
+
+**Narwhals:**
+
+- Negligible overhead (~1-2% typically)
+- Works with native objects, just wraps the API
+- No data copying unless converting between backends
+
+**Ibis:**
+
+- Pushes computation to database (often faster than local)
+- Lazy evaluation means efficient query planning
+- Can generate suboptimal SQL in complex cases (rare)
+
+**Best practice**: Profile both native and unified APIs for your use case
+
+## When to Use Each Tool
+
+**Use Narwhals when:**
+
+- Writing library code for others
+- Building data processing functions
+- Wanting flexibility in DataFrame backend
+- Working across team with different preferences
+
+**Use Ibis when:**
+
+- Querying multiple databases
+- Building cloud-agnostic pipelines
+- Need to switch data warehouses
+- Want Python instead of SQL strings
+
+**Use both when:**
+
+- Building full ETL/ELT pipelines
+- Maximum portability is required
+
+## Getting Started: Installation
+
+```bash
+# Install narwhals
+pip install narwhals
+
+# Install ibis with specific backends
+pip install 'ibis-framework[duckdb]'
+pip install 'ibis-framework[postgres]'
+pip install 'ibis-framework[bigquery]'
+
+# Or install multiple backends
+pip install 'ibis-framework[duckdb,postgres,snowflake]'
+
+# Narwhals automatically detects installed DataFrame libraries
+# No additional configuration needed!
+```
+
+## Code Migration Strategy
+
+**Step 1**: Identify portable operations
+```python
+# Before (pandas-specific)
+df.groupby('col')['value'].mean()
+
+# After (narwhals)
+nw.from_native(df).group_by('col').agg(nw.col('value').mean())
+```
+
+**Step 2**: Wrap in functions
+```python
+def my_analysis(df):
+    df = nw.from_native(df)
+    # ... narwhals operations ...
+    return nw.to_native(result)
+```
+
+**Step 3**: Gradually migrate critical paths
+
+## Best Practices
+
+1. **Start with the interface layer**: Wrap your data access in Narwhals/Ibis
+2. **Document backend requirements**: Some features may be backend-specific
+3. **Test across backends**: CI/CD should test multiple DataFrame/DB engines
+4. **Profile before optimizing**: Unified APIs are usually fast enough
+5. **Use type hints**: Both libraries support full typing
+6. **Leverage lazy evaluation**: Build queries, execute when ready
+
+## Limitations to Know
+
+**Narwhals:**
+- Not all DataFrame features are supported (by design)
+- Some operations may be slightly different across backends
+- Extension types (categorical, etc.) may behave differently
+
+**Ibis:**
+- SQL dialect differences can still leak through
+- Some backends have limited feature support
+- Requires connection setup for each backend
+
+**Solution**: Read the docs, test thoroughly, have fallback plans
+
+## Community and Resources
+
+**Narwhals:**
+
+- GitHub: `narwhals-dev/narwhals`
+- Docs: `narwhals-dev.github.io/narwhals`
+- Discord community for support
+
+**Ibis:**
+
+- GitHub: `ibis-project/ibis`
+- Docs: `ibis-project.org`
+- Active Zulip chat
+
+**Both projects are actively maintained and growing!**
+
+## Hands-On Lab Today
+
+You'll build a portable analytics pipeline that:
+
+1. Reads data from multiple sources (CSV, Parquet, SQLite)
+2. Processes with Narwhals (runs on Pandas, Polars, PyArrow)
+3. Queries databases with Ibis (DuckDB, SQLite)
+4. Produces identical results regardless of backend choice
+
+**Goal**: Write the code once, run it anywhere!
+
+## Key Takeaways
+
+::: highlight-box
+**Remember:**
+:::
+
+1. **Narwhals** = Unified DataFrame API for local computation
+2. **Ibis** = Unified interface to databases and warehouses
+3. **Together** = Portable, backend-agnostic data pipelines
+4. **Trade-off** = Slight abstraction cost for massive flexibility
+5. **Future-proof** = Code survives technology changes
+
+*Write portable code today, thank yourself tomorrow*
+
+## Next Week
+
+- Deep dive into Apache Spark
+- Distributed computing at scale
+- When local tools aren't enough
+- How Spark relates to the tools we've learned
+
+**The tools we've covered are powerful for single-node workloads—Spark takes us to multi-node clusters**
+
+## Hive-Style Partitioning for Parquet
+
+**Directory-based data organization pattern:**
+
+```
+data/
+├── year=2024/
+│   ├── month=01/
+│   │   ├── day=01/
+│   │   │   └── data.parquet
+│   │   └── day=02/
+│   │       └── data.parquet
+│   └── month=02/
+│       └── day=01/
+│           └── data.parquet
+└── year=2025/
+    └── month=01/
+        └── day=01/
+            └── data.parquet
+```
+
+**Partition keys are encoded in directory structure, not file contents**
+
+## Hive Partitioning: How It Works
+
+**Key concept**: Organize files by column values in nested directories
+
+```python
+# Writing partitioned data
+import polars as pl
+
+df = pl.DataFrame({
+    'date': ['2024-01-01', '2024-01-02', '2024-02-01'],
+    'product': ['A', 'B', 'A'],
+    'sales': [100, 200, 150]
+})
+
+# Create partitions by date components
+df = df.with_columns([
+    pl.col('date').str.to_date().dt.year().alias('year'),
+    pl.col('date').str.to_date().dt.month().alias('month')
+])
+
+# Write with Hive partitioning
+df.write_parquet('data', partition_by=['year', 'month'])
+```
+
+**Result**: Files organized in `year=2024/month=01/` directories
+
+## Why Hive Partitioning Matters
+
+**🚀 Performance Benefits:**
+
+1. **Partition pruning**: Skip entire directories when filtering
+2. **Parallel I/O**: Read only relevant partitions concurrently
+3. **Reduced memory**: Don't load unnecessary data
+4. **Faster queries**: Orders of magnitude speedup on large datasets
+
+```python
+# Without partitioning: scan entire dataset
+df = pl.scan_parquet('data/*.parquet')
+result = df.filter(pl.col('year') == 2024).collect()
+
+# With partitioning: only read year=2024/ directory
+df = pl.scan_parquet('data/**/*.parquet', hive_partitioning=True)
+result = df.filter(pl.col('year') == 2024).collect()  # Much faster!
+```
+
+## Partition Pruning in Action
+
+**Example**: 1TB dataset, 3 years of data
+
+```python
+import ibis
+
+# Connect to DuckDB (great Parquet support)
+con = ibis.duckdb.connect()
+
+# Query with automatic partition pruning
+table = con.read_parquet(
+    'data/**/*.parquet',
+    hive_partitioning=True
+)
+
+# Only reads ~340GB (1 year) instead of 1TB
+recent = table.filter(table.year == 2024).execute()
+```
+
+**Benchmark**: 3x-10x faster queries on partitioned data
+
+## Choosing Good Partition Keys
+
+**✅ Good partition keys:**
+
+- **High cardinality but not too high**: 10-1000 partitions ideal
+- **Common filter columns**: Date/time, region, category
+- **Evenly distributed data**: Avoid skew
+- **Stable values**: Don't change over time
+
+**❌ Avoid:**
+
+- **Too many partitions**: User ID, transaction ID (millions of dirs)
+- **Unbalanced partitions**: Status with 99% "active", 1% "inactive"
+- **Rarely queried columns**: Columns you never filter on
+
+## Partition Strategy Examples
+
+**Time-series data:**
+```
+year=2024/month=12/day=15/data.parquet  # Fine-grained
+year=2024/month=12/data.parquet          # Medium
+year=2024/data.parquet                    # Coarse
+```
+
+**Multi-dimensional:**
+```
+region=us/category=electronics/data.parquet
+region=eu/category=books/data.parquet
+```
+
+**Best practice**: Start with coarser partitions, refine if needed
+
+## Reading Partitioned Data
+
+**All modern tools support Hive partitioning:**
+
+```python
+# Polars
+df = pl.scan_parquet('data/**/*.parquet', hive_partitioning=True)
+
+# DuckDB
+con.execute("SELECT * FROM read_parquet('data/**/*.parquet', hive_partitioning=true)")
+
+# Ibis
+table = con.read_parquet('data/**/*.parquet', hive_partitioning=True)
+
+# PyArrow
+import pyarrow.parquet as pq
+ds = pq.ParquetDataset('data/', partitioning='hive')
+```
+
+**Partition columns automatically added to DataFrame**
+
+## Writing Partitioned Data
+
+**Create partitions when writing:**
+
+```python
+# Polars
+df.write_parquet('data', partition_by=['year', 'month'])
+
+# PyArrow
+import pyarrow.parquet as pq
+pq.write_to_dataset(
+    table,
+    root_path='data',
+    partition_cols=['year', 'month']
+)
+
+# Ibis with DuckDB
+con.create_table('output', df, temp=False)
+con.execute("""
+    COPY (SELECT * FROM output) 
+    TO 'data' (FORMAT PARQUET, PARTITION_BY (year, month))
+""")
+```
+
+## Partitioning Best Practices
+
+1. **Partition size**: Target 100MB-1GB per file (not too small/large)
+2. **Partition count**: Keep under 1000 directories if possible
+3. **Schema evolution**: Partition keys should be stable
+4. **Metadata**: Consider partition discovery overhead
+5. **Compression**: Works with partitioning (zstd recommended)
+
+```python
+# Good: 365 partitions (daily for 1 year)
+partition_by=['year', 'month', 'day']
+
+# Bad: Millions of partitions
+partition_by=['user_id']  # Too many!
+```
+
+## Real-World Example: Sales Analytics
+
+```python
+import polars as pl
+from datetime import datetime
+
+# Generate sales data
+sales = pl.DataFrame({
+    'timestamp': [...],  # 10M rows
+    'product_id': [...],
+    'amount': [...],
+    'region': [...]
+})
+
+# Prepare for partitioning
+sales = sales.with_columns([
+    pl.col('timestamp').dt.year().alias('year'),
+    pl.col('timestamp').dt.month().alias('month'),
+    pl.col('region').alias('region')
+])
+
+# Write partitioned (100s of files, organized by year/month/region)
+sales.write_parquet('sales_data', partition_by=['year', 'month', 'region'])
+
+# Fast queries: only scan relevant partitions
+q = pl.scan_parquet('sales_data/**/*.parquet', hive_partitioning=True)
+q.filter(
+    (pl.col('year') == 2024) & 
+    (pl.col('region') == 'US')
+).group_by('product_id').agg(pl.col('amount').sum())
+```
+
+## Partitioning + Column Pruning = Maximum Speed
+
+**Combine two optimizations:**
+
+```python
+# Only read specific columns from specific partitions
+q = (
+    pl.scan_parquet('data/**/*.parquet', hive_partitioning=True)
+    .select(['product_id', 'amount'])  # Column pruning
+    .filter(pl.col('year') == 2024)     # Partition pruning
+)
+
+# Reads minimal data:
+# ✓ Only 2024 directories (not 2022, 2023)  
+# ✓ Only 2 columns (not all 50)
+# ✓ Compressed Parquet format
+```
+
+**Result**: Queries on TBs feel like queries on MBs
+
+## When NOT to Partition
+
+**Skip partitioning if:**
+
+- Dataset is small (<10GB)
+- No clear filter patterns
+- Data changes frequently (many small updates)
+- You need flexibility to change partition keys
+
+**Alternative**: Use file-level metadata filters or Z-order clustering
+
+## Understanding Null vs NaN in Python
+
+**Two distinct concepts often confused:**
+
+- **`None` / `null`**: Absence of a value (missing data)
+- **`NaN`**: "Not a Number" - a specific floating-point value (IEEE 754)
+
+```python
+import math
+import numpy as np
+
+# None is Python's null
+x = None
+print(type(x))  # <class 'NoneType'>
+
+# NaN is a float value
+y = float('nan')
+print(type(y))  # <class 'float'>
+print(y == y)   # False (NaN != NaN by IEEE 754)
+print(math.isnan(y))  # True
+```
+
+**Key difference**: `NaN` is a value; `None` represents no value
+
+## Null vs NaN: Semantic Meaning
+
+**When to use each:**
+
+**`None` / `null`:**
+- Data wasn't collected
+- Not applicable for this record
+- Missing in the source system
+- Any data type (strings, integers, dates)
+
+**`NaN`:**
+- Mathematical undefined result (`0/0`, `∞ - ∞`)
+- Propagates through numeric calculations
+- Specific to floating-point arithmetic
+- Only for numeric types
+
+```python
+# Appropriate uses
+age = None          # Person didn't provide age
+price = float('nan')  # Invalid calculation result
+```
+
+## The Pandas Problem
+
+**Pandas historically conflated `None` and `NaN`:**
+
+```python
+import pandas as pd
+import numpy as np
+
+# Creating a Series with None
+s = pd.Series([1, None, 3])
+print(s)
+# 0    1.0
+# 1    NaN  # None became NaN!
+# 2    3.0
+
+# Type was converted to float64
+print(s.dtype)  # float64
+
+# Can't represent integer + null without nullable types
+# Integer columns become float just to handle missing data
+```
+
+**Problem**: Lost distinction between missing data and invalid calculations
+
+## Pandas: Type Coercion Issues
+
+**The old Pandas behavior:**
+
+```python
+import pandas as pd
+
+# Integer column with missing value
+data = pd.Series([1, 2, None, 4])
+print(data.dtype)  # float64 (not int64!)
+
+# String column with missing value  
+names = pd.Series(['Alice', None, 'Charlie'])
+print(names.dtype)  # object
+
+# Even boolean columns!
+flags = pd.Series([True, False, None])
+print(flags.dtype)  # object (not bool!)
+```
+
+**Why?**: NumPy arrays don't support `null` for most types, so Pandas used `NaN` and float64
+
+## Modern Solution: Nullable Types
+
+**Pandas 1.0+ introduced proper nullable types:**
+
+```python
+import pandas as pd
+
+# Use nullable integer
+data = pd.Series([1, 2, None, 4], dtype='Int64')  # Capital I
+print(data.dtype)  # Int64
+print(data)
+# 0       1
+# 1       2
+# 2    <NA>  # Proper null marker
+# 3       4
+
+# Nullable boolean
+flags = pd.Series([True, False, None], dtype='boolean')
+print(flags.dtype)  # boolean
+
+# Nullable string
+names = pd.Series(['Alice', None, 'Charlie'], dtype='string')
+print(names.dtype)  # string
+```
+
+**`<NA>` is Pandas' null sentinel, distinct from `NaN`**
+
+## Polars: Clear Null Semantics
+
+**Polars has null handling right from the start:**
+
+```python
+import polars as pl
+
+# Integer column with null - no type coercion!
+data = pl.Series('values', [1, 2, None, 4])
+print(data.dtype)  # Int64 (not Float64!)
+
+# Nulls work with any type
+names = pl.Series('names', ['Alice', None, 'Charlie'])
+print(names.dtype)  # Utf8
+
+flags = pl.Series('flags', [True, False, None])
+print(flags.dtype)  # Boolean
+
+# NULL is a distinct value, not NaN
+print(data.null_count())  # 1
+```
+
+**Polars**: `null` is null, `NaN` is `NaN`, types are preserved
+
+## Checking for Missing Values
+
+**Different approaches across tools:**
+
+```python
+import pandas as pd
+import polars as pl
+import numpy as np
+
+# Pandas (checks for both None and NaN)
+s = pd.Series([1, None, float('nan'), 4])
+print(s.isna())   # [False, True, True, False]
+print(s.isnull()) # Same as isna()
+
+# Polars (explicit about nulls)
+s = pl.Series([1, None, float('nan'), 4])
+print(s.is_null())     # [False, True, False, False]
+print(s.is_nan())      # [False, False, True, False]
+
+# NumPy (only checks for NaN)
+arr = np.array([1, np.nan, 4])
+print(np.isnan(arr))  # [False, True, False]
+```
+
+**Polars distinguishes null from NaN; Pandas often doesn't**
+
+## Narwhals: Handling Nulls Portably
+
+**Narwhals follows Polars semantics:**
+
+```python
+import narwhals as nw
+import pandas as pd
+import polars as pl
+
+def handle_missing(df):
+    df = nw.from_native(df)
+    return (
+        df
+        .filter(~nw.col('value').is_null())  # Remove nulls
+        .with_columns(
+            nw.col('value').fill_null(0)      # Replace nulls with 0
+        )
+    )
+
+# Works consistently across backends
+df_pandas = pd.DataFrame({'value': [1, None, 3]})
+df_polars = pl.DataFrame({'value': [1, None, 3]})
+
+handle_missing(df_pandas)  # Treats None/NaN as null
+handle_missing(df_polars)  # Native null handling
+```
+
+**Recommendation**: Use Narwhals/Polars semantics for clarity
+
+## Best Practices: Null Handling
+
+**Modern recommendations:**
+
+1. **Use nullable dtypes in Pandas**: `Int64`, `boolean`, `string`
+2. **Prefer Polars** for new projects (clean null semantics)
+3. **Avoid mixing `None` and `NaN`** in the same context
+4. **Be explicit**: Use `is_null()` / `is_nan()` separately
+5. **Document assumptions**: What does missing mean in your data?
+
+```python
+# Good: Clear intent
+df = pl.DataFrame({
+    'age': pl.Series([25, None, 30], dtype=pl.Int64),  # Missing
+    'score': pl.Series([1.5, float('nan'), 2.0])       # Invalid calculation
+})
+
+# Bad: Ambiguous
+df = pd.DataFrame({
+    'age': [25, np.nan, 30],  # Is this missing or invalid?
+})
+```
+
+
+## GitHub Classroom
+
+[GitHub Classroom Link]({{< var gh-classroom.a05 >}})
+
