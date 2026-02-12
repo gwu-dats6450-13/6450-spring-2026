@@ -1,0 +1,340 @@
+---
+title: "Writing Good GitHub Commits"
+subtitle: "Best Practices for Clear Version Control"
+
+---
+
+## Why Commits Matter
+
+- **Communication** with your future self and teammates
+- **History** of project evolution
+- **Debugging** by identifying when issues were introduced
+- **Documentation** of decision-making
+
+## Anatomy of a Good Commit
+
+```
+<type>: <subject>
+
+<body>
+
+<footer>
+```
+
+::: {.notes}
+The commit message has three parts: subject, body, and footer
+:::
+
+## The Subject Line
+
+**Keep it short and descriptive (50 characters or less)**
+
+Good examples:
+```
+Fix login button alignment on mobile
+Add user authentication middleware
+Update README with installation steps
+```
+
+## Subject Line Rules
+
+1. Use **imperative mood** ("Add feature" not "Added feature")
+2. **Capitalize** the first letter
+3. **No period** at the end
+4. Be **specific** about what changed
+
+## ❌ Bad Subject Lines
+
+```
+Fixed stuff
+Updated files
+Changes
+WIP
+asdfasdf
+```
+
+These tell us nothing about what actually changed!
+
+## ✅ Good Subject Lines
+
+```
+Fix memory leak in data processing loop
+Add validation for email input fields
+Refactor database query for performance
+Remove deprecated API endpoints
+```
+
+Clear, concise, and descriptive!
+
+## The Body (Optional)
+
+Use when you need to explain:
+
+- **Why** the change was made
+- **What** problem it solves
+- **How** it differs from previous behavior
+- Any **side effects** or **limitations**
+
+## Body Example
+
+```
+Fix duplicate entries in user search results
+
+The search query was not properly deduplicating
+results when users had multiple roles. Added
+DISTINCT clause to SQL query and updated tests
+to verify unique results.
+
+Fixes #234
+```
+
+## Commit Best Practices
+
+:::: {.columns}
+::: {.column width="50%"}
+### Do
+- One logical change per commit
+- Test before committing
+- Commit often
+- Write for others
+:::
+
+::: {.column width="50%"}
+### Don't
+- Mix unrelated changes
+- Commit broken code
+- Use vague messages
+- Commit sensitive data
+:::
+::::
+
+## Atomic Commits
+
+**Each commit should be a single, complete unit of work**
+
+✅ Good:
+
+- Commit 1: Add user model
+- Commit 2: Add user controller
+- Commit 3: Add user routes
+
+❌ Bad:
+
+- Commit 1: Add user feature, fix typo in README, update dependencies
+
+## Conventional Commits
+
+A standardized format for commit messages:
+
+```
+feat: add user profile page
+fix: resolve null pointer in checkout
+docs: update API documentation
+style: format code with prettier
+refactor: simplify error handling
+test: add unit tests for auth service
+chore: update dependencies
+```
+
+## Common Types
+
+- **feat**: A new feature
+- **fix**: A bug fix
+- **docs**: Documentation only changes
+- **style**: Code style changes (formatting, etc.)
+- **refactor**: Code restructuring without changing behavior
+- **test**: Adding or updating tests
+- **chore**: Maintenance tasks
+
+## When to Commit?
+
+Commit when you've completed a **logical unit of work**:
+
+- ✅ Finished a function
+- ✅ Fixed a bug
+- ✅ Added a test
+- ✅ Refactored a component
+
+❌ Not at end of day "just to save"
+
+## The Golden Rule
+
+> Write commit messages that will help someone (including future you) understand what changed and why, without having to look at the diff.
+
+## Quick Checklist
+
+Before committing, ask yourself:
+
+- [ ] Is the subject clear and concise?
+- [ ] Does it explain **what** changed?
+- [ ] If needed, does the body explain **why**?
+- [ ] Is this a single logical change?
+- [ ] Have I tested this change?
+
+
+## Resources
+
+- [Conventional Commits](https://www.conventionalcommits.org/)
+- [How to Write a Git Commit Message](https://chris.beams.io/posts/git-commit/)
+- [GitHub Commit Best Practices](https://github.com/erlang/otp/wiki/writing-good-commit-messages)
+
+## Git Collaboration Models
+
+Different workflows for different team sizes and needs:
+
+- **Centralized Workflow**
+- **Feature Branch Workflow**
+- **Gitflow Workflow**
+- **Forking Workflow**
+
+## Centralized Workflow
+
+**Best for**: Small teams, simple projects
+
+```
+main branch
+    |
+    *---*---*---*
+```
+
+- Everyone commits directly to `main`
+- Pull before you push
+- Linear history
+- Simple but risky
+
+## Feature Branch Workflow
+
+**Best for**: Most teams
+
+```
+main     *---*---*-------*
+              \         /
+feature        *---*---*
+```
+
+- Create branch for each feature
+- Merge back to `main` when done
+- Use Pull Requests for review
+- Keeps `main` stable
+
+## Feature Branch Example
+
+```bash
+# Create and switch to feature branch
+git checkout -b feature/user-auth
+
+# Make changes and commit
+git add .
+git commit -m "feat: add login endpoint"
+
+# Push and create Pull Request
+git push origin feature/user-auth
+```
+
+## Gitflow Workflow
+
+**Best for**: Scheduled releases, larger teams
+
+```
+main      *---------*---------*
+           \       / \       /
+develop     *--*--*---*--*--*
+             \   /     \   /
+feature       *-*       *-*
+```
+
+- `main`: production-ready code
+- `develop`: integration branch
+- `feature/*`: new features
+- `release/*`: preparing releases
+- `hotfix/*`: emergency fixes
+
+## Forking Workflow
+
+**Best for**: Open source projects
+
+1. Fork repository to your account
+2. Clone your fork locally
+3. Create feature branch
+4. Push to your fork
+5. Open Pull Request to original repo
+
+Maintainers control what gets merged.
+
+## Pull Request Best Practices
+
+- **Clear title** following commit conventions
+- **Description** explaining the change
+- **Link related issues** (Fixes #123)
+- **Request reviewers** explicitly
+- **Keep PRs small** and focused
+- **Respond to feedback** promptly
+
+## Code Review Tips
+
+**As Author**:
+
+- Write clear PR description
+- Self-review before requesting
+- Be open to feedback
+
+**As Reviewer**:
+
+- Be constructive and specific
+- Ask questions, don't demand
+- Approve when ready, not perfect
+
+## Merge Strategies
+
+**Merge Commit**: Preserves all history
+```
+*---*---*-------*  main
+         \     /
+          *---*    feature
+```
+
+**Squash**: Combines commits into one
+```
+*---*---*---*  main
+```
+
+**Rebase**: Linear history
+```
+*---*---*---*---*  main
+```
+
+## Handling Conflicts
+
+When merges conflict:
+
+1. Pull latest changes
+2. Resolve conflicts in files
+3. Test the resolution
+4. Commit the merge
+5. Push changes
+
+**Tip**: Communicate with your team to avoid conflicts!
+
+## Branch Protection Rules
+
+Protect important branches on GitHub:
+
+- Require Pull Request reviews
+- Require status checks to pass
+- Require signed commits
+- Restrict who can push
+- Require linear history
+
+## Team Workflow Tips
+
+- **Agree on a workflow** as a team
+- **Document conventions** in CONTRIBUTING.md
+- **Use branch naming conventions** (feature/, fix/, docs/)
+- **Keep branches short-lived**
+- **Communicate** about major changes
+
+## Thank You!
+
+**Remember**: Good commits make collaboration easier and your project history more valuable.
+
+Questions?
