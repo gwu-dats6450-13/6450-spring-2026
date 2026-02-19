@@ -45,6 +45,8 @@ website:
               text: "3. The Cloud"
             - file: content/04-content.qmd
               text: "4. Polars, DuckDB and Parquet"
+            - file: content/05-content.qmd
+              text: "5. Modern tools, continued"
     - title: "Resources"
       contents:
         - file: resources/uv.qmd

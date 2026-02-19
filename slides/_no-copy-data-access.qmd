@@ -1,0 +1,235 @@
+# Zero-Copy Data Access
+
+## The Traditional Problem
+
+:::: {.columns}
+::: {.column width="50%"}
+**Old Approach**
+
+```python
+# CSV: Read entire file
+df = pd.read_csv("data.csv")
+# Copy into memory
+# Parse text → objects
+# High memory overhead
+```
+:::
+
+::: {.column width="50%"}
+**Consequences**
+
+- Multiple copies in memory
+- Slow parsing (text → typed data)
+- Memory spikes during load
+- Limited by RAM size
+:::
+::::
+
+## What is Zero-Copy Access?
+
+**Zero-copy** means reading data without duplicating it in memory
+
+:::: {.columns}
+::: {.column width="50%"}
+**Key Idea**
+
+- Data stays on disk (memory-mapped)
+- Direct access to bytes
+- No intermediate parsing
+- Share data between processes
+:::
+
+::: {.column width="50%"}
+**Benefits**
+
+- 🚀 Faster startup
+- 💾 Lower memory usage
+- 🔄 Efficient sharing
+- 📊 Query before loading
+:::
+::::
+
+## Apache Parquet: Designed for Zero-Copy
+
+**Columnar binary format with metadata**
+
+```{python}
+#| eval: false
+#| echo: true
+import polars as pl
+
+# Metadata tells us structure without reading data
+schema = pl.scan_parquet("data.parquet").schema
+
+# Read only what you need
+df = pl.scan_parquet("data.parquet").select("col1", "col2").collect()
+```
+
+**Why Parquet enables zero-copy:**
+
+- Binary format (no text parsing)
+- Columnar layout (read only needed columns)
+- Built-in statistics (skip chunks via metadata)
+- Apache Arrow compatible
+
+## Apache Arrow: The Memory Standard
+
+**Arrow is the common in-memory format**
+
+```
+┌─────────────┐
+│   Parquet   │ (on disk)
+└──────┬──────┘
+       │ zero-copy map
+       ↓
+┌─────────────┐
+│Arrow Memory │ (columnar buffers)
+└──────┬──────┘
+       ├───→ Polars (zero-copy)
+       ├───→ DuckDB (zero-copy)
+       └───→ PyArrow (zero-copy)
+```
+
+**No serialization between tools!**
+
+## Polars: Zero-Copy Native
+
+**Built on Arrow from the ground up**
+
+```{python}
+#| eval: false
+#| echo: true
+import polars as pl
+
+# Lazy scan: no data loaded yet
+lazy_df = pl.scan_parquet("taxi_*.parquet")
+
+# Build query plan (still no copy)
+query = (lazy_df
+    .filter(pl.col("distance") > 5)
+    .group_by("borough")
+    .agg(pl.col("fare").mean())
+)
+
+# Execute: stream through data, minimal copies
+result = query.collect()
+```
+
+**Advantages:** Query optimization, predicate pushdown, parallel streaming
+
+## DuckDB: Zero-Copy SQL
+
+**Analytical database designed for zero-copy**
+
+```{python}
+#| eval: false
+#| echo: true
+import duckdb
+
+# Query parquet directly (no load step)
+result = duckdb.sql("""
+    SELECT borough, AVG(fare) as avg_fare
+    FROM 'taxi_*.parquet'
+    WHERE distance > 5
+    GROUP BY borough
+""").pl()  # Returns Polars DataFrame (zero-copy)
+```
+
+**DuckDB → Polars is zero-copy** (both use Arrow)
+
+## Memory Mapping in Action
+
+**How it works under the hood:**
+
+1. **mmap()** system call maps file to virtual memory
+2. OS loads pages on-demand (lazy loading)
+3. Multiple processes share same physical pages
+4. OS manages paging (better than manual reads)
+
+```python
+# Conceptually what happens:
+file_bytes = mmap.mmap(fd, length, access=mmap.ACCESS_READ)
+# Arrow views these bytes directly as typed arrays
+# No copy, no parsing!
+```
+
+## Real Performance Impact
+
+**Example: 1GB Parquet file**
+
+| Operation | Traditional | Zero-Copy | Speedup |
+|-----------|-------------|-----------|---------|
+| Load time | 8.2s | 0.3s | **27x** |
+| Memory use | 2.5 GB | 1.1 GB | **2.3x** |
+| Filter | 3.1s | 0.4s | **7.8x** |
+| Column select | 8.2s | 0.05s | **164x** |
+
+*Zero-copy reads only what's needed, when it's needed*
+
+## Interoperability Benefits
+
+**Seamless data sharing:**
+
+```{python}
+#| eval: false
+#| echo: true
+import polars as pl
+import duckdb
+
+# Polars reads parquet (zero-copy)
+df = pl.scan_parquet("data.parquet").collect()
+
+# Pass to DuckDB (zero-copy)
+result = duckdb.sql("SELECT * FROM df WHERE x > 10").pl()
+
+# Convert to pandas (copy needed, but only once)
+pandas_df = result.to_pandas()
+```
+
+**Arrow is the lingua franca** of modern data tools
+
+## Best Practices
+
+**To maximize zero-copy benefits:**
+
+1. **Use Parquet** for storage (not CSV)
+2. **Use lazy evaluation** when possible (`scan_parquet`, not `read_parquet`)
+3. **Filter early** (predicate pushdown)
+4. **Select columns** before collecting (projection pushdown)
+5. **Partition data** for better selectivity
+6. **Stay in Arrow ecosystem** (Polars/DuckDB/PyArrow)
+
+## When Copies Still Happen
+
+**Zero-copy isn't always possible:**
+
+- Converting to pandas (different memory layout)
+- Complex string operations (may need materialization)
+- Writing results to disk
+- Network transfers
+- Some aggregations (need intermediate buffers)
+
+**But:** Even when copies happen, they're minimized and strategic
+
+## Summary
+
+**Zero-copy data access advantages:**
+
+✅ **Performance**: Faster loads, lower latency
+✅ **Efficiency**: Reduced memory footprint  
+✅ **Scalability**: Work with larger-than-RAM datasets  
+✅ **Interoperability**: Share data between tools seamlessly  
+✅ **Simplicity**: Query before loading, explore without cost
+
+**The ecosystem:** Parquet (storage) + Arrow (memory) + Polars/DuckDB (compute)
+
+## Resources
+
+**Learn More:**
+
+- [Apache Arrow](https://arrow.apache.org/)
+- [Apache Parquet](https://parquet.apache.org/)
+- [Polars Documentation](https://pola-rs.github.io/polars/)
+- [DuckDB Documentation](https://duckdb.org/)
+
+**Key concept:** Modern data tools separate *storage* from *compute*, enabling zero-copy workflows

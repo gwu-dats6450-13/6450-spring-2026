@@ -2,20 +2,10 @@
 title: "Lecture 5"
 subtitle: "Unified Data Access with Narwhals and Ibis"
 engine: knitr
+format:
+    revealjs:
+        code-fold: false
 ---
-
-```{css}
-/* Start normal */
-.bold-on {
-  font-weight: normal;
-  /*transition: font-weight 0.3s ease-in-out;*/
-}
-
-/* When fragment is activated, Reveal.js adds .visible */
-.bold-on.visible {
-  font-weight: bold;
-}
-```
 
 
 ## Agenda and Goals for Today
@@ -38,9 +28,7 @@ engine: knitr
 
 ### Lab
 
-* Write code that works across Pandas, Polars, and PyArrow
-* Query multiple databases with the same Ibis code
-* Build a portable analytics pipeline
+* Write code that works across Pandas, Polars
 
 :::
 ::::
@@ -53,7 +41,27 @@ engine: knitr
   - OLAP databases
   - Modern DataFrame libraries
 
-**Problem**: We now have many great tools, but they don't talk to each other easily
+::: callout-important
+Blackboard is strange!! We need you to make a "submission" for each of the earlier labs/assignments. This submission will be the URL of the respective Github repository. 
+
+This "submission" ensures that your grades show up on Blackboard. It will not affect late policies, which are determined by the timestamp of your GitHub commits.
+
+This will be a requirement for all labs/assignments going forward.
+:::
+
+## Project progress
+
+[Only 15/24 students have joined groups!!]{style="color: red;font-size: 1.2em;font-weight: bold;"}
+
+Fix this before tonight!!!
+
+First milestone is due next week. [See here for details](/content/05-content.qmd) for now. 
+
+# First, a digression
+
+{{< include _github-commits.qmd >}}
+
+{{< include _no-copy-data-access.qmd >}}
 
 ## The DataFrame Fragmentation Problem
 
@@ -186,6 +194,7 @@ def analyze_data(df):
 ```{python}
 #| echo: true
 #| eval: false
+#| code-fold: false
 
 import narwhals as nw
 import polars as pl
@@ -214,6 +223,7 @@ final = result.collect()  # Execute optimized query
 ```{python}
 #| echo: true
 #| eval: false
+#| code-fold: false
 
 # Lazy mode allows optimization
 df_lazy = nw.from_native(pl.scan_parquet('large_file.parquet'))
@@ -294,9 +304,9 @@ SELECT * FROM table WHERE ROWNUM <= 10;
 
 **Plus**: Many more differences in date functions, string operations, window functions, etc.
 
-## Enter: Ibis 🦆
+## Enter: Ibis
 
-![](img/ibis-logo.png){width=200}
+![](img/ibis-logo.svg){width=200}
 
 **"The portable Python dataframe library"**
 
@@ -591,11 +601,13 @@ def my_analysis(df):
 ## Limitations to Know
 
 **Narwhals:**
+
 - Not all DataFrame features are supported (by design)
 - Some operations may be slightly different across backends
 - Extension types (categorical, etc.) may behave differently
 
 **Ibis:**
+
 - SQL dialect differences can still leak through
 - Some backends have limited feature support
 - Requires connection setup for each backend
@@ -618,7 +630,7 @@ def my_analysis(df):
 
 **Both projects are actively maintained and growing!**
 
-## Hands-On Lab Today
+## Hands-On Lab Today {visibility="hidden"}
 
 You'll build a portable analytics pipeline that:
 
@@ -643,14 +655,9 @@ You'll build a portable analytics pipeline that:
 
 *Write portable code today, thank yourself tomorrow*
 
-## Next Week
+## Examples
 
-- Deep dive into Apache Spark
-- Distributed computing at scale
-- When local tools aren't enough
-- How Spark relates to the tools we've learned
-
-**The tools we've covered are powerful for single-node workloads—Spark takes us to multi-node clusters**
+See [this page](/resources/narwhals-ibis-examples.qmd){target="_blank"} for more code examples and patterns using Narwhals and Ibis!
 
 ## Hive-Style Partitioning for Parquet
 
@@ -896,7 +903,7 @@ q = (
 - Data changes frequently (many small updates)
 - You need flexibility to change partition keys
 
-**Alternative**: Use file-level metadata filters or Z-order clustering
+**In these cases, flat Parquet files may be simpler and just as fast**
 
 ## Understanding Null vs NaN in Python
 
@@ -1120,7 +1127,17 @@ df = pd.DataFrame({
 ```
 
 
+
+
+## Next Week
+
+- Deep dive into Apache Spark
+- Distributed computing at scale
+- When local tools aren't enough
+- How Spark relates to the tools we've learned
+
+**The tools we've covered are powerful for single-node workloads—Spark takes us to multi-node clusters**
+
 ## GitHub Classroom
 
 [GitHub Classroom Link]({{< var gh-classroom.a05 >}})
-

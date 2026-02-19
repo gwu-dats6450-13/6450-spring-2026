@@ -1,8 +1,5 @@
----
-title: "Writing Good GitHub Commits"
-subtitle: "Best Practices for Clear Version Control"
-
----
+# Writing Good GitHub Commits
+Best Practices for Clear Version Control
 
 ## Why Commits Matter
 
