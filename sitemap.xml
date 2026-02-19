@@ -1,16 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://gwu-dats6450-13.github.io/6450-spring-2026/syllabus.html</loc>
-    <lastmod>2026-01-22T20:34:56.130Z</lastmod>
+    <loc>https://gwu-dats6450-13.github.io/6450-spring-2026/CLAUDE.html</loc>
+    <lastmod>2026-02-19T05:30:08.600Z</lastmod>
   </url>
   <url>
-    <loc>https://gwu-dats6450-13.github.io/6450-spring-2026/project/project.html</loc>
-    <lastmod>2026-02-07T04:37:24.480Z</lastmod>
+    <loc>https://gwu-dats6450-13.github.io/6450-spring-2026/site-content/references.html</loc>
+    <lastmod>2026-02-02T06:02:49.652Z</lastmod>
   </url>
   <url>
-    <loc>https://gwu-dats6450-13.github.io/6450-spring-2026/about.html</loc>
-    <lastmod>2025-12-08T17:33:33.502Z</lastmod>
+    <loc>https://gwu-dats6450-13.github.io/6450-spring-2026/project/reddit-s3-copy-instructions.html</loc>
+    <lastmod>2026-02-12T21:14:47.112Z</lastmod>
+  </url>
+  <url>
+    <loc>https://gwu-dats6450-13.github.io/6450-spring-2026/slides/06-slides.html</loc>
+    <lastmod>2026-02-19T04:19:47.850Z</lastmod>
   </url>
   <url>
     <loc>https://gwu-dats6450-13.github.io/6450-spring-2026/slides/04-slides.html</loc>
@@ -33,8 +37,12 @@
     <lastmod>2026-01-15T21:41:55.182Z</lastmod>
   </url>
   <url>
-    <loc>https://gwu-dats6450-13.github.io/6450-spring-2026/content/05-content.html</loc>
-    <lastmod>2026-02-12T21:15:18.328Z</lastmod>
+    <loc>https://gwu-dats6450-13.github.io/6450-spring-2026/content/06-content.html</loc>
+    <lastmod>2026-02-19T06:00:50.850Z</lastmod>
+  </url>
+  <url>
+    <loc>https://gwu-dats6450-13.github.io/6450-spring-2026/resources/narwhals-ibis-examples.html</loc>
+    <lastmod>2026-02-13T22:45:27.456Z</lastmod>
   </url>
   <url>
     <loc>https://gwu-dats6450-13.github.io/6450-spring-2026/assignments/a03-cloud.html</loc>
@@ -65,6 +73,10 @@
     <lastmod>2026-01-22T16:23:04.627Z</lastmod>
   </url>
   <url>
+    <loc>https://gwu-dats6450-13.github.io/6450-spring-2026/content/05-content.html</loc>
+    <lastmod>2026-02-12T21:15:18.328Z</lastmod>
+  </url>
+  <url>
     <loc>https://gwu-dats6450-13.github.io/6450-spring-2026/content/03-content.html</loc>
     <lastmod>2026-02-02T06:57:41.757Z</lastmod>
   </url>
@@ -78,7 +90,7 @@
   </url>
   <url>
     <loc>https://gwu-dats6450-13.github.io/6450-spring-2026/slides/05-slides.html</loc>
-    <lastmod>2026-02-12T21:30:13.265Z</lastmod>
+    <lastmod>2026-02-13T22:51:24.652Z</lastmod>
   </url>
   <url>
     <loc>https://gwu-dats6450-13.github.io/6450-spring-2026/slides/01-slides.html</loc>
@@ -89,11 +101,15 @@
     <lastmod>2026-01-25T05:11:51.897Z</lastmod>
   </url>
   <url>
-    <loc>https://gwu-dats6450-13.github.io/6450-spring-2026/project/reddit-s3-copy-instructions.html</loc>
-    <lastmod>2026-02-12T21:14:47.112Z</lastmod>
+    <loc>https://gwu-dats6450-13.github.io/6450-spring-2026/about.html</loc>
+    <lastmod>2025-12-08T17:33:33.502Z</lastmod>
   </url>
   <url>
-    <loc>https://gwu-dats6450-13.github.io/6450-spring-2026/site-content/references.html</loc>
-    <lastmod>2026-02-02T06:02:49.652Z</lastmod>
+    <loc>https://gwu-dats6450-13.github.io/6450-spring-2026/project/project.html</loc>
+    <lastmod>2026-02-07T04:37:24.480Z</lastmod>
+  </url>
+  <url>
+    <loc>https://gwu-dats6450-13.github.io/6450-spring-2026/syllabus.html</loc>
+    <lastmod>2026-01-22T20:34:56.130Z</lastmod>
   </url>
 </urlset>

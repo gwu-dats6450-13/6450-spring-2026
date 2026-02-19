@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>content – DATS 6450.13</title>
+<title>claude – DATS 6450.13</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,28 +20,63 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
-<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="../site_libs/clipboard/clipboard.min.js"></script>
-<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="../site_libs/quarto-search/fuse.min.js"></script>
-<script src="../site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="../">
-<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
-<script src="../site_libs/quarto-html/popper.min.js"></script>
-<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="../site_libs/quarto-html/anchor.min.js"></script>
-<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-bf77a05ce6ba3f5649b1c5bec9928afc.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-6b004257f0dbb1693ec0baad8927575f.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/quarto-contrib/fontawesome6-6.7.2/all.min.css" rel="stylesheet">
-<link href="../site_libs/quarto-contrib/fontawesome6-6.7.2/latex-fontsize.css" rel="stylesheet">
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-bf77a05ce6ba3f5649b1c5bec9928afc.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-6b004257f0dbb1693ec0baad8927575f.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/quarto-contrib/fontawesome6-6.7.2/all.min.css" rel="stylesheet">
+<link href="site_libs/quarto-contrib/fontawesome6-6.7.2/latex-fontsize.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -73,16 +108,16 @@ ul.task-list li input[type="checkbox"] {
 
 </head>
 
-<body class="nav-sidebar docked nav-fixed quarto-light">
+<body class="nav-fixed quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a href="../index.html" class="navbar-brand navbar-brand-logo">
+    <a href="./index.html" class="navbar-brand navbar-brand-logo">
     </a>
-    <a class="navbar-brand" href="../index.html">
+    <a class="navbar-brand" href="./index.html">
     <span class="navbar-title">DATS 6450.13</span>
     </a>
   </div>
@@ -93,33 +128,33 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link active" href="../index.html" aria-current="page"> 
+    <a class="nav-link" href="./index.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../about.html"> 
+    <a class="nav-link" href="./about.html"> 
 <span class="menu-text">Instructor</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../syllabus.html"> 
+    <a class="nav-link" href="./syllabus.html"> 
 <span class="menu-text">Syllabus</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../content/index.html"> 
+    <a class="nav-link" href="./content/index.html"> 
 <span class="menu-text">Content</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../labs/index.html"> 
+    <a class="nav-link" href="./labs/index.html"> 
 <span class="menu-text">Labs</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../project/project.html"> 
+    <a class="nav-link" href="./project/project.html"> 
 <span class="menu-text">Project</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../site-content/references.html"> 
+    <a class="nav-link" href="./site-content/references.html"> 
 <span class="menu-text">References</span></a>
   </li>  
   <li class="nav-item compact">
@@ -133,147 +168,110 @@ ul.task-list li input[type="checkbox"] {
 </div>
       </div> <!-- /container-fluid -->
     </nav>
-  <nav class="quarto-secondary-nav">
-    <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
-        <i class="bi bi-layout-text-sidebar-reverse"></i>
-      </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../content/01-content.html">Course content</a></li><li class="breadcrumb-item"><a href="../content/05-content.html">5. Modern tools, continued</a></li></ol></nav>
-        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
-        </a>
-    </div>
-  </nav>
 </header>
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
-    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
-      <a href="../index.html" class="sidebar-logo-link">
-      </a>
-      </div>
-    <div class="sidebar-menu-container"> 
-    <ul class="list-unstyled mt-1">
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
- <span class="menu-text">Overview</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../content/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Lectures and labs</span></a>
-  </div>
-</li>
-      </ul>
-  </li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
- <span class="menu-text">Course content</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../content/01-content.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">1. Course overview</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../content/02-content.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">2. Parallel processing</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../content/03-content.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">3. The Cloud</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../content/04-content.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">4. Polars, DuckDB and Parquet</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../content/05-content.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">5. Modern tools, continued</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../content/06-content.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">6. Distributed computing using Ray</span></a>
-  </div>
-</li>
-      </ul>
-  </li>
-    </ul>
-    </div>
-</nav>
-<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active">
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#about-todays-class" id="toc-about-todays-class" class="nav-link active" data-scroll-target="#about-todays-class">About today’s class</a></li>
-  <li><a href="#readings" id="toc-readings" class="nav-link" data-scroll-target="#readings">Readings</a></li>
-  <li><a href="#slides" id="toc-slides" class="nav-link" data-scroll-target="#slides">Slides</a></li>
-  <li><a href="#lab" id="toc-lab" class="nav-link" data-scroll-target="#lab">Lab</a></li>
-  <li><a href="#assignment" id="toc-assignment" class="nav-link" data-scroll-target="#assignment">Assignment</a></li>
+  <li><a href="#claude.md" id="toc-claude.md" class="nav-link active" data-scroll-target="#claude.md">CLAUDE.md</a>
+  <ul class="collapse">
+  <li><a href="#project-overview" id="toc-project-overview" class="nav-link" data-scroll-target="#project-overview">Project Overview</a></li>
+  <li><a href="#common-commands" id="toc-common-commands" class="nav-link" data-scroll-target="#common-commands">Common Commands</a></li>
+  <li><a href="#architecture" id="toc-architecture" class="nav-link" data-scroll-target="#architecture">Architecture</a>
+  <ul class="collapse">
+  <li><a href="#quarto-configuration" id="toc-quarto-configuration" class="nav-link" data-scroll-target="#quarto-configuration">Quarto Configuration</a></li>
+  <li><a href="#content-structure" id="toc-content-structure" class="nav-link" data-scroll-target="#content-structure">Content Structure</a></li>
+  <li><a href="#slides-with-partials" id="toc-slides-with-partials" class="nav-link" data-scroll-target="#slides-with-partials">Slides with Partials</a></li>
+  <li><a href="#python-environment" id="toc-python-environment" class="nav-link" data-scroll-target="#python-environment">Python Environment</a></li>
+  <li><a href="#build-outputs-gitignored" id="toc-build-outputs-gitignored" class="nav-link" data-scroll-target="#build-outputs-gitignored">Build Outputs (gitignored)</a></li>
+  </ul></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../content/01-content.html">Course content</a></li><li class="breadcrumb-item"><a href="../content/05-content.html">5. Modern tools, continued</a></li></ol></nav></header>
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
 
 
 
 
-<section id="about-todays-class" class="level2">
-<h2 class="anchored" data-anchor-id="about-todays-class">About today’s class</h2>
-<p>This week, we continue to look at big data tools that work synergistically for data analytics. These tools are meant for big-ish data, and leverage the Parquet file format. We can process TB-level data easily using these tools, and they can work well with AWS S3 storage.</p>
-<p>All our work will be done on AWS, so make sure you’re set up following <a href="../labs/03a-labs.html">Lab 3</a>.</p>
+<section id="claude.md" class="level1">
+<h1>CLAUDE.md</h1>
+<p>This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.</p>
+<section id="project-overview" class="level2">
+<h2 class="anchored" data-anchor-id="project-overview">Project Overview</h2>
+<p>This is a <strong>Quarto-based course website</strong> for DATS 6450.13 “Applied Big Data Analytics” at George Washington University (Spring 2026). The site is published to GitHub Pages at <code>https://gwu-dats6450-13.github.io/6450-spring-2026/</code>.</p>
 </section>
-<section id="readings" class="level2">
-<h2 class="anchored" data-anchor-id="readings">Readings</h2>
-<p>No new readings for this week, but you should have completed the readings for last week (to be completed <strong><em>before this class</em></strong>):</p>
+<section id="common-commands" class="level2">
+<h2 class="anchored" data-anchor-id="common-commands">Common Commands</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Install Python dependencies</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> sync</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Preview the website locally (live reload)</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="ex">quarto</span> preview</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Build the full website to _site/</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="ex">quarto</span> render</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Render a single file</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="ex">quarto</span> render slides/05-slides.qmd</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Lint Python code</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="ex">ruff</span> check .</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="ex">ruff</span> format .</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="architecture" class="level2">
+<h2 class="anchored" data-anchor-id="architecture">Architecture</h2>
+<section id="quarto-configuration" class="level3">
+<h3 class="anchored" data-anchor-id="quarto-configuration">Quarto Configuration</h3>
 <ul>
-<li><p><a href="https://learning.oreilly.com/library/view/duckdb-up-and/9781098159689/">DuckDB Up and Running</a> by Wei-Meng Lee (2025). Chapters 2, 4, 8. (Available via <a href="https://go.oreilly.com/gwu-edu" target="_blank">O’Reilly Online Learning</a> through the Gelman Library)</p></li>
-<li><p><a href="https://learning.oreilly.com/library/view/python-polars-the/9781098156077/" target="_blank">Python Polars: The Definitive Guide</a> by Jannsens &amp; Nieuwdorp (2025). Chapter 5 (Available via <a href="https://go.oreilly.com/gwu-edu" target="_blank">O’Reilly Online Learning</a> through the Gelman Library)</p></li>
+<li><code>_quarto.yml</code> — global site configuration (navigation, theme, execute options)</li>
+<li><code>_variables.yml</code> — course metadata (instructor, TA, schedule, assignment links, due dates)</li>
+<li><code>slides/_metadata.yml</code> — Reveal.js presentation defaults for all slides</li>
 </ul>
 </section>
-<section id="slides" class="level2">
-<h2 class="anchored" data-anchor-id="slides">Slides</h2>
-<p>The slides for this week are available <a href="../slides/05-slides.html">online</a>.</p>
+<section id="content-structure" class="level3">
+<h3 class="anchored" data-anchor-id="content-structure">Content Structure</h3>
+<ul>
+<li><code>slides/XX-slides.qmd</code> — weekly lecture slides (Reveal.js format via <code>_metadata.yml</code>)</li>
+<li><code>content/XX-content.qmd</code> — companion reading/content pages for each week</li>
+<li><code>labs/</code> — lab instructions (some prefixed with <code>_</code> are drafts/not yet rendered)</li>
+<li><code>assignments/</code> — assignment specs</li>
+<li><code>project/</code> — final project guidelines and dataset instructions</li>
+<li><code>resources/</code> — supplemental guides (uv, narwhals/ibis examples)</li>
+<li><code>style/</code> — custom SCSS themes for HTML pages and Reveal.js slides</li>
+</ul>
 </section>
-<section id="lab" class="level2">
-<h2 class="anchored" data-anchor-id="lab">Lab</h2>
-<p>This week the formal lab will explore 1 year of the NYC Taxi dataset using Parquet and Polars, showing the advantages of columnar formatting, smart partitioning and no-copy analytics.</p>
-<p>The Github Classroom link is <a href="https://classroom.github.com/a/IYlzNqy1">https://classroom.github.com/a/IYlzNqy1</a> and is due February 19</p>
+<section id="slides-with-partials" class="level3">
+<h3 class="anchored" data-anchor-id="slides-with-partials">Slides with Partials</h3>
+<p>Slides use Quarto’s <code>{{&lt; include &gt;}}</code> syntax to pull in reusable fragments from files prefixed with <code>_</code> (e.g., <code>_github-commits.qmd</code>, <code>_no-copy-data-access.qmd</code>, <code>_ray.qmd</code>). These partial files are not rendered independently.</p>
 </section>
-<section id="assignment" class="level2">
-<h2 class="anchored" data-anchor-id="assignment">Assignment</h2>
-<p>There are two assignments this week:</p>
-<ol type="1">
-<li><strong>Assignment 5</strong>: This assignment will focus on using Polars and DuckDB for data analysis on Parquet datasets. The assignment will be released on Friday, February 13th, and will be due on Sunday, February 22rd.</li>
-<li><strong>Project Milestone 1</strong>: The first milestone for the final project will be due on Wednesday, February 21nd. This milestone will require you to submit a project proposal outlining your research question, data sources, and proposed analysis methods. The proposal should be approximately 1-2 pages in length and should demonstrate a clear understanding of the data and methods you plan to use for your final project. If you are not using the Reddit dataset, your proposal will also need to include a data acquisition plan detailing how you will obtain and prepare your dataset for analysis, and <strong>this plan must be approved by the instructor before you proceed with your project</strong>.</li>
-</ol>
-<p>Information about the Reddit dataset is available <a href="../project/reddit-s3-copy-instructions.html">here</a></p>
+<section id="python-environment" class="level3">
+<h3 class="anchored" data-anchor-id="python-environment">Python Environment</h3>
+<ul>
+<li>Package manager: <strong>uv</strong> (use <code>uv sync</code> not <code>pip install</code>)</li>
+<li>Python version: 3.11 (specified in <code>.python-version</code>)</li>
+<li>Core data stack: Polars, DuckDB, Ibis, Narwhals, Pandas, PyArrow</li>
+<li>Cloud: boto3, s3fs (AWS S3 access)</li>
+<li>Jupyter: jupyterlab, jupyter-cache, jupytext, marimo</li>
+</ul>
+</section>
+<section id="build-outputs-gitignored" class="level3">
+<h3 class="anchored" data-anchor-id="build-outputs-gitignored">Build Outputs (gitignored)</h3>
+<ul>
+<li><code>_site/</code> — rendered website</li>
+<li><code>_freeze/</code> — cached Quarto execution results (speeds up re-renders)</li>
+<li><code>.quarto/</code> — Quarto metadata cache</li>
+</ul>
 
 
+</section>
+</section>
 </section>
 
 </main> <!-- /main -->

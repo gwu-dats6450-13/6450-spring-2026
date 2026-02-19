@@ -138,7 +138,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../content/01-content.html">Course content</a></li><li class="breadcrumb-item"><a href="../content/05-content.html">5. Modern tools, continued</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../content/01-content.html">Course content</a></li><li class="breadcrumb-item"><a href="../content/06-content.html">6. Distributed computing using Ray</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -206,13 +206,13 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../content/05-content.html" class="sidebar-item-text sidebar-link active">
+  <a href="../content/05-content.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">5. Modern tools, continued</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../content/06-content.html" class="sidebar-item-text sidebar-link">
+  <a href="../content/06-content.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">6. Distributed computing using Ray</span></a>
   </div>
 </li>
@@ -237,41 +237,36 @@ ul.task-list li input[type="checkbox"] {
 </nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../content/01-content.html">Course content</a></li><li class="breadcrumb-item"><a href="../content/05-content.html">5. Modern tools, continued</a></li></ol></nav></header>
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../content/01-content.html">Course content</a></li><li class="breadcrumb-item"><a href="../content/06-content.html">6. Distributed computing using Ray</a></li></ol></nav></header>
 
 
 
 
 <section id="about-todays-class" class="level2">
 <h2 class="anchored" data-anchor-id="about-todays-class">About today’s class</h2>
-<p>This week, we continue to look at big data tools that work synergistically for data analytics. These tools are meant for big-ish data, and leverage the Parquet file format. We can process TB-level data easily using these tools, and they can work well with AWS S3 storage.</p>
-<p>All our work will be done on AWS, so make sure you’re set up following <a href="../labs/03a-labs.html">Lab 3</a>.</p>
+<p>This week, we explore parallel and distributed computing using Ray, a framework for scaling Python applications from a laptop to a cluster. Ray enables parallelism at the task and actor level, and integrates well with the data tools we’ve been using throughout this course.</p>
 </section>
 <section id="readings" class="level2">
 <h2 class="anchored" data-anchor-id="readings">Readings</h2>
-<p>No new readings for this week, but you should have completed the readings for last week (to be completed <strong><em>before this class</em></strong>):</p>
+<p>Readings for this lecture (to be completed <strong><em>before this class</em></strong>):</p>
 <ul>
-<li><p><a href="https://learning.oreilly.com/library/view/duckdb-up-and/9781098159689/">DuckDB Up and Running</a> by Wei-Meng Lee (2025). Chapters 2, 4, 8. (Available via <a href="https://go.oreilly.com/gwu-edu" target="_blank">O’Reilly Online Learning</a> through the Gelman Library)</p></li>
-<li><p><a href="https://learning.oreilly.com/library/view/python-polars-the/9781098156077/" target="_blank">Python Polars: The Definitive Guide</a> by Jannsens &amp; Nieuwdorp (2025). Chapter 5 (Available via <a href="https://go.oreilly.com/gwu-edu" target="_blank">O’Reilly Online Learning</a> through the Gelman Library)</p></li>
+<li><a href="https://docs.anyscale.com/get-started/what-is-ray" target="_blank">What is Ray?</a></li>
+<li><a href="https://docs.anyscale.com/get-started/ray-basics" target="_blank">Ray Basics</a></li>
+<li><a href="https://docs.ray.io/en/latest/ray-core/key-concepts.html" target="_blank">Key concepts of Ray Core</a> and the user guides for Tasks and Actors</li>
 </ul>
 </section>
 <section id="slides" class="level2">
 <h2 class="anchored" data-anchor-id="slides">Slides</h2>
-<p>The slides for this week are available <a href="../slides/05-slides.html">online</a>.</p>
+<p>The slides for this week are available <a href="../slides/06-slides.html">online</a>.</p>
 </section>
 <section id="lab" class="level2">
 <h2 class="anchored" data-anchor-id="lab">Lab</h2>
-<p>This week the formal lab will explore 1 year of the NYC Taxi dataset using Parquet and Polars, showing the advantages of columnar formatting, smart partitioning and no-copy analytics.</p>
-<p>The Github Classroom link is <a href="https://classroom.github.com/a/IYlzNqy1">https://classroom.github.com/a/IYlzNqy1</a> and is due February 19</p>
+<p>This week’s lab will introduce Ray for parallel data processing, demonstrating how to parallelize Python functions using remote tasks and actors.</p>
+<!--- The Github Classroom link is []() and is due ?var:due_dates.lab06 -->
 </section>
 <section id="assignment" class="level2">
 <h2 class="anchored" data-anchor-id="assignment">Assignment</h2>
-<p>There are two assignments this week:</p>
-<ol type="1">
-<li><strong>Assignment 5</strong>: This assignment will focus on using Polars and DuckDB for data analysis on Parquet datasets. The assignment will be released on Friday, February 13th, and will be due on Sunday, February 22rd.</li>
-<li><strong>Project Milestone 1</strong>: The first milestone for the final project will be due on Wednesday, February 21nd. This milestone will require you to submit a project proposal outlining your research question, data sources, and proposed analysis methods. The proposal should be approximately 1-2 pages in length and should demonstrate a clear understanding of the data and methods you plan to use for your final project. If you are not using the Reddit dataset, your proposal will also need to include a data acquisition plan detailing how you will obtain and prepare your dataset for analysis, and <strong>this plan must be approved by the instructor before you proceed with your project</strong>.</li>
-</ol>
-<p>Information about the Reddit dataset is available <a href="../project/reddit-s3-copy-instructions.html">here</a></p>
+<p>Details for this week’s assignment will be announced in class and posted to the course website.</p>
 
 
 </section>
