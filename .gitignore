@@ -5,3 +5,7 @@ _freeze/*
 _extensions/*
 _site/*
 **/.DS_Store
+
+**/*_cache/*
+slides/_*_files/*
+*.html
