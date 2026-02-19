@@ -8,4 +8,7 @@ _site/*
 
 **/*_cache/*
 slides/_*_files/*
+slides/ray/_ray_files/
 *.html
+
+CLAUDE.md
