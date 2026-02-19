@@ -1,0 +1,12 @@
+---
+title: "Lecture 6"
+subtitle: "Parallel and distributed computing using Ray"
+engine: knitr
+format:
+  revealjs:
+    code-fold: false
+---
+
+
+{{< include ray/_ray.qmd >}}
+
