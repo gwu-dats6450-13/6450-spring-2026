@@ -130,7 +130,7 @@
     "href": "slides/06-slides.html#aws-academy",
     "title": "Lecture 6",
     "section": "AWS Academy",
-    "text": "AWS Academy\n\nCredit limit - $100\nCourse numbers:\n\nCourse #1 - 24178\nCourse #2 - 27354\nCourse #3 - 22802\nCourse #4 - 26418\n\n\nSTAY WITH COURSE 24178 UNLESS YOU HAVE RUN OUT OF CREDITS OR &gt;$90 USED!\nNote that you will have to repeat several setup steps:\n\nsecurity group\nEC2 keypair uploading (the AWS part only)\nsagemaker setup\nany S3 uploading or copying as well as bucket creation as necessary\nEMR configuration"
+    "text": "AWS Academy\n\nCredit limit - $50\n\nI will provide a new classroom if you run out of credits or &gt; $45 used\nNote that you will have to repeat several setup steps:\n\nsecurity group\nEC2 keypair uploading (the AWS part only)\nsagemaker setup\nany S3 uploading or copying as well as bucket creation as necessary\nEMR configuration"
   },
   {
     "objectID": "slides/06-slides.html#ray",
@@ -144,7 +144,7 @@
     "href": "slides/06-slides.html#why-do-we-need-ray",
     "title": "Lecture 6",
     "section": "Why do we need Ray?",
-    "text": "Why do we need Ray?\n\nTo scale any Python workload from laptop to cloud\nRemember the Spark ecosystem with all its integrations…\nHadoop (fault tolerance, resiliency using commodity hardware) -&gt; Spark (in memory data processing) -&gt; Ray (asynch processing, everything you need for scaling AI workloads)\n\n\n\nRay Summit 2022 - Ray and Large Language Models"
+    "text": "Why do we need Ray?\n\nTo scale any Python workload from laptop to cloud\nAllows an infrastructure for easy parallelization on the cloud, allowing scaling of compute\n\n\n\nRay Summit 2022 - Ray and Large Language Models"
   },
   {
     "objectID": "slides/06-slides.html#ray-initialization-ray.init",
@@ -228,7 +228,7 @@
     "href": "slides/06-slides.html#ray-datasets-1",
     "title": "Lecture 6",
     "section": "Ray Datasets",
-    "text": "Ray Datasets\n\nCreate\n\n```{python}\nimport ray\n\ndataset = ray.data.read_csv(\"s3://anonymous@air-example-data/iris.csv\")\n\ndataset.show(limit=1)\n```\n\nTransform\n\n```{python}\nimport pandas as pd\n\n# Find rows with spepal length &lt; 5.5 and petal length &gt; 3.5.\ndef transform_batch(df: pd.DataFrame) -&gt; pd.DataFrame:\n    return df[(df[\"sepal length (cm)\"] &lt; 5.5) & (df[\"petal length (cm)\"] &gt; 3.5)]\n\ntransformed_dataset = dataset.map_batches(transform_batch)\nprint(transformed_dataset)\n```\n\nConsume\n\n```{python}\nbatches = transformed_dataset.iter_batches(batch_size=8)\nprint(next(iter(batches)))\n```\n\nSave\n\n```{python}\nimport os\n\ntransformed_dataset.write_parquet(\"iris\")\n\nprint(os.listdir(\"iris\"))\n```"
+    "text": "Ray Datasets\n\nCreate\n\n```{python}\nimport ray\n\ndataset = ray.data.read_csv(\"s3://anonymous@air-example-data/iris.csv\")\n\ndataset.show(limit=1)\n```\n\nTransform (note that you need to restrict pandas to a version &lt; 3.0)\n\n```{python}\nimport pandas as pd\n\n# Find rows with spepal length &lt; 5.5 and petal length &gt; 3.5.\ndef transform_batch(df: pd.DataFrame) -&gt; pd.DataFrame:\n    return df[(df[\"sepal length (cm)\"] &lt; 5.5) & (df[\"petal length (cm)\"] &gt; 3.5)]\n\ntransformed_dataset = dataset.map_batches(transform_batch)\nprint(transformed_dataset)\n```\n\nConsume\n\n```{python}\nbatches = transformed_dataset.iter_batches(batch_size=8)\nprint(next(iter(batches)))\n```\n\nSave\n\n```{python}\nimport os\n\ntransformed_dataset.write_parquet(\"iris\")\n\nprint(os.listdir(\"iris\"))\n```"
   },
   {
     "objectID": "slides/06-slides.html#ray-data-a-fuller-etl-pipeline",
@@ -298,7 +298,7 @@
     "href": "slides/06-slides.html#end-to-end-pipeline-summary",
     "title": "Lecture 6",
     "section": "End-to-End Pipeline Summary",
-    "text": "End-to-End Pipeline Summary\ns3://nyc-tlc/  (Jan–Mar 2023, ~9M rows)\n      │\n      │  ray.data.read_parquet()          ← parallel S3 reads\n      ▼\n  Raw Ray Dataset\n      │\n      │  map_batches(prepare_for_model)   ← clean + engineer in parallel\n      ▼\n  Featurised DataFrame  (8 features + target)\n      │\n      ├──── 70% ──► Ray Dataset ──► XGBoostTrainer ──► Checkpoint\n      │                              (ScalingConfig        │\n      ├──── 15% ──► val Dataset ──►  num_workers=2)   ray.tune.Tuner\n      │                                                    │\n      └──── 15% ──► test split  ◄── XGBoostPredictor ◄────┘\n                       │\n                       ▼\n                  MAE / RMSE / R²\n                  Feature importance\n                       │\n                       ▼\n            s3://bucket/models/xgb_fare_model.pkl   (persisted)\n                       │\n      New trips ──► map_batches(predict_batch) ──► s3://bucket/predictions/\n\n\n\n\n\n\nNote\n\n\nChanging ScalingConfig(num_workers=2) to num_workers=10 on a 5-node cluster is the only code change needed to scale training — Ray handles data sharding and gradient synchronisation automatically."
+    "text": "End-to-End Pipeline Summary\ns3://adg-teaching/dats/data/nyt-data/  (Jan–Mar 2023, ~9M rows)\n      │\n      │  ray.data.read_parquet()          ← parallel S3 reads\n      ▼\n  Raw Ray Dataset\n      │\n      │  map_batches(prepare_for_model)   ← clean + engineer in parallel\n      ▼\n  Featurised DataFrame  (8 features + target)\n      │\n      ├──── 70% ──► Ray Dataset ──► XGBoostTrainer ──► Checkpoint\n      │                              (ScalingConfig        │\n      ├──── 15% ──► val Dataset ──►  num_workers=2)   ray.tune.Tuner\n      │                                                    │\n      └──── 15% ──► test split  ◄── XGBoostPredictor ◄────┘\n                       │\n                       ▼\n                  MAE / RMSE / R²\n                  Feature importance\n                       │\n                       ▼\n            s3://bucket/models/xgb_fare_model.pkl   (persisted)\n                       │\n      New trips ──► map_batches(predict_batch) ──► s3://bucket/predictions/\n\n\n\n\n\n\nNote\n\n\nChanging ScalingConfig(num_workers=2) to num_workers=10 on a 5-node cluster is the only code change needed to scale training — Ray handles data sharding and gradient synchronisation automatically."
   },
   {
     "objectID": "slides/06-slides.html#references",

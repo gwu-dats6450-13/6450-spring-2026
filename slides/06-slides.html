@@ -209,20 +209,18 @@
 <div class="column" style="width:47%;">
 <h3 id="looking-back">Looking Back</h3>
 <ul>
-<li>Intro to Hadoop and MapReduce</li>
-<li>Hadoop Streaming</li>
-<li>Dask</li>
-<li>Spark RDDs, DataFrames, SparkSQL, SparkML, SparkNLP</li>
-<li><strong>Polars, DuckDB, RAPIDS</strong></li>
+<li>Parallelization</li>
+<li>Cloud infrastructure</li>
+<li><strong>Polars, DuckDB </strong></li>
 </ul>
 <h3 id="future">Future</h3>
 <ul>
-<li>Project final report</li>
+<li>Apache Spark and components</li>
+<li>Project</li>
 </ul>
 </div><div class="column" style="width:47%;">
 <h3 id="today">Today</h3>
 <ul>
-<li>Project Discussion</li>
 <li>Ray</li>
 </ul>
 </div></section>
@@ -234,16 +232,9 @@
 <section id="aws-academy" class="slide level2">
 <h2>AWS Academy</h2>
 <ul>
-<li><p>Credit limit - $100</p></li>
-<li><p>Course numbers:</p>
-<ul>
-<li>Course #1 - 24178</li>
-<li>Course #2 - 27354</li>
-<li>Course #3 - 22802</li>
-<li>Course #4 - 26418</li>
-</ul></li>
+<li>Credit limit - $50</li>
 </ul>
-<p>STAY WITH COURSE 24178 UNLESS YOU HAVE RUN OUT OF CREDITS OR &gt;$90 USED!</p>
+<p>I will provide a new classroom if you run out of credits or &gt; $45 used</p>
 <p>Note that you will have to repeat several setup steps:</p>
 <ul>
 <li>security group</li>
@@ -253,7 +244,7 @@
 <li>EMR configuration</li>
 </ul>
 </section>
-<section id="ray" class="slide level2">
+<section id="ray" class="slide level2 smaller">
 <h2>Ray</h2>
 <p><a href="img/ray.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img data-src="img/ray.png"></a></p>
 <blockquote>
@@ -264,14 +255,13 @@
 <h2>Why do we need Ray?</h2>
 <ul>
 <li><p>To scale any Python workload from laptop to cloud</p></li>
-<li><p>Remember the Spark ecosystem with all its integrations…</p></li>
-<li><p><strong>Hadoop</strong> (fault tolerance, resiliency using commodity hardware) -&gt; <strong>Spark</strong> (in memory data processing) -&gt; <strong>Ray</strong> (asynch processing, everything you need for scaling AI workloads)</p></li>
+<li><p>Allows an infrastructure for easy parallelization on the cloud, allowing scaling of compute</p></li>
 </ul>
 
 <aside><div>
 <p><a href="https://www.anyscale.com/blog/ray-summit-2022-stories-large-language-models">Ray Summit 2022 - Ray and Large Language Models</a></p>
 </div></aside></section>
-<section id="ray-initialization-ray.init" class="slide level2">
+<section id="ray-initialization-ray.init" class="slide level2 smaller">
 <h2>Ray Initialization — <code>ray.init()</code></h2>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a></a><span class="in">```{python}</span></span>
 <span id="cb1-2"><a></a><span class="im">import</span> ray</span>
@@ -381,7 +371,7 @@
 <p><a href="https://docs.ray.io/en/latest/data/dataset.html">https://docs.ray.io/en/latest/data/dataset.html</a></p>
 </div></div>
 </section>
-<section id="ray-core---tasks" class="slide level2">
+<section id="ray-core---tasks" class="slide level2 smaller">
 <h2>Ray Core - Tasks</h2>
 <ul>
 <li><p>Ray enables arbitrary functions to be executed asynchronously on separate Python workers.</p></li>
@@ -416,7 +406,7 @@
 <span id="cb4-27"><a></a>    my_function.remote()</span>
 <span id="cb4-28"><a></a><span class="in">```</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
-<section id="ray-core---actors" class="slide level2">
+<section id="ray-core---actors" class="slide level2 smaller">
 <h2>Ray Core - Actors</h2>
 <ul>
 <li><a href="https://docs.ray.io/en/latest/ray-core/actors.html">Actors</a> extend the Ray API from functions (tasks) to classes.</li>
@@ -536,7 +526,7 @@
 </ul></li>
 </ul>
 </section>
-<section id="ray-datasets-1" class="slide level2">
+<section id="ray-datasets-1" class="slide level2 smaller">
 <h2>Ray Datasets</h2>
 <ul>
 <li>Create</li>
@@ -549,7 +539,7 @@
 <span id="cb10-6"><a></a>dataset.show(limit<span class="op">=</span><span class="dv">1</span>)</span>
 <span id="cb10-7"><a></a><span class="in">```</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
-<li>Transform</li>
+<li>Transform (note that you need to restrict <code>pandas</code> to a version &lt; 3.0)</li>
 </ul>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb11-1"><a></a><span class="in">```{python}</span></span>
 <span id="cb11-2"><a></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -948,7 +938,7 @@
 <span id="cb21-32"><a></a><span class="in">```</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p><strong>ASHA</strong> (Asynchronous Successive Halving) — starts many short trials; kills poor performers early; no wasted compute on bad hyperparameters.</p>
 </section>
-<section id="model-evaluation-batch-prediction" class="slide level2">
+<section id="model-evaluation-batch-prediction" class="slide level2 smaller">
 <h2>Model Evaluation &amp; Batch Prediction</h2>
 <div class="columns">
 <div class="column" style="width:48%;">
@@ -1028,7 +1018,7 @@ passenger_count   ▌                 negligible</code></pre>
 </section>
 <section id="end-to-end-pipeline-summary" class="slide level2">
 <h2>End-to-End Pipeline Summary</h2>
-<pre><code>s3://nyc-tlc/  (Jan–Mar 2023, ~9M rows)
+<pre><code>s3://adg-teaching/dats/data/nyt-data/  (Jan–Mar 2023, ~9M rows)
       │
       │  ray.data.read_parquet()          ← parallel S3 reads
       ▼
