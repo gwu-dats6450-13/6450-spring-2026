@@ -1,0 +1,63 @@
+---
+title: "Week 6 Reading Quiz: Ray and Distributed Computing"
+format: html
+---
+
+Test your understanding of the Week 6 readings on Ray before class.
+
+---
+
+**Question 1.** A data scientist is preprocessing 10,000 CSV files before model training. Each file can be processed independently. She considers two approaches: Python's built-in `multiprocessing` module and Ray tasks. Which statement best captures when Ray is the *better* choice?
+
+a) Ray is always faster because it uses GPU acceleration by default
+b) Ray is preferred when work needs to scale beyond a single machine or when tasks have complex dependencies, since Ray handles cross-node scheduling and data transfer automatically
+c) Ray is better because `multiprocessing` cannot use more than one CPU core
+d) `multiprocessing` is always preferable for data science work because it has less overhead
+
+---
+
+**Question 2.** You are building a feature store that caches computed features in memory and serves them to multiple parallel training jobs. Which Ray primitive is most appropriate, and why?
+
+a) A Ray **task**, because tasks are faster and do not require instantiation
+b) A Ray **actor**, because it maintains state (the in-memory cache) across multiple calls from different clients
+c) A Ray **placement group**, because you need to co-locate the feature store with training workers
+d) Ray **Data**, because feature stores are always best handled as a data pipeline
+
+---
+
+**Question 3.** A team trains the same ML model on 50 different hyperparameter configurations. They refactor their training function with `@ray.remote` and launch all 50 runs with `.remote()` before calling `ray.get()` on the list of results. What is the key benefit of this pattern compared to running the 50 configurations sequentially?
+
+a) Ray automatically selects the best hyperparameters, so fewer runs are needed
+b) All 50 training jobs are submitted immediately and Ray schedules them in parallel across available workers, reducing total wall-clock time
+c) `ray.get()` caches results so future hyperparameter searches skip recomputation
+d) Ray distributes the dataset across the 50 runs so each run sees more training data
+
+---
+
+**Question 4.** You call `ray.get(ref)` right after `ref = slow_task.remote()`. What is the consequence of this pattern, and what would be a better approach when launching many tasks?
+
+a) There is no consequence — `ray.get()` is always the correct next step after `.remote()`
+b) The driver process blocks immediately after each task submission, eliminating parallelism. A better approach is to collect all ObjectRefs first, then call `ray.get()` on the full list at once
+c) `ray.get()` causes the task to re-execute, doubling the computation
+d) The task is cancelled if `ray.get()` is called before the worker finishes, so you must always add a `time.sleep()` delay
+
+---
+
+**Question 5.** Ray's distributed object store stores task outputs across cluster nodes. A downstream task accepts an ObjectRef as an argument rather than a resolved value. What does this design enable?
+
+a) The driver must call `ray.get()` to resolve the value before passing it, so there is no practical difference
+b) Ray can schedule the downstream task on the same node where the data already lives, avoiding unnecessary data transfer across the network
+c) The downstream task runs before the upstream task completes, speeding up the pipeline
+d) ObjectRefs are only useful for GPU tensors; regular Python objects should always be resolved before passing
+
+---
+
+::: {.callout-note collapse="true"}
+## Answer Key
+
+1. **b** — Ray's primary advantage over `multiprocessing` is seamless scaling to multiple machines and automatic handling of distributed scheduling and data movement.
+2. **b** — Actors maintain state across calls on a dedicated worker, making them the right fit for a shared, stateful in-memory cache.
+3. **b** — Submitting all `.remote()` calls before `ray.get()` allows Ray to run the jobs in parallel, cutting wall-clock time roughly by the number of available workers.
+4. **b** — Calling `ray.get()` immediately after each `.remote()` forces sequential execution. Collecting all refs first and calling `ray.get(refs)` once preserves parallelism.
+5. **b** — Passing ObjectRefs lets Ray exploit data locality: it can schedule the downstream task on the node that already holds the object, minimizing network transfer.
+:::

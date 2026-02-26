@@ -1,0 +1,25 @@
+## About today's class
+
+This week, we explore parallel and distributed computing using Ray, a framework for scaling Python applications from a laptop to a cluster. Ray enables parallelism at the task and actor level, and integrates well with the data tools we've been using throughout this course.
+
+## Readings
+
+Readings for this lecture (to be completed ***before this class***):
+
+  - [What is Ray?](https://docs.anyscale.com/get-started/what-is-ray){target="_blank"}
+  - [Ray Basics](https://docs.anyscale.com/get-started/ray-basics){target="_blank"}
+  - [Key concepts of Ray Core](https://docs.ray.io/en/latest/ray-core/key-concepts.html){target="_blank"} and the user guides for Tasks and Actors
+
+## Slides
+
+The slides for this week are available [online](/slides/06-slides.qmd).
+
+## Lab
+
+This week's lab will introduce Ray for parallel data processing, demonstrating how to parallelize Python functions using remote tasks and actors.
+
+<!--- The Github Classroom link is [{{<var gh-classroom.lab06 >}}]({{< var gh-classroom.lab06 >}}) and is due {{< var due_dates.lab06 >}} -->
+
+## Assignment
+
+Details for this week's assignment will be announced in class and posted to the course website.

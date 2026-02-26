@@ -2,22 +2,20 @@
 ::: {.column width="47%"}
 ### Looking Back
 
-* Intro to Hadoop and MapReduce
-* Hadoop Streaming
-* Dask
-* Spark RDDs, DataFrames, SparkSQL, SparkML, SparkNLP
-* **Polars, DuckDB, RAPIDS**
+* Parallelization
+* Cloud infrastructure
+* **Polars, DuckDB **
 
 ### Future  
 
-* Project final report
+* Apache Spark and components
+* Project 
 
 :::
 
 ::: {.column width="47%"}
 ### Today
 
-* Project Discussion
 * Ray
 
 
@@ -28,15 +26,9 @@
 
 ## AWS Academy
 
-* Credit limit - $100
-* Course numbers:
+* Credit limit - $50
 
-  * Course #1 - 24178
-  * Course #2 - 27354
-  * Course #3 - 22802
-  * Course #4 - 26418
-  
-STAY WITH COURSE 24178 UNLESS YOU HAVE RUN OUT OF CREDITS OR >$90 USED! 
+I will provide a new classroom if you run out of credits or > $45 used
 
 Note that you will have to repeat several setup steps:
 
@@ -46,7 +38,7 @@ Note that you will have to repeat several setup steps:
 - any S3 uploading or copying as well as bucket creation as necessary
 - EMR configuration
 
-## Ray
+## Ray {.smaller}
 
 ![](img/ray.png)
 
@@ -56,15 +48,15 @@ Note that you will have to repeat several setup steps:
 
 * To scale any Python workload from laptop to cloud
 
-* Remember the Spark ecosystem with all its integrations...
+* Allows an infrastructure for easy parallelization on the cloud, allowing scaling of compute
 
-* **Hadoop** (fault tolerance, resiliency using commodity hardware) -> **Spark** (in memory data processing) -> **Ray** (asynch processing, everything you need for scaling AI workloads)
+
 
 ::: aside
 [Ray Summit 2022 - Ray and Large Language Models](https://www.anyscale.com/blog/ray-summit-2022-stories-large-language-models)
 :::
 
-## Ray Initialization — `ray.init()`
+## Ray Initialization — `ray.init()` {.smaller}
 
 ```{{python}}
 import ray
@@ -175,7 +167,7 @@ Ray Datasets are the standard way to load and exchange data in Ray libraries and
 
 :::
 
-## Ray Core - Tasks
+## Ray Core - Tasks {.smaller}
 
 * Ray enables arbitrary functions to be executed asynchronously on separate Python workers.
 
@@ -210,7 +202,7 @@ for _ in range(4):
     my_function.remote()
 ```
 
-## Ray Core - Actors
+## Ray Core - Actors {.smaller}
 
 * [Actors](https://docs.ray.io/en/latest/ray-core/actors.html) extend the Ray API from functions (tasks) to classes.
 * An actor is a **stateful worker** (or a service).
@@ -313,7 +305,7 @@ or: `ssh -L 8265:localhost:8265 ubuntu@YOUR_EC2_IP`
 * Datasets simplify general purpose parallel GPU and CPU compute in Ray.
     * Provide a higher-level API for Ray tasks and actors for such embarrassingly parallel compute, internally handling operations like batching, pipelining, and memory management.
 
-## Ray Datasets
+## Ray Datasets {.smaller}
 
 * Create 
 ```{{python}}
@@ -324,7 +316,7 @@ dataset = ray.data.read_csv("s3://anonymous@air-example-data/iris.csv")
 dataset.show(limit=1)
 ```
 
-* Transform
+* Transform (note that you need to restrict `pandas` to a version < 3.0)
 ```{{python}}
 import pandas as pd
 
@@ -618,7 +610,7 @@ best = results.get_best_result(metric="valid-rmse", mode="min")
 
 **ASHA** (Asynchronous Successive Halving) — starts many short trials; kills poor performers early; no wasted compute on bad hyperparameters.
 
-## Model Evaluation & Batch Prediction
+## Model Evaluation & Batch Prediction {.smaller}
 
 ::: columns
 ::: {.column width="48%"}
@@ -678,7 +670,7 @@ Use `ray.put()` to store the model in the Object Store **once** — all predicti
 ## End-to-End Pipeline Summary
 
 ```
-s3://nyc-tlc/  (Jan–Mar 2023, ~9M rows)
+s3://adg-teaching/dats/data/nyt-data/  (Jan–Mar 2023, ~9M rows)
       │
       │  ray.data.read_parquet()          ← parallel S3 reads
       ▼

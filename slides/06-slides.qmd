@@ -7,6 +7,5 @@ format:
     code-fold: false
 ---
 
-
 {{< include ray/_ray.qmd >}}
 
