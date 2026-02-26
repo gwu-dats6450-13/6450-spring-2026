@@ -1,0 +1,10 @@
+---
+title: "Lecture 7"
+subtitle: "Distributed File Systems and HDFS"
+engine: knitr
+format:
+  revealjs:
+    code-fold: false
+---
+
+{{< include hadoop/_hadoop.qmd >}}
