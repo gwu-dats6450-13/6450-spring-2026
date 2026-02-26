@@ -6,7 +6,7 @@ website:
   title: "DATS 6450.13"
   site-url: "https://gwu-dats6450-13.github.io/6450-spring-2026/"
   search: true
-  navbar: 
+  navbar:
     pinned: true
     left:
       - href: index.qmd
@@ -47,13 +47,17 @@ website:
               text: "4. Polars, DuckDB and Parquet"
             - file: content/05-content.qmd
               text: "5. Modern tools, continued"
+            - file: content/06-content.qmd
+              text: "6. Distributed computing using Ray"
+            - file: content/07-content.qmd
+              text: "7. Distributed File Systems and HDFS"
     - title: "Resources"
       contents:
         - file: resources/uv.qmd
     - title: Labs
       style: docked
       search: false
-      background: "#fcc200" 
+      background: "#fcc200"
       contents:
         - section: Overview
           contents:
@@ -64,18 +68,17 @@ website:
               file: labs/02-labs.qmd
             - text: "03: The Cloud"
               file: labs/03a-labs.qmd
-  
-  page-footer:
-      left: |
-        Content {{< fa brands creative-commons >}} 2026<br>
-        Abhijit Dasgupta<br>
-        All content licensed under a {{< fa brands creative-commons >}}
-        {{< fa brands creative-commons-by >}} {{< fa brands creative-commons-nc >}}
-        [Creative Commons Attribution-NonCommercial 4.0 International license (CC BY-NC 4.0)](https://creativecommons.org/licenses/by-nc/4.0/)
-      right: |
-        Made with {{< fa brands r-project >}} and [Quarto](https://quarto.org/)<br>
-#      [Vie
 
+  page-footer:
+    left: |
+      Content {{< fa brands creative-commons >}} 2026<br>
+      Abhijit Dasgupta<br>
+      All content licensed under a {{< fa brands creative-commons >}}
+      {{< fa brands creative-commons-by >}} {{< fa brands creative-commons-nc >}}
+      [Creative Commons Attribution-NonCommercial 4.0 International license (CC BY-NC 4.0)](https://creativecommons.org/licenses/by-nc/4.0/)
+    right: |
+      Made with {{< fa brands r-project >}} and [Quarto](https://quarto.org/)<br>
+#      [Vie
 format:
   html:
     theme:
@@ -96,6 +99,4 @@ execute:
 
 lightbox: true
 draft-mode: unlinked
-
-
 #      [View the source at {{< fa brands github >}} GitHub]({{< var course.github >}})

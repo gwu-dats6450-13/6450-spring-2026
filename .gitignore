@@ -12,3 +12,4 @@ slides/ray/_ray_files/
 *.html
 
 CLAUDE.md
+**/.claude/*
