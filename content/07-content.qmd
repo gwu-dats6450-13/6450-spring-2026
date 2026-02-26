@@ -1,0 +1,21 @@
+## About today's class
+
+This week, we explore distributed file systems and the Hadoop Distributed File System (HDFS). HDFS is a foundational technology for big data processing, providing fault-tolerant storage across a cluster of machines. Understanding how HDFS works is essential for working with Hadoop, Spark, and other distributed computing frameworks that depend on reliable, scalable storage.
+
+We will also have a midterm exam in the 2nd half of the class, covering cloud, polars and duckdb. 
+
+## Readings
+
+There are no readings or quiz assigned for this week. 
+
+## Slides
+
+The slides for this week are available [online](/slides/07-slides.qmd).
+
+## Lab
+
+There is no lab assignment for this week.
+
+## Assignment
+
+Details for this week's assignment will be announced in class and posted to the course website.
