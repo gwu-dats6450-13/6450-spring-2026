@@ -4,14 +4,14 @@
     "href": "CLAUDE.html",
     "title": "CLAUDE.md",
     "section": "",
-    "text": "This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.\n\n\nThis is a Quarto-based course website for DATS 6450.13 “Applied Big Data Analytics” at George Washington University (Spring 2026). The site is published to GitHub Pages at https://gwu-dats6450-13.github.io/6450-spring-2026/.\n\n\n\n# Install Python dependencies\nuv sync\n\n# Preview the website locally (live reload)\nquarto preview\n\n# Build the full website to _site/\nquarto render\n\n# Render a single file\nquarto render slides/05-slides.qmd\n\n# Lint Python code\nruff check .\nruff format .\n\n\n\n\n\n\n_quarto.yml — global site configuration (navigation, theme, execute options)\n_variables.yml — course metadata (instructor, TA, schedule, assignment links, due dates)\nslides/_metadata.yml — Reveal.js presentation defaults for all slides\n\n\n\n\n\nslides/XX-slides.qmd — weekly lecture slides (Reveal.js format via _metadata.yml)\ncontent/XX-content.qmd — companion reading/content pages for each week\nlabs/ — lab instructions (some prefixed with _ are drafts/not yet rendered)\nassignments/ — assignment specs\nproject/ — final project guidelines and dataset instructions\nresources/ — supplemental guides (uv, narwhals/ibis examples)\nstyle/ — custom SCSS themes for HTML pages and Reveal.js slides\n\n\n\n\nSlides use Quarto’s {{&lt; include &gt;}} syntax to pull in reusable fragments from files prefixed with _ (e.g., _github-commits.qmd, _no-copy-data-access.qmd, _ray.qmd). These partial files are not rendered independently.\n\n\n\n\nPackage manager: uv (use uv sync not pip install)\nPython version: 3.11 (specified in .python-version)\nCore data stack: Polars, DuckDB, Ibis, Narwhals, Pandas, PyArrow\nCloud: boto3, s3fs (AWS S3 access)\nJupyter: jupyterlab, jupyter-cache, jupytext, marimo\n\n\n\n\n\n_site/ — rendered website\n_freeze/ — cached Quarto execution results (speeds up re-renders)\n.quarto/ — Quarto metadata cache"
+    "text": "This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.\n\n\nThis is a Quarto-based course website for DATS 6450.13 “Applied Big Data Analytics” at George Washington University (Spring 2026). The site is published to GitHub Pages at https://gwu-dats6450-13.github.io/6450-spring-2026/.\nThis course is aimed at 2nd year Masters of Data Science students who have some background in statistics and computer science. The scripting language is Python.\n\n\n\n# Install Python dependencies\nuv sync\n\n# Preview the website locally (live reload)\nquarto preview\n\n# Build the full website to _site/\nquarto render\n\n# Render a single file\nquarto render slides/05-slides.qmd\n\n# Lint Python code\nruff check .\nruff format .\n\n\n\n\n\n\n_quarto.yml — global site configuration (navigation, theme, execute options)\n_variables.yml — course metadata (instructor, TA, schedule, assignment links, due dates)\nslides/_metadata.yml — Reveal.js presentation defaults for all slides\n\n\n\n\n\nslides/XX-slides.qmd — weekly lecture slides (Reveal.js format via _metadata.yml)\ncontent/XX-content.qmd — companion reading/content pages for each week\nlabs/ — lab instructions (some prefixed with _ are drafts/not yet rendered)\nassignments/ — assignment specs\nproject/ — final project guidelines and dataset instructions\nresources/ — supplemental guides (uv, narwhals/ibis examples)\nstyle/ — custom SCSS themes for HTML pages and Reveal.js slides\n\n\n\n\nSlides use Quarto’s {{&lt; include &gt;}} syntax to pull in reusable fragments from files prefixed with _ (e.g., _github-commits.qmd, _no-copy-data-access.qmd, _ray.qmd). These partial files are not rendered independently.\n\n\n\n\nPackage manager: uv (use uv sync not pip install)\nPython version: 3.11 (specified in .python-version)\nCore data stack: Polars, DuckDB, Ibis, Narwhals, Pandas, PyArrow\nCloud: boto3, s3fs (AWS S3 access)\nJupyter: jupyterlab, jupyter-cache, jupytext, marimo\n\n\n\n\n\n_site/ — rendered website\n_freeze/ — cached Quarto execution results (speeds up re-renders)\n.quarto/ — Quarto metadata cache"
   },
   {
     "objectID": "CLAUDE.html#project-overview",
     "href": "CLAUDE.html#project-overview",
     "title": "CLAUDE.md",
     "section": "",
-    "text": "This is a Quarto-based course website for DATS 6450.13 “Applied Big Data Analytics” at George Washington University (Spring 2026). The site is published to GitHub Pages at https://gwu-dats6450-13.github.io/6450-spring-2026/."
+    "text": "This is a Quarto-based course website for DATS 6450.13 “Applied Big Data Analytics” at George Washington University (Spring 2026). The site is published to GitHub Pages at https://gwu-dats6450-13.github.io/6450-spring-2026/.\nThis course is aimed at 2nd year Masters of Data Science students who have some background in statistics and computer science. The scripting language is Python."
   },
   {
     "objectID": "CLAUDE.html#common-commands",
@@ -1302,18 +1302,748 @@
     "text": "Key Takeaways\n\nData is the bottleneck in modern AI systems\nParallel processing is essential for AI-scale data\nChoose the right tool for your scale and use case\nQuality over quantity - parallel quality checks are crucial\nMonitor and validate throughout the pipeline\nModern frameworks (Spark, Ray, Dask) simplify distributed processing"
   },
   {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Applied Big Data Analytics",
-    "section": "",
-    "text": "NoteCourse Information\n\n\n\nCourse Code: DATS 6450.13\nCredits: 3\nSchedule: Thursdays 6:10 PM - 8:40 PM\nLocation: Phillips 416"
+    "objectID": "slides/05-slides.html#agenda-and-goals-for-today",
+    "href": "slides/05-slides.html#agenda-and-goals-for-today",
+    "title": "Lecture 5",
+    "section": "Agenda and Goals for Today",
+    "text": "Agenda and Goals for Today\n\n\nLecture\n\nReview: The modern data stack\nThe DataFrame fragmentation problem\nNarwhals: Unified DataFrame API\nIbis: Unified database interface\nBuilding portable data pipelines\n\n\nLab\n\nWrite code that works across Pandas, Polars"
   },
   {
-    "objectID": "index.html#course-description",
-    "href": "index.html#course-description",
-    "title": "Applied Big Data Analytics",
-    "section": "Course Description",
-    "text": "Course Description\nApplied Big Data Analytics (DATS 6450.13) teaches practical, hands‑on methods for building scalable analytics pipelines that start on a single machine and scale to distributed clusters. Students learn to develop local analytical workflows with DuckDB, translate and scale them with Apache Spark, and evaluate performance tradeoffs through comparative benchmarking, query tuning, partitioning and memory strategies. The course covers modern tooling (Polars, Ray, RAPIDS), Spark SQL/DataFrame APIs, Spark NLP and MLlib, and efficient visualization of very large datasets (Datashader), with emphasis on reproducible end‑to‑end workflows and a final project demonstrating design and performance decisions."
+    "objectID": "slides/05-slides.html#review-where-weve-been",
+    "href": "slides/05-slides.html#review-where-weve-been",
+    "title": "Lecture 5",
+    "section": "Review: Where We’ve Been",
+    "text": "Review: Where We’ve Been\n\nWeek 2: Parallelization in Python\nWeek 4: The holy trinity - Parquet, DuckDB, Polars\n\nColumnar storage formats\nOLAP databases\nModern DataFrame libraries\n\n\n\n\n\n\n\n\nImportant\n\n\nBlackboard is strange!! We need you to make a “submission” for each of the earlier labs/assignments. This submission will be the URL of the respective Github repository.\nThis “submission” ensures that your grades show up on Blackboard. It will not affect late policies, which are determined by the timestamp of your GitHub commits.\nThis will be a requirement for all labs/assignments going forward."
+  },
+  {
+    "objectID": "slides/05-slides.html#project-progress",
+    "href": "slides/05-slides.html#project-progress",
+    "title": "Lecture 5",
+    "section": "Project progress",
+    "text": "Project progress\nOnly 15/24 students have joined groups!!\nFix this before tonight!!!\nFirst milestone is due next week. See here for details for now."
+  },
+  {
+    "objectID": "slides/05-slides.html#why-commits-matter",
+    "href": "slides/05-slides.html#why-commits-matter",
+    "title": "Lecture 5",
+    "section": "Why Commits Matter",
+    "text": "Why Commits Matter\n\nCommunication with your future self and teammates\nHistory of project evolution\nDebugging by identifying when issues were introduced\nDocumentation of decision-making"
+  },
+  {
+    "objectID": "slides/05-slides.html#anatomy-of-a-good-commit",
+    "href": "slides/05-slides.html#anatomy-of-a-good-commit",
+    "title": "Lecture 5",
+    "section": "Anatomy of a Good Commit",
+    "text": "Anatomy of a Good Commit\n&lt;type&gt;: &lt;subject&gt;\n\n&lt;body&gt;\n\n&lt;footer&gt;\n\nThe commit message has three parts: subject, body, and footer"
+  },
+  {
+    "objectID": "slides/05-slides.html#the-subject-line",
+    "href": "slides/05-slides.html#the-subject-line",
+    "title": "Lecture 5",
+    "section": "The Subject Line",
+    "text": "The Subject Line\nKeep it short and descriptive (50 characters or less)\nGood examples:\nFix login button alignment on mobile\nAdd user authentication middleware\nUpdate README with installation steps"
+  },
+  {
+    "objectID": "slides/05-slides.html#subject-line-rules",
+    "href": "slides/05-slides.html#subject-line-rules",
+    "title": "Lecture 5",
+    "section": "Subject Line Rules",
+    "text": "Subject Line Rules\n\nUse imperative mood (“Add feature” not “Added feature”)\nCapitalize the first letter\nNo period at the end\nBe specific about what changed"
+  },
+  {
+    "objectID": "slides/05-slides.html#bad-subject-lines",
+    "href": "slides/05-slides.html#bad-subject-lines",
+    "title": "Lecture 5",
+    "section": "❌ Bad Subject Lines",
+    "text": "❌ Bad Subject Lines\nFixed stuff\nUpdated files\nChanges\nWIP\nasdfasdf\nThese tell us nothing about what actually changed!"
+  },
+  {
+    "objectID": "slides/05-slides.html#good-subject-lines",
+    "href": "slides/05-slides.html#good-subject-lines",
+    "title": "Lecture 5",
+    "section": "✅ Good Subject Lines",
+    "text": "✅ Good Subject Lines\nFix memory leak in data processing loop\nAdd validation for email input fields\nRefactor database query for performance\nRemove deprecated API endpoints\nClear, concise, and descriptive!"
+  },
+  {
+    "objectID": "slides/05-slides.html#the-body-optional",
+    "href": "slides/05-slides.html#the-body-optional",
+    "title": "Lecture 5",
+    "section": "The Body (Optional)",
+    "text": "The Body (Optional)\nUse when you need to explain:\n\nWhy the change was made\nWhat problem it solves\nHow it differs from previous behavior\nAny side effects or limitations"
+  },
+  {
+    "objectID": "slides/05-slides.html#body-example",
+    "href": "slides/05-slides.html#body-example",
+    "title": "Lecture 5",
+    "section": "Body Example",
+    "text": "Body Example\nFix duplicate entries in user search results\n\nThe search query was not properly deduplicating\nresults when users had multiple roles. Added\nDISTINCT clause to SQL query and updated tests\nto verify unique results.\n\nFixes #234"
+  },
+  {
+    "objectID": "slides/05-slides.html#commit-best-practices",
+    "href": "slides/05-slides.html#commit-best-practices",
+    "title": "Lecture 5",
+    "section": "Commit Best Practices",
+    "text": "Commit Best Practices\n\n\nDo\n\nOne logical change per commit\nTest before committing\nCommit often\nWrite for others\n\n\nDon’t\n\nMix unrelated changes\nCommit broken code\nUse vague messages\nCommit sensitive data"
+  },
+  {
+    "objectID": "slides/05-slides.html#atomic-commits",
+    "href": "slides/05-slides.html#atomic-commits",
+    "title": "Lecture 5",
+    "section": "Atomic Commits",
+    "text": "Atomic Commits\nEach commit should be a single, complete unit of work\n✅ Good:\n\nCommit 1: Add user model\nCommit 2: Add user controller\nCommit 3: Add user routes\n\n❌ Bad:\n\nCommit 1: Add user feature, fix typo in README, update dependencies"
+  },
+  {
+    "objectID": "slides/05-slides.html#conventional-commits",
+    "href": "slides/05-slides.html#conventional-commits",
+    "title": "Lecture 5",
+    "section": "Conventional Commits",
+    "text": "Conventional Commits\nA standardized format for commit messages:\nfeat: add user profile page\nfix: resolve null pointer in checkout\ndocs: update API documentation\nstyle: format code with prettier\nrefactor: simplify error handling\ntest: add unit tests for auth service\nchore: update dependencies"
+  },
+  {
+    "objectID": "slides/05-slides.html#common-types",
+    "href": "slides/05-slides.html#common-types",
+    "title": "Lecture 5",
+    "section": "Common Types",
+    "text": "Common Types\n\nfeat: A new feature\nfix: A bug fix\ndocs: Documentation only changes\nstyle: Code style changes (formatting, etc.)\nrefactor: Code restructuring without changing behavior\ntest: Adding or updating tests\nchore: Maintenance tasks"
+  },
+  {
+    "objectID": "slides/05-slides.html#when-to-commit",
+    "href": "slides/05-slides.html#when-to-commit",
+    "title": "Lecture 5",
+    "section": "When to Commit?",
+    "text": "When to Commit?\nCommit when you’ve completed a logical unit of work:\n\n✅ Finished a function\n✅ Fixed a bug\n✅ Added a test\n✅ Refactored a component\n\n❌ Not at end of day “just to save”"
+  },
+  {
+    "objectID": "slides/05-slides.html#the-golden-rule",
+    "href": "slides/05-slides.html#the-golden-rule",
+    "title": "Lecture 5",
+    "section": "The Golden Rule",
+    "text": "The Golden Rule\n\nWrite commit messages that will help someone (including future you) understand what changed and why, without having to look at the diff."
+  },
+  {
+    "objectID": "slides/05-slides.html#quick-checklist",
+    "href": "slides/05-slides.html#quick-checklist",
+    "title": "Lecture 5",
+    "section": "Quick Checklist",
+    "text": "Quick Checklist\nBefore committing, ask yourself:\n\nIs the subject clear and concise?\nDoes it explain what changed?\nIf needed, does the body explain why?\nIs this a single logical change?\nHave I tested this change?"
+  },
+  {
+    "objectID": "slides/05-slides.html#resources",
+    "href": "slides/05-slides.html#resources",
+    "title": "Lecture 5",
+    "section": "Resources",
+    "text": "Resources\n\nConventional Commits\nHow to Write a Git Commit Message\nGitHub Commit Best Practices"
+  },
+  {
+    "objectID": "slides/05-slides.html#git-collaboration-models",
+    "href": "slides/05-slides.html#git-collaboration-models",
+    "title": "Lecture 5",
+    "section": "Git Collaboration Models",
+    "text": "Git Collaboration Models\nDifferent workflows for different team sizes and needs:\n\nCentralized Workflow\nFeature Branch Workflow\nGitflow Workflow\nForking Workflow"
+  },
+  {
+    "objectID": "slides/05-slides.html#centralized-workflow",
+    "href": "slides/05-slides.html#centralized-workflow",
+    "title": "Lecture 5",
+    "section": "Centralized Workflow",
+    "text": "Centralized Workflow\nBest for: Small teams, simple projects\nmain branch\n    |\n    *---*---*---*\n\nEveryone commits directly to main\nPull before you push\nLinear history\nSimple but risky"
+  },
+  {
+    "objectID": "slides/05-slides.html#feature-branch-workflow",
+    "href": "slides/05-slides.html#feature-branch-workflow",
+    "title": "Lecture 5",
+    "section": "Feature Branch Workflow",
+    "text": "Feature Branch Workflow\nBest for: Most teams\nmain     *---*---*-------*\n              \\         /\nfeature        *---*---*\n\nCreate branch for each feature\nMerge back to main when done\nUse Pull Requests for review\nKeeps main stable"
+  },
+  {
+    "objectID": "slides/05-slides.html#feature-branch-example",
+    "href": "slides/05-slides.html#feature-branch-example",
+    "title": "Lecture 5",
+    "section": "Feature Branch Example",
+    "text": "Feature Branch Example\n# Create and switch to feature branch\ngit checkout -b feature/user-auth\n\n# Make changes and commit\ngit add .\ngit commit -m \"feat: add login endpoint\"\n\n# Push and create Pull Request\ngit push origin feature/user-auth"
+  },
+  {
+    "objectID": "slides/05-slides.html#gitflow-workflow",
+    "href": "slides/05-slides.html#gitflow-workflow",
+    "title": "Lecture 5",
+    "section": "Gitflow Workflow",
+    "text": "Gitflow Workflow\nBest for: Scheduled releases, larger teams\nmain      *---------*---------*\n           \\       / \\       /\ndevelop     *--*--*---*--*--*\n             \\   /     \\   /\nfeature       *-*       *-*\n\nmain: production-ready code\ndevelop: integration branch\nfeature/*: new features\nrelease/*: preparing releases\nhotfix/*: emergency fixes"
+  },
+  {
+    "objectID": "slides/05-slides.html#forking-workflow",
+    "href": "slides/05-slides.html#forking-workflow",
+    "title": "Lecture 5",
+    "section": "Forking Workflow",
+    "text": "Forking Workflow\nBest for: Open source projects\n\nFork repository to your account\nClone your fork locally\nCreate feature branch\nPush to your fork\nOpen Pull Request to original repo\n\nMaintainers control what gets merged."
+  },
+  {
+    "objectID": "slides/05-slides.html#pull-request-best-practices",
+    "href": "slides/05-slides.html#pull-request-best-practices",
+    "title": "Lecture 5",
+    "section": "Pull Request Best Practices",
+    "text": "Pull Request Best Practices\n\nClear title following commit conventions\nDescription explaining the change\nLink related issues (Fixes #123)\nRequest reviewers explicitly\nKeep PRs small and focused\nRespond to feedback promptly"
+  },
+  {
+    "objectID": "slides/05-slides.html#code-review-tips",
+    "href": "slides/05-slides.html#code-review-tips",
+    "title": "Lecture 5",
+    "section": "Code Review Tips",
+    "text": "Code Review Tips\nAs Author:\n\nWrite clear PR description\nSelf-review before requesting\nBe open to feedback\n\nAs Reviewer:\n\nBe constructive and specific\nAsk questions, don’t demand\nApprove when ready, not perfect"
+  },
+  {
+    "objectID": "slides/05-slides.html#merge-strategies",
+    "href": "slides/05-slides.html#merge-strategies",
+    "title": "Lecture 5",
+    "section": "Merge Strategies",
+    "text": "Merge Strategies\nMerge Commit: Preserves all history\n*---*---*-------*  main\n         \\     /\n          *---*    feature\nSquash: Combines commits into one\n*---*---*---*  main\nRebase: Linear history\n*---*---*---*---*  main"
+  },
+  {
+    "objectID": "slides/05-slides.html#handling-conflicts",
+    "href": "slides/05-slides.html#handling-conflicts",
+    "title": "Lecture 5",
+    "section": "Handling Conflicts",
+    "text": "Handling Conflicts\nWhen merges conflict:\n\nPull latest changes\nResolve conflicts in files\nTest the resolution\nCommit the merge\nPush changes\n\nTip: Communicate with your team to avoid conflicts!"
+  },
+  {
+    "objectID": "slides/05-slides.html#branch-protection-rules",
+    "href": "slides/05-slides.html#branch-protection-rules",
+    "title": "Lecture 5",
+    "section": "Branch Protection Rules",
+    "text": "Branch Protection Rules\nProtect important branches on GitHub:\n\nRequire Pull Request reviews\nRequire status checks to pass\nRequire signed commits\nRestrict who can push\nRequire linear history"
+  },
+  {
+    "objectID": "slides/05-slides.html#team-workflow-tips",
+    "href": "slides/05-slides.html#team-workflow-tips",
+    "title": "Lecture 5",
+    "section": "Team Workflow Tips",
+    "text": "Team Workflow Tips\n\nAgree on a workflow as a team\nDocument conventions in CONTRIBUTING.md\nUse branch naming conventions (feature/, fix/, docs/)\nKeep branches short-lived\nCommunicate about major changes"
+  },
+  {
+    "objectID": "slides/05-slides.html#thank-you",
+    "href": "slides/05-slides.html#thank-you",
+    "title": "Lecture 5",
+    "section": "Thank You!",
+    "text": "Thank You!\nRemember: Good commits make collaboration easier and your project history more valuable.\nQuestions?"
+  },
+  {
+    "objectID": "slides/05-slides.html#the-traditional-problem",
+    "href": "slides/05-slides.html#the-traditional-problem",
+    "title": "Lecture 5",
+    "section": "The Traditional Problem",
+    "text": "The Traditional Problem\n\n\nOld Approach\n# CSV: Read entire file\ndf = pd.read_csv(\"data.csv\")\n# Copy into memory\n# Parse text → objects\n# High memory overhead\n\nConsequences\n\nMultiple copies in memory\nSlow parsing (text → typed data)\nMemory spikes during load\nLimited by RAM size"
+  },
+  {
+    "objectID": "slides/05-slides.html#what-is-zero-copy-access",
+    "href": "slides/05-slides.html#what-is-zero-copy-access",
+    "title": "Lecture 5",
+    "section": "What is Zero-Copy Access?",
+    "text": "What is Zero-Copy Access?\nZero-copy means reading data without duplicating it in memory\n\n\nKey Idea\n\nData stays on disk (memory-mapped)\nDirect access to bytes\nNo intermediate parsing\nShare data between processes\n\n\nBenefits\n\n🚀 Faster startup\n💾 Lower memory usage\n🔄 Efficient sharing\n📊 Query before loading"
+  },
+  {
+    "objectID": "slides/05-slides.html#apache-parquet-designed-for-zero-copy",
+    "href": "slides/05-slides.html#apache-parquet-designed-for-zero-copy",
+    "title": "Lecture 5",
+    "section": "Apache Parquet: Designed for Zero-Copy",
+    "text": "Apache Parquet: Designed for Zero-Copy\nColumnar binary format with metadata\n\nimport polars as pl\n\n# Metadata tells us structure without reading data\nschema = pl.scan_parquet(\"data.parquet\").schema\n\n# Read only what you need\ndf = pl.scan_parquet(\"data.parquet\").select(\"col1\", \"col2\").collect()\n\nWhy Parquet enables zero-copy:\n\nBinary format (no text parsing)\nColumnar layout (read only needed columns)\nBuilt-in statistics (skip chunks via metadata)\nApache Arrow compatible"
+  },
+  {
+    "objectID": "slides/05-slides.html#apache-arrow-the-memory-standard",
+    "href": "slides/05-slides.html#apache-arrow-the-memory-standard",
+    "title": "Lecture 5",
+    "section": "Apache Arrow: The Memory Standard",
+    "text": "Apache Arrow: The Memory Standard\nArrow is the common in-memory format\n┌─────────────┐\n│   Parquet   │ (on disk)\n└──────┬──────┘\n       │ zero-copy map\n       ↓\n┌─────────────┐\n│Arrow Memory │ (columnar buffers)\n└──────┬──────┘\n       ├───→ Polars (zero-copy)\n       ├───→ DuckDB (zero-copy)\n       └───→ PyArrow (zero-copy)\nNo serialization between tools!"
+  },
+  {
+    "objectID": "slides/05-slides.html#polars-zero-copy-native",
+    "href": "slides/05-slides.html#polars-zero-copy-native",
+    "title": "Lecture 5",
+    "section": "Polars: Zero-Copy Native",
+    "text": "Polars: Zero-Copy Native\nBuilt on Arrow from the ground up\n\nimport polars as pl\n\n# Lazy scan: no data loaded yet\nlazy_df = pl.scan_parquet(\"taxi_*.parquet\")\n\n# Build query plan (still no copy)\nquery = (lazy_df\n    .filter(pl.col(\"distance\") &gt; 5)\n    .group_by(\"borough\")\n    .agg(pl.col(\"fare\").mean())\n)\n\n# Execute: stream through data, minimal copies\nresult = query.collect()\n\nAdvantages: Query optimization, predicate pushdown, parallel streaming"
+  },
+  {
+    "objectID": "slides/05-slides.html#duckdb-zero-copy-sql",
+    "href": "slides/05-slides.html#duckdb-zero-copy-sql",
+    "title": "Lecture 5",
+    "section": "DuckDB: Zero-Copy SQL",
+    "text": "DuckDB: Zero-Copy SQL\nAnalytical database designed for zero-copy\n\nimport duckdb\n\n# Query parquet directly (no load step)\nresult = duckdb.sql(\"\"\"\n    SELECT borough, AVG(fare) as avg_fare\n    FROM 'taxi_*.parquet'\n    WHERE distance &gt; 5\n    GROUP BY borough\n\"\"\").pl()  # Returns Polars DataFrame (zero-copy)\n\nDuckDB → Polars is zero-copy (both use Arrow)"
+  },
+  {
+    "objectID": "slides/05-slides.html#memory-mapping-in-action",
+    "href": "slides/05-slides.html#memory-mapping-in-action",
+    "title": "Lecture 5",
+    "section": "Memory Mapping in Action",
+    "text": "Memory Mapping in Action\nHow it works under the hood:\n\nmmap() system call maps file to virtual memory\nOS loads pages on-demand (lazy loading)\nMultiple processes share same physical pages\nOS manages paging (better than manual reads)\n\n# Conceptually what happens:\nfile_bytes = mmap.mmap(fd, length, access=mmap.ACCESS_READ)\n# Arrow views these bytes directly as typed arrays\n# No copy, no parsing!"
+  },
+  {
+    "objectID": "slides/05-slides.html#real-performance-impact",
+    "href": "slides/05-slides.html#real-performance-impact",
+    "title": "Lecture 5",
+    "section": "Real Performance Impact",
+    "text": "Real Performance Impact\nExample: 1GB Parquet file\n\n\n\nOperation\nTraditional\nZero-Copy\nSpeedup\n\n\n\n\nLoad time\n8.2s\n0.3s\n27x\n\n\nMemory use\n2.5 GB\n1.1 GB\n2.3x\n\n\nFilter\n3.1s\n0.4s\n7.8x\n\n\nColumn select\n8.2s\n0.05s\n164x\n\n\n\nZero-copy reads only what’s needed, when it’s needed"
+  },
+  {
+    "objectID": "slides/05-slides.html#interoperability-benefits",
+    "href": "slides/05-slides.html#interoperability-benefits",
+    "title": "Lecture 5",
+    "section": "Interoperability Benefits",
+    "text": "Interoperability Benefits\nSeamless data sharing:\n\nimport polars as pl\nimport duckdb\n\n# Polars reads parquet (zero-copy)\ndf = pl.scan_parquet(\"data.parquet\").collect()\n\n# Pass to DuckDB (zero-copy)\nresult = duckdb.sql(\"SELECT * FROM df WHERE x &gt; 10\").pl()\n\n# Convert to pandas (copy needed, but only once)\npandas_df = result.to_pandas()\n\nArrow is the lingua franca of modern data tools"
+  },
+  {
+    "objectID": "slides/05-slides.html#best-practices",
+    "href": "slides/05-slides.html#best-practices",
+    "title": "Lecture 5",
+    "section": "Best Practices",
+    "text": "Best Practices\nTo maximize zero-copy benefits:\n\nUse Parquet for storage (not CSV)\nUse lazy evaluation when possible (scan_parquet, not read_parquet)\nFilter early (predicate pushdown)\nSelect columns before collecting (projection pushdown)\nPartition data for better selectivity\nStay in Arrow ecosystem (Polars/DuckDB/PyArrow)"
+  },
+  {
+    "objectID": "slides/05-slides.html#when-copies-still-happen",
+    "href": "slides/05-slides.html#when-copies-still-happen",
+    "title": "Lecture 5",
+    "section": "When Copies Still Happen",
+    "text": "When Copies Still Happen\nZero-copy isn’t always possible:\n\nConverting to pandas (different memory layout)\nComplex string operations (may need materialization)\nWriting results to disk\nNetwork transfers\nSome aggregations (need intermediate buffers)\n\nBut: Even when copies happen, they’re minimized and strategic"
+  },
+  {
+    "objectID": "slides/05-slides.html#summary",
+    "href": "slides/05-slides.html#summary",
+    "title": "Lecture 5",
+    "section": "Summary",
+    "text": "Summary\nZero-copy data access advantages:\n✅ Performance: Faster loads, lower latency ✅ Efficiency: Reduced memory footprint\n✅ Scalability: Work with larger-than-RAM datasets\n✅ Interoperability: Share data between tools seamlessly\n✅ Simplicity: Query before loading, explore without cost\nThe ecosystem: Parquet (storage) + Arrow (memory) + Polars/DuckDB (compute)"
+  },
+  {
+    "objectID": "slides/05-slides.html#resources-1",
+    "href": "slides/05-slides.html#resources-1",
+    "title": "Lecture 5",
+    "section": "Resources",
+    "text": "Resources\nLearn More:\n\nApache Arrow\nApache Parquet\nPolars Documentation\nDuckDB Documentation\n\nKey concept: Modern data tools separate storage from compute, enabling zero-copy workflows"
+  },
+  {
+    "objectID": "slides/05-slides.html#the-dataframe-fragmentation-problem",
+    "href": "slides/05-slides.html#the-dataframe-fragmentation-problem",
+    "title": "Lecture 5",
+    "section": "The DataFrame Fragmentation Problem",
+    "text": "The DataFrame Fragmentation Problem\n\nThe Landscape in 2025:\n\n\nPandas: The original, still widely used\nPolars: Fast, Rust-based, growing adoption\nPyArrow: Direct Arrow Table manipulation\nDask: Distributed computing\nModin: Parallel Pandas\ncuDF: GPU-accelerated DataFrames\n\nEach has different APIs, syntax, and capabilities"
+  },
+  {
+    "objectID": "slides/05-slides.html#why-this-matters",
+    "href": "slides/05-slides.html#why-this-matters",
+    "title": "Lecture 5",
+    "section": "Why This Matters",
+    "text": "Why This Matters\nFor Library Authors:\ndef process_data(df):  # What type is df?\n    # Works with Pandas\n    result = df.groupby('category')['value'].mean()\n    \n    # Breaks with Polars\n    # Polars uses: df.group_by('category').agg(pl.col('value').mean())\nFor Data Scientists:\n\nLock-in to specific libraries\nHard to switch when requirements change\nCode becomes non-portable\nOrganizational silos"
+  },
+  {
+    "objectID": "slides/05-slides.html#enter-narwhals",
+    "href": "slides/05-slides.html#enter-narwhals",
+    "title": "Lecture 5",
+    "section": "Enter: Narwhals 🦄",
+    "text": "Enter: Narwhals 🦄\n\n“Write once, run on any DataFrame”\nA lightweight compatibility layer providing a unified API across:\nFull API support: cuDF, Modin, pandas, Polars, PyArrow.\nLazy-only support: Daft, Dask, DuckDB, Ibis, PySpark, SQLFrame.\n\nNarwhals provides a minimal, fast abstraction layer that lets you write DataFrame code once and run it on any backend. It’s extremely lightweight (~50kb) and adds negligible overhead."
+  },
+  {
+    "objectID": "slides/05-slides.html#narwhals-philosophy",
+    "href": "slides/05-slides.html#narwhals-philosophy",
+    "title": "Lecture 5",
+    "section": "Narwhals Philosophy",
+    "text": "Narwhals Philosophy\n\nDesign Principles:\n\n\nLightweight: Minimal overhead, lazy when possible\nExpressive: Polars-like syntax (modern and consistent) (uses a subset of the Polars API)\nInteroperable: Easy conversion to/from native types\nType-safe: Full type hints for better IDE support\nZero-cost: Abstraction that doesn’t sacrifice performance\n\nKey insight: You work with native objects, Narwhals just provides a common interface"
+  },
+  {
+    "objectID": "slides/05-slides.html#narwhals-basic-example",
+    "href": "slides/05-slides.html#narwhals-basic-example",
+    "title": "Lecture 5",
+    "section": "Narwhals: Basic Example",
+    "text": "Narwhals: Basic Example\n\nimport narwhals as nw\nimport pandas as pd\nimport polars as pl\n\n# Works with Pandas DataFrame\ndf_pandas = pd.DataFrame({'a': [1, 2, 3], 'b': [4, 5, 6]})\n\n# Works with Polars DataFrame  \ndf_polars = pl.DataFrame({'a': [1, 2, 3], 'b': [4, 5, 6]})\n\n# Same code for both!\ndef process(df):\n    df_nw = nw.from_native(df)\n    result = df_nw.filter(nw.col('a') &gt; 1).select(nw.col('b').sum())\n    return nw.to_native(result)\n\nprocess(df_pandas)  # Returns pandas DataFrame\nprocess(df_polars)  # Returns polars DataFrame"
+  },
+  {
+    "objectID": "slides/05-slides.html#narwhals-key-operations",
+    "href": "slides/05-slides.html#narwhals-key-operations",
+    "title": "Lecture 5",
+    "section": "Narwhals: Key Operations",
+    "text": "Narwhals: Key Operations\n\nimport narwhals as nw\n\ndef analyze_data(df):\n    df = nw.from_native(df)\n    \n    result = (\n        df\n        .filter(nw.col('age') &gt; 18)\n        .with_columns([\n            (nw.col('salary') * 1.1).alias('salary_adjusted'),\n            nw.col('name').str.to_uppercase().alias('name_upper')\n        ])\n        .group_by('department')\n        .agg([\n            nw.col('salary_adjusted').mean().alias('avg_salary'),\n            nw.col('age').max().alias('max_age')\n        ])\n        .sort('avg_salary', descending=True)\n    )\n    \n    return nw.to_native(result)"
+  },
+  {
+    "objectID": "slides/05-slides.html#narwhals-lazy-evaluation",
+    "href": "slides/05-slides.html#narwhals-lazy-evaluation",
+    "title": "Lecture 5",
+    "section": "Narwhals: Lazy Evaluation",
+    "text": "Narwhals: Lazy Evaluation\nNarwhals supports both eager and lazy execution modes:\n\nimport narwhals as nw\nimport polars as pl\n\n# Eager mode (like Pandas)\ndf_pandas = pd.DataFrame({'a': [1, 2, 3], 'b': [4, 5, 6]})\ndf_nw = nw.from_native(df_pandas)\nresult = df_nw.filter(nw.col('a') &gt; 1).select('b')  # Executes immediately\n\n# Lazy mode (like Polars LazyFrame)\ndf_lazy = pl.LazyFrame({'a': [1, 2, 3], 'b': [4, 5, 6]})\ndf_nw = nw.from_native(df_lazy)\nresult = df_nw.filter(nw.col('a') &gt; 1).select('b')  # Builds query plan\nfinal = result.collect()  # Execute optimized query"
+  },
+  {
+    "objectID": "slides/05-slides.html#narwhals-lazy-execution-benefits",
+    "href": "slides/05-slides.html#narwhals-lazy-execution-benefits",
+    "title": "Lecture 5",
+    "section": "Narwhals: Lazy Execution Benefits",
+    "text": "Narwhals: Lazy Execution Benefits\nWhy use lazy evaluation?\n\nQuery optimization: Backend can reorder and optimize operations\nMemory efficiency: Only materialize what’s needed\nPredicate pushdown: Filters applied early\nProjection pushdown: Only read required columns\n\n\n# Lazy mode allows optimization\ndf_lazy = nw.from_native(pl.scan_parquet('large_file.parquet'))\n\nresult = (\n    df_lazy\n    .select(['date', 'amount', 'category'])  # Only read these columns\n    .filter(nw.col('date').dt.year() == 2024)  # Filter at read time\n    .group_by('category')\n    .agg(nw.col('amount').sum())\n)\n\n# Optimized plan is executed only on collect()\nfinal = result.collect()"
+  },
+  {
+    "objectID": "slides/05-slides.html#narwhals-checking-execution-mode",
+    "href": "slides/05-slides.html#narwhals-checking-execution-mode",
+    "title": "Lecture 5",
+    "section": "Narwhals: Checking Execution Mode",
+    "text": "Narwhals: Checking Execution Mode\n\nimport narwhals as nw\n\ndef process_data(df):\n    df_nw = nw.from_native(df)\n    \n    # Check if lazy or eager\n    if hasattr(df_nw, 'collect'):\n        print(\"Lazy evaluation supported!\")\n        result = (\n            df_nw\n            .filter(nw.col('value') &gt; 100)\n            .select(['id', 'value'])\n        )\n        return result.collect()  # Materialize result\n    else:\n        print(\"Eager evaluation\")\n        result = (\n            df_nw\n            .filter(nw.col('value') &gt; 100)\n            .select(['id', 'value'])\n        )\n        return nw.to_native(result)\n\n# Works with both Pandas (eager) and Polars LazyFrame (lazy)"
+  },
+  {
+    "objectID": "slides/05-slides.html#narwhals-when-to-use-it",
+    "href": "slides/05-slides.html#narwhals-when-to-use-it",
+    "title": "Lecture 5",
+    "section": "Narwhals: When to Use It",
+    "text": "Narwhals: When to Use It\n✅ Great for:\n\nBuilding reusable data processing libraries\nWriting code for teams with different tool preferences\nPrototyping with flexibility to switch backends\nTeaching/documentation that should work everywhere\n\n❌ Not ideal for:\n\nPerformance-critical inner loops (use native APIs)\nFeatures specific to one backend\nWhen you know you’ll only use one library"
+  },
+  {
+    "objectID": "slides/05-slides.html#moving-to-databases-the-sql-problem",
+    "href": "slides/05-slides.html#moving-to-databases-the-sql-problem",
+    "title": "Lecture 5",
+    "section": "Moving to Databases: The SQL Problem",
+    "text": "Moving to Databases: The SQL Problem\nChallenge: Each database has slightly different SQL dialects\n-- PostgreSQL\nSELECT * FROM table LIMIT 10;\n\n-- SQL Server\nSELECT TOP 10 * FROM table;\n\n-- Oracle\nSELECT * FROM table WHERE ROWNUM &lt;= 10;\nPlus: Many more differences in date functions, string operations, window functions, etc."
+  },
+  {
+    "objectID": "slides/05-slides.html#enter-ibis",
+    "href": "slides/05-slides.html#enter-ibis",
+    "title": "Lecture 5",
+    "section": "Enter: Ibis",
+    "text": "Enter: Ibis\n\n“The portable Python dataframe library”\nA unified Python interface to:\n\n20+ database backends (DuckDB, PostgreSQL, BigQuery, Snowflake, etc.)\nLocal DataFrames (Pandas, Polars)\nCloud data warehouses\nFile formats (Parquet, CSV)\n\n\nIbis translates Python expressions into optimized SQL for each backend. It’s like having a universal translator for databases."
+  },
+  {
+    "objectID": "slides/05-slides.html#ibis-philosophy",
+    "href": "slides/05-slides.html#ibis-philosophy",
+    "title": "Lecture 5",
+    "section": "Ibis Philosophy",
+    "text": "Ibis Philosophy\n\nDesign Principles:\n\n\nLazy Evaluation: Build expression trees, execute when needed\nBackend Agnostic: Same code works on any database\nPythonic: No SQL string manipulation\nType-safe: Column types are known and checked\nOptimized: Pushes computation to the database\n\nKey insight: Let databases do what they’re good at, orchestrate from Python"
+  },
+  {
+    "objectID": "slides/05-slides.html#ibis-basic-example",
+    "href": "slides/05-slides.html#ibis-basic-example",
+    "title": "Lecture 5",
+    "section": "Ibis: Basic Example",
+    "text": "Ibis: Basic Example\n\nimport ibis\n\n# Connect to different backends with same interface\nduckdb_con = ibis.duckdb.connect('data.ddb')\npostgres_con = ibis.postgres.connect(host='localhost', database='mydb')\nbigquery_con = ibis.bigquery.connect(project_id='my-project')\n\n# Same query works on all!\ndef analyze(con):\n    table = con.table('sales')\n    \n    result = (\n        table\n        .filter(table.amount &gt; 100)\n        .group_by('product')\n        .aggregate(total=table.amount.sum())\n        .order_by(ibis.desc('total'))\n    )\n    \n    return result.execute()  # Returns pandas DataFrame"
+  },
+  {
+    "objectID": "slides/05-slides.html#ibis-rich-expression-api",
+    "href": "slides/05-slides.html#ibis-rich-expression-api",
+    "title": "Lecture 5",
+    "section": "Ibis: Rich Expression API",
+    "text": "Ibis: Rich Expression API\n\nimport ibis\nfrom ibis import _\n\ncon = ibis.duckdb.connect()\norders = con.table('orders')\n\nresult = (\n    orders\n    .filter(_.order_date.year() == 2024)\n    .mutate(\n        month=_.order_date.month(),\n        revenue=_.quantity * _.price,\n        is_large=_.quantity &gt; 100\n    )\n    .group_by(['month', 'category'])\n    .agg(\n        total_revenue=_.revenue.sum(),\n        avg_quantity=_.quantity.mean(),\n        order_count=_.count()\n    )\n    .filter(_.total_revenue &gt; 10000)\n    .order_by([_.month, ibis.desc(_.total_revenue)])\n)\n\n# This generates optimized SQL for the backend\nresult.execute()"
+  },
+  {
+    "objectID": "slides/05-slides.html#ibis-supported-backends",
+    "href": "slides/05-slides.html#ibis-supported-backends",
+    "title": "Lecture 5",
+    "section": "Ibis: Supported Backends",
+    "text": "Ibis: Supported Backends\nDatabases:\n\nPostgreSQL, MySQL, SQLite\nDuckDB, DataFusion\nSnowflake, BigQuery, Redshift\nClickHouse, Trino\nSQL Server, Oracle\n\nDataFrames:\n\nPandas, Polars, PyArrow\n\nFiles:\n\nParquet, CSV (via DuckDB backend)\n\nAll with the same Python API!"
+  },
+  {
+    "objectID": "slides/05-slides.html#ibis-lazy-evaluation",
+    "href": "slides/05-slides.html#ibis-lazy-evaluation",
+    "title": "Lecture 5",
+    "section": "Ibis: Lazy Evaluation",
+    "text": "Ibis: Lazy Evaluation\n\nimport ibis\n\ncon = ibis.duckdb.connect()\ntable = con.table('large_table')\n\n# Build the query (no execution yet)\nquery = (\n    table\n    .filter(table.amount &gt; 1000)\n    .group_by('category')\n    .aggregate(total=table.amount.sum())\n)\n\n# Inspect the generated SQL\nprint(query.compile())\n\n# Execute when ready\nresult = query.execute()  # This runs the query\n\n# Or stream for large results\nfor batch in query.to_pyarrow_batches():\n    process(batch)"
+  },
+  {
+    "objectID": "slides/05-slides.html#combining-narwhals-and-ibis",
+    "href": "slides/05-slides.html#combining-narwhals-and-ibis",
+    "title": "Lecture 5",
+    "section": "Combining Narwhals and Ibis",
+    "text": "Combining Narwhals and Ibis\nUse them together for maximum portability!\n\nimport ibis\nimport narwhals as nw\n\n# Extract from database with Ibis\ncon = ibis.duckdb.connect('warehouse.ddb')\nsales = con.table('sales').execute()  # pandas DataFrame\n\n# Transform with Narwhals (works with pandas or polars)\ndef transform(df):\n    df = nw.from_native(df)\n    return (\n        df\n        .with_columns([(nw.col('amount') * 1.1).alias('amount_tax')])\n        .filter(nw.col('amount_tax') &gt; 100)\n        .to_native()\n    )\n\ntransformed = transform(sales)\n\n# Load back to database with Ibis\ncon.create_table('sales_processed', transformed)"
+  },
+  {
+    "objectID": "slides/05-slides.html#real-world-pipeline-example",
+    "href": "slides/05-slides.html#real-world-pipeline-example",
+    "title": "Lecture 5",
+    "section": "Real-World Pipeline Example",
+    "text": "Real-World Pipeline Example\n\nimport ibis\nimport narwhals as nw\n\ndef etl_pipeline(source_db, dest_db, frame_backend='pandas'):\n    # EXTRACT: Read from any database\n    source = ibis.connect(source_db)\n    raw_data = source.table('events').filter(_.date &gt;= '2024-01-01').execute()\n    \n    # TRANSFORM: Process with any DataFrame library\n    def transform(df):\n        df = nw.from_native(df)\n        return (\n            df\n            .with_columns([\n                nw.col('event_time').dt.hour().alias('hour'),\n                nw.col('user_id').cast(nw.String).alias('user_id_str')\n            ])\n            .group_by(['hour', 'event_type'])\n            .agg([nw.col('user_id').n_unique().alias('unique_users')])\n            .to_native()\n        )\n    \n    processed = transform(raw_data)\n    \n    # LOAD: Write to any database\n    dest = ibis.connect(dest_db)\n    dest.create_table('event_summary', processed, overwrite=True)"
+  },
+  {
+    "objectID": "slides/05-slides.html#performance-considerations",
+    "href": "slides/05-slides.html#performance-considerations",
+    "title": "Lecture 5",
+    "section": "Performance Considerations",
+    "text": "Performance Considerations\nNarwhals:\n\nNegligible overhead (~1-2% typically)\nWorks with native objects, just wraps the API\nNo data copying unless converting between backends\n\nIbis:\n\nPushes computation to database (often faster than local)\nLazy evaluation means efficient query planning\nCan generate suboptimal SQL in complex cases (rare)\n\nBest practice: Profile both native and unified APIs for your use case"
+  },
+  {
+    "objectID": "slides/05-slides.html#when-to-use-each-tool",
+    "href": "slides/05-slides.html#when-to-use-each-tool",
+    "title": "Lecture 5",
+    "section": "When to Use Each Tool",
+    "text": "When to Use Each Tool\nUse Narwhals when:\n\nWriting library code for others\nBuilding data processing functions\nWanting flexibility in DataFrame backend\nWorking across team with different preferences\n\nUse Ibis when:\n\nQuerying multiple databases\nBuilding cloud-agnostic pipelines\nNeed to switch data warehouses\nWant Python instead of SQL strings\n\nUse both when:\n\nBuilding full ETL/ELT pipelines\nMaximum portability is required"
+  },
+  {
+    "objectID": "slides/05-slides.html#getting-started-installation",
+    "href": "slides/05-slides.html#getting-started-installation",
+    "title": "Lecture 5",
+    "section": "Getting Started: Installation",
+    "text": "Getting Started: Installation\n# Install narwhals\npip install narwhals\n\n# Install ibis with specific backends\npip install 'ibis-framework[duckdb]'\npip install 'ibis-framework[postgres]'\npip install 'ibis-framework[bigquery]'\n\n# Or install multiple backends\npip install 'ibis-framework[duckdb,postgres,snowflake]'\n\n# Narwhals automatically detects installed DataFrame libraries\n# No additional configuration needed!"
+  },
+  {
+    "objectID": "slides/05-slides.html#code-migration-strategy",
+    "href": "slides/05-slides.html#code-migration-strategy",
+    "title": "Lecture 5",
+    "section": "Code Migration Strategy",
+    "text": "Code Migration Strategy\nStep 1: Identify portable operations\n# Before (pandas-specific)\ndf.groupby('col')['value'].mean()\n\n# After (narwhals)\nnw.from_native(df).group_by('col').agg(nw.col('value').mean())\nStep 2: Wrap in functions\ndef my_analysis(df):\n    df = nw.from_native(df)\n    # ... narwhals operations ...\n    return nw.to_native(result)\nStep 3: Gradually migrate critical paths"
+  },
+  {
+    "objectID": "slides/05-slides.html#best-practices-1",
+    "href": "slides/05-slides.html#best-practices-1",
+    "title": "Lecture 5",
+    "section": "Best Practices",
+    "text": "Best Practices\n\nStart with the interface layer: Wrap your data access in Narwhals/Ibis\nDocument backend requirements: Some features may be backend-specific\nTest across backends: CI/CD should test multiple DataFrame/DB engines\nProfile before optimizing: Unified APIs are usually fast enough\nUse type hints: Both libraries support full typing\nLeverage lazy evaluation: Build queries, execute when ready"
+  },
+  {
+    "objectID": "slides/05-slides.html#limitations-to-know",
+    "href": "slides/05-slides.html#limitations-to-know",
+    "title": "Lecture 5",
+    "section": "Limitations to Know",
+    "text": "Limitations to Know\nNarwhals:\n\nNot all DataFrame features are supported (by design)\nSome operations may be slightly different across backends\nExtension types (categorical, etc.) may behave differently\n\nIbis:\n\nSQL dialect differences can still leak through\nSome backends have limited feature support\nRequires connection setup for each backend\n\nSolution: Read the docs, test thoroughly, have fallback plans"
+  },
+  {
+    "objectID": "slides/05-slides.html#community-and-resources",
+    "href": "slides/05-slides.html#community-and-resources",
+    "title": "Lecture 5",
+    "section": "Community and Resources",
+    "text": "Community and Resources\nNarwhals:\n\nGitHub: narwhals-dev/narwhals\nDocs: narwhals-dev.github.io/narwhals\nDiscord community for support\n\nIbis:\n\nGitHub: ibis-project/ibis\nDocs: ibis-project.org\nActive Zulip chat\n\nBoth projects are actively maintained and growing!"
+  },
+  {
+    "objectID": "slides/05-slides.html#key-takeaways",
+    "href": "slides/05-slides.html#key-takeaways",
+    "title": "Lecture 5",
+    "section": "Key Takeaways",
+    "text": "Key Takeaways\n\nRemember:\n\n\nNarwhals = Unified DataFrame API for local computation\nIbis = Unified interface to databases and warehouses\nTogether = Portable, backend-agnostic data pipelines\nTrade-off = Slight abstraction cost for massive flexibility\nFuture-proof = Code survives technology changes\n\nWrite portable code today, thank yourself tomorrow"
+  },
+  {
+    "objectID": "slides/05-slides.html#examples",
+    "href": "slides/05-slides.html#examples",
+    "title": "Lecture 5",
+    "section": "Examples",
+    "text": "Examples\nSee this page for more code examples and patterns using Narwhals and Ibis!"
+  },
+  {
+    "objectID": "slides/05-slides.html#hive-style-partitioning-for-parquet",
+    "href": "slides/05-slides.html#hive-style-partitioning-for-parquet",
+    "title": "Lecture 5",
+    "section": "Hive-Style Partitioning for Parquet",
+    "text": "Hive-Style Partitioning for Parquet\nDirectory-based data organization pattern:\ndata/\n├── year=2024/\n│   ├── month=01/\n│   │   ├── day=01/\n│   │   │   └── data.parquet\n│   │   └── day=02/\n│   │       └── data.parquet\n│   └── month=02/\n│       └── day=01/\n│           └── data.parquet\n└── year=2025/\n    └── month=01/\n        └── day=01/\n            └── data.parquet\nPartition keys are encoded in directory structure, not file contents"
+  },
+  {
+    "objectID": "slides/05-slides.html#hive-partitioning-how-it-works",
+    "href": "slides/05-slides.html#hive-partitioning-how-it-works",
+    "title": "Lecture 5",
+    "section": "Hive Partitioning: How It Works",
+    "text": "Hive Partitioning: How It Works\nKey concept: Organize files by column values in nested directories\n# Writing partitioned data\nimport polars as pl\n\ndf = pl.DataFrame({\n    'date': ['2024-01-01', '2024-01-02', '2024-02-01'],\n    'product': ['A', 'B', 'A'],\n    'sales': [100, 200, 150]\n})\n\n# Create partitions by date components\ndf = df.with_columns([\n    pl.col('date').str.to_date().dt.year().alias('year'),\n    pl.col('date').str.to_date().dt.month().alias('month')\n])\n\n# Write with Hive partitioning\ndf.write_parquet('data', partition_by=['year', 'month'])\nResult: Files organized in year=2024/month=01/ directories"
+  },
+  {
+    "objectID": "slides/05-slides.html#why-hive-partitioning-matters",
+    "href": "slides/05-slides.html#why-hive-partitioning-matters",
+    "title": "Lecture 5",
+    "section": "Why Hive Partitioning Matters",
+    "text": "Why Hive Partitioning Matters\n🚀 Performance Benefits:\n\nPartition pruning: Skip entire directories when filtering\nParallel I/O: Read only relevant partitions concurrently\nReduced memory: Don’t load unnecessary data\nFaster queries: Orders of magnitude speedup on large datasets\n\n# Without partitioning: scan entire dataset\ndf = pl.scan_parquet('data/*.parquet')\nresult = df.filter(pl.col('year') == 2024).collect()\n\n# With partitioning: only read year=2024/ directory\ndf = pl.scan_parquet('data/**/*.parquet', hive_partitioning=True)\nresult = df.filter(pl.col('year') == 2024).collect()  # Much faster!"
+  },
+  {
+    "objectID": "slides/05-slides.html#partition-pruning-in-action",
+    "href": "slides/05-slides.html#partition-pruning-in-action",
+    "title": "Lecture 5",
+    "section": "Partition Pruning in Action",
+    "text": "Partition Pruning in Action\nExample: 1TB dataset, 3 years of data\nimport ibis\n\n# Connect to DuckDB (great Parquet support)\ncon = ibis.duckdb.connect()\n\n# Query with automatic partition pruning\ntable = con.read_parquet(\n    'data/**/*.parquet',\n    hive_partitioning=True\n)\n\n# Only reads ~340GB (1 year) instead of 1TB\nrecent = table.filter(table.year == 2024).execute()\nBenchmark: 3x-10x faster queries on partitioned data"
+  },
+  {
+    "objectID": "slides/05-slides.html#choosing-good-partition-keys",
+    "href": "slides/05-slides.html#choosing-good-partition-keys",
+    "title": "Lecture 5",
+    "section": "Choosing Good Partition Keys",
+    "text": "Choosing Good Partition Keys\n✅ Good partition keys:\n\nHigh cardinality but not too high: 10-1000 partitions ideal\nCommon filter columns: Date/time, region, category\nEvenly distributed data: Avoid skew\nStable values: Don’t change over time\n\n❌ Avoid:\n\nToo many partitions: User ID, transaction ID (millions of dirs)\nUnbalanced partitions: Status with 99% “active”, 1% “inactive”\nRarely queried columns: Columns you never filter on"
+  },
+  {
+    "objectID": "slides/05-slides.html#partition-strategy-examples",
+    "href": "slides/05-slides.html#partition-strategy-examples",
+    "title": "Lecture 5",
+    "section": "Partition Strategy Examples",
+    "text": "Partition Strategy Examples\nTime-series data:\nyear=2024/month=12/day=15/data.parquet  # Fine-grained\nyear=2024/month=12/data.parquet          # Medium\nyear=2024/data.parquet                    # Coarse\nMulti-dimensional:\nregion=us/category=electronics/data.parquet\nregion=eu/category=books/data.parquet\nBest practice: Start with coarser partitions, refine if needed"
+  },
+  {
+    "objectID": "slides/05-slides.html#reading-partitioned-data",
+    "href": "slides/05-slides.html#reading-partitioned-data",
+    "title": "Lecture 5",
+    "section": "Reading Partitioned Data",
+    "text": "Reading Partitioned Data\nAll modern tools support Hive partitioning:\n# Polars\ndf = pl.scan_parquet('data/**/*.parquet', hive_partitioning=True)\n\n# DuckDB\ncon.execute(\"SELECT * FROM read_parquet('data/**/*.parquet', hive_partitioning=true)\")\n\n# Ibis\ntable = con.read_parquet('data/**/*.parquet', hive_partitioning=True)\n\n# PyArrow\nimport pyarrow.parquet as pq\nds = pq.ParquetDataset('data/', partitioning='hive')\nPartition columns automatically added to DataFrame"
+  },
+  {
+    "objectID": "slides/05-slides.html#writing-partitioned-data",
+    "href": "slides/05-slides.html#writing-partitioned-data",
+    "title": "Lecture 5",
+    "section": "Writing Partitioned Data",
+    "text": "Writing Partitioned Data\nCreate partitions when writing:\n# Polars\ndf.write_parquet('data', partition_by=['year', 'month'])\n\n# PyArrow\nimport pyarrow.parquet as pq\npq.write_to_dataset(\n    table,\n    root_path='data',\n    partition_cols=['year', 'month']\n)\n\n# Ibis with DuckDB\ncon.create_table('output', df, temp=False)\ncon.execute(\"\"\"\n    COPY (SELECT * FROM output) \n    TO 'data' (FORMAT PARQUET, PARTITION_BY (year, month))\n\"\"\")"
+  },
+  {
+    "objectID": "slides/05-slides.html#partitioning-best-practices",
+    "href": "slides/05-slides.html#partitioning-best-practices",
+    "title": "Lecture 5",
+    "section": "Partitioning Best Practices",
+    "text": "Partitioning Best Practices\n\nPartition size: Target 100MB-1GB per file (not too small/large)\nPartition count: Keep under 1000 directories if possible\nSchema evolution: Partition keys should be stable\nMetadata: Consider partition discovery overhead\nCompression: Works with partitioning (zstd recommended)\n\n# Good: 365 partitions (daily for 1 year)\npartition_by=['year', 'month', 'day']\n\n# Bad: Millions of partitions\npartition_by=['user_id']  # Too many!"
+  },
+  {
+    "objectID": "slides/05-slides.html#real-world-example-sales-analytics",
+    "href": "slides/05-slides.html#real-world-example-sales-analytics",
+    "title": "Lecture 5",
+    "section": "Real-World Example: Sales Analytics",
+    "text": "Real-World Example: Sales Analytics\nimport polars as pl\nfrom datetime import datetime\n\n# Generate sales data\nsales = pl.DataFrame({\n    'timestamp': [...],  # 10M rows\n    'product_id': [...],\n    'amount': [...],\n    'region': [...]\n})\n\n# Prepare for partitioning\nsales = sales.with_columns([\n    pl.col('timestamp').dt.year().alias('year'),\n    pl.col('timestamp').dt.month().alias('month'),\n    pl.col('region').alias('region')\n])\n\n# Write partitioned (100s of files, organized by year/month/region)\nsales.write_parquet('sales_data', partition_by=['year', 'month', 'region'])\n\n# Fast queries: only scan relevant partitions\nq = pl.scan_parquet('sales_data/**/*.parquet', hive_partitioning=True)\nq.filter(\n    (pl.col('year') == 2024) & \n    (pl.col('region') == 'US')\n).group_by('product_id').agg(pl.col('amount').sum())"
+  },
+  {
+    "objectID": "slides/05-slides.html#partitioning-column-pruning-maximum-speed",
+    "href": "slides/05-slides.html#partitioning-column-pruning-maximum-speed",
+    "title": "Lecture 5",
+    "section": "Partitioning + Column Pruning = Maximum Speed",
+    "text": "Partitioning + Column Pruning = Maximum Speed\nCombine two optimizations:\n# Only read specific columns from specific partitions\nq = (\n    pl.scan_parquet('data/**/*.parquet', hive_partitioning=True)\n    .select(['product_id', 'amount'])  # Column pruning\n    .filter(pl.col('year') == 2024)     # Partition pruning\n)\n\n# Reads minimal data:\n# ✓ Only 2024 directories (not 2022, 2023)  \n# ✓ Only 2 columns (not all 50)\n# ✓ Compressed Parquet format\nResult: Queries on TBs feel like queries on MBs"
+  },
+  {
+    "objectID": "slides/05-slides.html#when-not-to-partition",
+    "href": "slides/05-slides.html#when-not-to-partition",
+    "title": "Lecture 5",
+    "section": "When NOT to Partition",
+    "text": "When NOT to Partition\nSkip partitioning if:\n\nDataset is small (&lt;10GB)\nNo clear filter patterns\nData changes frequently (many small updates)\nYou need flexibility to change partition keys\n\nIn these cases, flat Parquet files may be simpler and just as fast"
+  },
+  {
+    "objectID": "slides/05-slides.html#understanding-null-vs-nan-in-python",
+    "href": "slides/05-slides.html#understanding-null-vs-nan-in-python",
+    "title": "Lecture 5",
+    "section": "Understanding Null vs NaN in Python",
+    "text": "Understanding Null vs NaN in Python\nTwo distinct concepts often confused:\n\nNone / null: Absence of a value (missing data)\nNaN: “Not a Number” - a specific floating-point value (IEEE 754)\n\nimport math\nimport numpy as np\n\n# None is Python's null\nx = None\nprint(type(x))  # &lt;class 'NoneType'&gt;\n\n# NaN is a float value\ny = float('nan')\nprint(type(y))  # &lt;class 'float'&gt;\nprint(y == y)   # False (NaN != NaN by IEEE 754)\nprint(math.isnan(y))  # True\nKey difference: NaN is a value; None represents no value"
+  },
+  {
+    "objectID": "slides/05-slides.html#null-vs-nan-semantic-meaning",
+    "href": "slides/05-slides.html#null-vs-nan-semantic-meaning",
+    "title": "Lecture 5",
+    "section": "Null vs NaN: Semantic Meaning",
+    "text": "Null vs NaN: Semantic Meaning\nWhen to use each:\nNone / null: - Data wasn’t collected - Not applicable for this record - Missing in the source system - Any data type (strings, integers, dates)\nNaN: - Mathematical undefined result (0/0, ∞ - ∞) - Propagates through numeric calculations - Specific to floating-point arithmetic - Only for numeric types\n# Appropriate uses\nage = None          # Person didn't provide age\nprice = float('nan')  # Invalid calculation result"
+  },
+  {
+    "objectID": "slides/05-slides.html#the-pandas-problem",
+    "href": "slides/05-slides.html#the-pandas-problem",
+    "title": "Lecture 5",
+    "section": "The Pandas Problem",
+    "text": "The Pandas Problem\nPandas historically conflated None and NaN:\nimport pandas as pd\nimport numpy as np\n\n# Creating a Series with None\ns = pd.Series([1, None, 3])\nprint(s)\n# 0    1.0\n# 1    NaN  # None became NaN!\n# 2    3.0\n\n# Type was converted to float64\nprint(s.dtype)  # float64\n\n# Can't represent integer + null without nullable types\n# Integer columns become float just to handle missing data\nProblem: Lost distinction between missing data and invalid calculations"
+  },
+  {
+    "objectID": "slides/05-slides.html#pandas-type-coercion-issues",
+    "href": "slides/05-slides.html#pandas-type-coercion-issues",
+    "title": "Lecture 5",
+    "section": "Pandas: Type Coercion Issues",
+    "text": "Pandas: Type Coercion Issues\nThe old Pandas behavior:\nimport pandas as pd\n\n# Integer column with missing value\ndata = pd.Series([1, 2, None, 4])\nprint(data.dtype)  # float64 (not int64!)\n\n# String column with missing value  \nnames = pd.Series(['Alice', None, 'Charlie'])\nprint(names.dtype)  # object\n\n# Even boolean columns!\nflags = pd.Series([True, False, None])\nprint(flags.dtype)  # object (not bool!)\nWhy?: NumPy arrays don’t support null for most types, so Pandas used NaN and float64"
+  },
+  {
+    "objectID": "slides/05-slides.html#modern-solution-nullable-types",
+    "href": "slides/05-slides.html#modern-solution-nullable-types",
+    "title": "Lecture 5",
+    "section": "Modern Solution: Nullable Types",
+    "text": "Modern Solution: Nullable Types\nPandas 1.0+ introduced proper nullable types:\nimport pandas as pd\n\n# Use nullable integer\ndata = pd.Series([1, 2, None, 4], dtype='Int64')  # Capital I\nprint(data.dtype)  # Int64\nprint(data)\n# 0       1\n# 1       2\n# 2    &lt;NA&gt;  # Proper null marker\n# 3       4\n\n# Nullable boolean\nflags = pd.Series([True, False, None], dtype='boolean')\nprint(flags.dtype)  # boolean\n\n# Nullable string\nnames = pd.Series(['Alice', None, 'Charlie'], dtype='string')\nprint(names.dtype)  # string\n&lt;NA&gt; is Pandas’ null sentinel, distinct from NaN"
+  },
+  {
+    "objectID": "slides/05-slides.html#polars-clear-null-semantics",
+    "href": "slides/05-slides.html#polars-clear-null-semantics",
+    "title": "Lecture 5",
+    "section": "Polars: Clear Null Semantics",
+    "text": "Polars: Clear Null Semantics\nPolars has null handling right from the start:\nimport polars as pl\n\n# Integer column with null - no type coercion!\ndata = pl.Series('values', [1, 2, None, 4])\nprint(data.dtype)  # Int64 (not Float64!)\n\n# Nulls work with any type\nnames = pl.Series('names', ['Alice', None, 'Charlie'])\nprint(names.dtype)  # Utf8\n\nflags = pl.Series('flags', [True, False, None])\nprint(flags.dtype)  # Boolean\n\n# NULL is a distinct value, not NaN\nprint(data.null_count())  # 1\nPolars: null is null, NaN is NaN, types are preserved"
+  },
+  {
+    "objectID": "slides/05-slides.html#checking-for-missing-values",
+    "href": "slides/05-slides.html#checking-for-missing-values",
+    "title": "Lecture 5",
+    "section": "Checking for Missing Values",
+    "text": "Checking for Missing Values\nDifferent approaches across tools:\nimport pandas as pd\nimport polars as pl\nimport numpy as np\n\n# Pandas (checks for both None and NaN)\ns = pd.Series([1, None, float('nan'), 4])\nprint(s.isna())   # [False, True, True, False]\nprint(s.isnull()) # Same as isna()\n\n# Polars (explicit about nulls)\ns = pl.Series([1, None, float('nan'), 4])\nprint(s.is_null())     # [False, True, False, False]\nprint(s.is_nan())      # [False, False, True, False]\n\n# NumPy (only checks for NaN)\narr = np.array([1, np.nan, 4])\nprint(np.isnan(arr))  # [False, True, False]\nPolars distinguishes null from NaN; Pandas often doesn’t"
+  },
+  {
+    "objectID": "slides/05-slides.html#narwhals-handling-nulls-portably",
+    "href": "slides/05-slides.html#narwhals-handling-nulls-portably",
+    "title": "Lecture 5",
+    "section": "Narwhals: Handling Nulls Portably",
+    "text": "Narwhals: Handling Nulls Portably\nNarwhals follows Polars semantics:\nimport narwhals as nw\nimport pandas as pd\nimport polars as pl\n\ndef handle_missing(df):\n    df = nw.from_native(df)\n    return (\n        df\n        .filter(~nw.col('value').is_null())  # Remove nulls\n        .with_columns(\n            nw.col('value').fill_null(0)      # Replace nulls with 0\n        )\n    )\n\n# Works consistently across backends\ndf_pandas = pd.DataFrame({'value': [1, None, 3]})\ndf_polars = pl.DataFrame({'value': [1, None, 3]})\n\nhandle_missing(df_pandas)  # Treats None/NaN as null\nhandle_missing(df_polars)  # Native null handling\nRecommendation: Use Narwhals/Polars semantics for clarity"
+  },
+  {
+    "objectID": "slides/05-slides.html#best-practices-null-handling",
+    "href": "slides/05-slides.html#best-practices-null-handling",
+    "title": "Lecture 5",
+    "section": "Best Practices: Null Handling",
+    "text": "Best Practices: Null Handling\nModern recommendations:\n\nUse nullable dtypes in Pandas: Int64, boolean, string\nPrefer Polars for new projects (clean null semantics)\nAvoid mixing None and NaN in the same context\nBe explicit: Use is_null() / is_nan() separately\nDocument assumptions: What does missing mean in your data?\n\n# Good: Clear intent\ndf = pl.DataFrame({\n    'age': pl.Series([25, None, 30], dtype=pl.Int64),  # Missing\n    'score': pl.Series([1.5, float('nan'), 2.0])       # Invalid calculation\n})\n\n# Bad: Ambiguous\ndf = pd.DataFrame({\n    'age': [25, np.nan, 30],  # Is this missing or invalid?\n})"
+  },
+  {
+    "objectID": "slides/05-slides.html#next-week",
+    "href": "slides/05-slides.html#next-week",
+    "title": "Lecture 5",
+    "section": "Next Week",
+    "text": "Next Week\n\nDeep dive into Apache Spark\nDistributed computing at scale\nWhen local tools aren’t enough\nHow Spark relates to the tools we’ve learned\n\nThe tools we’ve covered are powerful for single-node workloads—Spark takes us to multi-node clusters"
+  },
+  {
+    "objectID": "slides/05-slides.html#github-classroom",
+    "href": "slides/05-slides.html#github-classroom",
+    "title": "Lecture 5",
+    "section": "GitHub Classroom",
+    "text": "GitHub Classroom\nGitHub Classroom Link"
+  },
+  {
+    "objectID": "content/07-content.html",
+    "href": "content/07-content.html",
+    "title": "DATS 6450.13",
+    "section": "",
+    "text": "This week, we explore distributed file systems and the Hadoop Distributed File System (HDFS). HDFS is a foundational technology for big data processing, providing fault-tolerant storage across a cluster of machines. Understanding how HDFS works is essential for working with Hadoop, Spark, and other distributed computing frameworks that depend on reliable, scalable storage.\nWe will also have a midterm exam in the 2nd half of the class, covering cloud, polars and duckdb.",
+    "crumbs": [
+      "Content",
+      "Course content",
+      "7. Distributed File Systems and HDFS"
+    ]
+  },
+  {
+    "objectID": "content/07-content.html#about-todays-class",
+    "href": "content/07-content.html#about-todays-class",
+    "title": "DATS 6450.13",
+    "section": "",
+    "text": "This week, we explore distributed file systems and the Hadoop Distributed File System (HDFS). HDFS is a foundational technology for big data processing, providing fault-tolerant storage across a cluster of machines. Understanding how HDFS works is essential for working with Hadoop, Spark, and other distributed computing frameworks that depend on reliable, scalable storage.\nWe will also have a midterm exam in the 2nd half of the class, covering cloud, polars and duckdb.",
+    "crumbs": [
+      "Content",
+      "Course content",
+      "7. Distributed File Systems and HDFS"
+    ]
+  },
+  {
+    "objectID": "content/07-content.html#readings",
+    "href": "content/07-content.html#readings",
+    "title": "DATS 6450.13",
+    "section": "Readings",
+    "text": "Readings\nThere are no readings or quiz assigned for this week.",
+    "crumbs": [
+      "Content",
+      "Course content",
+      "7. Distributed File Systems and HDFS"
+    ]
+  },
+  {
+    "objectID": "content/07-content.html#slides",
+    "href": "content/07-content.html#slides",
+    "title": "DATS 6450.13",
+    "section": "Slides",
+    "text": "Slides\nThe slides for this week are available online.",
+    "crumbs": [
+      "Content",
+      "Course content",
+      "7. Distributed File Systems and HDFS"
+    ]
+  },
+  {
+    "objectID": "content/07-content.html#lab",
+    "href": "content/07-content.html#lab",
+    "title": "DATS 6450.13",
+    "section": "Lab",
+    "text": "Lab\nThere is no lab assignment for this week.",
+    "crumbs": [
+      "Content",
+      "Course content",
+      "7. Distributed File Systems and HDFS"
+    ]
+  },
+  {
+    "objectID": "content/07-content.html#assignment",
+    "href": "content/07-content.html#assignment",
+    "title": "DATS 6450.13",
+    "section": "Assignment",
+    "text": "Assignment\nDetails for this week’s assignment will be announced in class and posted to the course website.",
+    "crumbs": [
+      "Content",
+      "Course content",
+      "7. Distributed File Systems and HDFS"
+    ]
   },
   {
     "objectID": "content/01-content.html",
@@ -2206,676 +2936,137 @@
     ]
   },
   {
-    "objectID": "slides/05-slides.html#agenda-and-goals-for-today",
-    "href": "slides/05-slides.html#agenda-and-goals-for-today",
-    "title": "Lecture 5",
-    "section": "Agenda and Goals for Today",
-    "text": "Agenda and Goals for Today\n\n\nLecture\n\nReview: The modern data stack\nThe DataFrame fragmentation problem\nNarwhals: Unified DataFrame API\nIbis: Unified database interface\nBuilding portable data pipelines\n\n\nLab\n\nWrite code that works across Pandas, Polars"
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Applied Big Data Analytics",
+    "section": "",
+    "text": "NoteCourse Information\n\n\n\nCourse Code: DATS 6450.13\nCredits: 3\nSchedule: Thursdays 6:10 PM - 8:40 PM\nLocation: Phillips 416"
   },
   {
-    "objectID": "slides/05-slides.html#review-where-weve-been",
-    "href": "slides/05-slides.html#review-where-weve-been",
-    "title": "Lecture 5",
-    "section": "Review: Where We’ve Been",
-    "text": "Review: Where We’ve Been\n\nWeek 2: Parallelization in Python\nWeek 4: The holy trinity - Parquet, DuckDB, Polars\n\nColumnar storage formats\nOLAP databases\nModern DataFrame libraries\n\n\n\n\n\n\n\n\nImportant\n\n\nBlackboard is strange!! We need you to make a “submission” for each of the earlier labs/assignments. This submission will be the URL of the respective Github repository.\nThis “submission” ensures that your grades show up on Blackboard. It will not affect late policies, which are determined by the timestamp of your GitHub commits.\nThis will be a requirement for all labs/assignments going forward."
+    "objectID": "index.html#course-description",
+    "href": "index.html#course-description",
+    "title": "Applied Big Data Analytics",
+    "section": "Course Description",
+    "text": "Course Description\nApplied Big Data Analytics (DATS 6450.13) teaches practical, hands‑on methods for building scalable analytics pipelines that start on a single machine and scale to distributed clusters. Students learn to develop local analytical workflows with DuckDB, translate and scale them with Apache Spark, and evaluate performance tradeoffs through comparative benchmarking, query tuning, partitioning and memory strategies. The course covers modern tooling (Polars, Ray, RAPIDS), Spark SQL/DataFrame APIs, Spark NLP and MLlib, and efficient visualization of very large datasets (Datashader), with emphasis on reproducible end‑to‑end workflows and a final project demonstrating design and performance decisions."
   },
   {
-    "objectID": "slides/05-slides.html#project-progress",
-    "href": "slides/05-slides.html#project-progress",
-    "title": "Lecture 5",
-    "section": "Project progress",
-    "text": "Project progress\nOnly 15/24 students have joined groups!!\nFix this before tonight!!!\nFirst milestone is due next week. See here for details for now."
+    "objectID": "slides/07-slides.html#why-do-we-need-distributed-storage",
+    "href": "slides/07-slides.html#why-do-we-need-distributed-storage",
+    "title": "Lecture 7",
+    "section": "Why do we need distributed storage?",
+    "text": "Why do we need distributed storage?\n\n\nThe scale problem\nModern applications generate data at rates that far exceed what any single machine can store or process:\n\nSocial media: billions of posts, images, videos\nIoT sensors: trillions of readings per day\nWeb crawls: petabytes of HTML, images, links\nScientific simulations: terabytes per run"
   },
   {
-    "objectID": "slides/05-slides.html#why-commits-matter",
-    "href": "slides/05-slides.html#why-commits-matter",
-    "title": "Lecture 5",
-    "section": "Why Commits Matter",
-    "text": "Why Commits Matter\n\nCommunication with your future self and teammates\nHistory of project evolution\nDebugging by identifying when issues were introduced\nDocumentation of decision-making"
+    "objectID": "slides/07-slides.html#yesterdays-solution-scale-up",
+    "href": "slides/07-slides.html#yesterdays-solution-scale-up",
+    "title": "Lecture 7",
+    "section": "Yesterday’s solution: scale up",
+    "text": "Yesterday’s solution: scale up\n\n\nThe 1990s approach\nOne big box — all processors share memory\n\nVery expensive, low-volume hardware\nAll-premium components\nStorage and compute tightly coupled\n\nBut even the biggest single machine wasn’t big enough!"
   },
   {
-    "objectID": "slides/05-slides.html#anatomy-of-a-good-commit",
-    "href": "slides/05-slides.html#anatomy-of-a-good-commit",
-    "title": "Lecture 5",
-    "section": "Anatomy of a Good Commit",
-    "text": "Anatomy of a Good Commit\n&lt;type&gt;: &lt;subject&gt;\n\n&lt;body&gt;\n\n&lt;footer&gt;\n\nThe commit message has three parts: subject, body, and footer"
+    "objectID": "slides/07-slides.html#todays-solution-scale-out-with-commodity-hardware",
+    "href": "slides/07-slides.html#todays-solution-scale-out-with-commodity-hardware",
+    "title": "Lecture 7",
+    "section": "Today’s solution: scale out with commodity hardware",
+    "text": "Today’s solution: scale out with commodity hardware\n\n\nConsumer-grade servers\nNot expensive, premium, or fancy in any way\nBuy lots of cheap, desktop-like servers!\n\nEasy to add capacity\nCheaper per CPU/disk\nFailure is the norm, not the exception\n\nThe catch\nNeed more complex software to coordinate many cheaper machines."
   },
   {
-    "objectID": "slides/05-slides.html#the-subject-line",
-    "href": "slides/05-slides.html#the-subject-line",
-    "title": "Lecture 5",
-    "section": "The Subject Line",
-    "text": "The Subject Line\nKeep it short and descriptive (50 characters or less)\nGood examples:\nFix login button alignment on mobile\nAdd user authentication middleware\nUpdate README with installation steps"
+    "objectID": "slides/07-slides.html#problems-with-commodity-hardware",
+    "href": "slides/07-slides.html#problems-with-commodity-hardware",
+    "title": "Lecture 7",
+    "section": "Problems with commodity hardware",
+    "text": "Problems with commodity hardware\n\n\nFailure rates\n\n1–5% of hard drives fail per year\n~0.2% of DIMMs fail per year\nOn a 1,000-node cluster, expect failures every week\n\nNetwork vs. shared memory\n\nMuch more latency than RAM\nNetwork throughput &lt;&lt; local disk throughput\n\nUneven performance\n\n“Stragglers” slow the entire job"
   },
   {
-    "objectID": "slides/05-slides.html#subject-line-rules",
-    "href": "slides/05-slides.html#subject-line-rules",
-    "title": "Lecture 5",
-    "section": "Subject Line Rules",
-    "text": "Subject Line Rules\n\nUse imperative mood (“Add feature” not “Added feature”)\nCapitalize the first letter\nNo period at the end\nBe specific about what changed"
+    "objectID": "slides/07-slides.html#what-is-a-distributed-file-system",
+    "href": "slides/07-slides.html#what-is-a-distributed-file-system",
+    "title": "Lecture 7",
+    "section": "What is a distributed file system?",
+    "text": "What is a distributed file system?\nA distributed file system (DFS) stores data across many machines while presenting a single, unified namespace to clients.\n\n\nKey properties\n\nSingle namespace: /user/data/logs/ looks the same from every node\nFault tolerance: data survives individual node failures\nScalability: add capacity by adding machines\nData locality: move computation to the data, not data to computation"
   },
   {
-    "objectID": "slides/05-slides.html#bad-subject-lines",
-    "href": "slides/05-slides.html#bad-subject-lines",
-    "title": "Lecture 5",
-    "section": "❌ Bad Subject Lines",
-    "text": "❌ Bad Subject Lines\nFixed stuff\nUpdated files\nChanges\nWIP\nasdfasdf\nThese tell us nothing about what actually changed!"
+    "objectID": "slides/07-slides.html#the-google-file-system-2003-the-blueprint",
+    "href": "slides/07-slides.html#the-google-file-system-2003-the-blueprint",
+    "title": "Lecture 7",
+    "section": "The Google File System (2003): the blueprint",
+    "text": "The Google File System (2003): the blueprint\n\n\n\n\nWhy GFS matters\nGoogle’s 2003 paper described a production file system built from commodity hardware, designed around the assumption that:\n\nComponent failures are the norm\nFiles are huge (multi-GB) and write-once/read-many\nSequential reads dominate random reads\nRelaxed consistency is acceptable for batch workloads\n\nGFS proved that a reliable, large-scale distributed file system could be built cheaply.\n\n\n\nGhemawat, S., Gobioff, H., & Leung, S. T. (2003). The Google file system. SOSP ’03."
   },
   {
-    "objectID": "slides/05-slides.html#good-subject-lines",
-    "href": "slides/05-slides.html#good-subject-lines",
-    "title": "Lecture 5",
-    "section": "✅ Good Subject Lines",
-    "text": "✅ Good Subject Lines\nFix memory leak in data processing loop\nAdd validation for email input fields\nRefactor database query for performance\nRemove deprecated API endpoints\nClear, concise, and descriptive!"
+    "objectID": "slides/07-slides.html#hdfs-the-open-source-gfs",
+    "href": "slides/07-slides.html#hdfs-the-open-source-gfs",
+    "title": "Lecture 7",
+    "section": "HDFS: the open-source GFS",
+    "text": "HDFS: the open-source GFS\n\n\nOrigin story\n\n2004: Doug Cutting and Mike Cafarella implement GFS ideas in Java as part of Nutch → Nutch Distributed File System (NDFS)\n2006: NDFS becomes HDFS when Hadoop is spun out of Nutch/Lucene\nYahoo! adopts Hadoop; Doug Cutting joins Yahoo!\n2008: World record — 1 TB sorted in 209 seconds on a 910-node cluster\n\n\n\nWhy Hadoop won\nGoogle File System is a proprietary product. Nobody outside Google could use it.\nHadoop is open source (Apache License). Anyone can use, modify, and deploy it.\n\n“Who has heard of Colossus?” (Google’s successor to GFS — almost nobody outside Google)\n\nOpen source → ecosystem → community → adoption."
   },
   {
-    "objectID": "slides/05-slides.html#the-body-optional",
-    "href": "slides/05-slides.html#the-body-optional",
-    "title": "Lecture 5",
-    "section": "The Body (Optional)",
-    "text": "The Body (Optional)\nUse when you need to explain:\n\nWhy the change was made\nWhat problem it solves\nHow it differs from previous behavior\nAny side effects or limitations"
+    "objectID": "slides/07-slides.html#hdfs-architecture-namenode-and-datanodes",
+    "href": "slides/07-slides.html#hdfs-architecture-namenode-and-datanodes",
+    "title": "Lecture 7",
+    "section": "HDFS architecture: NameNode and DataNodes",
+    "text": "HDFS architecture: NameNode and DataNodes\n\n\nNameNode (master)\n\nManages the file system namespace: directory tree, file-to-block mappings, permissions\nStores metadata in memory (fsimage + edit log)\nDoes not store actual file data\n\nDataNodes (workers)\n\nStore and serve actual data blocks\nReport block inventory to NameNode via heartbeats\nReplicate blocks between each other on instruction\n\n\n\n\n\n\n\n\n\n\nWhite, T. (2015). Hadoop: The Definitive Guide, 4th ed. O’Reilly."
   },
   {
-    "objectID": "slides/05-slides.html#body-example",
-    "href": "slides/05-slides.html#body-example",
-    "title": "Lecture 5",
-    "section": "Body Example",
-    "text": "Body Example\nFix duplicate entries in user search results\n\nThe search query was not properly deduplicating\nresults when users had multiple roles. Added\nDISTINCT clause to SQL query and updated tests\nto verify unique results.\n\nFixes #234"
+    "objectID": "slides/07-slides.html#hdfs-design-principles",
+    "href": "slides/07-slides.html#hdfs-design-principles",
+    "title": "Lecture 7",
+    "section": "HDFS design principles",
+    "text": "HDFS design principles\n\n\nBlock-based storage\n\nFiles are split into fixed-size blocks (default: 128 MB in HDFS 3.x)\nEach block is stored independently on a DataNode\nAllows large files to span many disks and machines\n\nReplication\n\nEach block is replicated 3× by default (configurable)\nReplicas are placed across different nodes and racks\nIf a DataNode fails, the NameNode re-replicates its blocks elsewhere\n\n\nRack-aware placement\n\n\n\n\n\n\n\n\nWhite, T. (2015). Hadoop: The Definitive Guide, 4th ed. O’Reilly."
   },
   {
-    "objectID": "slides/05-slides.html#commit-best-practices",
-    "href": "slides/05-slides.html#commit-best-practices",
-    "title": "Lecture 5",
-    "section": "Commit Best Practices",
-    "text": "Commit Best Practices\n\n\nDo\n\nOne logical change per commit\nTest before committing\nCommit often\nWrite for others\n\n\nDon’t\n\nMix unrelated changes\nCommit broken code\nUse vague messages\nCommit sensitive data"
+    "objectID": "slides/07-slides.html#data-locality-move-computation-to-the-data",
+    "href": "slides/07-slides.html#data-locality-move-computation-to-the-data",
+    "title": "Lecture 7",
+    "section": "Data locality: move computation to the data",
+    "text": "Data locality: move computation to the data\n\n\nThe key insight\nNetwork is the bottleneck, not CPU.\nOld model: copy data to where the code runs. HDFS/MapReduce model: run code where the data already lives.\nWhen possible, the scheduler assigns work to a node that already holds the relevant block. This eliminates most network traffic for data-intensive workloads.\n\nConsequence: HDFS is tightly coupled to Hadoop/YARN\n\nYARN resource manager knows which DataNode holds which blocks\nAssigns Map tasks to nodes with local copies first\nFalls back to same-rack nodes, then cross-rack"
   },
   {
-    "objectID": "slides/05-slides.html#atomic-commits",
-    "href": "slides/05-slides.html#atomic-commits",
-    "title": "Lecture 5",
-    "section": "Atomic Commits",
-    "text": "Atomic Commits\nEach commit should be a single, complete unit of work\n✅ Good:\n\nCommit 1: Add user model\nCommit 2: Add user controller\nCommit 3: Add user routes\n\n❌ Bad:\n\nCommit 1: Add user feature, fix typo in README, update dependencies"
+    "objectID": "slides/07-slides.html#hdfs-is-designed-for-specific-workloads",
+    "href": "slides/07-slides.html#hdfs-is-designed-for-specific-workloads",
+    "title": "Lecture 7",
+    "section": "HDFS is designed for specific workloads",
+    "text": "HDFS is designed for specific workloads\n\n\n\nPattern\nHDFS handles well\nHDFS handles poorly\n\n\n\n\nFile size\nLarge files (GB–TB)\nMillions of small files\n\n\nAccess pattern\nSequential reads\nRandom reads/writes\n\n\nWrite pattern\nWrite-once, append-only\nFrequent overwrites\n\n\nLatency\nHigh throughput\nLow-latency access\n\n\nClients\nBatch jobs\nInteractive queries\n\n\n\n\n\n\n\n\n\nNote\n\n\nHDFS is optimized for the analytics batch processing use case — reading entire datasets sequentially — not for serving web requests or online transactions."
   },
   {
-    "objectID": "slides/05-slides.html#conventional-commits",
-    "href": "slides/05-slides.html#conventional-commits",
-    "title": "Lecture 5",
-    "section": "Conventional Commits",
-    "text": "Conventional Commits\nA standardized format for commit messages:\nfeat: add user profile page\nfix: resolve null pointer in checkout\ndocs: update API documentation\nstyle: format code with prettier\nrefactor: simplify error handling\ntest: add unit tests for auth service\nchore: update dependencies"
+    "objectID": "slides/07-slides.html#hdfs-scalability",
+    "href": "slides/07-slides.html#hdfs-scalability",
+    "title": "Lecture 7",
+    "section": "HDFS scalability",
+    "text": "HDFS scalability\n\n\n\n\nScaling is linear\n\nAdd a DataNode → cluster gains storage and bandwidth\nNameNode can manage hundreds of millions of blocks\nReal-world clusters:\n\nYahoo! (2010): 4,000 nodes, ~70 PB\nFacebook (2010): 2,300 nodes, ~40 PB\nTwitter (2017): 500+ PB across clusters"
   },
   {
-    "objectID": "slides/05-slides.html#common-types",
-    "href": "slides/05-slides.html#common-types",
-    "title": "Lecture 5",
-    "section": "Common Types",
-    "text": "Common Types\n\nfeat: A new feature\nfix: A bug fix\ndocs: Documentation only changes\nstyle: Code style changes (formatting, etc.)\nrefactor: Code restructuring without changing behavior\ntest: Adding or updating tests\nchore: Maintenance tasks"
+    "objectID": "slides/07-slides.html#hdfs-vs.-cloud-object-storage",
+    "href": "slides/07-slides.html#hdfs-vs.-cloud-object-storage",
+    "title": "Lecture 7",
+    "section": "HDFS vs. Cloud Object Storage",
+    "text": "HDFS vs. Cloud Object Storage\nAs cloud computing matured, object stores (S3, Azure Blob, GCS) became a popular alternative to HDFS for large-scale storage.\n\n\n\n\n\n\n\n\n\nHDFS\nCloud Object Store\n\n\n\n\nScalability\nBound by NameNode\nVirtually unlimited\n\n\nCoupling\nStorage + compute together\nStorage separate from compute\n\n\nCost\nCapEx (servers)\nOpEx (pay per GB)\n\n\nFault tolerance\n3× replication\nBuilt in (provider-managed)\n\n\nInterface\nPOSIX-like CLI / Java API\nREST API (s3://, abfs://)\n\n\nData locality\nYes\nNo (network always)"
   },
   {
-    "objectID": "slides/05-slides.html#when-to-commit",
-    "href": "slides/05-slides.html#when-to-commit",
-    "title": "Lecture 5",
-    "section": "When to Commit?",
-    "text": "When to Commit?\nCommit when you’ve completed a logical unit of work:\n\n✅ Finished a function\n✅ Fixed a bug\n✅ Added a test\n✅ Refactored a component\n\n❌ Not at end of day “just to save”"
+    "objectID": "slides/07-slides.html#de-coupling-storage-from-compute",
+    "href": "slides/07-slides.html#de-coupling-storage-from-compute",
+    "title": "Lecture 7",
+    "section": "De-coupling storage from compute",
+    "text": "De-coupling storage from compute\n\n\nThe modern cloud data lake pattern\nStorage and compute are separate, independently scalable systems.\n\nBefore: HDFS nodes store data and run MapReduce tasks\nAfter: Data lives in S3/GCS/ADLS; compute clusters (Spark, EMR, Databricks) spin up, read from object store, and spin down\n\nBenefits: - Pay only for compute while jobs run - Store data indefinitely at low cost - Mix and match compute engines\n\n\n\n\n\n\n\n\n\nGopalan, R. (2022). The Cloud Data Lake. O’Reilly."
   },
   {
-    "objectID": "slides/05-slides.html#the-golden-rule",
-    "href": "slides/05-slides.html#the-golden-rule",
-    "title": "Lecture 5",
-    "section": "The Golden Rule",
-    "text": "The Golden Rule\n\nWrite commit messages that will help someone (including future you) understand what changed and why, without having to look at the diff."
+    "objectID": "slides/07-slides.html#hdfs-command-line-interface",
+    "href": "slides/07-slides.html#hdfs-command-line-interface",
+    "title": "Lecture 7",
+    "section": "HDFS command-line interface",
+    "text": "HDFS command-line interface\nHDFS exposes a shell interface that mirrors Unix filesystem commands:\n# List files\nhdfs dfs -ls /user/hadoop/data/\n\n# Copy local file to HDFS\nhdfs dfs -put localfile.csv /user/hadoop/data/\n\n# Copy from HDFS to local\nhdfs dfs -get /user/hadoop/data/output/ ./output/\n\n# Print contents of a file\nhdfs dfs -cat /user/hadoop/data/results/part-00000\n\n# Create a directory\nhdfs dfs -mkdir /user/hadoop/staging\n\n# Remove a file or directory\nhdfs dfs -rm -r /user/hadoop/staging\nFull reference: HDFS Shell Commands"
   },
   {
-    "objectID": "slides/05-slides.html#quick-checklist",
-    "href": "slides/05-slides.html#quick-checklist",
-    "title": "Lecture 5",
-    "section": "Quick Checklist",
-    "text": "Quick Checklist\nBefore committing, ask yourself:\n\nIs the subject clear and concise?\nDoes it explain what changed?\nIf needed, does the body explain why?\nIs this a single logical change?\nHave I tested this change?"
+    "objectID": "slides/07-slides.html#the-hadoop-ecosystem",
+    "href": "slides/07-slides.html#the-hadoop-ecosystem",
+    "title": "Lecture 7",
+    "section": "The Hadoop ecosystem",
+    "text": "The Hadoop ecosystem\n\nHDFS is the storage foundation; dozens of tools have been built on top of it. Live reference: https://hadoopecosystemtable.github.io/"
   },
   {
-    "objectID": "slides/05-slides.html#resources",
-    "href": "slides/05-slides.html#resources",
-    "title": "Lecture 5",
-    "section": "Resources",
-    "text": "Resources\n\nConventional Commits\nHow to Write a Git Commit Message\nGitHub Commit Best Practices"
-  },
-  {
-    "objectID": "slides/05-slides.html#git-collaboration-models",
-    "href": "slides/05-slides.html#git-collaboration-models",
-    "title": "Lecture 5",
-    "section": "Git Collaboration Models",
-    "text": "Git Collaboration Models\nDifferent workflows for different team sizes and needs:\n\nCentralized Workflow\nFeature Branch Workflow\nGitflow Workflow\nForking Workflow"
-  },
-  {
-    "objectID": "slides/05-slides.html#centralized-workflow",
-    "href": "slides/05-slides.html#centralized-workflow",
-    "title": "Lecture 5",
-    "section": "Centralized Workflow",
-    "text": "Centralized Workflow\nBest for: Small teams, simple projects\nmain branch\n    |\n    *---*---*---*\n\nEveryone commits directly to main\nPull before you push\nLinear history\nSimple but risky"
-  },
-  {
-    "objectID": "slides/05-slides.html#feature-branch-workflow",
-    "href": "slides/05-slides.html#feature-branch-workflow",
-    "title": "Lecture 5",
-    "section": "Feature Branch Workflow",
-    "text": "Feature Branch Workflow\nBest for: Most teams\nmain     *---*---*-------*\n              \\         /\nfeature        *---*---*\n\nCreate branch for each feature\nMerge back to main when done\nUse Pull Requests for review\nKeeps main stable"
-  },
-  {
-    "objectID": "slides/05-slides.html#feature-branch-example",
-    "href": "slides/05-slides.html#feature-branch-example",
-    "title": "Lecture 5",
-    "section": "Feature Branch Example",
-    "text": "Feature Branch Example\n# Create and switch to feature branch\ngit checkout -b feature/user-auth\n\n# Make changes and commit\ngit add .\ngit commit -m \"feat: add login endpoint\"\n\n# Push and create Pull Request\ngit push origin feature/user-auth"
-  },
-  {
-    "objectID": "slides/05-slides.html#gitflow-workflow",
-    "href": "slides/05-slides.html#gitflow-workflow",
-    "title": "Lecture 5",
-    "section": "Gitflow Workflow",
-    "text": "Gitflow Workflow\nBest for: Scheduled releases, larger teams\nmain      *---------*---------*\n           \\       / \\       /\ndevelop     *--*--*---*--*--*\n             \\   /     \\   /\nfeature       *-*       *-*\n\nmain: production-ready code\ndevelop: integration branch\nfeature/*: new features\nrelease/*: preparing releases\nhotfix/*: emergency fixes"
-  },
-  {
-    "objectID": "slides/05-slides.html#forking-workflow",
-    "href": "slides/05-slides.html#forking-workflow",
-    "title": "Lecture 5",
-    "section": "Forking Workflow",
-    "text": "Forking Workflow\nBest for: Open source projects\n\nFork repository to your account\nClone your fork locally\nCreate feature branch\nPush to your fork\nOpen Pull Request to original repo\n\nMaintainers control what gets merged."
-  },
-  {
-    "objectID": "slides/05-slides.html#pull-request-best-practices",
-    "href": "slides/05-slides.html#pull-request-best-practices",
-    "title": "Lecture 5",
-    "section": "Pull Request Best Practices",
-    "text": "Pull Request Best Practices\n\nClear title following commit conventions\nDescription explaining the change\nLink related issues (Fixes #123)\nRequest reviewers explicitly\nKeep PRs small and focused\nRespond to feedback promptly"
-  },
-  {
-    "objectID": "slides/05-slides.html#code-review-tips",
-    "href": "slides/05-slides.html#code-review-tips",
-    "title": "Lecture 5",
-    "section": "Code Review Tips",
-    "text": "Code Review Tips\nAs Author:\n\nWrite clear PR description\nSelf-review before requesting\nBe open to feedback\n\nAs Reviewer:\n\nBe constructive and specific\nAsk questions, don’t demand\nApprove when ready, not perfect"
-  },
-  {
-    "objectID": "slides/05-slides.html#merge-strategies",
-    "href": "slides/05-slides.html#merge-strategies",
-    "title": "Lecture 5",
-    "section": "Merge Strategies",
-    "text": "Merge Strategies\nMerge Commit: Preserves all history\n*---*---*-------*  main\n         \\     /\n          *---*    feature\nSquash: Combines commits into one\n*---*---*---*  main\nRebase: Linear history\n*---*---*---*---*  main"
-  },
-  {
-    "objectID": "slides/05-slides.html#handling-conflicts",
-    "href": "slides/05-slides.html#handling-conflicts",
-    "title": "Lecture 5",
-    "section": "Handling Conflicts",
-    "text": "Handling Conflicts\nWhen merges conflict:\n\nPull latest changes\nResolve conflicts in files\nTest the resolution\nCommit the merge\nPush changes\n\nTip: Communicate with your team to avoid conflicts!"
-  },
-  {
-    "objectID": "slides/05-slides.html#branch-protection-rules",
-    "href": "slides/05-slides.html#branch-protection-rules",
-    "title": "Lecture 5",
-    "section": "Branch Protection Rules",
-    "text": "Branch Protection Rules\nProtect important branches on GitHub:\n\nRequire Pull Request reviews\nRequire status checks to pass\nRequire signed commits\nRestrict who can push\nRequire linear history"
-  },
-  {
-    "objectID": "slides/05-slides.html#team-workflow-tips",
-    "href": "slides/05-slides.html#team-workflow-tips",
-    "title": "Lecture 5",
-    "section": "Team Workflow Tips",
-    "text": "Team Workflow Tips\n\nAgree on a workflow as a team\nDocument conventions in CONTRIBUTING.md\nUse branch naming conventions (feature/, fix/, docs/)\nKeep branches short-lived\nCommunicate about major changes"
-  },
-  {
-    "objectID": "slides/05-slides.html#thank-you",
-    "href": "slides/05-slides.html#thank-you",
-    "title": "Lecture 5",
-    "section": "Thank You!",
-    "text": "Thank You!\nRemember: Good commits make collaboration easier and your project history more valuable.\nQuestions?"
-  },
-  {
-    "objectID": "slides/05-slides.html#the-traditional-problem",
-    "href": "slides/05-slides.html#the-traditional-problem",
-    "title": "Lecture 5",
-    "section": "The Traditional Problem",
-    "text": "The Traditional Problem\n\n\nOld Approach\n# CSV: Read entire file\ndf = pd.read_csv(\"data.csv\")\n# Copy into memory\n# Parse text → objects\n# High memory overhead\n\nConsequences\n\nMultiple copies in memory\nSlow parsing (text → typed data)\nMemory spikes during load\nLimited by RAM size"
-  },
-  {
-    "objectID": "slides/05-slides.html#what-is-zero-copy-access",
-    "href": "slides/05-slides.html#what-is-zero-copy-access",
-    "title": "Lecture 5",
-    "section": "What is Zero-Copy Access?",
-    "text": "What is Zero-Copy Access?\nZero-copy means reading data without duplicating it in memory\n\n\nKey Idea\n\nData stays on disk (memory-mapped)\nDirect access to bytes\nNo intermediate parsing\nShare data between processes\n\n\nBenefits\n\n🚀 Faster startup\n💾 Lower memory usage\n🔄 Efficient sharing\n📊 Query before loading"
-  },
-  {
-    "objectID": "slides/05-slides.html#apache-parquet-designed-for-zero-copy",
-    "href": "slides/05-slides.html#apache-parquet-designed-for-zero-copy",
-    "title": "Lecture 5",
-    "section": "Apache Parquet: Designed for Zero-Copy",
-    "text": "Apache Parquet: Designed for Zero-Copy\nColumnar binary format with metadata\n\nimport polars as pl\n\n# Metadata tells us structure without reading data\nschema = pl.scan_parquet(\"data.parquet\").schema\n\n# Read only what you need\ndf = pl.scan_parquet(\"data.parquet\").select(\"col1\", \"col2\").collect()\n\nWhy Parquet enables zero-copy:\n\nBinary format (no text parsing)\nColumnar layout (read only needed columns)\nBuilt-in statistics (skip chunks via metadata)\nApache Arrow compatible"
-  },
-  {
-    "objectID": "slides/05-slides.html#apache-arrow-the-memory-standard",
-    "href": "slides/05-slides.html#apache-arrow-the-memory-standard",
-    "title": "Lecture 5",
-    "section": "Apache Arrow: The Memory Standard",
-    "text": "Apache Arrow: The Memory Standard\nArrow is the common in-memory format\n┌─────────────┐\n│   Parquet   │ (on disk)\n└──────┬──────┘\n       │ zero-copy map\n       ↓\n┌─────────────┐\n│Arrow Memory │ (columnar buffers)\n└──────┬──────┘\n       ├───→ Polars (zero-copy)\n       ├───→ DuckDB (zero-copy)\n       └───→ PyArrow (zero-copy)\nNo serialization between tools!"
-  },
-  {
-    "objectID": "slides/05-slides.html#polars-zero-copy-native",
-    "href": "slides/05-slides.html#polars-zero-copy-native",
-    "title": "Lecture 5",
-    "section": "Polars: Zero-Copy Native",
-    "text": "Polars: Zero-Copy Native\nBuilt on Arrow from the ground up\n\nimport polars as pl\n\n# Lazy scan: no data loaded yet\nlazy_df = pl.scan_parquet(\"taxi_*.parquet\")\n\n# Build query plan (still no copy)\nquery = (lazy_df\n    .filter(pl.col(\"distance\") &gt; 5)\n    .group_by(\"borough\")\n    .agg(pl.col(\"fare\").mean())\n)\n\n# Execute: stream through data, minimal copies\nresult = query.collect()\n\nAdvantages: Query optimization, predicate pushdown, parallel streaming"
-  },
-  {
-    "objectID": "slides/05-slides.html#duckdb-zero-copy-sql",
-    "href": "slides/05-slides.html#duckdb-zero-copy-sql",
-    "title": "Lecture 5",
-    "section": "DuckDB: Zero-Copy SQL",
-    "text": "DuckDB: Zero-Copy SQL\nAnalytical database designed for zero-copy\n\nimport duckdb\n\n# Query parquet directly (no load step)\nresult = duckdb.sql(\"\"\"\n    SELECT borough, AVG(fare) as avg_fare\n    FROM 'taxi_*.parquet'\n    WHERE distance &gt; 5\n    GROUP BY borough\n\"\"\").pl()  # Returns Polars DataFrame (zero-copy)\n\nDuckDB → Polars is zero-copy (both use Arrow)"
-  },
-  {
-    "objectID": "slides/05-slides.html#memory-mapping-in-action",
-    "href": "slides/05-slides.html#memory-mapping-in-action",
-    "title": "Lecture 5",
-    "section": "Memory Mapping in Action",
-    "text": "Memory Mapping in Action\nHow it works under the hood:\n\nmmap() system call maps file to virtual memory\nOS loads pages on-demand (lazy loading)\nMultiple processes share same physical pages\nOS manages paging (better than manual reads)\n\n# Conceptually what happens:\nfile_bytes = mmap.mmap(fd, length, access=mmap.ACCESS_READ)\n# Arrow views these bytes directly as typed arrays\n# No copy, no parsing!"
-  },
-  {
-    "objectID": "slides/05-slides.html#real-performance-impact",
-    "href": "slides/05-slides.html#real-performance-impact",
-    "title": "Lecture 5",
-    "section": "Real Performance Impact",
-    "text": "Real Performance Impact\nExample: 1GB Parquet file\n\n\n\nOperation\nTraditional\nZero-Copy\nSpeedup\n\n\n\n\nLoad time\n8.2s\n0.3s\n27x\n\n\nMemory use\n2.5 GB\n1.1 GB\n2.3x\n\n\nFilter\n3.1s\n0.4s\n7.8x\n\n\nColumn select\n8.2s\n0.05s\n164x\n\n\n\nZero-copy reads only what’s needed, when it’s needed"
-  },
-  {
-    "objectID": "slides/05-slides.html#interoperability-benefits",
-    "href": "slides/05-slides.html#interoperability-benefits",
-    "title": "Lecture 5",
-    "section": "Interoperability Benefits",
-    "text": "Interoperability Benefits\nSeamless data sharing:\n\nimport polars as pl\nimport duckdb\n\n# Polars reads parquet (zero-copy)\ndf = pl.scan_parquet(\"data.parquet\").collect()\n\n# Pass to DuckDB (zero-copy)\nresult = duckdb.sql(\"SELECT * FROM df WHERE x &gt; 10\").pl()\n\n# Convert to pandas (copy needed, but only once)\npandas_df = result.to_pandas()\n\nArrow is the lingua franca of modern data tools"
-  },
-  {
-    "objectID": "slides/05-slides.html#best-practices",
-    "href": "slides/05-slides.html#best-practices",
-    "title": "Lecture 5",
-    "section": "Best Practices",
-    "text": "Best Practices\nTo maximize zero-copy benefits:\n\nUse Parquet for storage (not CSV)\nUse lazy evaluation when possible (scan_parquet, not read_parquet)\nFilter early (predicate pushdown)\nSelect columns before collecting (projection pushdown)\nPartition data for better selectivity\nStay in Arrow ecosystem (Polars/DuckDB/PyArrow)"
-  },
-  {
-    "objectID": "slides/05-slides.html#when-copies-still-happen",
-    "href": "slides/05-slides.html#when-copies-still-happen",
-    "title": "Lecture 5",
-    "section": "When Copies Still Happen",
-    "text": "When Copies Still Happen\nZero-copy isn’t always possible:\n\nConverting to pandas (different memory layout)\nComplex string operations (may need materialization)\nWriting results to disk\nNetwork transfers\nSome aggregations (need intermediate buffers)\n\nBut: Even when copies happen, they’re minimized and strategic"
-  },
-  {
-    "objectID": "slides/05-slides.html#summary",
-    "href": "slides/05-slides.html#summary",
-    "title": "Lecture 5",
-    "section": "Summary",
-    "text": "Summary\nZero-copy data access advantages:\n✅ Performance: Faster loads, lower latency ✅ Efficiency: Reduced memory footprint\n✅ Scalability: Work with larger-than-RAM datasets\n✅ Interoperability: Share data between tools seamlessly\n✅ Simplicity: Query before loading, explore without cost\nThe ecosystem: Parquet (storage) + Arrow (memory) + Polars/DuckDB (compute)"
-  },
-  {
-    "objectID": "slides/05-slides.html#resources-1",
-    "href": "slides/05-slides.html#resources-1",
-    "title": "Lecture 5",
-    "section": "Resources",
-    "text": "Resources\nLearn More:\n\nApache Arrow\nApache Parquet\nPolars Documentation\nDuckDB Documentation\n\nKey concept: Modern data tools separate storage from compute, enabling zero-copy workflows"
-  },
-  {
-    "objectID": "slides/05-slides.html#the-dataframe-fragmentation-problem",
-    "href": "slides/05-slides.html#the-dataframe-fragmentation-problem",
-    "title": "Lecture 5",
-    "section": "The DataFrame Fragmentation Problem",
-    "text": "The DataFrame Fragmentation Problem\n\nThe Landscape in 2025:\n\n\nPandas: The original, still widely used\nPolars: Fast, Rust-based, growing adoption\nPyArrow: Direct Arrow Table manipulation\nDask: Distributed computing\nModin: Parallel Pandas\ncuDF: GPU-accelerated DataFrames\n\nEach has different APIs, syntax, and capabilities"
-  },
-  {
-    "objectID": "slides/05-slides.html#why-this-matters",
-    "href": "slides/05-slides.html#why-this-matters",
-    "title": "Lecture 5",
-    "section": "Why This Matters",
-    "text": "Why This Matters\nFor Library Authors:\ndef process_data(df):  # What type is df?\n    # Works with Pandas\n    result = df.groupby('category')['value'].mean()\n    \n    # Breaks with Polars\n    # Polars uses: df.group_by('category').agg(pl.col('value').mean())\nFor Data Scientists:\n\nLock-in to specific libraries\nHard to switch when requirements change\nCode becomes non-portable\nOrganizational silos"
-  },
-  {
-    "objectID": "slides/05-slides.html#enter-narwhals",
-    "href": "slides/05-slides.html#enter-narwhals",
-    "title": "Lecture 5",
-    "section": "Enter: Narwhals 🦄",
-    "text": "Enter: Narwhals 🦄\n\n“Write once, run on any DataFrame”\nA lightweight compatibility layer providing a unified API across:\nFull API support: cuDF, Modin, pandas, Polars, PyArrow.\nLazy-only support: Daft, Dask, DuckDB, Ibis, PySpark, SQLFrame.\n\nNarwhals provides a minimal, fast abstraction layer that lets you write DataFrame code once and run it on any backend. It’s extremely lightweight (~50kb) and adds negligible overhead."
-  },
-  {
-    "objectID": "slides/05-slides.html#narwhals-philosophy",
-    "href": "slides/05-slides.html#narwhals-philosophy",
-    "title": "Lecture 5",
-    "section": "Narwhals Philosophy",
-    "text": "Narwhals Philosophy\n\nDesign Principles:\n\n\nLightweight: Minimal overhead, lazy when possible\nExpressive: Polars-like syntax (modern and consistent) (uses a subset of the Polars API)\nInteroperable: Easy conversion to/from native types\nType-safe: Full type hints for better IDE support\nZero-cost: Abstraction that doesn’t sacrifice performance\n\nKey insight: You work with native objects, Narwhals just provides a common interface"
-  },
-  {
-    "objectID": "slides/05-slides.html#narwhals-basic-example",
-    "href": "slides/05-slides.html#narwhals-basic-example",
-    "title": "Lecture 5",
-    "section": "Narwhals: Basic Example",
-    "text": "Narwhals: Basic Example\n\nimport narwhals as nw\nimport pandas as pd\nimport polars as pl\n\n# Works with Pandas DataFrame\ndf_pandas = pd.DataFrame({'a': [1, 2, 3], 'b': [4, 5, 6]})\n\n# Works with Polars DataFrame  \ndf_polars = pl.DataFrame({'a': [1, 2, 3], 'b': [4, 5, 6]})\n\n# Same code for both!\ndef process(df):\n    df_nw = nw.from_native(df)\n    result = df_nw.filter(nw.col('a') &gt; 1).select(nw.col('b').sum())\n    return nw.to_native(result)\n\nprocess(df_pandas)  # Returns pandas DataFrame\nprocess(df_polars)  # Returns polars DataFrame"
-  },
-  {
-    "objectID": "slides/05-slides.html#narwhals-key-operations",
-    "href": "slides/05-slides.html#narwhals-key-operations",
-    "title": "Lecture 5",
-    "section": "Narwhals: Key Operations",
-    "text": "Narwhals: Key Operations\n\nimport narwhals as nw\n\ndef analyze_data(df):\n    df = nw.from_native(df)\n    \n    result = (\n        df\n        .filter(nw.col('age') &gt; 18)\n        .with_columns([\n            (nw.col('salary') * 1.1).alias('salary_adjusted'),\n            nw.col('name').str.to_uppercase().alias('name_upper')\n        ])\n        .group_by('department')\n        .agg([\n            nw.col('salary_adjusted').mean().alias('avg_salary'),\n            nw.col('age').max().alias('max_age')\n        ])\n        .sort('avg_salary', descending=True)\n    )\n    \n    return nw.to_native(result)"
-  },
-  {
-    "objectID": "slides/05-slides.html#narwhals-lazy-evaluation",
-    "href": "slides/05-slides.html#narwhals-lazy-evaluation",
-    "title": "Lecture 5",
-    "section": "Narwhals: Lazy Evaluation",
-    "text": "Narwhals: Lazy Evaluation\nNarwhals supports both eager and lazy execution modes:\n\nimport narwhals as nw\nimport polars as pl\n\n# Eager mode (like Pandas)\ndf_pandas = pd.DataFrame({'a': [1, 2, 3], 'b': [4, 5, 6]})\ndf_nw = nw.from_native(df_pandas)\nresult = df_nw.filter(nw.col('a') &gt; 1).select('b')  # Executes immediately\n\n# Lazy mode (like Polars LazyFrame)\ndf_lazy = pl.LazyFrame({'a': [1, 2, 3], 'b': [4, 5, 6]})\ndf_nw = nw.from_native(df_lazy)\nresult = df_nw.filter(nw.col('a') &gt; 1).select('b')  # Builds query plan\nfinal = result.collect()  # Execute optimized query"
-  },
-  {
-    "objectID": "slides/05-slides.html#narwhals-lazy-execution-benefits",
-    "href": "slides/05-slides.html#narwhals-lazy-execution-benefits",
-    "title": "Lecture 5",
-    "section": "Narwhals: Lazy Execution Benefits",
-    "text": "Narwhals: Lazy Execution Benefits\nWhy use lazy evaluation?\n\nQuery optimization: Backend can reorder and optimize operations\nMemory efficiency: Only materialize what’s needed\nPredicate pushdown: Filters applied early\nProjection pushdown: Only read required columns\n\n\n# Lazy mode allows optimization\ndf_lazy = nw.from_native(pl.scan_parquet('large_file.parquet'))\n\nresult = (\n    df_lazy\n    .select(['date', 'amount', 'category'])  # Only read these columns\n    .filter(nw.col('date').dt.year() == 2024)  # Filter at read time\n    .group_by('category')\n    .agg(nw.col('amount').sum())\n)\n\n# Optimized plan is executed only on collect()\nfinal = result.collect()"
-  },
-  {
-    "objectID": "slides/05-slides.html#narwhals-checking-execution-mode",
-    "href": "slides/05-slides.html#narwhals-checking-execution-mode",
-    "title": "Lecture 5",
-    "section": "Narwhals: Checking Execution Mode",
-    "text": "Narwhals: Checking Execution Mode\n\nimport narwhals as nw\n\ndef process_data(df):\n    df_nw = nw.from_native(df)\n    \n    # Check if lazy or eager\n    if hasattr(df_nw, 'collect'):\n        print(\"Lazy evaluation supported!\")\n        result = (\n            df_nw\n            .filter(nw.col('value') &gt; 100)\n            .select(['id', 'value'])\n        )\n        return result.collect()  # Materialize result\n    else:\n        print(\"Eager evaluation\")\n        result = (\n            df_nw\n            .filter(nw.col('value') &gt; 100)\n            .select(['id', 'value'])\n        )\n        return nw.to_native(result)\n\n# Works with both Pandas (eager) and Polars LazyFrame (lazy)"
-  },
-  {
-    "objectID": "slides/05-slides.html#narwhals-when-to-use-it",
-    "href": "slides/05-slides.html#narwhals-when-to-use-it",
-    "title": "Lecture 5",
-    "section": "Narwhals: When to Use It",
-    "text": "Narwhals: When to Use It\n✅ Great for:\n\nBuilding reusable data processing libraries\nWriting code for teams with different tool preferences\nPrototyping with flexibility to switch backends\nTeaching/documentation that should work everywhere\n\n❌ Not ideal for:\n\nPerformance-critical inner loops (use native APIs)\nFeatures specific to one backend\nWhen you know you’ll only use one library"
-  },
-  {
-    "objectID": "slides/05-slides.html#moving-to-databases-the-sql-problem",
-    "href": "slides/05-slides.html#moving-to-databases-the-sql-problem",
-    "title": "Lecture 5",
-    "section": "Moving to Databases: The SQL Problem",
-    "text": "Moving to Databases: The SQL Problem\nChallenge: Each database has slightly different SQL dialects\n-- PostgreSQL\nSELECT * FROM table LIMIT 10;\n\n-- SQL Server\nSELECT TOP 10 * FROM table;\n\n-- Oracle\nSELECT * FROM table WHERE ROWNUM &lt;= 10;\nPlus: Many more differences in date functions, string operations, window functions, etc."
-  },
-  {
-    "objectID": "slides/05-slides.html#enter-ibis",
-    "href": "slides/05-slides.html#enter-ibis",
-    "title": "Lecture 5",
-    "section": "Enter: Ibis",
-    "text": "Enter: Ibis\n\n“The portable Python dataframe library”\nA unified Python interface to:\n\n20+ database backends (DuckDB, PostgreSQL, BigQuery, Snowflake, etc.)\nLocal DataFrames (Pandas, Polars)\nCloud data warehouses\nFile formats (Parquet, CSV)\n\n\nIbis translates Python expressions into optimized SQL for each backend. It’s like having a universal translator for databases."
-  },
-  {
-    "objectID": "slides/05-slides.html#ibis-philosophy",
-    "href": "slides/05-slides.html#ibis-philosophy",
-    "title": "Lecture 5",
-    "section": "Ibis Philosophy",
-    "text": "Ibis Philosophy\n\nDesign Principles:\n\n\nLazy Evaluation: Build expression trees, execute when needed\nBackend Agnostic: Same code works on any database\nPythonic: No SQL string manipulation\nType-safe: Column types are known and checked\nOptimized: Pushes computation to the database\n\nKey insight: Let databases do what they’re good at, orchestrate from Python"
-  },
-  {
-    "objectID": "slides/05-slides.html#ibis-basic-example",
-    "href": "slides/05-slides.html#ibis-basic-example",
-    "title": "Lecture 5",
-    "section": "Ibis: Basic Example",
-    "text": "Ibis: Basic Example\n\nimport ibis\n\n# Connect to different backends with same interface\nduckdb_con = ibis.duckdb.connect('data.ddb')\npostgres_con = ibis.postgres.connect(host='localhost', database='mydb')\nbigquery_con = ibis.bigquery.connect(project_id='my-project')\n\n# Same query works on all!\ndef analyze(con):\n    table = con.table('sales')\n    \n    result = (\n        table\n        .filter(table.amount &gt; 100)\n        .group_by('product')\n        .aggregate(total=table.amount.sum())\n        .order_by(ibis.desc('total'))\n    )\n    \n    return result.execute()  # Returns pandas DataFrame"
-  },
-  {
-    "objectID": "slides/05-slides.html#ibis-rich-expression-api",
-    "href": "slides/05-slides.html#ibis-rich-expression-api",
-    "title": "Lecture 5",
-    "section": "Ibis: Rich Expression API",
-    "text": "Ibis: Rich Expression API\n\nimport ibis\nfrom ibis import _\n\ncon = ibis.duckdb.connect()\norders = con.table('orders')\n\nresult = (\n    orders\n    .filter(_.order_date.year() == 2024)\n    .mutate(\n        month=_.order_date.month(),\n        revenue=_.quantity * _.price,\n        is_large=_.quantity &gt; 100\n    )\n    .group_by(['month', 'category'])\n    .agg(\n        total_revenue=_.revenue.sum(),\n        avg_quantity=_.quantity.mean(),\n        order_count=_.count()\n    )\n    .filter(_.total_revenue &gt; 10000)\n    .order_by([_.month, ibis.desc(_.total_revenue)])\n)\n\n# This generates optimized SQL for the backend\nresult.execute()"
-  },
-  {
-    "objectID": "slides/05-slides.html#ibis-supported-backends",
-    "href": "slides/05-slides.html#ibis-supported-backends",
-    "title": "Lecture 5",
-    "section": "Ibis: Supported Backends",
-    "text": "Ibis: Supported Backends\nDatabases:\n\nPostgreSQL, MySQL, SQLite\nDuckDB, DataFusion\nSnowflake, BigQuery, Redshift\nClickHouse, Trino\nSQL Server, Oracle\n\nDataFrames:\n\nPandas, Polars, PyArrow\n\nFiles:\n\nParquet, CSV (via DuckDB backend)\n\nAll with the same Python API!"
-  },
-  {
-    "objectID": "slides/05-slides.html#ibis-lazy-evaluation",
-    "href": "slides/05-slides.html#ibis-lazy-evaluation",
-    "title": "Lecture 5",
-    "section": "Ibis: Lazy Evaluation",
-    "text": "Ibis: Lazy Evaluation\n\nimport ibis\n\ncon = ibis.duckdb.connect()\ntable = con.table('large_table')\n\n# Build the query (no execution yet)\nquery = (\n    table\n    .filter(table.amount &gt; 1000)\n    .group_by('category')\n    .aggregate(total=table.amount.sum())\n)\n\n# Inspect the generated SQL\nprint(query.compile())\n\n# Execute when ready\nresult = query.execute()  # This runs the query\n\n# Or stream for large results\nfor batch in query.to_pyarrow_batches():\n    process(batch)"
-  },
-  {
-    "objectID": "slides/05-slides.html#combining-narwhals-and-ibis",
-    "href": "slides/05-slides.html#combining-narwhals-and-ibis",
-    "title": "Lecture 5",
-    "section": "Combining Narwhals and Ibis",
-    "text": "Combining Narwhals and Ibis\nUse them together for maximum portability!\n\nimport ibis\nimport narwhals as nw\n\n# Extract from database with Ibis\ncon = ibis.duckdb.connect('warehouse.ddb')\nsales = con.table('sales').execute()  # pandas DataFrame\n\n# Transform with Narwhals (works with pandas or polars)\ndef transform(df):\n    df = nw.from_native(df)\n    return (\n        df\n        .with_columns([(nw.col('amount') * 1.1).alias('amount_tax')])\n        .filter(nw.col('amount_tax') &gt; 100)\n        .to_native()\n    )\n\ntransformed = transform(sales)\n\n# Load back to database with Ibis\ncon.create_table('sales_processed', transformed)"
-  },
-  {
-    "objectID": "slides/05-slides.html#real-world-pipeline-example",
-    "href": "slides/05-slides.html#real-world-pipeline-example",
-    "title": "Lecture 5",
-    "section": "Real-World Pipeline Example",
-    "text": "Real-World Pipeline Example\n\nimport ibis\nimport narwhals as nw\n\ndef etl_pipeline(source_db, dest_db, frame_backend='pandas'):\n    # EXTRACT: Read from any database\n    source = ibis.connect(source_db)\n    raw_data = source.table('events').filter(_.date &gt;= '2024-01-01').execute()\n    \n    # TRANSFORM: Process with any DataFrame library\n    def transform(df):\n        df = nw.from_native(df)\n        return (\n            df\n            .with_columns([\n                nw.col('event_time').dt.hour().alias('hour'),\n                nw.col('user_id').cast(nw.String).alias('user_id_str')\n            ])\n            .group_by(['hour', 'event_type'])\n            .agg([nw.col('user_id').n_unique().alias('unique_users')])\n            .to_native()\n        )\n    \n    processed = transform(raw_data)\n    \n    # LOAD: Write to any database\n    dest = ibis.connect(dest_db)\n    dest.create_table('event_summary', processed, overwrite=True)"
-  },
-  {
-    "objectID": "slides/05-slides.html#performance-considerations",
-    "href": "slides/05-slides.html#performance-considerations",
-    "title": "Lecture 5",
-    "section": "Performance Considerations",
-    "text": "Performance Considerations\nNarwhals:\n\nNegligible overhead (~1-2% typically)\nWorks with native objects, just wraps the API\nNo data copying unless converting between backends\n\nIbis:\n\nPushes computation to database (often faster than local)\nLazy evaluation means efficient query planning\nCan generate suboptimal SQL in complex cases (rare)\n\nBest practice: Profile both native and unified APIs for your use case"
-  },
-  {
-    "objectID": "slides/05-slides.html#when-to-use-each-tool",
-    "href": "slides/05-slides.html#when-to-use-each-tool",
-    "title": "Lecture 5",
-    "section": "When to Use Each Tool",
-    "text": "When to Use Each Tool\nUse Narwhals when:\n\nWriting library code for others\nBuilding data processing functions\nWanting flexibility in DataFrame backend\nWorking across team with different preferences\n\nUse Ibis when:\n\nQuerying multiple databases\nBuilding cloud-agnostic pipelines\nNeed to switch data warehouses\nWant Python instead of SQL strings\n\nUse both when:\n\nBuilding full ETL/ELT pipelines\nMaximum portability is required"
-  },
-  {
-    "objectID": "slides/05-slides.html#getting-started-installation",
-    "href": "slides/05-slides.html#getting-started-installation",
-    "title": "Lecture 5",
-    "section": "Getting Started: Installation",
-    "text": "Getting Started: Installation\n# Install narwhals\npip install narwhals\n\n# Install ibis with specific backends\npip install 'ibis-framework[duckdb]'\npip install 'ibis-framework[postgres]'\npip install 'ibis-framework[bigquery]'\n\n# Or install multiple backends\npip install 'ibis-framework[duckdb,postgres,snowflake]'\n\n# Narwhals automatically detects installed DataFrame libraries\n# No additional configuration needed!"
-  },
-  {
-    "objectID": "slides/05-slides.html#code-migration-strategy",
-    "href": "slides/05-slides.html#code-migration-strategy",
-    "title": "Lecture 5",
-    "section": "Code Migration Strategy",
-    "text": "Code Migration Strategy\nStep 1: Identify portable operations\n# Before (pandas-specific)\ndf.groupby('col')['value'].mean()\n\n# After (narwhals)\nnw.from_native(df).group_by('col').agg(nw.col('value').mean())\nStep 2: Wrap in functions\ndef my_analysis(df):\n    df = nw.from_native(df)\n    # ... narwhals operations ...\n    return nw.to_native(result)\nStep 3: Gradually migrate critical paths"
-  },
-  {
-    "objectID": "slides/05-slides.html#best-practices-1",
-    "href": "slides/05-slides.html#best-practices-1",
-    "title": "Lecture 5",
-    "section": "Best Practices",
-    "text": "Best Practices\n\nStart with the interface layer: Wrap your data access in Narwhals/Ibis\nDocument backend requirements: Some features may be backend-specific\nTest across backends: CI/CD should test multiple DataFrame/DB engines\nProfile before optimizing: Unified APIs are usually fast enough\nUse type hints: Both libraries support full typing\nLeverage lazy evaluation: Build queries, execute when ready"
-  },
-  {
-    "objectID": "slides/05-slides.html#limitations-to-know",
-    "href": "slides/05-slides.html#limitations-to-know",
-    "title": "Lecture 5",
-    "section": "Limitations to Know",
-    "text": "Limitations to Know\nNarwhals:\n\nNot all DataFrame features are supported (by design)\nSome operations may be slightly different across backends\nExtension types (categorical, etc.) may behave differently\n\nIbis:\n\nSQL dialect differences can still leak through\nSome backends have limited feature support\nRequires connection setup for each backend\n\nSolution: Read the docs, test thoroughly, have fallback plans"
-  },
-  {
-    "objectID": "slides/05-slides.html#community-and-resources",
-    "href": "slides/05-slides.html#community-and-resources",
-    "title": "Lecture 5",
-    "section": "Community and Resources",
-    "text": "Community and Resources\nNarwhals:\n\nGitHub: narwhals-dev/narwhals\nDocs: narwhals-dev.github.io/narwhals\nDiscord community for support\n\nIbis:\n\nGitHub: ibis-project/ibis\nDocs: ibis-project.org\nActive Zulip chat\n\nBoth projects are actively maintained and growing!"
-  },
-  {
-    "objectID": "slides/05-slides.html#key-takeaways",
-    "href": "slides/05-slides.html#key-takeaways",
-    "title": "Lecture 5",
-    "section": "Key Takeaways",
-    "text": "Key Takeaways\n\nRemember:\n\n\nNarwhals = Unified DataFrame API for local computation\nIbis = Unified interface to databases and warehouses\nTogether = Portable, backend-agnostic data pipelines\nTrade-off = Slight abstraction cost for massive flexibility\nFuture-proof = Code survives technology changes\n\nWrite portable code today, thank yourself tomorrow"
-  },
-  {
-    "objectID": "slides/05-slides.html#examples",
-    "href": "slides/05-slides.html#examples",
-    "title": "Lecture 5",
-    "section": "Examples",
-    "text": "Examples\nSee this page for more code examples and patterns using Narwhals and Ibis!"
-  },
-  {
-    "objectID": "slides/05-slides.html#hive-style-partitioning-for-parquet",
-    "href": "slides/05-slides.html#hive-style-partitioning-for-parquet",
-    "title": "Lecture 5",
-    "section": "Hive-Style Partitioning for Parquet",
-    "text": "Hive-Style Partitioning for Parquet\nDirectory-based data organization pattern:\ndata/\n├── year=2024/\n│   ├── month=01/\n│   │   ├── day=01/\n│   │   │   └── data.parquet\n│   │   └── day=02/\n│   │       └── data.parquet\n│   └── month=02/\n│       └── day=01/\n│           └── data.parquet\n└── year=2025/\n    └── month=01/\n        └── day=01/\n            └── data.parquet\nPartition keys are encoded in directory structure, not file contents"
-  },
-  {
-    "objectID": "slides/05-slides.html#hive-partitioning-how-it-works",
-    "href": "slides/05-slides.html#hive-partitioning-how-it-works",
-    "title": "Lecture 5",
-    "section": "Hive Partitioning: How It Works",
-    "text": "Hive Partitioning: How It Works\nKey concept: Organize files by column values in nested directories\n# Writing partitioned data\nimport polars as pl\n\ndf = pl.DataFrame({\n    'date': ['2024-01-01', '2024-01-02', '2024-02-01'],\n    'product': ['A', 'B', 'A'],\n    'sales': [100, 200, 150]\n})\n\n# Create partitions by date components\ndf = df.with_columns([\n    pl.col('date').str.to_date().dt.year().alias('year'),\n    pl.col('date').str.to_date().dt.month().alias('month')\n])\n\n# Write with Hive partitioning\ndf.write_parquet('data', partition_by=['year', 'month'])\nResult: Files organized in year=2024/month=01/ directories"
-  },
-  {
-    "objectID": "slides/05-slides.html#why-hive-partitioning-matters",
-    "href": "slides/05-slides.html#why-hive-partitioning-matters",
-    "title": "Lecture 5",
-    "section": "Why Hive Partitioning Matters",
-    "text": "Why Hive Partitioning Matters\n🚀 Performance Benefits:\n\nPartition pruning: Skip entire directories when filtering\nParallel I/O: Read only relevant partitions concurrently\nReduced memory: Don’t load unnecessary data\nFaster queries: Orders of magnitude speedup on large datasets\n\n# Without partitioning: scan entire dataset\ndf = pl.scan_parquet('data/*.parquet')\nresult = df.filter(pl.col('year') == 2024).collect()\n\n# With partitioning: only read year=2024/ directory\ndf = pl.scan_parquet('data/**/*.parquet', hive_partitioning=True)\nresult = df.filter(pl.col('year') == 2024).collect()  # Much faster!"
-  },
-  {
-    "objectID": "slides/05-slides.html#partition-pruning-in-action",
-    "href": "slides/05-slides.html#partition-pruning-in-action",
-    "title": "Lecture 5",
-    "section": "Partition Pruning in Action",
-    "text": "Partition Pruning in Action\nExample: 1TB dataset, 3 years of data\nimport ibis\n\n# Connect to DuckDB (great Parquet support)\ncon = ibis.duckdb.connect()\n\n# Query with automatic partition pruning\ntable = con.read_parquet(\n    'data/**/*.parquet',\n    hive_partitioning=True\n)\n\n# Only reads ~340GB (1 year) instead of 1TB\nrecent = table.filter(table.year == 2024).execute()\nBenchmark: 3x-10x faster queries on partitioned data"
-  },
-  {
-    "objectID": "slides/05-slides.html#choosing-good-partition-keys",
-    "href": "slides/05-slides.html#choosing-good-partition-keys",
-    "title": "Lecture 5",
-    "section": "Choosing Good Partition Keys",
-    "text": "Choosing Good Partition Keys\n✅ Good partition keys:\n\nHigh cardinality but not too high: 10-1000 partitions ideal\nCommon filter columns: Date/time, region, category\nEvenly distributed data: Avoid skew\nStable values: Don’t change over time\n\n❌ Avoid:\n\nToo many partitions: User ID, transaction ID (millions of dirs)\nUnbalanced partitions: Status with 99% “active”, 1% “inactive”\nRarely queried columns: Columns you never filter on"
-  },
-  {
-    "objectID": "slides/05-slides.html#partition-strategy-examples",
-    "href": "slides/05-slides.html#partition-strategy-examples",
-    "title": "Lecture 5",
-    "section": "Partition Strategy Examples",
-    "text": "Partition Strategy Examples\nTime-series data:\nyear=2024/month=12/day=15/data.parquet  # Fine-grained\nyear=2024/month=12/data.parquet          # Medium\nyear=2024/data.parquet                    # Coarse\nMulti-dimensional:\nregion=us/category=electronics/data.parquet\nregion=eu/category=books/data.parquet\nBest practice: Start with coarser partitions, refine if needed"
-  },
-  {
-    "objectID": "slides/05-slides.html#reading-partitioned-data",
-    "href": "slides/05-slides.html#reading-partitioned-data",
-    "title": "Lecture 5",
-    "section": "Reading Partitioned Data",
-    "text": "Reading Partitioned Data\nAll modern tools support Hive partitioning:\n# Polars\ndf = pl.scan_parquet('data/**/*.parquet', hive_partitioning=True)\n\n# DuckDB\ncon.execute(\"SELECT * FROM read_parquet('data/**/*.parquet', hive_partitioning=true)\")\n\n# Ibis\ntable = con.read_parquet('data/**/*.parquet', hive_partitioning=True)\n\n# PyArrow\nimport pyarrow.parquet as pq\nds = pq.ParquetDataset('data/', partitioning='hive')\nPartition columns automatically added to DataFrame"
-  },
-  {
-    "objectID": "slides/05-slides.html#writing-partitioned-data",
-    "href": "slides/05-slides.html#writing-partitioned-data",
-    "title": "Lecture 5",
-    "section": "Writing Partitioned Data",
-    "text": "Writing Partitioned Data\nCreate partitions when writing:\n# Polars\ndf.write_parquet('data', partition_by=['year', 'month'])\n\n# PyArrow\nimport pyarrow.parquet as pq\npq.write_to_dataset(\n    table,\n    root_path='data',\n    partition_cols=['year', 'month']\n)\n\n# Ibis with DuckDB\ncon.create_table('output', df, temp=False)\ncon.execute(\"\"\"\n    COPY (SELECT * FROM output) \n    TO 'data' (FORMAT PARQUET, PARTITION_BY (year, month))\n\"\"\")"
-  },
-  {
-    "objectID": "slides/05-slides.html#partitioning-best-practices",
-    "href": "slides/05-slides.html#partitioning-best-practices",
-    "title": "Lecture 5",
-    "section": "Partitioning Best Practices",
-    "text": "Partitioning Best Practices\n\nPartition size: Target 100MB-1GB per file (not too small/large)\nPartition count: Keep under 1000 directories if possible\nSchema evolution: Partition keys should be stable\nMetadata: Consider partition discovery overhead\nCompression: Works with partitioning (zstd recommended)\n\n# Good: 365 partitions (daily for 1 year)\npartition_by=['year', 'month', 'day']\n\n# Bad: Millions of partitions\npartition_by=['user_id']  # Too many!"
-  },
-  {
-    "objectID": "slides/05-slides.html#real-world-example-sales-analytics",
-    "href": "slides/05-slides.html#real-world-example-sales-analytics",
-    "title": "Lecture 5",
-    "section": "Real-World Example: Sales Analytics",
-    "text": "Real-World Example: Sales Analytics\nimport polars as pl\nfrom datetime import datetime\n\n# Generate sales data\nsales = pl.DataFrame({\n    'timestamp': [...],  # 10M rows\n    'product_id': [...],\n    'amount': [...],\n    'region': [...]\n})\n\n# Prepare for partitioning\nsales = sales.with_columns([\n    pl.col('timestamp').dt.year().alias('year'),\n    pl.col('timestamp').dt.month().alias('month'),\n    pl.col('region').alias('region')\n])\n\n# Write partitioned (100s of files, organized by year/month/region)\nsales.write_parquet('sales_data', partition_by=['year', 'month', 'region'])\n\n# Fast queries: only scan relevant partitions\nq = pl.scan_parquet('sales_data/**/*.parquet', hive_partitioning=True)\nq.filter(\n    (pl.col('year') == 2024) & \n    (pl.col('region') == 'US')\n).group_by('product_id').agg(pl.col('amount').sum())"
-  },
-  {
-    "objectID": "slides/05-slides.html#partitioning-column-pruning-maximum-speed",
-    "href": "slides/05-slides.html#partitioning-column-pruning-maximum-speed",
-    "title": "Lecture 5",
-    "section": "Partitioning + Column Pruning = Maximum Speed",
-    "text": "Partitioning + Column Pruning = Maximum Speed\nCombine two optimizations:\n# Only read specific columns from specific partitions\nq = (\n    pl.scan_parquet('data/**/*.parquet', hive_partitioning=True)\n    .select(['product_id', 'amount'])  # Column pruning\n    .filter(pl.col('year') == 2024)     # Partition pruning\n)\n\n# Reads minimal data:\n# ✓ Only 2024 directories (not 2022, 2023)  \n# ✓ Only 2 columns (not all 50)\n# ✓ Compressed Parquet format\nResult: Queries on TBs feel like queries on MBs"
-  },
-  {
-    "objectID": "slides/05-slides.html#when-not-to-partition",
-    "href": "slides/05-slides.html#when-not-to-partition",
-    "title": "Lecture 5",
-    "section": "When NOT to Partition",
-    "text": "When NOT to Partition\nSkip partitioning if:\n\nDataset is small (&lt;10GB)\nNo clear filter patterns\nData changes frequently (many small updates)\nYou need flexibility to change partition keys\n\nIn these cases, flat Parquet files may be simpler and just as fast"
-  },
-  {
-    "objectID": "slides/05-slides.html#understanding-null-vs-nan-in-python",
-    "href": "slides/05-slides.html#understanding-null-vs-nan-in-python",
-    "title": "Lecture 5",
-    "section": "Understanding Null vs NaN in Python",
-    "text": "Understanding Null vs NaN in Python\nTwo distinct concepts often confused:\n\nNone / null: Absence of a value (missing data)\nNaN: “Not a Number” - a specific floating-point value (IEEE 754)\n\nimport math\nimport numpy as np\n\n# None is Python's null\nx = None\nprint(type(x))  # &lt;class 'NoneType'&gt;\n\n# NaN is a float value\ny = float('nan')\nprint(type(y))  # &lt;class 'float'&gt;\nprint(y == y)   # False (NaN != NaN by IEEE 754)\nprint(math.isnan(y))  # True\nKey difference: NaN is a value; None represents no value"
-  },
-  {
-    "objectID": "slides/05-slides.html#null-vs-nan-semantic-meaning",
-    "href": "slides/05-slides.html#null-vs-nan-semantic-meaning",
-    "title": "Lecture 5",
-    "section": "Null vs NaN: Semantic Meaning",
-    "text": "Null vs NaN: Semantic Meaning\nWhen to use each:\nNone / null: - Data wasn’t collected - Not applicable for this record - Missing in the source system - Any data type (strings, integers, dates)\nNaN: - Mathematical undefined result (0/0, ∞ - ∞) - Propagates through numeric calculations - Specific to floating-point arithmetic - Only for numeric types\n# Appropriate uses\nage = None          # Person didn't provide age\nprice = float('nan')  # Invalid calculation result"
-  },
-  {
-    "objectID": "slides/05-slides.html#the-pandas-problem",
-    "href": "slides/05-slides.html#the-pandas-problem",
-    "title": "Lecture 5",
-    "section": "The Pandas Problem",
-    "text": "The Pandas Problem\nPandas historically conflated None and NaN:\nimport pandas as pd\nimport numpy as np\n\n# Creating a Series with None\ns = pd.Series([1, None, 3])\nprint(s)\n# 0    1.0\n# 1    NaN  # None became NaN!\n# 2    3.0\n\n# Type was converted to float64\nprint(s.dtype)  # float64\n\n# Can't represent integer + null without nullable types\n# Integer columns become float just to handle missing data\nProblem: Lost distinction between missing data and invalid calculations"
-  },
-  {
-    "objectID": "slides/05-slides.html#pandas-type-coercion-issues",
-    "href": "slides/05-slides.html#pandas-type-coercion-issues",
-    "title": "Lecture 5",
-    "section": "Pandas: Type Coercion Issues",
-    "text": "Pandas: Type Coercion Issues\nThe old Pandas behavior:\nimport pandas as pd\n\n# Integer column with missing value\ndata = pd.Series([1, 2, None, 4])\nprint(data.dtype)  # float64 (not int64!)\n\n# String column with missing value  \nnames = pd.Series(['Alice', None, 'Charlie'])\nprint(names.dtype)  # object\n\n# Even boolean columns!\nflags = pd.Series([True, False, None])\nprint(flags.dtype)  # object (not bool!)\nWhy?: NumPy arrays don’t support null for most types, so Pandas used NaN and float64"
-  },
-  {
-    "objectID": "slides/05-slides.html#modern-solution-nullable-types",
-    "href": "slides/05-slides.html#modern-solution-nullable-types",
-    "title": "Lecture 5",
-    "section": "Modern Solution: Nullable Types",
-    "text": "Modern Solution: Nullable Types\nPandas 1.0+ introduced proper nullable types:\nimport pandas as pd\n\n# Use nullable integer\ndata = pd.Series([1, 2, None, 4], dtype='Int64')  # Capital I\nprint(data.dtype)  # Int64\nprint(data)\n# 0       1\n# 1       2\n# 2    &lt;NA&gt;  # Proper null marker\n# 3       4\n\n# Nullable boolean\nflags = pd.Series([True, False, None], dtype='boolean')\nprint(flags.dtype)  # boolean\n\n# Nullable string\nnames = pd.Series(['Alice', None, 'Charlie'], dtype='string')\nprint(names.dtype)  # string\n&lt;NA&gt; is Pandas’ null sentinel, distinct from NaN"
-  },
-  {
-    "objectID": "slides/05-slides.html#polars-clear-null-semantics",
-    "href": "slides/05-slides.html#polars-clear-null-semantics",
-    "title": "Lecture 5",
-    "section": "Polars: Clear Null Semantics",
-    "text": "Polars: Clear Null Semantics\nPolars has null handling right from the start:\nimport polars as pl\n\n# Integer column with null - no type coercion!\ndata = pl.Series('values', [1, 2, None, 4])\nprint(data.dtype)  # Int64 (not Float64!)\n\n# Nulls work with any type\nnames = pl.Series('names', ['Alice', None, 'Charlie'])\nprint(names.dtype)  # Utf8\n\nflags = pl.Series('flags', [True, False, None])\nprint(flags.dtype)  # Boolean\n\n# NULL is a distinct value, not NaN\nprint(data.null_count())  # 1\nPolars: null is null, NaN is NaN, types are preserved"
-  },
-  {
-    "objectID": "slides/05-slides.html#checking-for-missing-values",
-    "href": "slides/05-slides.html#checking-for-missing-values",
-    "title": "Lecture 5",
-    "section": "Checking for Missing Values",
-    "text": "Checking for Missing Values\nDifferent approaches across tools:\nimport pandas as pd\nimport polars as pl\nimport numpy as np\n\n# Pandas (checks for both None and NaN)\ns = pd.Series([1, None, float('nan'), 4])\nprint(s.isna())   # [False, True, True, False]\nprint(s.isnull()) # Same as isna()\n\n# Polars (explicit about nulls)\ns = pl.Series([1, None, float('nan'), 4])\nprint(s.is_null())     # [False, True, False, False]\nprint(s.is_nan())      # [False, False, True, False]\n\n# NumPy (only checks for NaN)\narr = np.array([1, np.nan, 4])\nprint(np.isnan(arr))  # [False, True, False]\nPolars distinguishes null from NaN; Pandas often doesn’t"
-  },
-  {
-    "objectID": "slides/05-slides.html#narwhals-handling-nulls-portably",
-    "href": "slides/05-slides.html#narwhals-handling-nulls-portably",
-    "title": "Lecture 5",
-    "section": "Narwhals: Handling Nulls Portably",
-    "text": "Narwhals: Handling Nulls Portably\nNarwhals follows Polars semantics:\nimport narwhals as nw\nimport pandas as pd\nimport polars as pl\n\ndef handle_missing(df):\n    df = nw.from_native(df)\n    return (\n        df\n        .filter(~nw.col('value').is_null())  # Remove nulls\n        .with_columns(\n            nw.col('value').fill_null(0)      # Replace nulls with 0\n        )\n    )\n\n# Works consistently across backends\ndf_pandas = pd.DataFrame({'value': [1, None, 3]})\ndf_polars = pl.DataFrame({'value': [1, None, 3]})\n\nhandle_missing(df_pandas)  # Treats None/NaN as null\nhandle_missing(df_polars)  # Native null handling\nRecommendation: Use Narwhals/Polars semantics for clarity"
-  },
-  {
-    "objectID": "slides/05-slides.html#best-practices-null-handling",
-    "href": "slides/05-slides.html#best-practices-null-handling",
-    "title": "Lecture 5",
-    "section": "Best Practices: Null Handling",
-    "text": "Best Practices: Null Handling\nModern recommendations:\n\nUse nullable dtypes in Pandas: Int64, boolean, string\nPrefer Polars for new projects (clean null semantics)\nAvoid mixing None and NaN in the same context\nBe explicit: Use is_null() / is_nan() separately\nDocument assumptions: What does missing mean in your data?\n\n# Good: Clear intent\ndf = pl.DataFrame({\n    'age': pl.Series([25, None, 30], dtype=pl.Int64),  # Missing\n    'score': pl.Series([1.5, float('nan'), 2.0])       # Invalid calculation\n})\n\n# Bad: Ambiguous\ndf = pd.DataFrame({\n    'age': [25, np.nan, 30],  # Is this missing or invalid?\n})"
-  },
-  {
-    "objectID": "slides/05-slides.html#next-week",
-    "href": "slides/05-slides.html#next-week",
-    "title": "Lecture 5",
-    "section": "Next Week",
-    "text": "Next Week\n\nDeep dive into Apache Spark\nDistributed computing at scale\nWhen local tools aren’t enough\nHow Spark relates to the tools we’ve learned\n\nThe tools we’ve covered are powerful for single-node workloads—Spark takes us to multi-node clusters"
-  },
-  {
-    "objectID": "slides/05-slides.html#github-classroom",
-    "href": "slides/05-slides.html#github-classroom",
-    "title": "Lecture 5",
-    "section": "GitHub Classroom",
-    "text": "GitHub Classroom\nGitHub Classroom Link"
+    "objectID": "slides/07-slides.html#summary-why-distributed-file-systems-matter",
+    "href": "slides/07-slides.html#summary-why-distributed-file-systems-matter",
+    "title": "Lecture 7",
+    "section": "Summary: why distributed file systems matter",
+    "text": "Summary: why distributed file systems matter\n\n\nThe core ideas\n\nCommodity hardware fails — design for resilience, not around it\nBlock-based replication provides fault tolerance without expensive RAID\nData locality eliminates network as the bottleneck\nSingle namespace hides distributed complexity from applications\nWrite-once / append simplifies consistency\n\n\nHDFS’s legacy\nHDFS proved these ideas work at internet scale. Even as cloud object stores have largely supplanted HDFS for new deployments, every modern data lake — S3, Azure Data Lake, GCS — inherits the same core principles:\n\nReplication and fault tolerance\nMassive scalability through horizontal partitioning\nDecoupling of storage and compute"
   },
   {
     "objectID": "slides/01-slides.html#agenda-for-todays-session",

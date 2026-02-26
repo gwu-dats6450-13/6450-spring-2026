@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://gwu-dats6450-13.github.io/6450-spring-2026/CLAUDE.html</loc>
-    <lastmod>2026-02-19T05:30:08.600Z</lastmod>
+    <lastmod>2026-02-26T07:48:37.321Z</lastmod>
   </url>
   <url>
     <loc>https://gwu-dats6450-13.github.io/6450-spring-2026/site-content/references.html</loc>
@@ -25,8 +25,12 @@
     <lastmod>2026-02-02T04:17:30.298Z</lastmod>
   </url>
   <url>
-    <loc>https://gwu-dats6450-13.github.io/6450-spring-2026/index.html</loc>
-    <lastmod>2026-01-25T04:28:47.210Z</lastmod>
+    <loc>https://gwu-dats6450-13.github.io/6450-spring-2026/slides/05-slides.html</loc>
+    <lastmod>2026-02-13T22:51:24.652Z</lastmod>
+  </url>
+  <url>
+    <loc>https://gwu-dats6450-13.github.io/6450-spring-2026/content/07-content.html</loc>
+    <lastmod>2026-02-26T21:54:32.151Z</lastmod>
   </url>
   <url>
     <loc>https://gwu-dats6450-13.github.io/6450-spring-2026/content/01-content.html</loc>
@@ -89,8 +93,12 @@
     <lastmod>2026-01-25T04:25:28.277Z</lastmod>
   </url>
   <url>
-    <loc>https://gwu-dats6450-13.github.io/6450-spring-2026/slides/05-slides.html</loc>
-    <lastmod>2026-02-13T22:51:24.652Z</lastmod>
+    <loc>https://gwu-dats6450-13.github.io/6450-spring-2026/index.html</loc>
+    <lastmod>2026-01-25T04:28:47.210Z</lastmod>
+  </url>
+  <url>
+    <loc>https://gwu-dats6450-13.github.io/6450-spring-2026/slides/07-slides.html</loc>
+    <lastmod>2026-02-26T08:07:29.163Z</lastmod>
   </url>
   <url>
     <loc>https://gwu-dats6450-13.github.io/6450-spring-2026/slides/01-slides.html</loc>
