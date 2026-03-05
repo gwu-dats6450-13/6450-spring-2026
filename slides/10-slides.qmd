@@ -1,0 +1,10 @@
+---
+title: "Lecture 10"
+subtitle: "Spark ML and Spark NLP"
+engine: knitr
+format:
+  revealjs:
+    code-fold: false
+---
+
+{{< include spark/_mlllib.qmd >}}

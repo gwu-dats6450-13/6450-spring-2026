@@ -1,0 +1,713 @@
+:::: {.columns}
+::: {.column width="47%"}
+### Looking Back
+
+* Spark RDDs, DataFrames, SparkSQL
+* Spark Diagnostic UI
+* PySpark UDFs and Pandas UDFs
+* Performance optimization
+
+:::
+
+::: {.column width="47%"}
+### Today
+
+* Spark MLlib: ML at scale
+* Transformers, Estimators, Pipelines
+* Feature engineering with Spark
+* ML models in Spark
+* Text analytics and Spark NLP
+
+:::
+::::
+
+# ML at Scale with Spark {.section}
+
+## The advanced analytics/ML process
+
+:::: {.columns}
+::: {.column width="30%"}
+1. Gather and collect data
+
+1. Clean and inspect data
+
+1. Perform feature engineering
+
+1. Split data into train/test
+
+1. Evaluate and compare models
+:::
+
+::: {.column width="5%"}
+:::
+
+::: {.column width="63%"}
+<img src="img/spdg_2401.png">
+:::
+::::
+
+## Overview of ML algorithms
+
+::: {.imgcenter}
+<img src="img/ml_map.png" width=800>
+:::
+
+## Pipelines for ML workflows
+
+::: {.imgcenter}
+<img src="img/pipeline-oriented.png" width=800>
+:::
+
+# What is `MLlib`? {.section}
+
+## MLlib capabilities
+
+:::: {.columns}
+::: {.column width="49%"}
+#### Capabilities
+
+- Gather and clean data
+- Perform feature engineering
+- Perform feature selection
+- Train and tune models
+- Put models in production
+
+#### API is divided into two packages
+
+`org.apache.spark.ml` **(High level API)**
+- Built on top of `DataFrames`
+- Allows construction of ML _pipelines_
+
+`org.apache.spark.mllib` _(Predates DataFrames)_
+- Original API built on top of RDDs
+:::
+
+::: {.column width="49%"}
+#### Inspired by `scikit-learn`
+
+* `DataFrame`
+
+* `Transformer`
+
+* `Estimator`
+
+* `Pipeline`
+
+* `Parameter`
+:::
+::::
+
+# Transformers, Estimators, and Pipelines {.section}
+
+##
+
+::: {.imgcenter}
+<img src="img/spdg_2402.png" width=800>
+:::
+
+## Transformers
+
+:::: {.columns}
+::: {.column width="49%"}
+`Transformers` take `DataFrames` as _input_, and return a **new DataFrame** as output.
+
+`Transformers` do not learn any parameters from the data — they simply apply rule-based transformations to either **prepare data for model training** or **generate predictions using a trained model.**
+
+`Transformers` are run using the `.transform()` method
+:::
+
+::: {.column width="49%"}
+<img src="img/spdg_2403.png">
+:::
+::::
+
+## Some Examples of Transformers
+
+* Converting categorical variables to numeric (required for MLlib)
+  * `StringIndexer`
+  * `OneHotEncoder` — can act on multiple columns at once
+
+* Data Normalization
+  * `Normalizer`
+  * `StandardScaler`
+
+* String Operations (for NLP pipelines)
+  * `Tokenizer`
+  * `StopWordsRemover`
+  * `Word2Vec`
+
+* Dimensionality reduction
+  * `PCA`
+
+* Converting continuous to discrete
+  * `Bucketizer`
+  * `QuantileDiscretizer`
+
+## `MLlib` needs a **single, numeric features column** as input
+
+Each row in this column contains a vector of data points corresponding to the set of features used for prediction.
+
+* **Use the `VectorAssembler` transformer to create a single vector column from a list of columns.**
+
+* **All categorical data must be numeric for machine learning.**
+
+```python
+from pyspark.ml.linalg import Vectors
+from pyspark.ml.feature import VectorAssembler
+
+dataset = spark.createDataFrame(
+    [(0, 18, 1.0, Vectors.dense([0.0, 10.0, 0.5]), 1.0)],
+    ["id", "hour", "mobile", "userFeatures", "clicked"])
+
+assembler = VectorAssembler(
+    inputCols=["hour", "mobile", "userFeatures"],
+    outputCol="features")
+
+output = assembler.transform(dataset)
+output.select("features", "clicked").show(truncate=False)
+```
+
+## Estimators
+
+:::: {.columns}
+::: {.column width="49%"}
+`Estimators` learn (or "fit") parameters from your DataFrame via the `.fit()` method, and return a **model** which is a `Transformer`.
+:::
+
+::: {.column width="49%"}
+<img src="img/spdg_2502.png">
+:::
+::::
+
+## Pipelines
+
+::: {.imgcenter}
+<img src="img/pipeline-oriented.png" width=800>
+:::
+
+## Pipelines
+
+:::: {.columns}
+::: {.column width="49%"}
+`Pipelines` combine multiple steps into a single workflow:
+
+* Data cleaning and feature processing via transformers, using `stages`
+* Model definition
+* Run the pipeline to do all transformations and fit the model
+
+The `Pipeline` constructor takes an _array_ of pipeline stages.
+:::
+
+::: {.column width="49%"}
+<img src="img/spdg_2404.png">
+:::
+::::
+
+## Why Pipelines?
+
+1. **Cleaner Code:** No need to manually keep track of training and validation data at each step.
+
+1. **Fewer Bugs:** Fewer opportunities to misapply a step or forget a preprocessing step.
+
+1. **Easier to Productionize:** Pipelines help transition a model from prototype to deployed.
+
+1. **More Options for Model Validation:** Cross-validation and other techniques apply easily to Pipelines.
+
+# Feature Engineering Walk-through {.section}
+
+## Example dataset: HMP Activity Recognition
+
+Using the [HMP Dataset](https://github.com/wchill/HMP_Dataset) — sensor data for human motion prediction.
+
+```python
+df.printSchema()
+
+# root
+# |-- x: integer (nullable = true)
+# |-- y: integer (nullable = true)
+# |-- z: integer (nullable = true)
+# |-- class: string (nullable = false)
+# |-- source: string (nullable = false)
+```
+
+## Step 1: StringIndexer — strings to numbers
+
+The `StringIndexer` is an _estimator_ with both `fit` and `transform` methods.
+
+```python
+from pyspark.ml.feature import StringIndexer
+
+indexer = StringIndexer(inputCol='class', outputCol='classIndex')
+indexed = indexer.fit(df).transform(df)
+indexed.show(5)
+# +---+---+---+-----------+--------------------+----------+
+# |  x|  y|  z|      class|              source|classIndex|
+# +---+---+---+-----------+--------------------+----------+
+# | 29| 39| 51|Drink_glass|Accelerometer-201...|       2.0|
+# ...
+```
+
+## Step 2: OneHotEncoder — encode categories
+
+Unlike `StringIndexer`, `OneHotEncoder` is a pure _transformer_ with only a `transform` method.
+
+```python
+from pyspark.ml.feature import OneHotEncoder
+
+encoder = OneHotEncoder(inputCol='classIndex', outputCol='categoryVec')
+encoded = encoder.transform(indexed)
+encoded.show(5, False)
+# +---+---+---+-----------+...+----------+--------------+
+# |x  |y  |z  |class      |...|classIndex|categoryVec   |
+# +---+---+---+-----------+...+----------+--------------+
+# |29 |39 |51 |Drink_glass|...|       2.0|(13,[2],[1.0])|
+```
+
+## Step 3: VectorAssembler — create features vector
+
+```python
+from pyspark.ml.feature import VectorAssembler
+
+vectorAssembler = VectorAssembler(inputCols=['x', 'y', 'z'], outputCol='features')
+features_vectorized = vectorAssembler.transform(encoded)
+features_vectorized.show(5, False)
+# ...
+# |features        |
+# +----------------+
+# |[29.0,39.0,51.0]|
+```
+
+## Step 4: Normalizer — scale features
+
+```python
+from pyspark.ml.feature import Normalizer
+
+# p=1.0 uses Manhattan distance; p=2.0 (default) uses Euclidean distance
+normalizer = Normalizer(inputCol='features', outputCol='features_norm', p=1.0)
+normalized_data = normalizer.transform(features_vectorized)
+```
+
+## Step 5: Build the Pipeline
+
+The `Pipeline` constructor takes an array of stages in the right sequence:
+
+```python
+from pyspark.ml import Pipeline
+
+pipeline = Pipeline(stages=[indexer, encoder, vectorAssembler, normalizer])
+
+# fit the pipeline to the original DataFrame
+data_model = pipeline.fit(df)
+
+# transform using the pipeline
+pipelined_data = data_model.transform(df)
+```
+
+### You now have a DataFrame optimized for SparkML!
+
+# Machine Learning Models in Spark {.section}
+
+## Available model types
+
+#### Regression
+- Linear regression
+- Generalized linear model (GLM)
+- Random forest regression
+- Gradient-boosted trees
+
+#### Classification
+- Logistic regression
+- Gradient-boosted tree classifier
+- Naive Bayes
+- Multilayer perceptron (neural network)
+
+#### Other
+- Clustering: K-means, LDA, GMM
+- Association rule mining
+- Dimensionality reduction: PCA, SVD
+
+## Building your model — RFormula
+
+Feature selection using easy R-like formulas:
+
+```python
+from pyspark.ml.feature import RFormula
+
+dataset = spark.createDataFrame(
+    [(7, "US", 18, 1.0),
+     (8, "CA", 12, 0.0),
+     (9, "NZ", 15, 0.0)],
+    ["id", "country", "hour", "clicked"])
+
+formula = RFormula(
+    formula="clicked ~ country + hour",
+    featuresCol="features",
+    labelCol="label")
+
+output = formula.fit(dataset).transform(dataset)
+output.select("features", "label").show()
+```
+
+## Feature selection — ChiSqSelector
+
+Pick categorical variables most dependent on the response variable:
+
+```python
+from pyspark.ml.feature import ChiSqSelector
+from pyspark.ml.linalg import Vectors
+
+df = spark.createDataFrame([
+    (7, Vectors.dense([0.0, 0.0, 18.0, 1.0]), 1.0),
+    (8, Vectors.dense([0.0, 1.0, 12.0, 0.0]), 0.0),
+    (9, Vectors.dense([1.0, 0.0, 15.0, 0.1]), 0.0)],
+    ["id", "features", "clicked"])
+
+selector = ChiSqSelector(numTopFeatures=1, featuresCol="features",
+                         outputCol="selectedFeatures", labelCol="clicked")
+result = selector.fit(df).transform(df)
+result.show()
+```
+
+## Tuning your model — Part 1
+
+Hyperparameter search with `ParamGridBuilder`:
+
+```python
+from pyspark.ml.evaluation import RegressionEvaluator
+from pyspark.ml.regression import LinearRegression
+from pyspark.ml.tuning import ParamGridBuilder, TrainValidationSplit
+
+data = spark.read.format("libsvm").load("data/mllib/sample_linear_regression_data.txt")
+train, test = data.randomSplit([0.9, 0.1], seed=12345)
+
+lr = LinearRegression(maxIter=10)
+
+paramGrid = ParamGridBuilder() \
+    .addGrid(lr.regParam, [0.1, 0.01]) \
+    .addGrid(lr.fitIntercept, [False, True]) \
+    .addGrid(lr.elasticNetParam, [0.0, 0.5, 1.0]) \
+    .build()
+```
+
+## Tuning your model — Part 2
+
+```python
+# TrainValidationSplit tries all parameter combinations
+tvs = TrainValidationSplit(estimator=lr,
+                           estimatorParamMaps=paramGrid,
+                           evaluator=RegressionEvaluator(),
+                           trainRatio=0.8)  # 80% train, 20% validation
+
+# Run and find best parameters
+model = tvs.fit(train)
+
+# Make predictions on test data
+model.transform(test) \
+    .select("features", "label", "prediction") \
+    .show()
+```
+
+# Text Analytics with Spark {.section}
+
+## Spark methods for text analytics
+
+Built into PySpark:
+
+- **String SQL functions**: `F.length(col)`, `F.substring(str, pos, len)`, `F.trim(col)`, `F.upper(col)`, ...
+
+- **ML transformers for text**:
+  * `Tokenizer()` — split text into tokens
+  * `StopWordsRemover()` — remove common words
+  * `Word2Vec()` — word embeddings
+  * `CountVectorizer()` — term frequency vectors
+
+## Tokenizer
+
+```python
+from pyspark.ml.feature import Tokenizer
+
+df = spark.createDataFrame([("a b c",)], ["text"])
+tokenizer = Tokenizer(outputCol="words")
+tokenizer.setInputCol("text")
+tokenizer.transform(df).head()
+# Row(text='a b c', words=['a', 'b', 'c'])
+```
+
+[Tokenizer docs](https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.feature.Tokenizer.html)
+
+## StopWordsRemover
+
+```python
+from pyspark.ml.feature import StopWordsRemover
+
+df = spark.createDataFrame([(["a", "b", "c"],)], ["text"])
+remover = StopWordsRemover(stopWords=["b"])
+remover.setInputCol("text")
+remover.setOutputCol("words")
+remover.transform(df).head().words  # ['a', 'c']
+
+# Multiple columns
+df2 = spark.createDataFrame([(["a", "b", "c"], ["a", "b"])], ["text1", "text2"])
+remover2 = StopWordsRemover(stopWords=["b"])
+remover2.setInputCols(["text1", "text2"]).setOutputCols(["words1", "words2"])
+remover2.transform(df2).show()
+# +---------+------+------+------+
+# |    text1| text2|words1|words2|
+# +---------+------+------+------+
+# |[a, b, c]|[a, b]|[a, c]|   [a]|
+# +---------+------+------+------+
+```
+
+## Real-world NLP Application
+
+#### Data: S&P company earnings calls — tens of millions of text statements
+
+#### Method: Proximity-based sentiment analysis
+
+#### Tech: PySpark, Python UDFs, list comprehensions
+
+#### Outcome: Time-series trends of company concerns about supply chain issues
+
+::: {.imgcenter}
+<img src="img/spark-nlp-application.png" width=700>
+:::
+
+## Proximity-based Sentiment
+
+Example: find `A`'s within a certain distance of a `Y`
+
+```
+# within 2 → 0
+X X X X Y X X X A
+# within 2 → 1
+X X A X Y X X X A
+# within 2 → 2
+X A X A Y A X X A
+# within 4 → 3
+A X A X Y X X X A
+```
+
+* Count the number of `Y`'s in the text that have an `A` near enough to them
+* Aggregate at scale!
+* Uses `Tokenizer()` and `StopWordsRemover()`
+
+[Prof. Anderson's Paper](https://www.federalreserve.gov/econres/notes/feds-notes/effects-of-supply-chain-bottlenecks-on-prices-using-textual-analysis-20211203.htm)
+
+# JohnSnowLabs Spark NLP {.section}
+
+## Why a dedicated NLP library?
+
+Which NLP libraries have the most features?
+
+::: {.imgcenter}
+<img src="img/spark-nlp.png" width=600>
+:::
+
+## Comparing NLP Packages
+
+Just because it is scalable does not mean it lacks features!
+
+::: {.imgcenter}
+<img src="img/spark-nlp-comparison-libraries.png" width=400>
+:::
+
+## Most Popular AI/ML Packages
+
+::: {.imgcenter}
+<img src="img/spark-nlp-popular-packages.png" width=900>
+:::
+
+## Spark NLP is faster than spaCy
+
+#### Benchmark: pipeline with sentence boundary detection, tokenizer, and POS tagger on a 4-core laptop
+
+Why is Spark NLP faster?
+
+::: incremental
+* Whole-stage code generation, vectorized in-memory columnar data
+* No copying of text in memory
+* Extensive profiling, config, and code optimization of Spark and TensorFlow
+* Optimized for both training and inference
+
+**And it scales across a cluster!**
+:::
+
+## Spark NLP Capabilities
+
+:::: {.columns}
+::: {.column width="49%"}
+**Reusing the Spark ML Pipeline**
+
+* Unified NLP & ML pipelines
+* End-to-end execution planning
+* Serializable
+* Distributable
+
+**Reusing NLP Functionality**
+
+* TF-IDF calculation
+* String distance calculation
+* Stop word removal
+* Topic modeling
+* Distributed ML algorithms
+:::
+
+::: {.column width="49%"}
+<img src="img/spark-nlp-ml.png" width=800>
+:::
+::::
+
+## Spark NLP Terminology
+
+#### Annotators
+* Like the ML tools we used in Spark
+* Always need input and output columns
+* Two flavors:
+  * **Approach** — like ML Estimators that need a `fit()` method to make an Annotator Model/Transformer
+  * **Model** — like ML Transformers; uses `transform()` method only
+
+#### Annotator Models
+* Pretrained public versions available through `.pretrained()` method
+
+::: {.fragment .fade-up}
+**Q: Do transformer ML methods ever remove columns in a Spark DataFrame?**
+
+No!! They only **add** columns.
+:::
+
+## Spark NLP Sentiment Example
+
+::: {.imgcenter}
+<img src="img/spark-nlp-sentiment-pipeline.png" width=800>
+:::
+
+## Spark NLP Pipeline Example
+
+::: {.imgcenter}
+<img src="img/spark-nlp-pipeline.png" width=800>
+:::
+
+## Spark NLP Pipeline Types
+
+#### Spark Pipeline
+* Efficiently run on a whole Spark DataFrame
+* Distributable on a cluster
+* Uses Spark tasks, optimizations, and execution planning
+* Used by `PretrainedPipeline.transform()`
+
+#### Light Pipeline
+* Efficiently run on a single sentence
+* Faster than a Spark pipeline for up to 50,000 local documents
+* Easiest way to publish a pipeline as an API
+* Used by `PretrainedPipeline.annotate()`
+
+#### Recursive Pipeline
+* Gives annotators access to other annotators in the same pipeline
+* Required when training your own models
+
+## Spark NLP Pipeline Code Example
+
+:::: {.columns}
+::: {.column width="49%"}
+```python
+from pyspark.ml import Pipeline
+from sparknlp.base import *
+from sparknlp.annotator import *
+
+document_assembler = DocumentAssembler() \
+    .setInputCol("text") \
+    .setOutputCol("document")
+
+sentenceDetector = SentenceDetector() \
+    .setInputCols(["document"]) \
+    .setOutputCol("sentences")
+
+tokenizer = Tokenizer() \
+    .setInputCols(["sentences"]) \
+    .setOutputCol("token")
+
+normalizer = Normalizer() \
+    .setInputCols(["token"]) \
+    .setOutputCol("normal")
+
+word_embeddings = WordEmbeddingsModel.pretrained() \
+    .setInputCols(["document", "normal"]) \
+    .setOutputCol("embeddings")
+```
+:::
+
+::: {.column width="49%"}
+```python
+nlpPipeline = Pipeline(stages=[
+    document_assembler,
+    sentenceDetector,
+    tokenizer,
+    normalizer,
+    word_embeddings,
+])
+
+pipelineModel = nlpPipeline.fit(df)
+```
+:::
+::::
+
+## DocumentAssembler — entry point for Spark NLP
+
+```python
+import sparknlp
+from sparknlp.base import DocumentAssembler
+
+data = spark.createDataFrame([
+    ["Spark NLP is an open-source text processing library."]
+]).toDF("text")
+
+documentAssembler = DocumentAssembler() \
+    .setInputCol("text") \
+    .setOutputCol("document")
+
+result = documentAssembler.transform(data)
+result.select("document").show(truncate=False)
+# +----------------------------------------------------------------------------------------------+
+# |document                                                                                      |
+# +----------------------------------------------------------------------------------------------+
+# |[[document, 0, 51, Spark NLP is an open-source text processing library., [sentence -> 0], []]]|
+# +----------------------------------------------------------------------------------------------+
+```
+
+## Using HuggingFace Models with Spark NLP
+
+Spark NLP integrates with HuggingFace Transformers models:
+
+```python
+from transformers import TFDistilBertForSequenceClassification, DistilBertTokenizer
+from sparknlp.annotator import DistilBertForSequenceClassification
+
+MODEL_NAME = 'distilbert-base-uncased-finetuned-sst-2-english'
+
+# Save tokenizer and model locally
+tokenizer = DistilBertTokenizer.from_pretrained(MODEL_NAME)
+tokenizer.save_pretrained(f'./{MODEL_NAME}_tokenizer/')
+
+model = TFDistilBertForSequenceClassification.from_pretrained(MODEL_NAME)
+model.save_pretrained(f'./{MODEL_NAME}', saved_model=True)
+
+# Load into Spark NLP
+sequenceClassifier = DistilBertForSequenceClassification \
+    .loadSavedModel(f'{MODEL_NAME}/saved_model/1', spark) \
+    .setInputCols(["document", "token"]) \
+    .setOutputCol("class") \
+    .setCaseSensitive(True)
+```
+
+[Spark NLP + HuggingFace discussion](https://github.com/JohnSnowLabs/spark-nlp/discussions/5669)
+
+## Readings
+
+**Required:**
+
+* [Spark NLP Code Concepts](https://nlp.johnsnowlabs.com/docs/en/concepts)
+
+**Encouraged:**
+
+* [Spark NLP Annotators](https://nlp.johnsnowlabs.com/docs/en/annotators)
+* [Introduction to Spark NLP](https://towardsdatascience.com/introduction-to-spark-nlp-foundations-and-basic-components-part-i-c83b7629ed59)
