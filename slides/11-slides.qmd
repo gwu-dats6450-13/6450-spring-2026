@@ -1,0 +1,10 @@
+---
+title: "Lecture 11"
+subtitle: "Spark Structured Streaming"
+engine: knitr
+format:
+  revealjs:
+    code-fold: false
+---
+
+{{< include spark/_streaming.qmd >}}
