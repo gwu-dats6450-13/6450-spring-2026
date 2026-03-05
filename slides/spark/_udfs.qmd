@@ -314,33 +314,41 @@ def plus_one(v):
 df.withColumn('v2', plus_one(df.v))
 ```
 
-**Pandas UDF form — faster vectorized form:**
+**Pandas UDF form — faster vectorized form (Spark 3.0+ syntax):**
 
 ```python
-from pyspark.sql.functions import pandas_udf, PandasUDFType
+from pyspark.sql.functions import pandas_udf
 
-@pandas_udf('double', PandasUDFType.SCALAR)
+@pandas_udf("double")
 def pandas_plus_one(v: pd.Series) -> pd.Series:
     return v + 1
 
 df.withColumn('v2', pandas_plus_one(df.v))
 ```
 
+::: {.callout-note}
+`PandasUDFType.SCALAR` was deprecated in Spark 3.0. Use Python type annotations (`pd.Series → pd.Series`) instead.
+:::
+
 [source](https://www.databricks.com/blog/2017/10/30/introducing-vectorized-udfs-for-pyspark.html)
 
 ## Grouped Map Pandas UDFs
 
-Split-apply-combine using Pandas syntax:
+Split-apply-combine using Pandas syntax (Spark 3.0+ syntax):
 
 ```python
-from pyspark.sql.functions import pandas_udf, PandasUDFType
+from pyspark.sql.functions import pandas_udf
 
-@pandas_udf(df.schema, PandasUDFType.GROUPED_MAP)
+@pandas_udf(df.schema)
 def subtract_mean(pdf: pd.DataFrame) -> pd.DataFrame:
     return pdf.assign(v=pdf.v - pdf.v.mean())
 
-df.groupby('id').apply(subtract_mean)
+df.groupby('id').applyInPandas(subtract_mean, schema=df.schema)
 ```
+
+::: {.callout-note}
+`PandasUDFType.GROUPED_MAP` was deprecated in Spark 3.0. Use `applyInPandas()` with type annotations instead.
+:::
 
 ## Comparing Scalar and Grouped Map Pandas UDFs
 

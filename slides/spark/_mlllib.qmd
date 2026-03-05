@@ -407,6 +407,39 @@ model.transform(test) \
     .show()
 ```
 
+## Alternative: k-fold Cross Validation
+
+`CrossValidator` is more rigorous than `TrainValidationSplit` — each parameter combination is evaluated on **k separate train/test splits**.
+
+```python
+from pyspark.ml.tuning import CrossValidator
+
+cv = CrossValidator(estimator=lr,
+                    estimatorParamMaps=paramGrid,
+                    evaluator=RegressionEvaluator(),
+                    numFolds=5)   # 5-fold CV
+
+model = cv.fit(train)
+```
+
+:::: {.columns}
+::: {.column width="49%"}
+**TrainValidationSplit**
+
+* One train/validation split
+* Faster to run
+* Higher variance in estimates
+:::
+
+::: {.column width="49%"}
+**CrossValidator**
+
+* k splits, k evaluations per combo
+* More reliable estimate of generalization
+* ~k× more expensive
+:::
+::::
+
 # Text Analytics with Spark {.section}
 
 ## Spark methods for text analytics

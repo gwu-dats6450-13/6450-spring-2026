@@ -504,4 +504,40 @@ Like RDDs, `DataFrames` have their own set of actions:
 * Can only use DataFrame data types
 * If your unstructured data cannot be reformulated to adhere to a schema, it would be better to use RDDs.
 
+# Modern Spark: Performance Improvements {.section}
+
+## Spark 3.x: Adaptive Query Execution (AQE)
+
+**AQE re-optimizes the query plan at runtime** based on statistics collected during execution — something the static planner cannot do.
+
+Enabled by default since Spark 3.2:
+
+```python
+spark.conf.set("spark.sql.adaptive.enabled", "true")
+```
+
+Three key optimizations:
+
+::: incremental
+1. **Dynamic coalescing of shuffle partitions** — merges small partitions after a shuffle to reduce overhead
+
+2. **Converting sort-merge joins to broadcast joins** — when one side turns out to be small enough to broadcast at runtime
+
+3. **Skew join optimization** — automatically splits skewed partitions to balance the workload
+:::
+
+## AQE in action
+
+::: {.callout-tip}
+AQE is most impactful for queries involving **joins, aggregations, and shuffles** — exactly the patterns common in ETL and analytics workloads.
+:::
+
+Without AQE, Spark uses static estimates from table statistics (often stale or missing). With AQE:
+
+* Fewer tasks → less scheduling overhead
+* Better memory utilization → fewer OOM errors
+* Faster joins → no manual broadcast hints needed
+
+**You get this for free in Spark 3.2+.**
+
 # One of the most common performance bottlenecks for new Spark users: re-evaluating several transformations when you could cache intermediate results to memory! {.section}
