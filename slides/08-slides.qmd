@@ -1,0 +1,10 @@
+---
+title: "Lecture 8"
+subtitle: "Introduction to Apache Spark"
+engine: knitr
+format:
+  revealjs:
+    code-fold: false
+---
+
+{{< include spark/_intro.qmd >}}

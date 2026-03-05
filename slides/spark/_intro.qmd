@@ -1,0 +1,507 @@
+:::: {.columns}
+::: {.column width="47%"}
+### Looking Back
+
+* Distributed File Systems (HDFS)
+* Data locality and fault tolerance
+* Commodity hardware clusters
+* Why distributed storage matters
+
+:::
+
+::: {.column width="47%"}
+### Today
+
+* From HDFS to distributed computation
+* Introduction to Apache Spark
+* Spark RDDs
+* Spark DataFrames
+* SparkSQL
+
+:::
+::::
+
+# Why Spark? From Hadoop to In-Memory Computing {.section}
+
+## Starting with our _BIG_ dataset
+
+::: {.imgcenter}
+<img src="img/wikipedia-whole.png" width=700>
+:::
+
+## The data is split
+
+::: {.imgcenter}
+<img src="img/wikipedia-split.png" width=700>
+:::
+
+## The data is distributed across a cluster of machines
+
+:::: {.columns}
+::: {.column width="47%"}
+<img src="img/wikipedia-split.png">
+:::
+
+::: {.column width="47%"}
+<img src="img/cluster.png">
+:::
+::::
+
+You can think of your split/distributed data as a single collection.
+
+## Important Latency Numbers
+
+::: {.imgcenter}
+<img src="img/latency1.png" width=600>
+:::
+
+## Memory vs. Disk
+
+::: {.imgcenter}
+<img src="img/latency2.png" width=600>
+:::
+
+## Memory vs. Network
+
+::: {.imgcenter}
+<img src="img/latency3.png" width=600>
+:::
+
+## Memory, Disk and Network
+
+::: {.imgcenter}
+<img src="img/latency4.png" width=600>
+:::
+
+## MapReduce/Hadoop was groundbreaking
+
+* It provided a simple API (map and reduce steps)
+
+* It provided **fault tolerance**, which made it possible to scale to 100s/1000s of nodes of _commodity machines_ where the likelihood of a node failing midway through a job was very high
+  * Computations on very large datasets failed and recovered and jobs completed
+
+
+## **Fault tolerance** came at a cost!
+
+* Between each map and reduce step, MapReduce shuffles its data and writes intermediate data to disk
+  * Reading/writing to disk is 100x slower than in-memory
+  * Network communication is 1,000,000x slower than in-memory
+
+# Introducing Spark: a Unified Engine {.section}
+
+## What is Spark
+
+:::: {.columns}
+::: {.column width="47%"}
+<img src="img/spark-logo.png">
+:::
+
+::: {.column width="47%"}
+* A simple programming model that can capture streaming, batch, and interactive workloads
+
+* Retains fault-tolerance
+
+* Uses a different strategy for handling latency: it keeps all data __immutable and in memory__
+
+* Provides speed and flexibility
+
+:::
+::::
+
+## Spark Stack
+
+::: {.imgcenter}
+<img src="img/spark-stack.png">
+:::
+
+## Connected and extensible
+
+::: {.imgcenter}
+<img src="img/spark-connectors.png" width=600>
+:::
+
+## Three data structure APIs
+
+1. **RDDs** (Resilient Distributed Datasets)
+
+1. **DataFrames** SQL-like structured datasets with query operations
+
+1. **Datasets** A mixture of RDDs and DataFrames
+
+
+**We'll primarily use RDDs and DataFrames in this course.**
+
+# Spark Architecture and Job Flow {.section}
+
+##
+::: {.imgcenter}
+<img src="img/spark01.png" width=800>
+:::
+
+##
+
+::: {.imgcenter}
+<img src="img/spark02.png">
+:::
+
+##
+::: {.imgcenter}
+<img src="img/spark03.png">
+:::
+
+##
+::: {.imgcenter}
+<img src="img/spark04.png">
+:::
+
+##
+::: {.imgcenter}
+<img src="img/spark05.png">
+:::
+
+##
+::: {.imgcenter}
+<img src="img/spark06.png">
+:::
+
+##
+::: {.imgcenter}
+<img src="img/spark07.png">
+:::
+
+##
+::: {.imgcenter}
+<img src="img/spark08.png">
+:::
+
+##
+::: {.imgcenter}
+<img src="img/spark09.png">
+:::
+
+##
+::: {.imgcenter}
+<img src="img/spark10.png">
+:::
+
+##
+::: {.imgcenter}
+<img src="img/spark11.png">
+:::
+
+## Spark vs. Hadoop
+
+| Hadoop Limitation | Spark Approach |
+|---|---|
+| For iterative processes and interactive use, Hadoop's mandatory dumping of output to disk is a huge bottleneck. In ML, users rely on iterative processes to train-test-retrain. | Spark uses an in-memory processing paradigm, lowering disk IO substantially. Spark uses DAGs to store transformation details and does not process them until required (lazy). |
+| Traditional Hadoop applications needed data first copied to HDFS and then processed. | Spark works equally well with HDFS or any POSIX-style filesystem. |
+| Resilience required a data-localization phase writing to local filesystem. | Resilience in Spark is achieved by DAGs — a missing RDD is re-calculated by following the path from which it was created. |
+| Hadoop is built on Java; non-Java scripts require Hadoop Streaming. | Spark is developed in Scala with a unified API: use Spark with Scala, Java, R, or Python. |
+
+# Introducing the RDD {.section}
+
+## Example: word count (yes, again!)
+
+The "Hello, World!" of programming with large-scale data.
+
+```python
+# read data from text file and split each line into words
+rdd = sc.textFile("...")
+
+count = rdd.flatMap(lambda line: line.split(" ")) \  # separate lines into words
+           .map(lambda word: (word, 1)) \            # add 1 to each word
+           .reduceByKey(lambda a, b: a + b)           # sum the 1's for each key
+```
+
+**That's it!**
+
+## Transformations and Actions (key Spark concept)
+
+::: {.imgcenter}
+<img src="img/transformations-and-actions.png">
+:::
+
+## How to create an RDD?
+
+RDDs can be created in two ways:
+
+::: incremental
+* **Transforming an existing RDD:** just like a call to `map` on a list returns a new list, many higher-order functions defined on RDDs return a **new** RDD
+
+* **From a `SparkContext` or `SparkSession` object:** the `SparkContext` object (renamed `SparkSession`) is your handle to the Spark cluster. It defines methods to create and populate a new RDD:
+
+  * **`parallelize:`** converts a local object into an RDD
+  * **`textFile:`** reads a **text** file from your filesystem and returns an RDD of strings
+:::
+
+## Transformations and Actions
+
+Spark defines _**transformations**_ and _**actions**_ on RDDs:
+
+**Transformations** return new RDDs as results.
+<br/>
+<br/>
+<br/>
+**Actions** compute a result based on an RDD, which is either returned or saved to an external filesystem.
+
+## Transformations and Actions
+
+Spark defines _**transformations**_ and _**actions**_ on RDDs:
+
+**Transformations** return new RDDs as results.
+<br/>
+[Transformations are **lazy** — their result RDD is not immediately computed.]{style="color:#cc0000"}
+<br/>
+<br/>
+**Actions** compute a result based on an RDD, which is either returned or saved to an external filesystem.
+<br/>
+[Actions are **eager** — their result is immediately computed.]{style="color:#cc0000"}
+
+---
+
+## Common `RDD` Transformations
+
+| Method | Description |
+|---|---|
+| `map` | One-to-one transformation — transforms each element into one element of the result |
+| `flatMap` | One-to-many transformation — transforms each element to 0 or more elements |
+| `filter` | Returns an RDD of elements that pass a boolean filter condition |
+| `distinct` | Returns RDD with duplicates removed |
+
+---
+
+## Common `RDD` Actions
+
+| Method | Description |
+|---|---|
+| `collect` | Returns **all** distributed elements of the `RDD` to the driver |
+| `count` | Returns the number of elements in an `RDD` |
+| `take` | Returns the first _n_ elements of the `RDD` |
+| `reduce` | Combines elements of the `RDD` using some function and returns the result |
+
+---
+
+## `collect` **CAUTION**
+
+::: {.imgcenter}
+<img src="img/collect-warning.png">
+:::
+
+## Another example
+
+Let's assume we have an RDD of strings containing gigabytes of logs from the previous year. Each element represents one log line.
+
+Assuming dates come as `YYYY-MM-DD:HH:MM:SS` and errors are logged with prefix "error"...
+
+**How would you count errors logged in December 2019?**
+
+::: incremental
+```python
+# read data from text file
+logs = sc.textFile("...")
+
+# this is a transformation (lazy — not computed yet)
+errors = logs.filter(lambda x: "error" in x and "2019-12" in x)
+
+# this is an action (eager — triggers computation)
+errors.count()
+```
+
+Spark computes RDDs the first time they are used in an action!
+:::
+
+## Caching and Persistence
+
+By default, RDDs are recomputed every time you run an action on them. This can be expensive if you need to use a dataset more than once.
+
+**Spark allows you to control what is cached in memory.**
+
+To tell Spark to cache an object in memory, use `persist()` or `cache()`:
+
+* **`cache()`** — shortcut for default storage level (memory only)
+* **`persist()`** — customizable to memory and/or disk
+
+```python
+# caches error RDD in memory (lazy — only after first action)
+errors = logs.filter(lambda x: "error" in x and "2019-12" in x).cache()
+```
+
+## Using memory is great for iterative workloads
+
+::: {.imgcenter}
+<img src="img/hadoop-spark-run-differences.png" width=1000>
+:::
+
+# DataFrames {.section}
+
+## DataFrames in a nutshell
+
+`DataFrames` are...
+
+**Datasets organized into named columns**
+
+Conceptually equivalent to a table in a relational database or a data frame in R/Python, but with richer optimizations under the hood.
+
+**A relational API over Spark's RDDs**
+
+Because sometimes it's more convenient to use declarative relational APIs than functional APIs:
+
+:::: {.columns}
+::: {.column width="47%"}
+* `select`
+* `where`
+* `limit`
+:::
+
+::: {.column width="47%"}
+* `orderBy`
+* `groupBy`
+* `join`
+:::
+::::
+
+**Able to be automatically aggressively optimized**
+
+SparkSQL applies decades of research on relational optimizations in the database community to Spark.
+
+## DataFrame Data Types
+
+SparkSQL's `DataFrames` operate on a restricted (yet broad) set of data types. Most common:
+
+* Integer types (at different lengths): **`ByteType`**, **`ShortType`**, **`IntegerType`**, **`LongType`**
+* Decimal types: **`FloatType`**, **`DoubleType`**
+* **`BooleanType`**
+* **`StringType`**
+* Date/Time: **`TimestampType`**, **`DateType`**
+
+## A `DataFrame`
+
+::: {.imgcenter}
+<img src="img/dataframe.png">
+:::
+
+## Getting a look at your data
+
+There are a few ways to inspect `DataFrames`:
+
+* **`show()`** — pretty-prints the `DataFrame` in tabular form; shows first 20 rows
+
+* **`printSchema()`** — prints the schema of your `DataFrame` in a tree format
+
+## Common `DataFrame` Transformations
+
+Like RDDs, transformations on `DataFrames`:
+
+1. Return another `DataFrame` as a result
+1. Are **lazily evaluated**
+
+## Some common transformations include:
+
+| Method | Description |
+|---|---|
+| `select` | Selects a set of named columns and returns a new `DataFrame` |
+| `agg` | Performs aggregations on a series of columns |
+| `groupBy` | Groups the DataFrame by specified columns, usually before aggregation |
+| `join` | Inner join with another DataFrame |
+
+Other transformations include: `filter`, `limit`, `orderBy`, `where`.
+
+## Specifying columns
+
+Most methods take a `Column` or `String`, always referring to some attribute/column in the DataFrame.
+
+You can select and work with columns in three ways:
+
+1. Using $ notation: `df.filter($"age" > 18)`
+
+2. Referring to the DataFrame: `df.filter(df("age") > 18)`
+
+3. Using SQL query string: `df.filter("age > 18")`
+
+---
+
+## Filtering in SparkSQL
+
+The DataFrame API provides two equivalent methods for filtering: `filter` and `where`.
+
+```python
+employee_df.filter("age > 30").show()
+```
+
+is equivalent to
+
+```python
+employee_df.where("age > 30").show()
+```
+
+## Use either DataFrame API or SparkSQL
+
+The DataFrame API and SparkSQL syntax can be used interchangeably!
+
+**Example:** Return the first and last name of all employees over 25 in Washington D.C.
+
+## DataFrame API
+
+```python
+results = df.select("firstname", "lastname") \
+            .where("city == 'Washington D.C.' && age >= 25")
+```
+
+## SparkSQL
+
+```python
+spark.sql("""
+    SELECT firstname, lastname
+    FROM df_view
+    WHERE city = 'Washington D.C.' AND age >= 25
+""")
+# Note: register df first with df.createOrReplaceTempView("df_view")
+```
+
+---
+
+## Grouping and aggregating on DataFrames
+
+Common tasks on structured data:
+
+1. Grouping by a certain attribute
+1. Doing some kind of aggregation on the grouping, like a count
+
+SparkSQL's **`groupBy`** returns a `RelationalGroupedDataset` with aggregation functions: **`count`**, **`sum`**, **`max`**, **`min`**, and **`avg`**.
+
+## How to group
+
+* Call `groupBy` on a specific column
+* Followed by a call to `agg`
+
+```python
+results = df.groupBy("state") \
+            .agg(sum("sales"))
+```
+
+---
+
+## Actions on DataFrames
+
+Like RDDs, `DataFrames` have their own set of actions:
+
+| Method | Description |
+|---|---|
+| `collect` | Returns an **array** containing all rows to the driver |
+| `count` | Returns the number of rows |
+| `first` | Returns the first row |
+| `show` | Displays the top 20 rows |
+| `take` | Returns the first _n_ rows |
+
+## `collect` **CAUTION**
+
+::: {.imgcenter}
+<img src="img/collect-warning.png">
+:::
+
+## Limitations on `DataFrame`
+
+* Can only use DataFrame data types
+* If your unstructured data cannot be reformulated to adhere to a schema, it would be better to use RDDs.
+
+# One of the most common performance bottlenecks for new Spark users: re-evaluating several transformations when you could cache intermediate results to memory! {.section}
