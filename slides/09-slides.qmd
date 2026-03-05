@@ -1,0 +1,10 @@
+---
+title: "Lecture 9"
+subtitle: "Spark Diagnostics and UDFs"
+engine: knitr
+format:
+  revealjs:
+    code-fold: false
+---
+
+{{< include spark/_udfs.qmd >}}

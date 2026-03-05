@@ -1,0 +1,377 @@
+:::: {.columns}
+::: {.column width="47%"}
+### Looking Back
+
+* Introduction to Apache Spark
+* Spark RDDs — transformations and actions
+* Spark DataFrames
+* SparkSQL
+
+:::
+
+::: {.column width="47%"}
+### Today
+
+* Spark as a unified engine (review)
+* Spark Diagnostic UI
+* PySpark User Defined Functions (UDFs)
+* UDF performance and Pandas UDFs
+
+:::
+::::
+
+# Spark: a Unified Engine {.section}
+
+## Connected and extensible
+
+::: {.imgcenter}
+<img src="img/spark-connectors.png" width=600>
+:::
+
+## Caching and Persistence
+
+By default, RDDs are recomputed every time you run an action on them. This can be expensive if you need to use a dataset more than once.
+
+**Spark allows you to control what is cached in memory.**
+
+To tell Spark to cache an object in memory, use `persist()` or `cache()`:
+
+* **`cache()`** — shortcut for default storage level (memory only)
+* **`persist()`** — customizable to memory and/or disk
+
+```python
+# caches error RDD in memory (lazy — only computed after first action)
+errors = logs.filter(lambda x: "error" in x and "2019-12" in x).cache()
+```
+
+## `collect` **CAUTION**
+
+::: {.imgcenter}
+<img src="img/collect-warning.png">
+:::
+
+## PySparkSQL Cheatsheet
+
+A handy reference for common PySpark operations:
+
+[PySpark SQL Cheat Sheet (DataCamp)](https://s3.amazonaws.com/assets.datacamp.com/blog_assets/PySpark_SQL_Cheat_Sheet_Python.pdf)
+
+# Spark Diagnostic UI {.section}
+
+## Understanding how the cluster is running your job
+
+Spark Application UI shows important facts about your Spark job:
+
+* Event timeline for each stage of your work
+* Directed acyclic graph (DAG) of your job
+* Spark job history
+* Status of Spark executors
+* Physical / logical plans for any SQL queries
+
+#### Tool to confirm you are getting the horizontal scaling that you need!
+
+Adapted from [AWS Glue Spark UI docs](https://docs.aws.amazon.com/glue/latest/dg/monitor-spark-ui.html)
+and [Spark UI docs](https://spark.apache.org/docs/latest/web-ui.html)
+
+## Spark UI — Event Timeline
+
+::: {.imgcenter}
+<img src="img/spark-ui-timeline.png" width=700>
+:::
+
+## Spark UI — DAG
+
+::: {.imgcenter}
+<img src="img/spark-ui-dag.png" width=700>
+:::
+
+## Spark UI — Job History
+
+::: {.imgcenter}
+<img src="img/spark-ui-jobhistory.png" width=700>
+:::
+
+## Spark UI — Executors
+
+::: {.imgcenter}
+<img src="img/spark-ui-executors.png" width=700>
+:::
+
+## Spark UI — SQL
+
+::: {.imgcenter}
+<img src="img/spark-ui-sql.png" width=700>
+:::
+
+# PySpark User Defined Functions {.section}
+
+## UDF Workflow
+
+::: {.imgcenter}
+<img src="img/spark-udf.png" width=700>
+:::
+
+## UDF Code Structure
+
+### Clear input
+A single row of data with one or more columns used
+
+### Function
+Some work written in Python that processes the input using Python syntax. No PySpark needed!
+
+### Clear output
+Output with a declared return type
+
+## UDF Example
+
+Problem: make a new column with ages for adults only
+
+```
++-------+--------------+
+|room_id|   guests_ages|
++-------+--------------+
+|      1|  [18, 19, 17]|
+|      2|   [25, 27, 5]|
+|      3|[34, 38, 8, 7]|
++-------+--------------+
+```
+
+Adapted from [UDFs in Spark](https://blog.damavis.com/en/avoiding-udfs-in-apache-spark/)
+
+## UDF Code Solution
+
+```python
+from pyspark.sql.functions import udf, col
+
+@udf("array<integer>")
+def filter_adults(elements):
+    return list(filter(lambda x: x >= 18, elements))
+
+# alternatively, with explicit type annotation
+from pyspark.sql.types import IntegerType, ArrayType
+
+@udf(returnType=ArrayType(IntegerType()))
+def filter_adults(elements):
+    return list(filter(lambda x: x >= 18, elements))
+```
+
+```
++-------+----------------+------------+
+|room_id| guests_ages    | adults_ages|
++-------+----------------+------------+
+| 1     | [18, 19, 17]   |    [18, 19]|
+| 2     | [25, 27, 5]    |    [25, 27]|
+| 3     | [34, 38, 8, 7] |    [34, 38]|
+| 4     |[56, 49, 18, 17]|[56, 49, 18]|
++-------+----------------+------------+
+```
+
+## Alternative to Spark UDF
+
+When possible, prefer built-in Spark functions — they're optimized and run on the JVM without serialization overhead.
+
+```python
+# Spark 3.1+
+from pyspark.sql.functions import col, filter, lit
+
+df.withColumn('adults_ages',
+              filter(col('guests_ages'), lambda x: x >= lit(18))).show()
+```
+
+## Another UDF Example
+
+**Separate function definition form** — lets you test the function locally first:
+
+```python
+from pyspark.sql.functions import udf
+from pyspark.sql.types import LongType
+
+# define the function — can be tested without Spark
+def squared(s):
+    return s * s
+
+# wrap in udf and define the output type
+squared_udf = udf(squared, LongType())
+
+# execute the udf
+df = spark.table("test")
+df.select("id", squared_udf("id").alias("id_squared")).show()
+```
+
+## Another UDF Example
+
+**Single function definition form** using decorator:
+
+```python
+from pyspark.sql.functions import udf
+
+@udf("long")
+def squared_udf(s):
+    return s * s
+
+df = spark.table("test")
+df.select("id", squared_udf("id").alias("id_squared")).show()
+```
+
+## Can also refer to a UDF in SQL
+
+Register the function with Spark SQL:
+
+```python
+spark.udf.register("squaredWithPython", squared)
+
+# then use it in SQL
+spark.sql("SELECT id, squaredWithPython(id) AS id_squared FROM test")
+```
+
+::: callout-tip
+Consider all the corner cases — where could the data be null or an unexpected value? Use Python control structures to handle them.
+:::
+
+[source](https://docs.databricks.com/en/udf/python.html)
+
+# UDF Performance {.section}
+
+## UDF Speed Comparison
+
+:::: {.columns}
+::: {.column width="53%"}
+<img src="img/spark-udf-speed.png" width=700>
+:::
+
+::: {.column width="45%"}
+Costs of Python UDFs:
+
+* Serialization/deserialization (like pickle files)
+* Data movement between JVM and Python
+* Less Spark optimization possible
+
+Other ways to make Spark jobs faster ([source](https://sparkbyexamples.com/spark/spark-performance-tuning/)):
+
+* Cache/persist data into memory
+* Use Spark DataFrames over RDDs
+* Use Spark SQL functions before jumping to UDFs
+* Save in serialized formats like Parquet
+:::
+::::
+
+# Pandas UDFs {.section}
+
+## What are Pandas UDFs?
+
+From PySpark docs:
+
+> Pandas UDFs are user-defined functions that are executed by Spark using Apache Arrow to transfer data and Pandas to work with the data, which allows vectorized operations. A Pandas UDF is defined using `pandas_udf` as a decorator or to wrap the function.
+
+```python
+import pandas as pd
+from pyspark.sql.functions import pandas_udf
+
+@pandas_udf("string")
+def to_upper(s: pd.Series) -> pd.Series:
+    return s.str.upper()
+
+df = spark.createDataFrame([("John Doe",)], ("name",))
+df.select(to_upper("name")).show()
+# +--------------+
+# |to_upper(name)|
+# +--------------+
+# |      JOHN DOE|
+# +--------------+
+```
+
+## Another Pandas UDF example
+
+```python
+@pandas_udf("first string, last string")
+def split_expand(s: pd.Series) -> pd.DataFrame:
+    return s.str.split(expand=True)
+
+df = spark.createDataFrame([("John Doe",)], ("name",))
+df.select(split_expand("name")).show()
+# +------------------+
+# |split_expand(name)|
+# +------------------+
+# |       [John, Doe]|
+# +------------------+
+```
+
+[PySpark pandas_udf docs](https://spark.apache.org/docs/latest/api/python/reference/pyspark.sql/api/pyspark.sql.functions.pandas_udf.html)
+
+## Scalar Pandas UDFs
+
+Vectorizing scalar operations — same-size input and output Series:
+
+**Regular UDF form:**
+
+```python
+from pyspark.sql.functions import udf
+
+@udf('double')
+def plus_one(v):
+    return v + 1
+
+df.withColumn('v2', plus_one(df.v))
+```
+
+**Pandas UDF form — faster vectorized form:**
+
+```python
+from pyspark.sql.functions import pandas_udf, PandasUDFType
+
+@pandas_udf('double', PandasUDFType.SCALAR)
+def pandas_plus_one(v: pd.Series) -> pd.Series:
+    return v + 1
+
+df.withColumn('v2', pandas_plus_one(df.v))
+```
+
+[source](https://www.databricks.com/blog/2017/10/30/introducing-vectorized-udfs-for-pyspark.html)
+
+## Grouped Map Pandas UDFs
+
+Split-apply-combine using Pandas syntax:
+
+```python
+from pyspark.sql.functions import pandas_udf, PandasUDFType
+
+@pandas_udf(df.schema, PandasUDFType.GROUPED_MAP)
+def subtract_mean(pdf: pd.DataFrame) -> pd.DataFrame:
+    return pdf.assign(v=pdf.v - pdf.v.mean())
+
+df.groupby('id').apply(subtract_mean)
+```
+
+## Comparing Scalar and Grouped Map Pandas UDFs
+
+:::: {.columns}
+::: {.column width="53%"}
+**Input:**
+
+* Scalar: `pandas.Series`
+* Grouped map: `pandas.DataFrame`
+
+**Output:**
+
+* Scalar: `pandas.Series`
+* Grouped map: `pandas.DataFrame`
+
+**Grouping semantics:**
+
+* Scalar: no grouping semantics
+* Grouped map: defined by `groupby` clause
+
+**Output size:**
+
+* Scalar: same as input size
+* Grouped map: any size
+:::
+
+::: {.column width="45%"}
+::: callout-note
+Use **Scalar** Pandas UDFs for row-wise vectorized operations.
+
+Use **Grouped Map** when you need split-apply-combine with arbitrary output sizes.
+:::
+:::
+::::
