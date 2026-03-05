@@ -1,0 +1,31 @@
+## About today's class
+
+This week we cover **machine learning at scale** using Spark's MLlib library and **natural language processing** using the JohnSnowLabs Spark NLP library.
+
+MLlib mirrors scikit-learn's design — Transformers, Estimators, Pipelines, and Parameters — but executes across a distributed cluster. We'll do a full feature engineering walkthrough (StringIndexer → OneHotEncoder → VectorAssembler → Normalizer → Pipeline), train and tune models, and then shift to text analytics: tokenization, stop-word removal, and building NLP pipelines using Spark NLP's annotator model.
+
+## Readings
+
+Readings for this lecture (to be completed ***before class***):
+
+- [Learning Spark, 2nd Edition]({{< var reading.damji >}}) by Damji et al. (2020). Chapter 10: Machine Learning with MLlib. (Free PDF from Databricks)
+- [Spark NLP Code Concepts](https://nlp.johnsnowlabs.com/docs/en/concepts){target="_blank"} (JohnSnowLabs documentation)
+
+**Encouraged:**
+
+- [Spark NLP Annotators](https://nlp.johnsnowlabs.com/docs/en/annotators){target="_blank"}
+- [Introduction to Spark NLP](https://towardsdatascience.com/introduction-to-spark-nlp-foundations-and-basic-components-part-i-c83b7629ed59){target="_blank"}
+
+## Slides
+
+The slides for this week are available [online](/slides/10-slides.qmd).
+
+## Lab
+
+This week's lab will use Spark ML to build a complete feature engineering and model training pipeline on a real dataset.
+
+<!--- Lab link will be posted when available. -->
+
+## Assignment
+
+Details for this week's assignment will be announced in class and posted to the course website.

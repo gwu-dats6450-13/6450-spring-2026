@@ -51,6 +51,14 @@ website:
               text: "6. Distributed computing using Ray"
             - file: content/07-content.qmd
               text: "7. Distributed File Systems and HDFS"
+            - file: content/08-content.qmd
+              text: "8. Introduction to Apache Spark"
+            - file: content/09-content.qmd
+              text: "9. Spark Diagnostics and UDFs"
+            - file: content/10-content.qmd
+              text: "10. Spark ML and Spark NLP"
+            - file: content/11-content.qmd
+              text: "11. Spark Structured Streaming"
     - title: "Resources"
       contents:
         - file: resources/uv.qmd

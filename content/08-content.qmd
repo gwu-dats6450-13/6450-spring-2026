@@ -1,0 +1,25 @@
+## About today's class
+
+This week we begin our multi-week exploration of **Apache Spark**, the dominant framework for large-scale distributed data processing. We'll start from first principles: why in-memory computing matters, how Spark's architecture differs from Hadoop MapReduce, and how to work with Spark's two primary data abstractions — **RDDs** (Resilient Distributed Datasets) and **DataFrames**.
+
+By the end of class you'll be able to write PySpark programs that read data, apply transformations, perform aggregations with SparkSQL, and understand when to use RDDs versus DataFrames.
+
+## Readings
+
+Readings for this lecture (to be completed ***before class***):
+
+- [Learning Spark, 2nd Edition]({{< var reading.damji >}}) by Damji et al. (2020). Chapters 1–3: Introduction to Apache Spark, Downloading and Getting Started, Apache Spark's Structured APIs. (Free PDF from Databricks)
+
+## Slides
+
+The slides for this week are available [online](/slides/08-slides.qmd).
+
+## Lab
+
+This week's lab will introduce PySpark on a cloud cluster (AWS EMR), working with RDDs and DataFrames on a real dataset.
+
+<!--- Lab link will be posted when available. -->
+
+## Assignment
+
+Details for this week's assignment will be announced in class and posted to the course website.

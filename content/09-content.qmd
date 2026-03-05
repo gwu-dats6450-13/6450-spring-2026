@@ -1,0 +1,27 @@
+## About today's class
+
+This week we go deeper into PySpark, covering two important topics: **diagnosing Spark job performance** and **extending Spark with custom logic via User-Defined Functions (UDFs)**.
+
+The Spark UI is an essential tool for understanding how the cluster is actually executing your jobs — we'll walk through reading the event timeline, DAG visualization, executor status, and query plans. We'll then cover how to write Python UDFs and the more performant vectorized **Pandas UDFs**, which use Apache Arrow for zero-copy data transfer between the JVM and Python.
+
+## Readings
+
+Readings for this lecture (to be completed ***before class***):
+
+- [Learning Spark, 2nd Edition]({{< var reading.damji >}}) by Damji et al. (2020). Chapter 7: Optimizing and Tuning Spark Applications. (Free PDF from Databricks)
+- [PySpark UDF documentation](https://spark.apache.org/docs/latest/api/python/reference/pyspark.sql/api/pyspark.sql.functions.udf.html){target="_blank"}
+- [Pandas UDF documentation](https://spark.apache.org/docs/latest/api/python/user_guide/sql/arrow_pandas.html){target="_blank"}
+
+## Slides
+
+The slides for this week are available [online](/slides/09-slides.qmd).
+
+## Lab
+
+This week's lab will practice writing PySpark UDFs and Pandas UDFs on a real dataset, and use the Spark UI to profile job performance.
+
+<!--- Lab link will be posted when available. -->
+
+## Assignment
+
+Details for this week's assignment will be announced in class and posted to the course website.

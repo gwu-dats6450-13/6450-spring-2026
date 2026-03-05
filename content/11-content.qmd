@@ -1,0 +1,26 @@
+## About today's class
+
+This week we move from batch to **real-time data processing** with Spark Structured Streaming. We'll start with the historical context of DStreams (Spark's legacy streaming API) and its limitations, then dive into Structured Streaming — a unified programming model that lets you write the same DataFrame code for both batch and streaming workloads.
+
+Key topics include the unbounded-table programming model, output modes (Append, Update, Complete), the five fundamental steps of a streaming query, stateless vs. stateful transformations, **event-time windows** (tumbling and sliding), and **watermarks** for handling late-arriving data.
+
+## Readings
+
+Readings for this lecture (to be completed ***before class***):
+
+- [Learning Spark, 2nd Edition]({{< var reading.damji >}}) by Damji et al. (2020). Chapter 8: Structured Streaming. (Free PDF from Databricks)
+- [Spark Structured Streaming Programming Guide](https://spark.apache.org/docs/latest/structured-streaming-programming-guide.html){target="_blank"}
+
+## Slides
+
+The slides for this week are available [online](/slides/11-slides.qmd).
+
+## Lab
+
+This week's lab will implement a Spark Structured Streaming pipeline, consuming a data stream, applying windowed aggregations, and writing results to an output sink.
+
+<!--- Lab link will be posted when available. -->
+
+## Assignment
+
+Details for this week's assignment will be announced in class and posted to the course website.
