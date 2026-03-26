@@ -2257,7 +2257,7 @@
     "href": "content/09-content.html#lab",
     "title": "DATS 6450.13",
     "section": "Lab",
-    "text": "Lab\nThis week’s lab will walk through how to set up a Spark cluster using EC2 instances, both manually and with automated script. Traditionally Spark runs on EMR clusters which usually take 45 minutes to spin up. The EC2 strategy is quite a bit faster.\nGH classroom link ## Assignment\nDetails for this week’s assignment will be announced in class and posted to the course website.",
+    "text": "Lab\nThis week’s lab will walk through how to set up a Spark cluster using EC2 instances, both manually and with automated script. Traditionally Spark runs on EMR clusters which usually take 45 minutes to spin up. The EC2 strategy is quite a bit faster.\nGH classroom link",
     "crumbs": [
       "Content",
       "Course content",
