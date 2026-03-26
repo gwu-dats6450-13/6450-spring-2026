@@ -2257,19 +2257,7 @@
     "href": "content/09-content.html#lab",
     "title": "DATS 6450.13",
     "section": "Lab",
-    "text": "Lab\nThis week’s lab will practice writing PySpark UDFs and Pandas UDFs on a real dataset, and use the Spark UI to profile job performance.",
-    "crumbs": [
-      "Content",
-      "Course content",
-      "9. Spark Diagnostics and UDFs"
-    ]
-  },
-  {
-    "objectID": "content/09-content.html#assignment",
-    "href": "content/09-content.html#assignment",
-    "title": "DATS 6450.13",
-    "section": "Assignment",
-    "text": "Assignment\nDetails for this week’s assignment will be announced in class and posted to the course website.",
+    "text": "Lab\nThis week’s lab will walk through how to set up a Spark cluster using EC2 instances, both manually and with automated script. Traditionally Spark runs on EMR clusters which usually take 45 minutes to spin up. The EC2 strategy is quite a bit faster.\nGH classroom link ## Assignment\nDetails for this week’s assignment will be announced in class and posted to the course website.",
     "crumbs": [
       "Content",
       "Course content",
