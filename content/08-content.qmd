@@ -16,7 +16,9 @@ The slides for this week are available [online](/slides/08-slides.qmd).
 
 ## Lab
 
-This week's lab will introduce PySpark on a cloud cluster (AWS EMR), working with RDDs and DataFrames on a real dataset.
+This week's lab will introduce PySpark on a VM (AWS EC2), working with RDDs and DataFrames on a real dataset.
+
+[Link for lab]({{< var gh-classroom.lab08 >}})
 
 <!--- Lab link will be posted when available. -->
 
