@@ -2185,7 +2185,7 @@
     "href": "content/10-content.html#lab",
     "title": "DATS 6450.13",
     "section": "Lab",
-    "text": "Lab\nThis week’s lab will use Spark ML to build a complete feature engineering and model training pipeline on a real dataset.",
+    "text": "Lab\nThis week’s lab will use Spark ML to build a complete feature engineering and model training pipeline on a real dataset.\nLab link: here",
     "crumbs": [
       "Content",
       "Course content",
@@ -2233,7 +2233,7 @@
     "href": "content/09-content.html#readings",
     "title": "DATS 6450.13",
     "section": "Readings",
-    "text": "Readings\nReadings for this lecture (to be completed before class):\n\nLearning Spark, 2nd Edition by Damji et al. (2020). Chapter 7: Optimizing and Tuning Spark Applications. (Free PDF from Databricks)\nPySpark UDF documentation\nPandas UDF documentation",
+    "text": "Readings\nReadings for this lecture (to be completed before class):\n\nLearning Spark, 2nd Edition by Damji et al. (2020). Chapter 7: Optimizing and Tuning Spark Applications. (Free PDF from Databricks)\nPySpark UDF documentation\nPandas UDF documentation\n\nUseful references:\n\nDataCamp",
     "crumbs": [
       "Content",
       "Course content",
