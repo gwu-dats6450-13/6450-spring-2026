@@ -24,6 +24,7 @@ The slides for this week are available [online](/slides/10-slides.qmd).
 
 This week's lab will use Spark ML to build a complete feature engineering and model training pipeline on a real dataset.
 
+Lab link: [here]({{< var gh-classroom.lab10 >}})
 <!--- Lab link will be posted when available. -->
 
 ## Assignment
