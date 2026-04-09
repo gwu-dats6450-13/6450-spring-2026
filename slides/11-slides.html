@@ -195,7 +195,7 @@
 
 <section id="title-slide" class="quarto-title-block center">
   <h1 class="title">Lecture 11</h1>
-  <p class="subtitle">Spark Structured Streaming</p>
+  <p class="subtitle">Spark NLP in Practice &amp; Structured Streaming</p>
 
 <div class="quarto-title-authors">
 </div>
@@ -207,13 +207,842 @@
 <div class="column" style="width:47%;">
 <h3 id="looking-back">Looking Back</h3>
 <ul>
+<li>Spark MLlib: transformers, estimators, pipelines</li>
+<li>Spark NLP intro: annotator concepts</li>
+<li>Approach vs.&nbsp;Model annotators</li>
+<li>DocumentAssembler, pipeline types</li>
+<li>HuggingFace integration</li>
+</ul>
+</div><div class="column" style="width:47%;">
+<h3 id="today">Today</h3>
+<ul>
+<li>Pretrained pipelines in practice</li>
+<li>Named Entity Recognition (NER)</li>
+<li>Sentiment analysis</li>
+<li>LightPipeline for fast inference</li>
+<li>End-to-end news processing</li>
+<li>Structured Streaming</li>
+</ul>
+</div></div>
+</section>
+<section>
+<section id="two-key-nlp-tasks" class="title-slide slide level1 section center">
+<h1>Two Key NLP Tasks</h1>
+
+</section>
+<section id="part-of-speech-pos-tagging" class="slide level2">
+<h2>Part-of-Speech (POS) Tagging</h2>
+<p><strong>POS tagging</strong> labels each token with its grammatical role in the sentence.</p>
+<div class="columns">
+<div class="column" style="width:49%;">
+<h4 id="common-penn-treebank-tags">Common Penn Treebank tags</h4>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Tag</th>
+<th>Meaning</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>NN</code></td>
+<td>Noun, singular</td>
+<td><em>market</em></td>
+</tr>
+<tr class="even">
+<td><code>NNP</code></td>
+<td>Proper noun</td>
+<td><em>Tesla</em></td>
+</tr>
+<tr class="odd">
+<td><code>VBZ</code></td>
+<td>Verb, 3rd person</td>
+<td><em>rises</em></td>
+</tr>
+<tr class="even">
+<td><code>VBG</code></td>
+<td>Verb, gerund</td>
+<td><em>buying</em></td>
+</tr>
+<tr class="odd">
+<td><code>JJ</code></td>
+<td>Adjective</td>
+<td><em>strong</em></td>
+</tr>
+<tr class="even">
+<td><code>IN</code></td>
+<td>Preposition</td>
+<td><em>for</em>, <em>at</em></td>
+</tr>
+<tr class="odd">
+<td><code>DT</code></td>
+<td>Determiner</td>
+<td><em>the</em>, <em>a</em></td>
+</tr>
+<tr class="even">
+<td><code>CD</code></td>
+<td>Cardinal number</td>
+<td><em>1</em>, <em>billion</em></td>
+</tr>
+</tbody>
+</table>
+</div><div class="column" style="width:49%;">
+<h4 id="example">Example</h4>
+<pre><code>"Apple is buying U.K. startup for $1 billion"</code></pre>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Token</th>
+<th>POS tag</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Apple</td>
+<td><code>NNP</code></td>
+</tr>
+<tr class="even">
+<td>is</td>
+<td><code>VBZ</code></td>
+</tr>
+<tr class="odd">
+<td>buying</td>
+<td><code>VBG</code></td>
+</tr>
+<tr class="even">
+<td>U.K.</td>
+<td><code>NNP</code></td>
+</tr>
+<tr class="odd">
+<td>startup</td>
+<td><code>NN</code></td>
+</tr>
+<tr class="even">
+<td>for</td>
+<td><code>IN</code></td>
+</tr>
+<tr class="odd">
+<td>$</td>
+<td><code>$</code></td>
+</tr>
+<tr class="even">
+<td>1</td>
+<td><code>CD</code></td>
+</tr>
+<tr class="odd">
+<td>billion</td>
+<td><code>CD</code></td>
+</tr>
+</tbody>
+</table>
+</div></div>
+<p>POS tags are used as <strong>features</strong> for downstream tasks like NER, parsing, and coreference resolution.</p>
+</section>
+<section id="named-entity-recognition-ner" class="slide level2">
+<h2>Named Entity Recognition (NER)</h2>
+<p><strong>NER</strong> identifies and classifies named entities — specific real-world objects — in text.</p>
+<div class="columns">
+<div class="column" style="width:49%;">
+<h4 id="bio-tagging-scheme">BIO tagging scheme</h4>
+<p>NER models tag every token using <strong>B</strong>egin / <strong>I</strong>nside / <strong>O</strong>utside labels:</p>
+<pre><code>"Apple  is  buying  U.K.  startup"
+ B-ORG  O   O       B-LOC  O</code></pre>
+<ul>
+<li><code>B-ORG</code> — first token of an organization</li>
+<li><code>I-ORG</code> — continuation of an organization</li>
+<li><code>B-LOC</code> — first token of a location</li>
+<li><code>O</code> — not part of any named entity</li>
+</ul>
+<p>A <code>NerConverter</code> merges <code>B-</code>/<code>I-</code> sequences into complete spans: <strong>Apple</strong> (ORG), <strong>U.K.</strong> (LOC).</p>
+</div><div class="column" style="width:49%;">
+<h4 id="common-entity-types">Common entity types</h4>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Label</th>
+<th>Examples</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>PERSON</code></td>
+<td>Elon Musk, Janet Yellen</td>
+</tr>
+<tr class="even">
+<td><code>ORG</code></td>
+<td>Tesla, Federal Reserve</td>
+</tr>
+<tr class="odd">
+<td><code>LOC</code> / <code>GPE</code></td>
+<td>Texas, New York, France</td>
+</tr>
+<tr class="even">
+<td><code>DATE</code></td>
+<td>Monday, Q3 2024</td>
+</tr>
+<tr class="odd">
+<td><code>MONEY</code></td>
+<td>$1 billion, €500M</td>
+</tr>
+</tbody>
+</table>
+<h4 id="use-cases">Use cases</h4>
+<ul>
+<li>Knowledge graph construction</li>
+<li>Content tagging &amp; search indexing</li>
+<li>Financial entity tracking in news</li>
+<li>PII detection for compliance</li>
+</ul>
+</div></div>
+</section></section>
+<section>
+<section id="pretrained-pipelines" class="title-slide slide level1 section center">
+<h1>Pretrained Pipelines</h1>
+
+</section>
+<section id="what-are-pretrained-pipelines" class="slide level2">
+<h2>What are Pretrained Pipelines?</h2>
+<p>A <strong>pretrained pipeline</strong> is a ready-to-use chain of annotators — trained, serialized, and downloadable in one call.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a></a><span class="im">import</span> sparknlp</span>
+<span id="cb3-2"><a></a><span class="im">from</span> sparknlp.pretrained <span class="im">import</span> PretrainedPipeline</span>
+<span id="cb3-3"><a></a></span>
+<span id="cb3-4"><a></a><span class="co"># Download and load a pretrained pipeline by name and language</span></span>
+<span id="cb3-5"><a></a>pipeline <span class="op">=</span> PretrainedPipeline(<span class="st">"explain_document_ml"</span>, lang<span class="op">=</span><span class="st">"en"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="columns">
+<div class="column" style="width:49%;">
+<p><strong>Benefits</strong></p>
+<ul>
+<li>No training required</li>
+<li>Versioned, reproducible</li>
+<li>Cover common NLP tasks out of the box</li>
+<li>Thousands of models at <a href="https://sparknlp.org/models" target="_blank">sparknlp.org/models</a></li>
+</ul>
+</div><div class="column" style="width:49%;">
+<p><strong>What’s inside</strong></p>
+<p>Each pipeline is a full annotator chain: <code>DocumentAssembler → SentenceDetector → Tokenizer → [task-specific annotators]</code></p>
+</div></div>
+</section>
+<section id="common-pretrained-pipelines" class="slide level2">
+<h2>Common Pretrained Pipelines</h2>
+<div class="columns">
+<div class="column" style="width:49%;">
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Pipeline</th>
+<th>Task</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>explain_document_ml</code></td>
+<td>Tokenize, lemmatize, POS, NER (ML)</td>
+</tr>
+<tr class="even">
+<td><code>explain_document_dl</code></td>
+<td>Same with deep-learning models</td>
+</tr>
+<tr class="odd">
+<td><code>recognize_entities_dl</code></td>
+<td>NER with DL embeddings</td>
+</tr>
+<tr class="even">
+<td><code>analyze_sentiment</code></td>
+<td>Sentence-level sentiment</td>
+</tr>
+<tr class="odd">
+<td><code>clean_stop</code></td>
+<td>Stop-word removal</td>
+</tr>
+<tr class="even">
+<td><code>match_datetime</code></td>
+<td>Date/time extraction</td>
+</tr>
+</tbody>
+</table>
+</div><div class="column" style="width:49%;">
+<h4 id="ml-vs-dl-tradeoffs">ML vs DL tradeoffs</h4>
+<p><strong>ML pipelines</strong></p>
+<ul>
+<li>Faster, lighter</li>
+<li>Good for CPU-only clusters</li>
+<li>Slightly lower accuracy</li>
+</ul>
+<p><strong>DL pipelines</strong></p>
+<ul>
+<li>Higher accuracy</li>
+<li>Require more memory</li>
+<li>Benefit from GPU nodes</li>
+</ul>
+</div></div>
+</section>
+<section id="using-a-pretrained-pipeline-on-raw-text" class="slide level2">
+<h2>Using a Pretrained Pipeline on Raw Text</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a></a><span class="im">from</span> sparknlp.pretrained <span class="im">import</span> PretrainedPipeline</span>
+<span id="cb4-2"><a></a></span>
+<span id="cb4-3"><a></a>pipeline <span class="op">=</span> PretrainedPipeline(<span class="st">"explain_document_ml"</span>, lang<span class="op">=</span><span class="st">"en"</span>)</span>
+<span id="cb4-4"><a></a></span>
+<span id="cb4-5"><a></a>result <span class="op">=</span> pipeline.annotate(<span class="st">"Apple is looking at buying U.K. startup for $1 billion"</span>)</span>
+<span id="cb4-6"><a></a></span>
+<span id="cb4-7"><a></a><span class="co"># result is a dict of annotation lists</span></span>
+<span id="cb4-8"><a></a><span class="bu">print</span>(result[<span class="st">"token"</span>])</span>
+<span id="cb4-9"><a></a><span class="co"># ['Apple', 'is', 'looking', 'at', 'buying', 'U.K.', 'startup', 'for', '$', '1', 'billion']</span></span>
+<span id="cb4-10"><a></a></span>
+<span id="cb4-11"><a></a><span class="bu">print</span>(result[<span class="st">"lemma"</span>])</span>
+<span id="cb4-12"><a></a><span class="co"># ['Apple', 'be', 'look', 'at', 'buy', 'U.K.', 'startup', 'for', '$', '1', 'billion']</span></span>
+<span id="cb4-13"><a></a></span>
+<span id="cb4-14"><a></a><span class="bu">print</span>(result[<span class="st">"pos"</span>])</span>
+<span id="cb4-15"><a></a><span class="co"># ['NNP', 'VBZ', 'VBG', 'IN', 'VBG', 'NNP', 'NN', 'IN', '$', 'CD', 'CD']</span></span>
+<span id="cb4-16"><a></a></span>
+<span id="cb4-17"><a></a><span class="bu">print</span>(result[<span class="st">"ner"</span>])</span>
+<span id="cb4-18"><a></a><span class="co"># ['B-ORG', 'O', 'O', 'O', 'O', 'B-LOC', 'O', 'O', 'O', 'O', 'O']</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="pretrained-pipeline-on-a-dataframe" class="slide level2">
+<h2>Pretrained Pipeline on a DataFrame</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a></a><span class="im">from</span> pyspark.sql <span class="im">import</span> SparkSession</span>
+<span id="cb5-2"><a></a><span class="im">from</span> sparknlp.pretrained <span class="im">import</span> PretrainedPipeline</span>
+<span id="cb5-3"><a></a></span>
+<span id="cb5-4"><a></a>pipeline <span class="op">=</span> PretrainedPipeline(<span class="st">"explain_document_ml"</span>, lang<span class="op">=</span><span class="st">"en"</span>)</span>
+<span id="cb5-5"><a></a></span>
+<span id="cb5-6"><a></a>news_df <span class="op">=</span> spark.createDataFrame([</span>
+<span id="cb5-7"><a></a>    (<span class="dv">1</span>, <span class="st">"Tesla shares rose after Elon Musk announced new factory in Texas."</span>),</span>
+<span id="cb5-8"><a></a>    (<span class="dv">2</span>, <span class="st">"Federal Reserve raises interest rates amid inflation concerns."</span>),</span>
+<span id="cb5-9"><a></a>    (<span class="dv">3</span>, <span class="st">"Amazon acquires Whole Foods in $13.7 billion deal."</span>),</span>
+<span id="cb5-10"><a></a>], [<span class="st">"id"</span>, <span class="st">"text"</span>])</span>
+<span id="cb5-11"><a></a></span>
+<span id="cb5-12"><a></a><span class="co"># .transform() runs as a distributed Spark job — use for large DataFrames</span></span>
+<span id="cb5-13"><a></a>result_df <span class="op">=</span> pipeline.transform(news_df)</span>
+<span id="cb5-14"><a></a>result_df.select(<span class="st">"id"</span>, <span class="st">"token.result"</span>, <span class="st">"ner.result"</span>).show(truncate<span class="op">=</span><span class="va">False</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Note</strong></p>
+</div>
+<div class="callout-content">
+<p><code>.annotate("text")</code> → runs as a LightPipeline (single string, local) <code>.transform(df)</code> → runs as a full Spark pipeline (distributed, scalable)</p>
+</div>
+</div>
+</div>
+</section></section>
+<section>
+<section id="named-entity-recognition" class="title-slide slide level1 section center">
+<h1>Named Entity Recognition</h1>
+
+</section>
+<section id="what-is-ner" class="slide level2">
+<h2>What is NER?</h2>
+<p><strong>Named Entity Recognition</strong> identifies and classifies named entities in text.</p>
+<div class="columns">
+<div class="column" style="width:49%;">
+<h4 id="common-entity-types-1">Common entity types</h4>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Label</th>
+<th>Examples</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>PERSON</code></td>
+<td>Elon Musk, Janet Yellen</td>
+</tr>
+<tr class="even">
+<td><code>ORG</code></td>
+<td>Tesla, Federal Reserve</td>
+</tr>
+<tr class="odd">
+<td><code>LOC</code> / <code>GPE</code></td>
+<td>Texas, New York, France</td>
+</tr>
+<tr class="even">
+<td><code>DATE</code></td>
+<td>Monday, Q3 2024</td>
+</tr>
+<tr class="odd">
+<td><code>MONEY</code></td>
+<td>$1 billion, €500M</td>
+</tr>
+</tbody>
+</table>
+</div><div class="column" style="width:49%;">
+<h4 id="use-cases-1">Use cases</h4>
+<ul>
+<li><strong>Knowledge graphs</strong> — extract entity relationships</li>
+<li><strong>Content tagging</strong> — auto-tag articles by company/person</li>
+<li><strong>Financial analysis</strong> — track companies in news</li>
+<li><strong>Search &amp; recommendation</strong> — entity-based indexing</li>
+<li><strong>Compliance</strong> — detect PII in documents</li>
+</ul>
+</div></div>
+</section>
+<section id="ner-with-a-pretrained-model" class="slide level2">
+<h2>NER with a Pretrained Model</h2>
+<div class="columns">
+<div class="column" style="width:49%;">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a></a><span class="im">from</span> pyspark.ml <span class="im">import</span> Pipeline</span>
+<span id="cb6-2"><a></a><span class="im">from</span> sparknlp.base <span class="im">import</span> DocumentAssembler</span>
+<span id="cb6-3"><a></a><span class="im">from</span> sparknlp.annotator <span class="im">import</span> (</span>
+<span id="cb6-4"><a></a>    SentenceDetector, Tokenizer,</span>
+<span id="cb6-5"><a></a>    WordEmbeddingsModel,</span>
+<span id="cb6-6"><a></a>    NerDLModel, NerConverter</span>
+<span id="cb6-7"><a></a>)</span>
+<span id="cb6-8"><a></a></span>
+<span id="cb6-9"><a></a>doc <span class="op">=</span> DocumentAssembler() <span class="op">\</span></span>
+<span id="cb6-10"><a></a>    .setInputCol(<span class="st">"text"</span>) <span class="op">\</span></span>
+<span id="cb6-11"><a></a>    .setOutputCol(<span class="st">"document"</span>)</span>
+<span id="cb6-12"><a></a></span>
+<span id="cb6-13"><a></a>sent <span class="op">=</span> SentenceDetector() <span class="op">\</span></span>
+<span id="cb6-14"><a></a>    .setInputCols([<span class="st">"document"</span>]) <span class="op">\</span></span>
+<span id="cb6-15"><a></a>    .setOutputCol(<span class="st">"sentence"</span>)</span>
+<span id="cb6-16"><a></a></span>
+<span id="cb6-17"><a></a>tok <span class="op">=</span> Tokenizer() <span class="op">\</span></span>
+<span id="cb6-18"><a></a>    .setInputCols([<span class="st">"sentence"</span>]) <span class="op">\</span></span>
+<span id="cb6-19"><a></a>    .setOutputCol(<span class="st">"token"</span>)</span>
+<span id="cb6-20"><a></a></span>
+<span id="cb6-21"><a></a>emb <span class="op">=</span> WordEmbeddingsModel.pretrained(<span class="st">"glove_100d"</span>) <span class="op">\</span></span>
+<span id="cb6-22"><a></a>    .setInputCols([<span class="st">"document"</span>, <span class="st">"token"</span>]) <span class="op">\</span></span>
+<span id="cb6-23"><a></a>    .setOutputCol(<span class="st">"embeddings"</span>)</span>
+<span id="cb6-24"><a></a></span>
+<span id="cb6-25"><a></a>ner <span class="op">=</span> NerDLModel.pretrained(<span class="st">"ner_dl"</span>) <span class="op">\</span></span>
+<span id="cb6-26"><a></a>    .setInputCols([<span class="st">"sentence"</span>, <span class="st">"token"</span>, <span class="st">"embeddings"</span>]) <span class="op">\</span></span>
+<span id="cb6-27"><a></a>    .setOutputCol(<span class="st">"ner"</span>)</span>
+<span id="cb6-28"><a></a></span>
+<span id="cb6-29"><a></a>conv <span class="op">=</span> NerConverter() <span class="op">\</span></span>
+<span id="cb6-30"><a></a>    .setInputCols([<span class="st">"document"</span>, <span class="st">"token"</span>, <span class="st">"ner"</span>]) <span class="op">\</span></span>
+<span id="cb6-31"><a></a>    .setOutputCol(<span class="st">"entities"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column" style="width:49%;">
+<h4 id="pipeline-flow">Pipeline flow</h4>
+<pre><code>text column
+    ↓
+DocumentAssembler  →  document
+    ↓
+SentenceDetector   →  sentence
+    ↓
+Tokenizer          →  token
+    ↓
+WordEmbeddingsModel →  embeddings
+    ↓
+NerDLModel         →  ner  (B-/I- tags)
+    ↓
+NerConverter       →  entities (grouped)</code></pre>
+<p><code>NerConverter</code> merges <code>B-ORG I-ORG I-ORG</code> sequences into a single entity span.</p>
+</div></div>
+</section>
+<section id="ner-pipeline-results" class="slide level2">
+<h2>NER Pipeline Results</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a></a>nlp_pipeline <span class="op">=</span> Pipeline(stages<span class="op">=</span>[doc, sent, tok, emb, ner, conv])</span>
+<span id="cb8-2"><a></a>model <span class="op">=</span> nlp_pipeline.fit(spark.createDataFrame([[<span class="st">""</span>]]).toDF(<span class="st">"text"</span>))</span>
+<span id="cb8-3"><a></a>result <span class="op">=</span> model.transform(news_df)</span>
+<span id="cb8-4"><a></a></span>
+<span id="cb8-5"><a></a>result.select(<span class="st">"text"</span>, <span class="st">"entities.result"</span>, <span class="st">"entities.metadata"</span>).show(truncate<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb8-6"><a></a><span class="co"># +-------------------------------------------------------------------+---------------------------+</span></span>
+<span id="cb8-7"><a></a><span class="co"># |text                                                               |result                     |</span></span>
+<span id="cb8-8"><a></a><span class="co"># +-------------------------------------------------------------------+---------------------------+</span></span>
+<span id="cb8-9"><a></a><span class="co"># |Tesla shares rose after Elon Musk announced new factory in Texas.  |[Tesla, Elon Musk, Texas]  |</span></span>
+<span id="cb8-10"><a></a><span class="co"># |Federal Reserve raises interest rates amid inflation concerns.     |[Federal Reserve]          |</span></span>
+<span id="cb8-11"><a></a><span class="co"># |Amazon acquires Whole Foods in $13.7 billion deal.                 |[Amazon, Whole Foods]      |</span></span>
+<span id="cb8-12"><a></a><span class="co"># +-------------------------------------------------------------------+---------------------------+</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Tip</strong></p>
+</div>
+<div class="callout-content">
+<p><code>NerConverter</code> groups <code>B-</code>/<code>I-</code> BIO tags into complete entity spans with their type label, making downstream aggregation much simpler.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="ner-on-news-data" class="slide level2">
+<h2>NER on News Data</h2>
+<p>The lab this week applies NER to a corpus of news headlines and articles.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a></a><span class="co"># Typical news NER workflow</span></span>
+<span id="cb9-2"><a></a>result_df <span class="op">\</span></span>
+<span id="cb9-3"><a></a>    .select(F.explode(<span class="st">"entities"</span>).alias(<span class="st">"entity"</span>)) <span class="op">\</span></span>
+<span id="cb9-4"><a></a>    .select(</span>
+<span id="cb9-5"><a></a>        F.col(<span class="st">"entity.result"</span>).alias(<span class="st">"entity_text"</span>),</span>
+<span id="cb9-6"><a></a>        F.col(<span class="st">"entity.metadata.entity"</span>).alias(<span class="st">"entity_type"</span>)</span>
+<span id="cb9-7"><a></a>    ) <span class="op">\</span></span>
+<span id="cb9-8"><a></a>    .<span class="bu">filter</span>(F.col(<span class="st">"entity_type"</span>) <span class="op">==</span> <span class="st">"ORG"</span>) <span class="op">\</span></span>
+<span id="cb9-9"><a></a>    .groupBy(<span class="st">"entity_text"</span>) <span class="op">\</span></span>
+<span id="cb9-10"><a></a>    .count() <span class="op">\</span></span>
+<span id="cb9-11"><a></a>    .orderBy(<span class="st">"count"</span>, ascending<span class="op">=</span><span class="va">False</span>) <span class="op">\</span></span>
+<span id="cb9-12"><a></a>    .show(<span class="dv">10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Key questions the lab will explore:</p>
+<ul>
+<li>Which organizations appear most frequently in financial news?</li>
+<li>How do entity mentions cluster by topic or time period?</li>
+<li>Can NER results seed downstream sentiment analysis?</li>
+</ul>
+</section></section>
+<section>
+<section id="sentiment-analysis" class="title-slide slide level1 section center">
+<h1>Sentiment Analysis</h1>
+
+</section>
+<section id="sentiment-analysis-pipeline" class="slide level2">
+<h2>Sentiment Analysis Pipeline</h2>
+<p>Two practical approaches in Spark NLP:</p>
+<div class="columns">
+<div class="column" style="width:49%;">
+<h4 id="option-1-pretrained-pipeline">Option 1: Pretrained Pipeline</h4>
+<ul>
+<li>One-line setup</li>
+<li>Uses <code>analyze_sentiment</code> pipeline</li>
+<li>Returns <code>positive</code> / <code>negative</code></li>
+<li>Best for quick exploration</li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a></a>pipe <span class="op">=</span> PretrainedPipeline(</span>
+<span id="cb10-2"><a></a>    <span class="st">"analyze_sentiment"</span>, lang<span class="op">=</span><span class="st">"en"</span></span>
+<span id="cb10-3"><a></a>)</span>
+<span id="cb10-4"><a></a>result <span class="op">=</span> pipe.annotate(<span class="st">"Great article!"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column" style="width:49%;">
+<h4 id="option-2-custom-sentimentdl-pipeline">Option 2: Custom SentimentDL Pipeline</h4>
+<ul>
+<li>More control over model choice</li>
+<li>Can use domain-specific models</li>
+<li>Supports confidence scores</li>
+<li>Better for production use</li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a></a>sentiment <span class="op">=</span> SentimentDLModel <span class="op">\</span></span>
+<span id="cb11-2"><a></a>    .pretrained(<span class="st">"sentimentdl_use_twitter"</span>) <span class="op">\</span></span>
+<span id="cb11-3"><a></a>    .setInputCols([<span class="st">"sentence_embeddings"</span>]) <span class="op">\</span></span>
+<span id="cb11-4"><a></a>    .setOutputCol(<span class="st">"sentiment"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div></div>
+</section>
+<section id="quick-sentiment-with-pretrainedpipeline" class="slide level2">
+<h2>Quick Sentiment with PretrainedPipeline</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a></a><span class="im">from</span> sparknlp.pretrained <span class="im">import</span> PretrainedPipeline</span>
+<span id="cb12-2"><a></a></span>
+<span id="cb12-3"><a></a>pipeline <span class="op">=</span> PretrainedPipeline(<span class="st">"analyze_sentiment"</span>, lang<span class="op">=</span><span class="st">"en"</span>)</span>
+<span id="cb12-4"><a></a></span>
+<span id="cb12-5"><a></a><span class="co"># Positive example</span></span>
+<span id="cb12-6"><a></a>result <span class="op">=</span> pipeline.annotate(</span>
+<span id="cb12-7"><a></a>    <span class="st">"The quarterly earnings beat expectations by a wide margin."</span></span>
+<span id="cb12-8"><a></a>)</span>
+<span id="cb12-9"><a></a><span class="bu">print</span>(result[<span class="st">"sentiment"</span>])</span>
+<span id="cb12-10"><a></a><span class="co"># ['positive']</span></span>
+<span id="cb12-11"><a></a></span>
+<span id="cb12-12"><a></a><span class="co"># Negative example</span></span>
+<span id="cb12-13"><a></a>result <span class="op">=</span> pipeline.annotate(</span>
+<span id="cb12-14"><a></a>    <span class="st">"The company reported massive losses and announced layoffs."</span></span>
+<span id="cb12-15"><a></a>)</span>
+<span id="cb12-16"><a></a><span class="bu">print</span>(result[<span class="st">"sentiment"</span>])</span>
+<span id="cb12-17"><a></a><span class="co"># ['negative']</span></span>
+<span id="cb12-18"><a></a></span>
+<span id="cb12-19"><a></a><span class="co"># On a list of texts (LightPipeline batch mode)</span></span>
+<span id="cb12-20"><a></a>headlines <span class="op">=</span> [</span>
+<span id="cb12-21"><a></a>    <span class="st">"Stock market hits record high on strong jobs report"</span>,</span>
+<span id="cb12-22"><a></a>    <span class="st">"Trade war fears send markets tumbling"</span>,</span>
+<span id="cb12-23"><a></a>    <span class="st">"Tech giant posts disappointing revenue miss"</span>,</span>
+<span id="cb12-24"><a></a>]</span>
+<span id="cb12-25"><a></a>results <span class="op">=</span> pipeline.annotate(headlines)</span>
+<span id="cb12-26"><a></a><span class="cf">for</span> h, r <span class="kw">in</span> <span class="bu">zip</span>(headlines, results):</span>
+<span id="cb12-27"><a></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>r[<span class="st">'sentiment'</span>][<span class="dv">0</span>]<span class="sc">:8s}</span><span class="ss"> | </span><span class="sc">{</span>h<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="custom-sentiment-pipeline" class="slide level2">
+<h2>Custom Sentiment Pipeline</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a></a><span class="im">from</span> sparknlp.annotator <span class="im">import</span> (</span>
+<span id="cb13-2"><a></a>    UniversalSentenceEncoder, SentimentDLModel</span>
+<span id="cb13-3"><a></a>)</span>
+<span id="cb13-4"><a></a></span>
+<span id="cb13-5"><a></a>doc <span class="op">=</span> DocumentAssembler() <span class="op">\</span></span>
+<span id="cb13-6"><a></a>    .setInputCol(<span class="st">"text"</span>).setOutputCol(<span class="st">"document"</span>)</span>
+<span id="cb13-7"><a></a></span>
+<span id="cb13-8"><a></a>use <span class="op">=</span> UniversalSentenceEncoder.pretrained(<span class="st">"tfhub_use"</span>) <span class="op">\</span></span>
+<span id="cb13-9"><a></a>    .setInputCols([<span class="st">"document"</span>]) <span class="op">\</span></span>
+<span id="cb13-10"><a></a>    .setOutputCol(<span class="st">"sentence_embeddings"</span>)</span>
+<span id="cb13-11"><a></a></span>
+<span id="cb13-12"><a></a>sentiment <span class="op">=</span> SentimentDLModel <span class="op">\</span></span>
+<span id="cb13-13"><a></a>    .pretrained(<span class="st">"sentimentdl_use_twitter"</span>) <span class="op">\</span></span>
+<span id="cb13-14"><a></a>    .setInputCols([<span class="st">"sentence_embeddings"</span>]) <span class="op">\</span></span>
+<span id="cb13-15"><a></a>    .setOutputCol(<span class="st">"sentiment"</span>)</span>
+<span id="cb13-16"><a></a></span>
+<span id="cb13-17"><a></a>pipeline <span class="op">=</span> Pipeline(stages<span class="op">=</span>[doc, use, sentiment])</span>
+<span id="cb13-18"><a></a>model <span class="op">=</span> pipeline.fit(spark.createDataFrame([[<span class="st">""</span>]]).toDF(<span class="st">"text"</span>))</span>
+<span id="cb13-19"><a></a></span>
+<span id="cb13-20"><a></a>result <span class="op">=</span> model.transform(news_df)</span>
+<span id="cb13-21"><a></a>result.select(<span class="st">"text"</span>, <span class="st">"sentiment.result"</span>).show(truncate<span class="op">=</span><span class="va">False</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="sentiment-on-news-headlines" class="slide level2">
+<h2>Sentiment on News Headlines</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a></a><span class="im">from</span> pyspark.sql <span class="im">import</span> functions <span class="im">as</span> F</span>
+<span id="cb14-2"><a></a></span>
+<span id="cb14-3"><a></a><span class="co"># Apply sentiment pipeline to a news DataFrame</span></span>
+<span id="cb14-4"><a></a>result_df <span class="op">=</span> model.transform(news_df)</span>
+<span id="cb14-5"><a></a></span>
+<span id="cb14-6"><a></a>result_df <span class="op">\</span></span>
+<span id="cb14-7"><a></a>    .withColumn(<span class="st">"sentiment_label"</span>,</span>
+<span id="cb14-8"><a></a>                F.col(<span class="st">"sentiment.result"</span>).getItem(<span class="dv">0</span>)) <span class="op">\</span></span>
+<span id="cb14-9"><a></a>    .select(<span class="st">"id"</span>, <span class="st">"text"</span>, <span class="st">"sentiment_label"</span>) <span class="op">\</span></span>
+<span id="cb14-10"><a></a>    .show(truncate<span class="op">=</span><span class="dv">60</span>)</span>
+<span id="cb14-11"><a></a><span class="co"># +---+------------------------------------------------------------+---------------+</span></span>
+<span id="cb14-12"><a></a><span class="co"># |id |text                                                        |sentiment_label|</span></span>
+<span id="cb14-13"><a></a><span class="co"># +---+------------------------------------------------------------+---------------+</span></span>
+<span id="cb14-14"><a></a><span class="co"># |1  |Tesla shares rose after Elon Musk announced new factory ... |positive       |</span></span>
+<span id="cb14-15"><a></a><span class="co"># |2  |Federal Reserve raises interest rates amid inflation ...    |negative       |</span></span>
+<span id="cb14-16"><a></a><span class="co"># |3  |Amazon acquires Whole Foods in $13.7 billion deal.          |positive       |</span></span>
+<span id="cb14-17"><a></a><span class="co"># +---+------------------------------------------------------------+---------------+</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="callout callout-warning callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Warning</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Domain sensitivity matters.</strong> Models trained on Twitter or movie reviews can misclassify neutral financial language. Use domain-adapted models (e.g., <code>sentimentdl_use_finance</code>) for better results on news data.</p>
+</div>
+</div>
+</div>
+</section></section>
+<section>
+<section id="lightpipeline-for-fast-inference" class="title-slide slide level1 section center">
+<h1>LightPipeline for Fast Inference</h1>
+
+</section>
+<section id="lightpipeline-recap-and-usage" class="slide level2">
+<h2>LightPipeline Recap and Usage</h2>
+<p>A <strong>LightPipeline</strong> wraps a fitted Spark NLP pipeline for fast, local inference — no Spark task overhead.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a></a><span class="im">from</span> sparknlp.base <span class="im">import</span> LightPipeline</span>
+<span id="cb15-2"><a></a></span>
+<span id="cb15-3"><a></a><span class="co"># Wrap any fitted pipeline model</span></span>
+<span id="cb15-4"><a></a>light <span class="op">=</span> LightPipeline(fitted_pipeline_model)</span>
+<span id="cb15-5"><a></a></span>
+<span id="cb15-6"><a></a><span class="co"># Single string</span></span>
+<span id="cb15-7"><a></a>result <span class="op">=</span> light.annotate(<span class="st">"Apple acquired Beats Electronics in 2014."</span>)</span>
+<span id="cb15-8"><a></a><span class="bu">print</span>(result[<span class="st">"entities"</span>])</span>
+<span id="cb15-9"><a></a><span class="co"># ['Apple', 'Beats Electronics', '2014']</span></span>
+<span id="cb15-10"><a></a></span>
+<span id="cb15-11"><a></a><span class="co"># Batch of strings (still local, no Spark distribution)</span></span>
+<span id="cb15-12"><a></a>texts <span class="op">=</span> [</span>
+<span id="cb15-13"><a></a>    <span class="st">"Google opens new office in London."</span>,</span>
+<span id="cb15-14"><a></a>    <span class="st">"WHO warns of new health risks in Southeast Asia."</span>,</span>
+<span id="cb15-15"><a></a>]</span>
+<span id="cb15-16"><a></a>results <span class="op">=</span> light.annotate(texts)</span>
+<span id="cb15-17"><a></a><span class="cf">for</span> r <span class="kw">in</span> results:</span>
+<span id="cb15-18"><a></a>    <span class="bu">print</span>(r[<span class="st">"entities"</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<h4 id="when-to-use-lightpipeline">When to use LightPipeline</h4>
+<ul>
+<li>Interactive exploration / notebooks</li>
+<li>REST API inference endpoints (&lt; 50K documents)</li>
+<li>Debugging pipeline outputs on sample rows</li>
+</ul>
+</section>
+<section id="lightpipeline-vs.-spark-pipeline" class="slide level2">
+<h2>LightPipeline vs.&nbsp;Spark Pipeline</h2>
+<table class="caption-top">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th>LightPipeline</th>
+<th>Spark Pipeline</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Input</strong></td>
+<td>String or list of strings</td>
+<td>Spark DataFrame</td>
+</tr>
+<tr class="even">
+<td><strong>Distribution</strong></td>
+<td>Single driver, local</td>
+<td>Distributed across cluster</td>
+</tr>
+<tr class="odd">
+<td><strong>Best for</strong></td>
+<td>&lt; 50K docs, APIs, debugging</td>
+<td>Large-scale batch processing</td>
+</tr>
+<tr class="even">
+<td><strong>Method</strong></td>
+<td><code>.annotate()</code></td>
+<td><code>.transform()</code></td>
+</tr>
+<tr class="odd">
+<td><strong>Overhead</strong></td>
+<td>Minimal</td>
+<td>Spark task scheduling</td>
+</tr>
+<tr class="even">
+<td><strong>Output</strong></td>
+<td>Python dict</td>
+<td>DataFrame with annotation columns</td>
+</tr>
+</tbody>
+</table>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Tip</strong></p>
+</div>
+<div class="callout-content">
+<p>Use <code>PretrainedPipeline("name")</code> — it gives you both interfaces automatically: <code>.annotate()</code> → LightPipeline <code>.transform()</code> → full Spark pipeline</p>
+</div>
+</div>
+</div>
+</section></section>
+<section>
+<section id="end-to-end-example-news-processing" class="title-slide slide level1 section center">
+<h1>End-to-End Example: News Processing</h1>
+
+</section>
+<section id="processing-news-articles-full-pipeline" class="slide level2">
+<h2>Processing News Articles: Full Pipeline</h2>
+<div class="columns">
+<div class="column" style="width:49%;">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a></a><span class="im">from</span> pyspark.ml <span class="im">import</span> Pipeline</span>
+<span id="cb16-2"><a></a><span class="im">from</span> sparknlp.base <span class="im">import</span> DocumentAssembler</span>
+<span id="cb16-3"><a></a><span class="im">from</span> sparknlp.annotator <span class="im">import</span> (</span>
+<span id="cb16-4"><a></a>    SentenceDetector, Tokenizer,</span>
+<span id="cb16-5"><a></a>    WordEmbeddingsModel,</span>
+<span id="cb16-6"><a></a>    NerDLModel, NerConverter</span>
+<span id="cb16-7"><a></a>)</span>
+<span id="cb16-8"><a></a></span>
+<span id="cb16-9"><a></a>doc <span class="op">=</span> DocumentAssembler() <span class="op">\</span></span>
+<span id="cb16-10"><a></a>    .setInputCol(<span class="st">"text"</span>) <span class="op">\</span></span>
+<span id="cb16-11"><a></a>    .setOutputCol(<span class="st">"document"</span>)</span>
+<span id="cb16-12"><a></a></span>
+<span id="cb16-13"><a></a>sent <span class="op">=</span> SentenceDetector() <span class="op">\</span></span>
+<span id="cb16-14"><a></a>    .setInputCols([<span class="st">"document"</span>]) <span class="op">\</span></span>
+<span id="cb16-15"><a></a>    .setOutputCol(<span class="st">"sentence"</span>)</span>
+<span id="cb16-16"><a></a></span>
+<span id="cb16-17"><a></a>tok <span class="op">=</span> Tokenizer() <span class="op">\</span></span>
+<span id="cb16-18"><a></a>    .setInputCols([<span class="st">"sentence"</span>]) <span class="op">\</span></span>
+<span id="cb16-19"><a></a>    .setOutputCol(<span class="st">"token"</span>)</span>
+<span id="cb16-20"><a></a></span>
+<span id="cb16-21"><a></a>emb <span class="op">=</span> WordEmbeddingsModel <span class="op">\</span></span>
+<span id="cb16-22"><a></a>    .pretrained(<span class="st">"glove_100d"</span>) <span class="op">\</span></span>
+<span id="cb16-23"><a></a>    .setInputCols([<span class="st">"document"</span>, <span class="st">"token"</span>]) <span class="op">\</span></span>
+<span id="cb16-24"><a></a>    .setOutputCol(<span class="st">"embeddings"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column" style="width:49%;">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a></a>ner <span class="op">=</span> NerDLModel.pretrained(<span class="st">"ner_dl"</span>) <span class="op">\</span></span>
+<span id="cb17-2"><a></a>    .setInputCols(</span>
+<span id="cb17-3"><a></a>        [<span class="st">"sentence"</span>, <span class="st">"token"</span>, <span class="st">"embeddings"</span>]) <span class="op">\</span></span>
+<span id="cb17-4"><a></a>    .setOutputCol(<span class="st">"ner"</span>)</span>
+<span id="cb17-5"><a></a></span>
+<span id="cb17-6"><a></a>conv <span class="op">=</span> NerConverter() <span class="op">\</span></span>
+<span id="cb17-7"><a></a>    .setInputCols(</span>
+<span id="cb17-8"><a></a>        [<span class="st">"document"</span>, <span class="st">"token"</span>, <span class="st">"ner"</span>]) <span class="op">\</span></span>
+<span id="cb17-9"><a></a>    .setOutputCol(<span class="st">"entities"</span>)</span>
+<span id="cb17-10"><a></a></span>
+<span id="cb17-11"><a></a>pipeline <span class="op">=</span> Pipeline(</span>
+<span id="cb17-12"><a></a>    stages<span class="op">=</span>[doc, sent, tok, emb, ner, conv]</span>
+<span id="cb17-13"><a></a>)</span>
+<span id="cb17-14"><a></a></span>
+<span id="cb17-15"><a></a><span class="co"># Fit on empty DataFrame (pretrained weights only)</span></span>
+<span id="cb17-16"><a></a>empty <span class="op">=</span> spark.createDataFrame(</span>
+<span id="cb17-17"><a></a>    [[<span class="st">""</span>]]).toDF(<span class="st">"text"</span>)</span>
+<span id="cb17-18"><a></a>model <span class="op">=</span> pipeline.fit(empty)</span>
+<span id="cb17-19"><a></a></span>
+<span id="cb17-20"><a></a><span class="co"># Run on full news corpus</span></span>
+<span id="cb17-21"><a></a>result_df <span class="op">=</span> model.transform(news_df)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div></div>
+</section>
+<section id="analyzing-ner-output" class="slide level2">
+<h2>Analyzing NER Output</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a></a><span class="im">from</span> pyspark.sql <span class="im">import</span> functions <span class="im">as</span> F</span>
+<span id="cb18-2"><a></a></span>
+<span id="cb18-3"><a></a><span class="co"># Explode the entities array so each entity is its own row</span></span>
+<span id="cb18-4"><a></a>entities_df <span class="op">=</span> result_df <span class="op">\</span></span>
+<span id="cb18-5"><a></a>    .select(</span>
+<span id="cb18-6"><a></a>        <span class="st">"id"</span>,</span>
+<span id="cb18-7"><a></a>        F.explode(<span class="st">"entities"</span>).alias(<span class="st">"entity"</span>)</span>
+<span id="cb18-8"><a></a>    ) <span class="op">\</span></span>
+<span id="cb18-9"><a></a>    .select(</span>
+<span id="cb18-10"><a></a>        <span class="st">"id"</span>,</span>
+<span id="cb18-11"><a></a>        F.col(<span class="st">"entity.result"</span>).alias(<span class="st">"entity_text"</span>),</span>
+<span id="cb18-12"><a></a>        F.col(<span class="st">"entity.metadata.entity"</span>).alias(<span class="st">"entity_type"</span>)</span>
+<span id="cb18-13"><a></a>    )</span>
+<span id="cb18-14"><a></a></span>
+<span id="cb18-15"><a></a><span class="co"># Most frequently mentioned organizations</span></span>
+<span id="cb18-16"><a></a>entities_df <span class="op">\</span></span>
+<span id="cb18-17"><a></a>    .<span class="bu">filter</span>(F.col(<span class="st">"entity_type"</span>) <span class="op">==</span> <span class="st">"ORG"</span>) <span class="op">\</span></span>
+<span id="cb18-18"><a></a>    .groupBy(<span class="st">"entity_text"</span>) <span class="op">\</span></span>
+<span id="cb18-19"><a></a>    .count() <span class="op">\</span></span>
+<span id="cb18-20"><a></a>    .orderBy(<span class="st">"count"</span>, ascending<span class="op">=</span><span class="va">False</span>) <span class="op">\</span></span>
+<span id="cb18-21"><a></a>    .show(<span class="dv">10</span>)</span>
+<span id="cb18-22"><a></a></span>
+<span id="cb18-23"><a></a><span class="co"># Co-occurrence: which people appear alongside which organizations?</span></span>
+<span id="cb18-24"><a></a>entities_df <span class="op">\</span></span>
+<span id="cb18-25"><a></a>    .<span class="bu">filter</span>(F.col(<span class="st">"entity_type"</span>).isin([<span class="st">"PERSON"</span>, <span class="st">"ORG"</span>])) <span class="op">\</span></span>
+<span id="cb18-26"><a></a>    .groupBy(<span class="st">"id"</span>, <span class="st">"entity_type"</span>) <span class="op">\</span></span>
+<span id="cb18-27"><a></a>    .agg(F.collect_list(<span class="st">"entity_text"</span>).alias(<span class="st">"entities"</span>)) <span class="op">\</span></span>
+<span id="cb18-28"><a></a>    .show(<span class="dv">5</span>, truncate<span class="op">=</span><span class="va">False</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="the-models-hub" class="slide level2">
+<h2>The Models Hub</h2>
+<p>Spark NLP ships with access to thousands of pretrained models at <strong><a href="https://sparknlp.org/models" target="_blank">sparknlp.org/models</a></strong></p>
+<div class="columns">
+<div class="column" style="width:49%;">
+<h4 id="whats-available">What’s available</h4>
+<ul>
+<li><strong>NER</strong> — general, medical, legal, finance</li>
+<li><strong>Sentiment</strong> — social media, news, clinical</li>
+<li><strong>Classification</strong> — topic, language, intent</li>
+<li><strong>Summarization</strong> — extractive and abstractive</li>
+<li><strong>Translation</strong> — 200+ language pairs</li>
+<li><strong>Embeddings</strong> — GloVe, BERT, RoBERTa, USE, …</li>
+</ul>
+</div><div class="column" style="width:49%;">
+<h4 id="loading-any-model">Loading any model</h4>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a></a><span class="co"># Load by name from the hub</span></span>
+<span id="cb19-2"><a></a>model <span class="op">=</span> NerDLModel <span class="op">\</span></span>
+<span id="cb19-3"><a></a>    .pretrained(<span class="st">"ner_ontonotes_roberta_base"</span>) <span class="op">\</span></span>
+<span id="cb19-4"><a></a>    .setInputCols(</span>
+<span id="cb19-5"><a></a>        [<span class="st">"sentence"</span>, <span class="st">"token"</span>, <span class="st">"embeddings"</span>]) <span class="op">\</span></span>
+<span id="cb19-6"><a></a>    .setOutputCol(<span class="st">"ner"</span>)</span>
+<span id="cb19-7"><a></a></span>
+<span id="cb19-8"><a></a><span class="co"># Or load from a local path</span></span>
+<span id="cb19-9"><a></a>model <span class="op">=</span> NerDLModel <span class="op">\</span></span>
+<span id="cb19-10"><a></a>    .load(<span class="st">"/path/to/local/model"</span>) <span class="op">\</span></span>
+<span id="cb19-11"><a></a>    .setInputCols(</span>
+<span id="cb19-12"><a></a>        [<span class="st">"sentence"</span>, <span class="st">"token"</span>, <span class="st">"embeddings"</span>]) <span class="op">\</span></span>
+<span id="cb19-13"><a></a>    .setOutputCol(<span class="st">"ner"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Filter by task, language, and license on the hub.</p>
+</div></div>
+</section>
+<section id="readings" class="slide level2">
+<h2>Readings</h2>
+<p><strong>Required:</strong></p>
+<ul>
+<li><a href="https://nlp.johnsnowlabs.com/docs/en/annotators" target="_blank">Spark NLP Annotators Reference</a></li>
+<li><a href="https://sparknlp.org/models" target="_blank">Spark NLP Models Hub</a></li>
+</ul>
+<p><strong>Encouraged:</strong></p>
+<ul>
+<li><a href="https://towardsdatascience.com/named-entity-recognition-with-spark-nlp-3e8e4f3e9c43" target="_blank">NER with Spark NLP tutorial</a></li>
+<li><a href="https://github.com/JohnSnowLabs/spark-nlp-workshop" target="_blank">Spark NLP Workshop Notebooks</a></li>
+</ul>
+<div class="columns">
+<div class="column" style="width:47%;">
+<h3 id="looking-back-1">Looking Back</h3>
+<ul>
 <li>Introduction to Apache Spark</li>
 <li>Spark RDDs, DataFrames, SparkSQL</li>
 <li>Spark Diagnostic UI, UDFs</li>
 <li>Spark MLlib, Spark NLP</li>
 </ul>
 </div><div class="column" style="width:47%;">
-<h3 id="today">Today</h3>
+<h3 id="today-1">Today</h3>
 <ul>
 <li>Batch vs.&nbsp;Streaming</li>
 <li>DStreams (legacy)</li>
@@ -222,7 +1051,7 @@
 <li>Event-time windows and watermarks</li>
 </ul>
 </div></div>
-</section>
+</section></section>
 <section>
 <section id="from-batch-to-streaming" class="title-slide slide level1 section center">
 <h1>From Batch to Streaming</h1>
@@ -280,8 +1109,8 @@
 <p><img src="img/s4.jpg" width="800"></p>
 </div>
 <p>A <code>StreamingContext</code> is created from an existing <code>SparkContext</code>:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a></a>sc <span class="op">=</span> ...</span>
-<span id="cb1-2"><a></a>ssc <span class="op">=</span> StreamingContext(sc, <span class="dv">1</span>)   <span class="co"># batch interval: 1 second</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a></a>sc <span class="op">=</span> ...</span>
+<span id="cb20-2"><a></a>ssc <span class="op">=</span> StreamingContext(sc, <span class="dv">1</span>)   <span class="co"># batch interval: 1 second</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="important-constraints-of-streamingcontext" class="slide level2">
 <h2>Important constraints of <code>StreamingContext</code></h2>
@@ -361,13 +1190,13 @@
 <h2>1. Define input sources</h2>
 <div class="columns">
 <div class="column" style="width:49%;">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a></a>spark <span class="op">=</span> SparkSession...</span>
-<span id="cb2-2"><a></a></span>
-<span id="cb2-3"><a></a>lines <span class="op">=</span> (spark</span>
-<span id="cb2-4"><a></a>    .readStream.<span class="bu">format</span>(<span class="st">"socket"</span>)</span>
-<span id="cb2-5"><a></a>    .option(<span class="st">"host"</span>, <span class="st">"localhost"</span>)</span>
-<span id="cb2-6"><a></a>    .option(<span class="st">"port"</span>, <span class="dv">9999</span>)</span>
-<span id="cb2-7"><a></a>    .load())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a></a>spark <span class="op">=</span> SparkSession...</span>
+<span id="cb21-2"><a></a></span>
+<span id="cb21-3"><a></a>lines <span class="op">=</span> (spark</span>
+<span id="cb21-4"><a></a>    .readStream.<span class="bu">format</span>(<span class="st">"socket"</span>)</span>
+<span id="cb21-5"><a></a>    .option(<span class="st">"host"</span>, <span class="st">"localhost"</span>)</span>
+<span id="cb21-6"><a></a>    .option(<span class="st">"port"</span>, <span class="dv">9999</span>)</span>
+<span id="cb21-7"><a></a>    .load())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column" style="width:49%;">
 <ul>
 <li><code>readStream</code> (not <code>read</code>) signals a streaming source</li>
@@ -379,10 +1208,10 @@
 </section>
 <section id="transform-data" class="slide level2">
 <h2>2. Transform data</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a></a><span class="im">from</span> pyspark.sql.functions <span class="im">import</span> <span class="op">*</span></span>
-<span id="cb3-2"><a></a></span>
-<span id="cb3-3"><a></a>words <span class="op">=</span> lines.select(split(col(<span class="st">"value"</span>), <span class="st">"</span><span class="ch">\\</span><span class="st">s"</span>).alias(<span class="st">"word"</span>))</span>
-<span id="cb3-4"><a></a>counts <span class="op">=</span> words.groupBy(<span class="st">"word"</span>).count()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a></a><span class="im">from</span> pyspark.sql.functions <span class="im">import</span> <span class="op">*</span></span>
+<span id="cb22-2"><a></a></span>
+<span id="cb22-3"><a></a>words <span class="op">=</span> lines.select(split(col(<span class="st">"value"</span>), <span class="st">"</span><span class="ch">\\</span><span class="st">s"</span>).alias(<span class="st">"word"</span>))</span>
+<span id="cb22-4"><a></a>counts <span class="op">=</span> words.groupBy(<span class="st">"word"</span>).count()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
 <li>Use the usual DataFrame operations — they work identically on streaming DataFrames</li>
 <li>The same code runs as both a batch query and a streaming query</li>
@@ -390,9 +1219,9 @@
 </section>
 <section id="define-output-sink-and-output-mode" class="slide level2">
 <h2>3. Define output sink and output mode</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a></a>writer <span class="op">=</span> counts.writeStream <span class="op">\</span></span>
-<span id="cb4-2"><a></a>    .<span class="bu">format</span>(<span class="st">"console"</span>) <span class="op">\</span></span>
-<span id="cb4-3"><a></a>    .outputMode(<span class="st">"complete"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a></a>writer <span class="op">=</span> counts.writeStream <span class="op">\</span></span>
+<span id="cb23-2"><a></a>    .<span class="bu">format</span>(<span class="st">"console"</span>) <span class="op">\</span></span>
+<span id="cb23-3"><a></a>    .outputMode(<span class="st">"complete"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
 <li><strong>format</strong>: <code>"console"</code>, <code>"parquet"</code>, <code>"kafka"</code>, <code>"memory"</code>, etc.</li>
 <li><strong>outputMode</strong>: <code>"append"</code>, <code>"update"</code>, or <code>"complete"</code></li>
@@ -402,11 +1231,11 @@
 <h2>4. Specify processing details</h2>
 <div class="columns">
 <div class="column" style="width:44%;">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a></a>checkpointDir <span class="op">=</span> <span class="st">"..."</span></span>
-<span id="cb5-2"><a></a></span>
-<span id="cb5-3"><a></a>writer2 <span class="op">=</span> (writer</span>
-<span id="cb5-4"><a></a>    .trigger(processingTime<span class="op">=</span><span class="st">"1 second"</span>)</span>
-<span id="cb5-5"><a></a>    .option(<span class="st">"checkpointLocation"</span>, checkpointDir))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a></a>checkpointDir <span class="op">=</span> <span class="st">"..."</span></span>
+<span id="cb24-2"><a></a></span>
+<span id="cb24-3"><a></a>writer2 <span class="op">=</span> (writer</span>
+<span id="cb24-4"><a></a>    .trigger(processingTime<span class="op">=</span><span class="st">"1 second"</span>)</span>
+<span id="cb24-5"><a></a>    .option(<span class="st">"checkpointLocation"</span>, checkpointDir))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column" style="width:54%;">
 <p><strong>Triggering options:</strong></p>
 <ul>
@@ -419,10 +1248,10 @@
 </section>
 <section id="start-the-query" class="slide level2">
 <h2>5. Start the query</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a></a>streamingQuery <span class="op">=</span> writer2.start()</span>
-<span id="cb6-2"><a></a></span>
-<span id="cb6-3"><a></a><span class="co"># Block until query terminates (or use await in notebooks)</span></span>
-<span id="cb6-4"><a></a>streamingQuery.awaitTermination()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a></a>streamingQuery <span class="op">=</span> writer2.start()</span>
+<span id="cb25-2"><a></a></span>
+<span id="cb25-3"><a></a><span class="co"># Block until query terminates (or use await in notebooks)</span></span>
+<span id="cb25-4"><a></a>streamingQuery.awaitTermination()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section></section>
 <section>
 <section id="spark-streaming-under-the-hood" class="title-slide slide level1 section center">
@@ -540,16 +1369,16 @@
 </section>
 <section id="defining-a-watermark-in-code" class="slide level2">
 <h2>Defining a watermark in code</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a></a><span class="im">from</span> pyspark.sql.functions <span class="im">import</span> window</span>
-<span id="cb7-2"><a></a></span>
-<span id="cb7-3"><a></a>windowedCounts <span class="op">=</span> (words</span>
-<span id="cb7-4"><a></a>    .withWatermark(<span class="st">"timestamp"</span>, <span class="st">"10 minutes"</span>)   <span class="co"># tolerate 10 min of lateness</span></span>
-<span id="cb7-5"><a></a>    .groupBy(</span>
-<span id="cb7-6"><a></a>        window(col(<span class="st">"timestamp"</span>), <span class="st">"5 minutes"</span>, <span class="st">"1 minute"</span>),  <span class="co"># 5-min sliding windows</span></span>
-<span id="cb7-7"><a></a>        col(<span class="st">"word"</span>)</span>
-<span id="cb7-8"><a></a>    )</span>
-<span id="cb7-9"><a></a>    .count()</span>
-<span id="cb7-10"><a></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb26"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a></a><span class="im">from</span> pyspark.sql.functions <span class="im">import</span> window</span>
+<span id="cb26-2"><a></a></span>
+<span id="cb26-3"><a></a>windowedCounts <span class="op">=</span> (words</span>
+<span id="cb26-4"><a></a>    .withWatermark(<span class="st">"timestamp"</span>, <span class="st">"10 minutes"</span>)   <span class="co"># tolerate 10 min of lateness</span></span>
+<span id="cb26-5"><a></a>    .groupBy(</span>
+<span id="cb26-6"><a></a>        window(col(<span class="st">"timestamp"</span>), <span class="st">"5 minutes"</span>, <span class="st">"1 minute"</span>),  <span class="co"># 5-min sliding windows</span></span>
+<span id="cb26-7"><a></a>        col(<span class="st">"word"</span>)</span>
+<span id="cb26-8"><a></a>    )</span>
+<span id="cb26-9"><a></a>    .count()</span>
+<span id="cb26-10"><a></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
 <li>Records older than <code>(max observed event time − watermark delay)</code> are dropped</li>
 <li>Enables memory-bounded state management for long-running streams</li>
@@ -570,17 +1399,17 @@
 <li>Abstracts away configuration and cluster management</li>
 <li>Pricing based on usage (per shard-hour and PUT payload)</li>
 </ul>
-<p><a href="https://hevodata.com/learn/amazon-kinesis-vs-kafka/">Kinesis vs.&nbsp;Kafka comparison</a></p>
+<p><a href="https://medium.com/@hrishikeshkhurpe/amazon-kinesis-vs-apache-kafka-a-deep-dive-into-streaming-data-solutions-8e481a0d1987">Kinesis vs.&nbsp;Kafka comparison</a></p>
 </section>
-<section id="spark-sql-connector-for-aws-kinesis" class="slide level2">
+<section id="spark-sql-connector-for-aws-kinesis" class="slide level2 hidden">
 <h2>Spark SQL Connector for AWS Kinesis</h2>
 <p>Use Kinesis as a source or sink in Spark Structured Streaming:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a></a>kinesisDF <span class="op">=</span> (spark.readStream</span>
-<span id="cb8-2"><a></a>    .<span class="bu">format</span>(<span class="st">"kinesis"</span>)</span>
-<span id="cb8-3"><a></a>    .option(<span class="st">"streamName"</span>, <span class="st">"my-stream"</span>)</span>
-<span id="cb8-4"><a></a>    .option(<span class="st">"region"</span>, <span class="st">"us-east-1"</span>)</span>
-<span id="cb8-5"><a></a>    .option(<span class="st">"initialPosition"</span>, <span class="st">"LATEST"</span>)</span>
-<span id="cb8-6"><a></a>    .load())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb27"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a></a>kinesisDF <span class="op">=</span> (spark.readStream</span>
+<span id="cb27-2"><a></a>    .<span class="bu">format</span>(<span class="st">"kinesis"</span>)</span>
+<span id="cb27-3"><a></a>    .option(<span class="st">"streamName"</span>, <span class="st">"my-stream"</span>)</span>
+<span id="cb27-4"><a></a>    .option(<span class="st">"region"</span>, <span class="st">"us-east-1"</span>)</span>
+<span id="cb27-5"><a></a>    .option(<span class="st">"initialPosition"</span>, <span class="st">"LATEST"</span>)</span>
+<span id="cb27-6"><a></a>    .load())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p><a href="https://github.com/qubole/kinesis-sql">qubole/kinesis-sql connector</a></p>
 
 
