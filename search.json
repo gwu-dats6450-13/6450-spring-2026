@@ -3396,7 +3396,7 @@
     "href": "content/12-content.html#readings",
     "title": "DATS 6450.13",
     "section": "Readings",
-    "text": "Readings\nReadings for this lecture:\nAmazon Athena:\n\nAmazon Athena Documentation — focus on the Getting Started and SQL Reference sections\nAWS Glue Data Catalog Documentation — the Crawlers and Tables chapters\nNYC TLC Yellow Taxi Data Dictionary — column reference for the lab dataset\n\nApache Airflow / MWAA:\n\nApache Airflow Quickstart — single-node airflow standalone setup (matches Lab 10)\nAmazon MWAA Documentation — skim What is Amazon MWAA? and Get started",
+    "text": "Readings\nReadings for this lecture:\nAmazon Athena:\n\nAmazon Athena Documentation — focus on the Getting Started and SQL Reference sections\nAWS Glue Data Catalog Documentation — the Crawlers and Tables chapters\nNYC TLC Yellow Taxi Data Dictionary — column reference for the lab dataset\n\nApache Airflow / MWAA:\n\nApache Airflow Quickstart — single-node airflow standalone setup (matches Lab 12)\nAmazon MWAA Documentation — skim What is Amazon MWAA? and Get started",
     "crumbs": [
       "Content",
       "Course content",
