@@ -1,0 +1,183 @@
+---
+title: "Midterm 2: Apache Spark on EC2"
+subtitle: "{{< var course.number >}} — {{< var course.semester >}}"
+---
+
+## Overview
+
+Midterm 2 is an **in-class, individual assessment** covering the Spark/PySpark material from Weeks 8–12. You will run real PySpark code against a dataset on AWS S3 using the Spark cluster you have been developing throughout the semester.
+
+::: {.callout-important}
+## Rules
+
+- **Time limit:** 60 minutes
+- **No AI assistants** (ChatGPT, Claude, Copilot, etc.)
+- You **may** reference course slides and your own lab notebooks
+- Work must be your own — collaboration with other students is not permitted
+- Final commit message must be **`final-submission`**
+:::
+
+## Setup
+
+Before class begins:
+
+1. **Start your Spark cluster** using `./project/setup-spark-cluster.sh <LAPTOP_IP>` on your EC2 dev machine.
+2. **Accept the GitHub Classroom assignment** (link below) and clone your repo to your EC2 dev machine.
+3. **Run the health check** to confirm your cluster is ready:
+   ```bash
+   uv run python health_check.py spark://$MASTER_PRIVATE_IP:7077
+   ```
+
+The GitHub Classroom repo contains:
+
+- `midterm.py` — starter script with task scaffolding (edit this file)
+- `health_check.py` — pre-flight cluster check (do not edit)
+- `RESPONSES.md` — short written-answer template (edit this file)
+- `README.md` — run and submission instructions
+
+## Dataset
+
+All tasks use a shared Reddit comments dataset pre-staged on S3:
+
+```
+s3a://dats6450-midterm-s2026/reddit/comments/
+```
+
+**Schema** (selected columns):
+
+| Column | Type | Description |
+|---|---|---|
+| `id` | String | Unique comment ID |
+| `subreddit` | String | Subreddit name |
+| `author` | String | Reddit username |
+| `body` | String | Comment text |
+| `score` | Long | Upvotes minus downvotes |
+| `created_utc` | Long | Unix timestamp |
+| `controversiality` | Int | 0 or 1 |
+
+## Tasks
+
+### Task 1 — PySpark DataFrames and SparkSQL (25 points)
+
+Load the dataset and answer the following using both the DataFrame API and SparkSQL.
+
+**(a)** Print the schema and row count.
+
+**(b)** Using the **DataFrame API**, compute the top 10 subreddits by comment volume. Print the result with `show()`.
+
+**(c)** Using **SparkSQL** (`createOrReplaceTempView` + `spark.sql(...)`), find the top 10 authors by total score. Print the result with `show()`.
+
+**(d)** Add a `date` column derived from `created_utc` (use `to_date(from_unixtime(...))`). Filter to comments posted between **2023-08-01** and **2023-08-31** and compute the total comment volume per day. Print sorted by date.
+
+| Criterion | Points |
+|---|---|
+| Correct numeric outputs | 15 |
+| Correct API usage (SQL where required, DataFrame where required) | 7 |
+| Code runs without errors | 3 |
+
+---
+
+### Task 2 — Pandas UDF (15 points)
+
+**(a)** Write a **scalar Pandas UDF** named `word_count_udf` that takes the `body` column (a `pd.Series` of strings) and returns a `pd.Series` of integers — the number of whitespace-delimited tokens in each comment. Use the `@pandas_udf("int")` decorator.
+
+**(b)** Apply it to create a new column `word_count` on the full dataset.
+
+**(c)** Report the **mean**, **median** (use `percentile_approx(word_count, 0.5)`), and **max** word count. Print all three values.
+
+**(d)** In `RESPONSES.md`, answer in one sentence: *Why is a Pandas UDF preferred over a plain Python UDF for this operation?*
+
+| Criterion | Points |
+|---|---|
+| Correct UDF definition and decorator | 5 |
+| Correct mean / median / max values | 6 |
+| Written answer (RESPONSES.md) | 4 |
+
+---
+
+### Task 3 — Spark NLP Sentiment Analysis (25 points)
+
+**(a)** Sample approximately **2,000 comments** from the dataset (use `.sample(False, fraction, seed=42)` then `.limit(2000)` to be precise). Convert to a Pandas DataFrame with `.toPandas()`.
+
+**(b)** Load `PretrainedPipeline("analyze_sentiment", lang="en")` and use its **LightPipeline** (`.annotate()`) to run sentiment inference on the list of comment `body` strings.
+
+::: {.callout-tip}
+`PretrainedPipeline.annotate()` uses LightPipeline automatically — no extra wrapping needed.
+:::
+
+**(c)** Build a new Spark DataFrame from the annotated results with two columns: `subreddit` (from your sampled data) and `sentiment_label` (the first element of the `"sentiment"` annotation key).
+
+**(d)** Using `groupBy("subreddit")`, compute the **percentage of positive comments** per subreddit. Print sorted by % positive descending.
+
+**(e)** In `RESPONSES.md`, write **2–3 sentences**: Which subreddit had the highest % positive sentiment, and which had the lowest? Does this match your intuition about these communities?
+
+| Criterion | Points |
+|---|---|
+| Correct sampling and `.toPandas()` call | 4 |
+| Correct use of `PretrainedPipeline` / `.annotate()` | 7 |
+| Correct Spark DataFrame reconstruction and aggregation | 8 |
+| Written interpretation (RESPONSES.md) | 6 |
+
+---
+
+### Task 4 — Spark MLlib Classification Pipeline (35 points)
+
+Build an MLlib Pipeline to predict whether a comment is **popular** (defined as `score >= 5`).
+
+**(a)** Filter the dataset to rows where `body` is not null and not an empty string. Add a `label` column: `(col("score") >= 5).cast("int")`.
+
+**(b)** Build a `Pipeline` with these stages in order:
+
+1. `Tokenizer(inputCol="body", outputCol="tokens")`
+2. `StopWordsRemover(inputCol="tokens", outputCol="clean_tokens")`
+3. `HashingTF(inputCol="clean_tokens", outputCol="tf", numFeatures=16384)`
+4. `IDF(inputCol="tf", outputCol="features")`
+5. `LogisticRegression(labelCol="label", featuresCol="features", maxIter=10)`
+
+**(c)** Split into train/test with `randomSplit([0.8, 0.2], seed=42)`. Fit the pipeline on the training set, transform the test set.
+
+**(d)** Evaluate using `BinaryClassificationEvaluator(metricName="areaUnderROC")`. Print the AUC.
+
+**(e)** In `RESPONSES.md`, answer in one sentence: *Why would using `controversiality` as the target label instead of `score >= 5` have been a poor choice for this task?*
+
+| Criterion | Points |
+|---|---|
+| Correct label column creation | 4 |
+| All five pipeline stages correct | 12 |
+| Correct train/test split and fit/transform | 8 |
+| AUC printed correctly | 6 |
+| Written answer (RESPONSES.md) | 5 |
+
+---
+
+## Deliverables
+
+Commit and push the following files to your GitHub Classroom repo:
+
+| File | Description |
+|---|---|
+| `midterm.py` | Your completed PySpark script |
+| `RESPONSES.md` | Written answers for Tasks 2d, 3e, 4e |
+| `output.log` | Stdout captured from a successful run |
+
+**Run command:**
+```bash
+uv run python midterm.py spark://$MASTER_PRIVATE_IP:7077 | tee output.log
+```
+
+**Final commit:**
+```bash
+git add midterm.py RESPONSES.md output.log
+git commit -m "final-submission"
+git push
+```
+
+::: {.callout-warning}
+## Honor Pledge
+
+By submitting this midterm you affirm that the work is your own, that you have not used AI assistants, and that you have not collaborated with other students. Violations are subject to the GWU Academic Integrity Policy.
+:::
+
+## GitHub Classroom
+
+The midterm is available on [GitHub Classroom]({{< var gh-classroom.a04 >}}) and is due **{{< var due_dates.midterm02 >}}**.
