@@ -1,0 +1,2226 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-html/tabby.min.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-b754b9fd3853d7e56faef54c29c5d52b.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.8.27">
+
+  <title>DATS 6450.13 – Lecture 12</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="../site_libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="../site_libs/revealjs/dist/reveal.css">
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #767676;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #767676;  padding-left: 4px; }
+    div.sourceCode
+      { color: #545454; background-color: #fefefe; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #545454; } /* Normal */
+    code span.al { color: #7928a1; } /* Alert */
+    code span.an { color: #696969; } /* Annotation */
+    code span.at { color: #a55a00; } /* Attribute */
+    code span.bn { color: #7928a1; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #d91e18; } /* ControlFlow */
+    code span.ch { color: #008000; } /* Char */
+    code span.cn { color: #d91e18; } /* Constant */
+    code span.co { color: #696969; } /* Comment */
+    code span.cv { color: #696969; font-style: italic; } /* CommentVar */
+    code span.do { color: #696969; font-style: italic; } /* Documentation */
+    code span.dt { color: #7928a1; } /* DataType */
+    code span.dv { color: #7928a1; } /* DecVal */
+    code span.er { color: #7928a1; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #a55a00; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { } /* Import */
+    code span.in { color: #696969; } /* Information */
+    code span.kw { color: #d91e18; } /* Keyword */
+    code span.op { color: #00769e; } /* Operator */
+    code span.ot { color: #d91e18; } /* Other */
+    code span.pp { color: #7928a1; } /* Preprocessor */
+    code span.sc { color: #00769e; } /* SpecialChar */
+    code span.ss { color: #008000; } /* SpecialString */
+    code span.st { color: #008000; } /* String */
+    code span.va { color: #a55a00; } /* Variable */
+    code span.vs { color: #008000; } /* VerbatimString */
+    code span.wa { color: #696969; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-8805cfd6703899b14d8e6f3d82565f0d.css">
+  <link href="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="../site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="../site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="../site_libs/revealjs/plugin/reveal-chalkboard/font-awesome/css/all.css" rel="stylesheet">
+  <link href="../site_libs/revealjs/plugin/reveal-chalkboard/style.css" rel="stylesheet">
+  <link href="../site_libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
+    .reveal div.sourceCode {
+      margin: 0;
+      overflow: auto;
+    }
+    .reveal div.hanging-indent {
+      margin-left: 1em;
+      text-indent: -1em;
+    }
+    .reveal .slide:not(.center) {
+      height: 100%;
+    }
+    .reveal .slide.scrollable {
+      overflow-y: auto;
+    }
+    .reveal .footnotes {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide .absolute {
+      position: absolute;
+      display: block;
+    }
+    .reveal .footnotes ol {
+      counter-reset: ol;
+      list-style-type: none; 
+      margin-left: 0;
+    }
+    .reveal .footnotes ol li:before {
+      counter-increment: ol;
+      content: counter(ol) ". "; 
+    }
+    .reveal .footnotes ol li > p:first-child {
+      display: inline-block;
+    }
+    .reveal .slide ul,
+    .reveal .slide ol {
+      margin-bottom: 0.5em;
+    }
+    .reveal .slide ul li,
+    .reveal .slide ol li {
+      margin-top: 0.4em;
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide ul[role="tablist"] li {
+      margin-bottom: 0;
+    }
+    .reveal .slide ul li > *:first-child,
+    .reveal .slide ol li > *:first-child {
+      margin-block-start: 0;
+    }
+    .reveal .slide ul li > *:last-child,
+    .reveal .slide ol li > *:last-child {
+      margin-block-end: 0;
+    }
+    .reveal .slide .columns:nth-child(3) {
+      margin-block-start: 0.8em;
+    }
+    .reveal blockquote {
+      box-shadow: none;
+    }
+    .reveal .tippy-content>* {
+      margin-top: 0.2em;
+      margin-bottom: 0.7em;
+    }
+    .reveal .tippy-content>*:last-child {
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide > img.stretch.quarto-figure-center,
+    .reveal .slide > img.r-stretch.quarto-figure-center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-left,
+    .reveal .slide > img.r-stretch.quarto-figure-left  {
+      display: block;
+      margin-left: 0;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-right,
+    .reveal .slide > img.r-stretch.quarto-figure-right  {
+      display: block;
+      margin-left: auto;
+      margin-right: 0; 
+    }
+  </style>
+</head>
+<body class="quarto-light">
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide" class="quarto-title-block center">
+  <h1 class="title">Lecture 12</h1>
+  <p class="subtitle">Serverless Analytics: Amazon Athena and Airflow Orchestration</p>
+
+<div class="quarto-title-authors">
+</div>
+
+</section>
+<section class="slide level2">
+
+<div class="columns">
+<div class="column" style="width:47%;">
+<h3 id="looking-back">Looking Back</h3>
+<ul>
+<li>Spark NLP: pretrained pipelines, NER, sentiment</li>
+<li>Structured Streaming: unbounded-table model</li>
+<li>Output modes, event-time windows, watermarks</li>
+<li>Stateful transformations</li>
+</ul>
+</div><div class="column" style="width:47%;">
+<h3 id="today">Today</h3>
+<ul>
+<li>Serverless SQL on S3 with Amazon Athena</li>
+<li>AWS Glue Data Catalog</li>
+<li>Analytical SQL patterns in Presto/Trino</li>
+<li>Programmatic access via boto3</li>
+<li>Pipeline orchestration with Apache Airflow</li>
+<li><span style="color: red;font-weight: bold;"><strong>Midterm 2</strong></span> will be a 2 hour take-home exam due Monday April 20.</li>
+</ul>
+</div></div>
+</section>
+<section id="announcements" class="slide level2">
+<h2>Announcements</h2>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Important</strong></p>
+</div>
+<div class="callout-content">
+<p>The second midterm takes place this weekend. You will work with a <strong>Spark cluster on your EC2 instance</strong>.</p>
+<p>This will be a take home exam, with a duration of 2 hours. When you fork this repo from GH Classroom, it will generate an initial commit will a timestamp. You will be graded based on the <strong>last commit within 2 hours of the start time</strong>. You may do this exam at any time between Friday, April 17 and Monday, April 20, but it must be done by Monday, April 20 at 11:59pm.</p>
+<p>The link for the midterm will be <strong>available on Blackboard in the Week 12 space</strong> after midnight tonight.</p>
+<p>Because of the emphasis on commit times, please commit often to make sure your work will be graded, even for partial credits.</p>
+<ul>
+<li>Open notes, open internet — <strong>no AI assistance</strong></li>
+<li>Submit your completed notebook to GitHub Classroom before the due date of April 20, 2026, but within 2 hours of when you start the exam (based on git commit times)</li>
+<li>The problem will draw on Spark DataFrame API, transformations, and aggregations covered in Weeks 8–11</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+<section id="agenda" class="slide level2">
+<h2>Agenda:</h2>
+<div class="columns">
+<div class="column" style="width:49%;">
+<h3 id="lecture-90-min">Lecture (~90 min)</h3>
+<ul>
+<li>Amazon Athena — serverless SQL on S3</li>
+<li>AWS Glue Data Catalog</li>
+<li>Analytical SQL patterns</li>
+<li>boto3 programmatic access</li>
+<li>Apache Airflow for orchestration</li>
+<li>Local on EC2 vs Amazon MWAA</li>
+</ul>
+</div><div class="column" style="width:49%;">
+<h3 id="midterm-2-120-min">Midterm 2 (~120 min)</h3>
+<ul>
+<li>Spark on your EC2 cluster</li>
+<li>Problems released at start of midterm window</li>
+<li>Submit via GitHub Classroom</li>
+<li>Open notes / internet; no AI</li>
+<li>Cluster must be running and reachable</li>
+</ul>
+</div></div>
+</section>
+<section id="where-todays-tools-fit" class="slide level2">
+<h2>Where Today’s Tools Fit</h2>
+<p>Tools we’ve used so far, and where Athena + Airflow slot in:</p>
+<pre><code>Data sources
+    ↓
+[S3]  ←──────────────────── data lake (raw Parquet/CSV)
+    ↓
+[Glue Data Catalog] ←─────── schema registry (databases, tables)
+    ↓
+[Athena] ─────────────────── serverless SQL, pay-per-scan
+    ↓
+[Airflow / MWAA] ──────────── orchestration: schedule, backfill, retry
+    ↓
+Downstream: ML models, dashboards, reports</code></pre>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Note</strong></p>
+</div>
+<div class="callout-content">
+<p>Spark (Weeks 8–11) is also a valid query/ML engine on S3 — Athena is the <strong>serverless, SQL-only</strong> complement for interactive analytics without cluster management.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="motivating-example" class="slide level2">
+<h2>Motivating Example</h2>
+<p>Imagine you have <strong>6 months of NYC Yellow Taxi trip records</strong> in S3 — about 300 MB of Parquet files.</p>
+<div class="columns">
+<div class="column" style="width:55%;">
+<p><strong>The problem:</strong></p>
+<ul>
+<li>You need 12 ad-hoc aggregations</li>
+<li>You don’t want to launch and manage a Spark cluster</li>
+<li>You want to pay only for what you scan</li>
+<li>Results in under 3 minutes, billed in cents</li>
+</ul>
+</div><div class="column" style="width:43%;">
+<p><strong>The answer:</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode numberSource sql number-lines code-with-copy"><code class="sourceCode sql"><span id="cb2-1"><a></a><span class="kw">SELECT</span> <span class="fu">count</span>(<span class="op">*</span>),</span>
+<span id="cb2-2"><a></a>       <span class="fu">avg</span>(trip_distance),</span>
+<span id="cb2-3"><a></a>       <span class="fu">sum</span>(total_amount)</span>
+<span id="cb2-4"><a></a><span class="kw">FROM</span> <span class="ot">"AwsDataCatalog"</span></span>
+<span id="cb2-5"><a></a>     .<span class="ot">"nyc_tlc"</span>.<span class="ot">"2023"</span></span>
+<span id="cb2-6"><a></a><span class="kw">WHERE</span> passenger_count <span class="op">&gt;</span> <span class="dv">0</span>;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>No cluster. No infra. <strong>Athena.</strong></p>
+</div></div>
+</section>
+<section>
+<section id="amazon-athena" class="title-slide slide level1 section center">
+<h1>Amazon Athena</h1>
+
+</section>
+<section id="what-is-amazon-athena" class="slide level2">
+<h2>What is Amazon Athena?</h2>
+<p><strong>Amazon Athena</strong> is a serverless, interactive query service that lets you analyze data in <strong>Amazon S3</strong> using standard SQL.</p>
+<div class="columns">
+<div class="column" style="width:49%;">
+<p><strong>What you get:</strong></p>
+<ul>
+<li><a href="slides/athena/_background.qmd#sec-presto">Presto/Trino</a> engine under the hood</li>
+<li>Standard ANSI SQL (+ Presto extensions)</li>
+<li>No clusters to provision, patch, or scale</li>
+<li>Concurrent queries across teams</li>
+<li>JDBC/ODBC drivers, console, boto3 API</li>
+</ul>
+</div><div class="column" style="width:49%;">
+<p><strong>Pricing model:</strong></p>
+<ul>
+<li><strong>$5 per TB</strong> of data scanned (us-east-1)</li>
+<li>Charged per query; minimum 10 MB</li>
+<li>No charge when query fails before scanning</li>
+<li>Compression + columnar formats reduce cost dramatically</li>
+<li>Free tier: first 1 TB/month in new accounts</li>
+</ul>
+</div></div>
+</section>
+<section id="athenas-core-design-idea" class="slide level2">
+<h2>Athena’s Core Design Idea</h2>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Separate compute from storage</strong></p>
+</div>
+<div class="callout-content">
+<p>Athena’s breakthrough is <strong>schema-on-read</strong>: your data lives in S3 in its native format. Athena reads it at query time — no ingestion, no loading, no ETL into a proprietary store.</p>
+</div>
+</div>
+</div>
+<pre><code>Traditional data warehouse              Athena
+─────────────────────────────           ──────────────────────────
+1. Extract from source                  1. Drop files in S3
+2. Transform into warehouse schema      2. Register schema in Glue Catalog
+3. Load into proprietary storage        3. Query immediately with SQL
+4. Pay for always-on compute            4. Pay only when querying
+5. Manage clusters, scaling, backups    5. Nothing to manage</code></pre>
+</section>
+<section id="athena-architecture" class="slide level2">
+<h2>Athena Architecture</h2>
+<pre><code>┌──────────────────────────────────────────────────────┐
+│                    Your SQL query                    │
+└─────────────────────┬────────────────────────────────┘
+                      │ submit
+                      ▼
+┌──────────────────────────────────────────────────────┐
+│            Athena Query Engine (Presto/Trino)        │
+│  ┌─────────────────┐     ┌─────────────────────────┐ │
+│  │  Query planner  │────▶│  Distributed executors  │ │
+│  └────────┬────────┘     └──────────┬──────────────┘ │
+└───────────┼──────────────────────────┼───────────────┘
+            │ look up schema           │ read data
+            ▼                          ▼
+┌─────────────────────┐    ┌───────────────────────────┐
+│  AWS Glue Data      │    │    Amazon S3               │
+│  Catalog            │    │  s3://bucket/prefix/*.parq │
+│  (databases, tables)│    └───────────────────────────┘
+└─────────────────────┘
+            │ write results
+            ▼
+┌─────────────────────────────────────────────────────┐
+│  Results bucket: s3://bucket/data/results/&lt;id&gt;.csv  │
+└─────────────────────────────────────────────────────┘</code></pre>
+</section>
+<section id="aws-glue-data-catalog" class="slide level2">
+<h2>AWS Glue Data Catalog</h2>
+<p>The <strong>Glue Data Catalog</strong> is the metadata store shared by Athena, EMR, Redshift Spectrum, and Glue ETL.</p>
+<div class="columns">
+<div class="column" style="width:49%;">
+<p><strong>Key concepts:</strong></p>
+<ul>
+<li><strong>Database</strong> — logical namespace (like a schema)</li>
+<li><strong>Table</strong> — maps a name to an S3 location + format + column definitions</li>
+<li><strong>Partitions</strong> — sub-paths within the table location</li>
+<li><strong>Table version</strong> — schema edit history</li>
+</ul>
+</div><div class="column" style="width:49%;">
+<p><strong>Key properties stored per table:</strong></p>
+<pre><code>Location:   s3://bucket/prefix/
+InputFormat: Parquet / ORC / CSV / JSON
+Columns:    name, type pairs
+Partitions: year=2023/month=01/…
+SerDe:      org.apache.hadoop.hive.ql
+            .io.parquet.serde.ParquetHiveSerDe</code></pre>
+</div></div>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Tip</strong></p>
+</div>
+<div class="callout-content">
+<p>The Glue Catalog is free up to 1 million objects; additional objects billed per million per month.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="two-ways-to-register-a-table" class="slide level2">
+<h2>Two Ways to Register a Table</h2>
+<div class="columns">
+<div class="column" style="width:49%;">
+<h3 id="glue-crawler">Glue Crawler</h3>
+
+<pre><code>Glue → Crawlers → Create
+  ↓  Configure S3 source
+  ↓  Assign IAM role
+  ↓  Choose output DB
+  ↓  Run crawler
+  ↓  Table auto-created</code></pre>
+<p><strong>Pros:</strong> zero schema knowledge needed <strong>Cons:</strong> inference can go wrong (duplicate columns, wrong types)</p>
+<p>Best for: <strong>discovery</strong> of new/unknown data</p>
+</div><div class="column" style="width:49%;">
+<h3 id="explicit-ddl-lab-12">Explicit DDL (Lab 12)</h3>
+
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode numberSource sql number-lines code-with-copy"><code class="sourceCode sql"><span id="cb7-1"><a></a><span class="kw">CREATE</span> EXTERNAL <span class="kw">TABLE</span> <span class="cf">IF</span> <span class="kw">NOT</span> <span class="kw">EXISTS</span></span>
+<span id="cb7-2"><a></a>  shelter_counts (</span>
+<span id="cb7-3"><a></a>    <span class="dt">year</span> <span class="dt">INT</span>, <span class="dt">month</span> <span class="dt">INT</span>, <span class="dt">day</span> <span class="dt">INT</span>,</span>
+<span id="cb7-4"><a></a>    adults <span class="dt">INT</span>, children <span class="dt">INT</span>,</span>
+<span id="cb7-5"><a></a>    total <span class="dt">INT</span></span>
+<span id="cb7-6"><a></a>  )</span>
+<span id="cb7-7"><a></a>STORED <span class="kw">AS</span> PARQUET</span>
+<span id="cb7-8"><a></a>LOCATION <span class="st">'s3://bucket/shelter_data/'</span>;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Pros:</strong> exact schema control, CI-friendly <strong>Cons:</strong> must know the schema upfront</p>
+<p>Best for: <strong>production pipelines</strong> with stable schemas</p>
+</div></div>
+<aside><div>
+<p>The CRAWLER creates the metadata that allows GLUE and services such as ATHENA to view the S3 information as a database with tables. That is, it allows you to create the Glue Catalog.</p>
+</div><div>
+<p>DDL stands for <em>Data Definition Language</em>. These DDL statements are based on HiveQL and allow users to interact with data stored in Amazon S3.</p>
+</div></aside></section>
+<section id="columnar-formats-why-athena-loves-parquet" class="slide level2">
+<h2>Columnar Formats — Why Athena Loves Parquet</h2>
+<p>Athena charges per <strong>byte scanned</strong>. Columnar storage makes this much cheaper.</p>
+<div class="columns">
+<div class="column" style="width:49%;">
+<p><strong>Row-oriented (CSV):</strong></p>
+<pre><code>trip_id, distance, fare, tip, passenger
+1001,    2.3,     12.5, 2.0, 1
+1002,    8.7,     28.0, 4.5, 2
+...  (all columns, every row)</code></pre>
+<p><code>SELECT avg(fare)</code> → scans <strong>every column</strong></p>
+</div><div class="column" style="width:49%;">
+<p><strong>Column-oriented (Parquet):</strong></p>
+<pre><code>[trip_id column: 1001, 1002, ...]
+[distance column: 2.3, 8.7, ...]
+[fare column: 12.5, 28.0, ...]   ← only this
+[tip column: 2.0, 4.5, ...]</code></pre>
+<p><code>SELECT avg(fare)</code> → scans <strong>only fare column</strong></p>
+</div></div>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Note</strong></p>
+</div>
+<div class="callout-content">
+<p>Real-world impact: a query on a 1 TB CSV table that touches 3 of 30 columns might scan ~100 GB as Parquet — saving ~$4.50 per query execution.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="athena-cost-model" class="slide level2 smaller">
+<h2>Athena Cost Model</h2>
+<table class="caption-top">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Scenario</th>
+<th>Data scanned</th>
+<th>Cost (est.)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>6-month NYC taxi (Parquet)</td>
+<td>300 MB</td>
+<td>&lt; $0.01</td>
+</tr>
+<tr class="even">
+<td>Same data in CSV</td>
+<td>~2.5 GB</td>
+<td>~$0.01</td>
+</tr>
+<tr class="odd">
+<td>1 year of taxi (Parquet, unpartitioned)</td>
+<td>600 MB</td>
+<td>~$0.003</td>
+</tr>
+<tr class="even">
+<td>1 year of taxi (Parquet, partitioned by month)</td>
+<td>50 MB per month-query</td>
+<td>~$0.0003</td>
+</tr>
+<tr class="odd">
+<td>Large analytics table, 10 TB CSV</td>
+<td>10 TB</td>
+<td>$50.00</td>
+</tr>
+<tr class="even">
+<td>Same, converted to ORC with partitions</td>
+<td>~500 GB</td>
+<td>$2.50</td>
+</tr>
+</tbody>
+</table>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Tip</strong></p>
+</div>
+<div class="callout-content">
+<p>The two most impactful cost-reduction moves: (1) <strong>convert to Parquet/ORC</strong>, (2) <strong>partition your data</strong>.</p>
+</div>
+</div>
+</div>
+
+<aside><div>
+<p>ORC stands for <em>Optimized Row Columnar</em>, a type-aware, columnar format designed for big-data environmentIsLocked</p>
+</div></aside></section>
+<section id="setup-create-your-s3-bucket" class="slide level2 hidden">
+<h2>Setup: Create Your S3 Bucket</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a></a><span class="va">NETID</span><span class="op">=</span>your-netid</span>
+<span id="cb10-2"><a></a><span class="va">BUCKET</span><span class="op">=</span>athena-<span class="va">$NETID</span></span>
+<span id="cb10-3"><a></a></span>
+<span id="cb10-4"><a></a><span class="ex">aws</span> s3 mb s3://<span class="va">$BUCKET</span> <span class="at">--region</span> us-east-1</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The bucket serves as your entire data lake for this lab:</p>
+<pre><code>s3://athena-&lt;netid&gt;/
+  data/
+    2023/               ← raw Parquet taxi files
+    results/            ← Athena query results (required!)
+  shelter_data/         ← Lab 12: shelter counts Parquet
+  weather_data/         ← Lab 12: weather-augmented Parquet
+  athena-counts-temp/   ← Lab 12: Athena result spill</code></pre>
+</section>
+<section id="setup-stage-taxi-data" class="slide level2">
+<h2>Setup: Stage Taxi Data</h2>
+<p>Download 6 months of NYC TLC Yellow Taxi trip records directly into S3:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a></a><span class="cf">for</span> month <span class="kw">in</span> <span class="dt">{</span><span class="dv">01</span><span class="dt">..</span><span class="dv">06</span><span class="dt">}</span><span class="kw">;</span> <span class="cf">do</span></span>
+<span id="cb12-2"><a></a>  <span class="fu">wget</span> <span class="at">-qO-</span> <span class="dt">\</span></span>
+<span id="cb12-3"><a></a>    <span class="st">"https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_2023-</span><span class="va">${month}</span><span class="st">.parquet"</span> <span class="dt">\</span></span>
+<span id="cb12-4"><a></a>    <span class="at">--no-check-certificate</span> <span class="dt">\</span></span>
+<span id="cb12-5"><a></a>  <span class="kw">|</span> <span class="ex">aws</span> s3 cp <span class="at">-</span> <span class="st">"s3://</span><span class="va">$BUCKET</span><span class="st">/data/2023/yellow_tripdata_2023-</span><span class="va">${month}</span><span class="st">.parquet"</span></span>
+<span id="cb12-6"><a></a><span class="cf">done</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Note</strong></p>
+</div>
+<div class="callout-content">
+<p>The <code>wget ... | aws s3 cp -</code> pipeline streams from the CDN directly into S3 — no local disk needed. Each file is ~47–58 MB of compressed Parquet.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="verify-the-s3-layout" class="slide level2">
+<h2>Verify the S3 Layout</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a></a><span class="ex">aws</span> s3 ls s3://<span class="va">$BUCKET</span>/data/2023/</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Expected output:</p>
+<pre><code>2025-01-15 12:03:22   47,673,424 yellow_tripdata_2023-01.parquet
+2025-01-15 12:03:31   51,241,008 yellow_tripdata_2023-02.parquet
+2025-01-15 12:03:40   58,492,817 yellow_tripdata_2023-03.parquet
+2025-01-15 12:03:49   57,891,230 yellow_tripdata_2023-04.parquet
+2025-01-15 12:03:57   54,308,645 yellow_tripdata_2023-05.parquet
+2025-01-15 12:04:06   51,027,193 yellow_tripdata_2023-06.parquet</code></pre>
+<p>6 files, ~320 MB total. A full year’s worth is a $0.003 Athena query.</p>
+</section>
+<section id="glue-crawler-create-and-configure" class="slide level2">
+<h2>Glue Crawler: Create and Configure</h2>
+<div class="imgcenter">
+<p><img src="athena/img/gc-1.png" width="850"></p>
+</div>
+<p>Navigate: <strong>AWS Console → Glue → Data Catalog → Crawlers → Create crawler</strong></p>
+<p>Configure: name <code>nyc_tlc</code>, S3 source <code>s3://athena-&lt;netid&gt;/data/2023/</code>, IAM role <code>LabRole</code>, output database <code>nyc_tlc</code></p>
+</section>
+<section id="glue-crawler-run-result" class="slide level2">
+<h2>Glue Crawler: Run Result</h2>
+<div class="imgcenter">
+<p><img src="athena/img/glc-13.png" width="850"></p>
+</div>
+<p>After a successful run, Glue creates table <strong><code>2023</code></strong> in database <strong><code>nyc_tlc</code></strong> — the folder name becomes the table name.</p>
+</section>
+<section id="first-athena-query-results-location" class="slide level2">
+<h2>First Athena Query: Results Location</h2>
+<div class="callout callout-warning callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Required before any query will run</strong></p>
+</div>
+<div class="callout-content">
+<p>Athena stores every query result as a CSV in S3. You must set this location before running your first query — Athena will refuse otherwise.</p>
+<p><strong>Console: Settings → Manage → Query result location:</strong> <code>s3://athena-&lt;netid&gt;/data/results/</code></p>
+</div>
+</div>
+</div>
+<div class="imgcenter">
+<p><img src="athena/img/athena2.png" width="750"></p>
+</div>
+</section>
+<section id="fully-qualified-naming" class="slide level2">
+<h2>Fully-Qualified Naming</h2>
+<p>Athena uses a three-part name: <code>catalog.database.table</code></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode numberSource sql number-lines code-with-copy"><code class="sourceCode sql"><span id="cb15-1"><a></a><span class="co">-- Fully qualified (unambiguous across all catalogs)</span></span>
+<span id="cb15-2"><a></a><span class="kw">SELECT</span> <span class="fu">count</span>(<span class="op">*</span>)</span>
+<span id="cb15-3"><a></a><span class="kw">FROM</span> <span class="ot">"AwsDataCatalog"</span>.<span class="ot">"nyc_tlc"</span>.<span class="ot">"2023"</span>;</span>
+<span id="cb15-4"><a></a></span>
+<span id="cb15-5"><a></a><span class="co">-- Short form (works when database is set in session)</span></span>
+<span id="cb15-6"><a></a><span class="kw">SELECT</span> <span class="fu">count</span>(<span class="op">*</span>) <span class="kw">FROM</span> <span class="ot">"2023"</span>;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Note</strong></p>
+</div>
+<div class="callout-content">
+<p><code>"AwsDataCatalog"</code> is the default catalog — the Glue Data Catalog for your account. Athena also supports federated queries to other catalogs (RDS, DynamoDB, etc.) via Lambda connectors.</p>
+</div>
+</div>
+</div>
+<p>The result: <strong>~19.5 million</strong> rows across 6 months of Yellow Taxi trips.</p>
+</section>
+<section id="gotcha-duplicate-column-from-crawler" class="slide level2 smaller">
+<h2>Gotcha: Duplicate Column from Crawler</h2>
+<p>The crawler can mis-infer schema — notably, the <code>airport_fee</code> column appears <strong>twice</strong> in the NYC taxi data.</p>
+<div class="imgcenter">
+<p><img src="athena/img/gdc2.png" width="800"></p>
+</div>
+</section>
+<section id="gotcha-duplicate-column-from-crawler-1" class="slide level2 smaller">
+<h2>Gotcha: Duplicate Column from Crawler</h2>
+<p><strong>Fix:</strong> Glue Data Catalog → Tables → <code>2023</code> → Edit schema → delete the duplicate <code>airport_fee</code> row → <strong>Save as new table version</strong></p>
+<div class="imgcenter">
+<p><img src="athena/img/glue-fix-dup-table-col.png" width="700"></p>
+</div>
+</section>
+<section id="analytical-sql-approx_percentile" class="slide level2">
+<h2>Analytical SQL: <code>approx_percentile</code></h2>
+<p>Presto/Trino includes <strong>approximate aggregation functions</strong> that are much faster than exact percentile computation on large datasets.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode numberSource sql number-lines code-with-copy"><code class="sourceCode sql"><span id="cb16-1"><a></a><span class="kw">SELECT</span></span>
+<span id="cb16-2"><a></a>  approx_percentile(trip_distance, <span class="fl">0.25</span>) <span class="kw">AS</span> q1,</span>
+<span id="cb16-3"><a></a>  approx_percentile(trip_distance, <span class="fl">0.50</span>) <span class="kw">AS</span> <span class="fu">median</span>,</span>
+<span id="cb16-4"><a></a>  approx_percentile(trip_distance, <span class="fl">0.75</span>) <span class="kw">AS</span> q3</span>
+<span id="cb16-5"><a></a><span class="kw">FROM</span> <span class="ot">"AwsDataCatalog"</span>.<span class="ot">"nyc_tlc"</span>.<span class="ot">"2023"</span></span>
+<span id="cb16-6"><a></a><span class="kw">WHERE</span> trip_distance <span class="op">&gt;</span> <span class="dv">0</span> <span class="kw">AND</span> trip_distance <span class="op">&lt;</span> <span class="dv">100</span>;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Note</strong></p>
+</div>
+<div class="callout-content">
+<p><code>approx_percentile</code> uses a <a href="https://www.sciencedirect.com/science/article/pii/S2665963820300403"><strong>TDigest sketch</strong></a> — it processes data in a single pass and uses O(1/ε) memory, making it practical for 20M+ row tables where exact percentiles would require a full sort.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="iqr-anomaly-detection-part-1" class="slide level2">
+<h2>IQR Anomaly Detection — Part 1</h2>
+<p>Compute interquartile range in a scalar sub-query, then cross-join to the full table:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode numberSource sql number-lines code-with-copy"><code class="sourceCode sql"><span id="cb17-1"><a></a><span class="kw">SELECT</span></span>
+<span id="cb17-2"><a></a>    approx_percentile(trip_distance, <span class="fl">0.25</span>) <span class="kw">AS</span> q1,</span>
+<span id="cb17-3"><a></a>    approx_percentile(trip_distance, <span class="fl">0.50</span>) <span class="kw">AS</span> q2,</span>
+<span id="cb17-4"><a></a>    approx_percentile(trip_distance, <span class="fl">0.75</span>) <span class="kw">AS</span> q3</span>
+<span id="cb17-5"><a></a><span class="kw">FROM</span> <span class="ot">"AwsDataCatalog"</span>.<span class="ot">"nyc_tlc"</span>.<span class="ot">"2023"</span></span>
+<span id="cb17-6"><a></a><span class="kw">WHERE</span> trip_distance <span class="op">&gt;</span> <span class="dv">0</span> <span class="kw">AND</span> trip_distance <span class="op">&lt;</span> <span class="dv">100</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>This scalar query returns <strong>one row</strong> with Q1, Q2, Q3 — the basis for the IQR fence.</p>
+<p><code>IQR = Q3 − Q1</code> <code>Lower fence = Q1 − 1.5 × IQR</code> <code>Upper fence = Q3 + 1.5 × IQR</code></p>
+</section>
+<section id="iqr-anomaly-detection-part-2" class="slide level2 smaller">
+<h2>IQR Anomaly Detection — Part 2</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode numberSource sql number-lines code-with-copy"><code class="sourceCode sql"><span id="cb18-1"><a></a><span class="kw">SELECT</span> <span class="op">*</span> <span class="kw">FROM</span> (</span>
+<span id="cb18-2"><a></a>  <span class="kw">SELECT</span></span>
+<span id="cb18-3"><a></a>    t.pulocationid, t.dolocationid,</span>
+<span id="cb18-4"><a></a>    t.tpep_pickup_datetime, t.tpep_dropoff_datetime,</span>
+<span id="cb18-5"><a></a>    t.trip_distance,</span>
+<span id="cb18-6"><a></a>    q1, q2, q3,</span>
+<span id="cb18-7"><a></a>    (q3 <span class="op">-</span> q1) <span class="kw">AS</span> iqr,</span>
+<span id="cb18-8"><a></a>    <span class="cf">CASE</span></span>
+<span id="cb18-9"><a></a>      <span class="cf">WHEN</span> t.trip_distance <span class="op">&lt;</span> (q1 <span class="op">-</span> <span class="fl">1.5</span> <span class="op">*</span> (q3 <span class="op">-</span> q1))</span>
+<span id="cb18-10"><a></a>        <span class="kw">OR</span> t.trip_distance <span class="op">&gt;</span> (q3 <span class="op">+</span> <span class="fl">1.5</span> <span class="op">*</span> (q3 <span class="op">-</span> q1))</span>
+<span id="cb18-11"><a></a>      <span class="cf">THEN</span> <span class="st">'Anomaly'</span></span>
+<span id="cb18-12"><a></a>      <span class="cf">ELSE</span> <span class="st">'Normal'</span></span>
+<span id="cb18-13"><a></a>    <span class="cf">END</span> <span class="kw">AS</span> trip_distance_anomaly</span>
+<span id="cb18-14"><a></a>  <span class="kw">FROM</span></span>
+<span id="cb18-15"><a></a>    (<span class="kw">SELECT</span></span>
+<span id="cb18-16"><a></a>        approx_percentile(trip_distance, <span class="fl">0.25</span>) <span class="kw">AS</span> q1,</span>
+<span id="cb18-17"><a></a>        approx_percentile(trip_distance, <span class="fl">0.50</span>) <span class="kw">AS</span> q2,</span>
+<span id="cb18-18"><a></a>        approx_percentile(trip_distance, <span class="fl">0.75</span>) <span class="kw">AS</span> q3</span>
+<span id="cb18-19"><a></a>     <span class="kw">FROM</span> <span class="ot">"AwsDataCatalog"</span>.<span class="ot">"nyc_tlc"</span>.<span class="ot">"2023"</span></span>
+<span id="cb18-20"><a></a>     <span class="kw">WHERE</span> trip_distance <span class="op">&gt;</span> <span class="dv">0</span> <span class="kw">AND</span> trip_distance <span class="op">&lt;</span> <span class="dv">100</span></span>
+<span id="cb18-21"><a></a>    ) <span class="kw">AS</span> quartiles,</span>
+<span id="cb18-22"><a></a>    <span class="ot">"AwsDataCatalog"</span>.<span class="ot">"nyc_tlc"</span>.<span class="ot">"2023"</span> <span class="kw">AS</span> t</span>
+<span id="cb18-23"><a></a>  <span class="kw">WHERE</span> t.trip_distance <span class="op">&gt;</span> <span class="dv">0</span></span>
+<span id="cb18-24"><a></a>) <span class="kw">AS</span> anomaly_detection</span>
+<span id="cb18-25"><a></a><span class="kw">WHERE</span> trip_distance_anomaly <span class="op">=</span> <span class="st">'Anomaly'</span></span>
+<span id="cb18-26"><a></a><span class="kw">LIMIT</span> <span class="dv">1000</span>;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>A cross-join of a one-row scalar sub-query against the full table is efficient — Presto broadcasts the scalar side.</p>
+</section>
+<section id="performance-partitioning" class="slide level2">
+<h2>Performance: Partitioning</h2>
+<p><strong>Partitioning</strong> splits data into S3 sub-paths that Athena can prune at query time.</p>
+<div class="columns">
+<div class="column" style="width:49%;">
+<p><strong>Hive-style partition layout:</strong></p>
+<pre><code>s3://bucket/trips/
+  year=2023/
+    month=01/
+      part-00000.parquet
+    month=02/
+      part-00000.parquet</code></pre>
+<p><strong>DDL with partitions:</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode numberSource sql number-lines code-with-copy"><code class="sourceCode sql"><span id="cb20-1"><a></a><span class="kw">CREATE</span> EXTERNAL <span class="kw">TABLE</span> trips (<span class="op">..</span>.)</span>
+<span id="cb20-2"><a></a>PARTITIONED <span class="kw">BY</span> (<span class="dt">year</span> <span class="dt">INT</span>, <span class="dt">month</span> <span class="dt">INT</span>)</span>
+<span id="cb20-3"><a></a>STORED <span class="kw">AS</span> PARQUET</span>
+<span id="cb20-4"><a></a>LOCATION <span class="st">'s3://bucket/trips/'</span>;</span>
+<span id="cb20-5"><a></a>MSCK REPAIR <span class="kw">TABLE</span> trips;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column" style="width:49%;">
+<p><strong>Impact:</strong></p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Query</th>
+<th>Scanned</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>All data (no partition)</td>
+<td>100%</td>
+</tr>
+<tr class="even">
+<td><code>WHERE month=03</code> (partitioned)</td>
+<td>~8%</td>
+</tr>
+<tr class="odd">
+<td><code>WHERE year=2023 AND month=03</code></td>
+<td>~1.4%</td>
+</tr>
+</tbody>
+</table>
+<p>Use <strong>partition projection</strong> to avoid <code>MSCK REPAIR TABLE</code> on new partitions — declare the range in table properties.</p>
+</div></div>
+</section>
+<section id="performance-file-size-and-compression" class="slide level2">
+<h2>Performance: File Size and Compression</h2>
+<p><strong>Target: 128 MB – 512 MB per Parquet/ORC file</strong></p>
+<div class="columns">
+<div class="column" style="width:55%;">
+<p>Too many small files → high S3 LIST overhead and request fan-out Too few huge files → poor parallelism and slow query startup</p>
+<p><strong>Compression codecs:</strong></p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Codec</th>
+<th>Speed</th>
+<th>Ratio</th>
+<th>Splittable</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>SNAPPY</td>
+<td>Fast</td>
+<td>Moderate</td>
+<td>No</td>
+</tr>
+<tr class="even">
+<td>ZSTD</td>
+<td>Fast</td>
+<td>High</td>
+<td>No</td>
+</tr>
+<tr class="odd">
+<td>GZIP</td>
+<td>Slow</td>
+<td>High</td>
+<td>No</td>
+</tr>
+<tr class="even">
+<td>LZ4</td>
+<td>Fastest</td>
+<td>Low</td>
+<td>No</td>
+</tr>
+</tbody>
+</table>
+<p>For Athena: <strong>ZSTD</strong> is the sweet spot — better compression than Snappy, nearly as fast.</p>
+</div><div class="column" style="width:43%;">
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Tip</strong></p>
+</div>
+<div class="callout-content">
+<p>Parquet files are block-level splittable even without a splittable codec because the row group metadata allows Athena to skip groups.</p>
+<p>For files &lt; 64 MB: compact with CTAS before production use.</p>
+</div>
+</div>
+</div>
+</div></div>
+</section>
+<section id="explicit-ddl-create-external-table" class="slide level2">
+<h2>Explicit DDL: <code>CREATE EXTERNAL TABLE</code></h2>
+<p>From Lab 12 — creating the shelter counts table without a crawler:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="sourceCode numberSource sql number-lines code-with-copy"><code class="sourceCode sql"><span id="cb21-1"><a></a><span class="kw">CREATE</span> EXTERNAL <span class="kw">TABLE</span> <span class="cf">IF</span> <span class="kw">NOT</span> <span class="kw">EXISTS</span> shelter_counts (</span>
+<span id="cb21-2"><a></a>    <span class="dt">year</span>     <span class="dt">INT</span>,</span>
+<span id="cb21-3"><a></a>    <span class="dt">month</span>    <span class="dt">INT</span>,</span>
+<span id="cb21-4"><a></a>    <span class="dt">day</span>      <span class="dt">INT</span>,</span>
+<span id="cb21-5"><a></a>    adults   <span class="dt">INT</span>,</span>
+<span id="cb21-6"><a></a>    children <span class="dt">INT</span>,</span>
+<span id="cb21-7"><a></a>    total    <span class="dt">INT</span></span>
+<span id="cb21-8"><a></a>)</span>
+<span id="cb21-9"><a></a>STORED <span class="kw">AS</span> PARQUET</span>
+<span id="cb21-10"><a></a>LOCATION <span class="st">'s3://athena-&lt;netid&gt;/shelter_data/'</span>;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Run this via the Athena console or with the CLI:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb22-1"><a></a><span class="ex">aws</span> athena start-query-execution <span class="dt">\</span></span>
+<span id="cb22-2"><a></a>  <span class="at">--query-string</span> <span class="st">"CREATE EXTERNAL TABLE ..."</span> <span class="dt">\</span></span>
+<span id="cb22-3"><a></a>  <span class="at">--query-execution-context</span> Database=shelter_db <span class="dt">\</span></span>
+<span id="cb22-4"><a></a>  <span class="at">--result-configuration</span> OutputLocation=s3://athena-<span class="op">&lt;</span>netid<span class="op">&gt;</span>/athena-counts-temp/</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="ddl-vs-crawler-when-to-use-which" class="slide level2">
+<h2>DDL vs Crawler — When to Use Which</h2>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th></th>
+<th>Crawler</th>
+<th>Explicit DDL</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Schema knowledge</td>
+<td>Not needed</td>
+<td>Required</td>
+</tr>
+<tr class="even">
+<td>Schema accuracy</td>
+<td>Best-effort inference</td>
+<td>Exact</td>
+</tr>
+<tr class="odd">
+<td>Updates</td>
+<td>Re-run crawler</td>
+<td><code>ALTER TABLE</code> or recreate</td>
+</tr>
+<tr class="even">
+<td>CI/CD friendly</td>
+<td>Harder</td>
+<td>Yes (SQL files in git)</td>
+</tr>
+<tr class="odd">
+<td>New data sources</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>(unknown format)</td>
+<td>✅</td>
+<td>❌</td>
+</tr>
+<tr class="odd">
+<td>Production pipelines</td>
+<td>❌</td>
+<td>✅</td>
+</tr>
+<tr class="even">
+<td>Airflow-managed ETL</td>
+<td>❌</td>
+<td>✅</td>
+</tr>
+</tbody>
+</table>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Tip</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Use the crawler</strong> to discover and prototype. <strong>Switch to DDL</strong> once the schema is stable and pipelines are automated.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="writing-back-ctas-and-insert-into" class="slide level2">
+<h2>Writing Back: CTAS and INSERT INTO</h2>
+<p>Athena can write results back to S3 — useful for materializing expensive queries.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="sourceCode numberSource sql number-lines code-with-copy"><code class="sourceCode sql"><span id="cb23-1"><a></a><span class="co">-- CTAS: create a new table from a SELECT result</span></span>
+<span id="cb23-2"><a></a><span class="kw">CREATE</span> <span class="kw">TABLE</span> taxi_anomalies</span>
+<span id="cb23-3"><a></a><span class="kw">WITH</span> (</span>
+<span id="cb23-4"><a></a>  format <span class="op">=</span> <span class="st">'PARQUET'</span>,</span>
+<span id="cb23-5"><a></a>  write_compression <span class="op">=</span> <span class="st">'SNAPPY'</span>,</span>
+<span id="cb23-6"><a></a>  external_location <span class="op">=</span> <span class="st">'s3://athena-&lt;netid&gt;/data/anomalies/'</span></span>
+<span id="cb23-7"><a></a>)</span>
+<span id="cb23-8"><a></a><span class="kw">AS</span> <span class="kw">SELECT</span> <span class="op">*</span> <span class="kw">FROM</span> anomaly_detection_view</span>
+<span id="cb23-9"><a></a><span class="kw">WHERE</span> trip_distance_anomaly <span class="op">=</span> <span class="st">'Anomaly'</span>;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24"><pre class="sourceCode numberSource sql number-lines code-with-copy"><code class="sourceCode sql"><span id="cb24-1"><a></a><span class="co">-- INSERT INTO: append rows to an existing external table</span></span>
+<span id="cb24-2"><a></a><span class="kw">INSERT</span> <span class="kw">INTO</span> shelter_counts</span>
+<span id="cb24-3"><a></a><span class="kw">VALUES</span> (<span class="dv">2025</span>, <span class="dv">10</span>, <span class="dv">30</span>, <span class="dv">47891</span>, <span class="dv">12340</span>, <span class="dv">60231</span>);</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="callout callout-warning callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Warning</strong></p>
+</div>
+<div class="callout-content">
+<p><code>INSERT INTO</code> is limited — Athena does not support <code>UPDATE</code> or <code>DELETE</code> (it’s not a transactional store). For upsert patterns, use CTAS with a filter or Apache Iceberg tables.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="programmatic-athena-boto3-setup" class="slide level2">
+<h2>Programmatic Athena — boto3 Setup</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a></a><span class="im">import</span> boto3, time, os</span>
+<span id="cb25-2"><a></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb25-3"><a></a></span>
+<span id="cb25-4"><a></a>S3_BUCKET_NAME  <span class="op">=</span> <span class="st">"athena-your-netid"</span></span>
+<span id="cb25-5"><a></a>SCHEMA_NAME     <span class="op">=</span> <span class="st">"nyc_tlc"</span></span>
+<span id="cb25-6"><a></a>S3_STAGING_PREFIX <span class="op">=</span> <span class="st">"data/results"</span></span>
+<span id="cb25-7"><a></a>S3_STAGING_DIR  <span class="op">=</span> <span class="ss">f"s3://</span><span class="sc">{</span>S3_BUCKET_NAME<span class="sc">}</span><span class="ss">/</span><span class="sc">{</span>S3_STAGING_PREFIX<span class="sc">}</span><span class="ss">/"</span></span>
+<span id="cb25-8"><a></a>AWS_REGION      <span class="op">=</span> <span class="st">"us-east-1"</span></span>
+<span id="cb25-9"><a></a></span>
+<span id="cb25-10"><a></a>athena_client <span class="op">=</span> boto3.client(<span class="st">"athena"</span>, region_name<span class="op">=</span>AWS_REGION)</span>
+<span id="cb25-11"><a></a>s3_client     <span class="op">=</span> boto3.client(<span class="st">"s3"</span>,     region_name<span class="op">=</span>AWS_REGION)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Note</strong></p>
+</div>
+<div class="callout-content">
+<p>On EC2 with the <code>LabRole</code> instance profile attached, boto3 picks up credentials automatically — no <code>aws configure</code> needed.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="programmatic-athena-start_query_execution" class="slide level2">
+<h2>Programmatic Athena — <code>start_query_execution</code></h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb26"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a></a>query <span class="op">=</span> <span class="st">"""</span></span>
+<span id="cb26-2"><a></a><span class="st">    SELECT pulocationid,</span></span>
+<span id="cb26-3"><a></a><span class="st">           count(*) AS trip_count</span></span>
+<span id="cb26-4"><a></a><span class="st">    FROM "AwsDataCatalog"."nyc_tlc"."2023"</span></span>
+<span id="cb26-5"><a></a><span class="st">    GROUP BY pulocationid</span></span>
+<span id="cb26-6"><a></a><span class="st">    ORDER BY trip_count DESC</span></span>
+<span id="cb26-7"><a></a><span class="st">    LIMIT 5</span></span>
+<span id="cb26-8"><a></a><span class="st">"""</span></span>
+<span id="cb26-9"><a></a></span>
+<span id="cb26-10"><a></a>response <span class="op">=</span> athena_client.start_query_execution(</span>
+<span id="cb26-11"><a></a>    QueryString<span class="op">=</span>query,</span>
+<span id="cb26-12"><a></a>    QueryExecutionContext<span class="op">=</span>{<span class="st">"Database"</span>: SCHEMA_NAME},</span>
+<span id="cb26-13"><a></a>    ResultConfiguration<span class="op">=</span>{</span>
+<span id="cb26-14"><a></a>        <span class="st">"OutputLocation"</span>: S3_STAGING_DIR,</span>
+<span id="cb26-15"><a></a>        <span class="st">"EncryptionConfiguration"</span>: {<span class="st">"EncryptionOption"</span>: <span class="st">"SSE_S3"</span>},</span>
+<span id="cb26-16"><a></a>    },</span>
+<span id="cb26-17"><a></a>)</span>
+<span id="cb26-18"><a></a>query_id <span class="op">=</span> response[<span class="st">"QueryExecutionId"</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><code>start_query_execution</code> returns <strong>immediately</strong> — Athena executes asynchronously.</p>
+</section>
+<section id="programmatic-athena-poll-and-download" class="slide level2 smaller">
+<h2>Programmatic Athena — Poll and Download</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb27"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a></a><span class="co"># Poll until the query finishes</span></span>
+<span id="cb27-2"><a></a><span class="cf">while</span> <span class="va">True</span>:</span>
+<span id="cb27-3"><a></a>    <span class="cf">try</span>:</span>
+<span id="cb27-4"><a></a>        athena_client.get_query_results(QueryExecutionId<span class="op">=</span>query_id)</span>
+<span id="cb27-5"><a></a>        <span class="cf">break</span></span>
+<span id="cb27-6"><a></a>    <span class="cf">except</span> <span class="pp">Exception</span> <span class="im">as</span> err:</span>
+<span id="cb27-7"><a></a>        <span class="cf">if</span> <span class="st">"not yet finished"</span> <span class="kw">in</span> <span class="bu">str</span>(err):</span>
+<span id="cb27-8"><a></a>            time.sleep(<span class="fl">0.5</span>)</span>
+<span id="cb27-9"><a></a>        <span class="cf">else</span>:</span>
+<span id="cb27-10"><a></a>            <span class="cf">raise</span> err</span>
+<span id="cb27-11"><a></a></span>
+<span id="cb27-12"><a></a><span class="co"># Athena writes the result CSV to S3</span></span>
+<span id="cb27-13"><a></a>result_key <span class="op">=</span> <span class="ss">f"</span><span class="sc">{</span>S3_STAGING_PREFIX<span class="sc">}</span><span class="ss">/</span><span class="sc">{</span>query_id<span class="sc">}</span><span class="ss">.csv"</span></span>
+<span id="cb27-14"><a></a>s3_client.download_file(S3_BUCKET_NAME, result_key, <span class="st">"result.csv"</span>)</span>
+<span id="cb27-15"><a></a></span>
+<span id="cb27-16"><a></a>df <span class="op">=</span> pd.read_csv(<span class="st">"result.csv"</span>)</span>
+<span id="cb27-17"><a></a><span class="bu">print</span>(df)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="async-query-lifecycle" class="slide level2">
+<h2>Async Query Lifecycle</h2>
+<pre><code>start_query_execution()
+        │
+        ▼
+   [QUEUED] ─── waiting for an executor slot
+        │
+        ▼
+  [RUNNING] ─── scanning S3, computing aggregations
+        │
+        ▼
+[SUCCEEDED] ─── result CSV written to s3://…/results/&lt;id&gt;.csv
+        │
+        ▼
+ download from S3 → pd.read_csv()</code></pre>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Tip</strong></p>
+</div>
+<div class="callout-content">
+<p>For production use, prefer <code>get_query_execution</code> with exponential backoff over the tight polling loop shown here. AWS also provides the <strong>Athena JDBC driver</strong> for BI tools that need a blocking interface.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="security-iam-and-lake-formation" class="slide level2">
+<h2>Security: IAM and Lake Formation</h2>
+<div class="columns">
+<div class="column" style="width:49%;">
+<p><strong>IAM-based (what we use in class):</strong></p>
+<ul>
+<li><code>LabRole</code> is pre-granted:
+<ul>
+<li><code>s3:GetObject</code> on lab buckets</li>
+<li><code>glue:GetTable</code>, <code>glue:GetDatabase</code></li>
+<li><code>athena:StartQueryExecution</code></li>
+<li><code>athena:GetQueryResults</code></li>
+</ul></li>
+<li>Simple; all-or-nothing per bucket</li>
+</ul>
+</div><div class="column" style="width:49%;">
+<p><strong>Lake Formation (production):</strong></p>
+<ul>
+<li>Column-level security: hide PII columns per IAM principal</li>
+<li>Row-level filters: <code>WHERE department = 'finance'</code> enforced at the catalog</li>
+<li>Tag-based access control across Athena, EMR, Redshift</li>
+<li>Audit trail via CloudTrail</li>
+</ul>
+</div></div>
+</section>
+<section id="athena-limits-and-gotchas" class="slide level2">
+<h2>Athena Limits and Gotchas</h2>
+<table class="caption-top">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Limit / Gotcha</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Query timeout</td>
+<td>30 minutes max per query</td>
+</tr>
+<tr class="even">
+<td>Result location</td>
+<td><strong>Must be set</strong> before first query — Athena refuses to run without it</td>
+</tr>
+<tr class="odd">
+<td><code>ON CONFLICT</code></td>
+<td>Not supported — Athena/Presto is not a transactional engine</td>
+</tr>
+<tr class="even">
+<td><code>UPDATE</code> / <code>DELETE</code></td>
+<td>Not supported for external tables (use Iceberg for ACID)</td>
+</tr>
+<tr class="odd">
+<td>Hive-style identifiers</td>
+<td>Column names must be lowercase; mixed-case requires quoting</td>
+</tr>
+<tr class="even">
+<td>Schema-on-read</td>
+<td>No validation at write time — bad files silently return NULLs</td>
+</tr>
+<tr class="odd">
+<td>Duplicate crawler columns</td>
+<td><code>airport_fee</code> gotcha — always verify schema after crawling</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="athena-wrap" class="slide level2">
+<h2>Athena Wrap</h2>
+<div class="columns">
+<div class="column" style="width:55%;">
+<p><strong>Key takeaways:</strong></p>
+<ul>
+<li>S3 + Glue Catalog + SQL = <strong>serverless analytics</strong></li>
+<li>Pay per scan; use Parquet + partitions to keep bills tiny</li>
+<li>Two registration paths: Crawler (discovery) vs.&nbsp;DDL (production)</li>
+<li>Presto SQL unlocks approximate analytics at scale</li>
+<li>boto3 gives full programmatic control</li>
+</ul>
+</div><div class="column" style="width:43%;">
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>The next question</strong></p>
+</div>
+<div class="callout-content">
+<p>You’ve queried static Parquet in S3. But what if <strong>new data arrives every day</strong> and you want to:</p>
+<ul>
+<li>Extract it automatically</li>
+<li>Transform and load it into the Athena table</li>
+<li>Retry on failure</li>
+<li>Backfill months of history</li>
+</ul>
+<p>→ <strong>Apache Airflow</strong></p>
+</div>
+</div>
+</div>
+</div></div>
+</section></section>
+<section>
+<section id="orchestration-with-apache-airflow" class="title-slide slide level1 section center">
+<h1>Orchestration with Apache Airflow</h1>
+
+</section>
+<section id="why-orchestration" class="slide level2">
+<h2>Why Orchestration?</h2>
+<p>You have a working ETL script. Now imagine running it daily, for years, across multiple data sources.</p>
+<div class="columns">
+<div class="column" style="width:49%;">
+<p><strong>What goes wrong with simple cron:</strong></p>
+<ul>
+<li>No dependency tracking between steps</li>
+<li>No visibility when a step fails at 3 AM</li>
+<li>No retries with backoff</li>
+<li>No way to backfill 6 months of history</li>
+<li>No audit log of what ran when</li>
+</ul>
+</div><div class="column" style="width:49%;">
+<p><strong>What orchestration gives you:</strong></p>
+<ul>
+<li><strong>DAG</strong>: explicit task dependency graph</li>
+<li><strong>Scheduler</strong>: trigger runs on schedule or event</li>
+<li><strong>Retries</strong>: automatic retry with configurable backoff</li>
+<li><strong>Backfill</strong>: re-run past intervals on demand</li>
+<li><strong>Web UI</strong>: real-time task status, logs, timeline</li>
+<li><strong>Alerting</strong>: email/Slack on failure or SLA breach</li>
+</ul>
+</div></div>
+</section>
+<section id="apache-airflow-in-one-slide" class="slide level2">
+<h2>Apache Airflow in One Slide</h2>
+<pre><code>┌─────────────────────────────────────────────────────┐
+│                   Apache Airflow                    │
+│                                                     │
+│  ┌──────────┐  parse  ┌─────────────────────────┐  │
+│  │  DAG     │─────────▶   Scheduler              │  │
+│  │  files   │         │   (triggers task runs)   │  │
+│  │ (Python) │         └────────────┬────────────-┘  │
+│  └──────────┘                      │ enqueue         │
+│                                    ▼                 │
+│  ┌──────────┐         ┌─────────────────────────┐  │
+│  │  Web UI  │◀────────│   Executor               │  │
+│  │ (monitor)│  status │   (runs the tasks)       │  │
+│  └──────────┘         └─────────────────────────-┘  │
+│                                    │                 │
+│  ┌─────────────────────────────────▼───────────────┐ │
+│  │  Metadata DB (SQLite in dev / Postgres in prod) │ │
+│  └─────────────────────────────────────────────────┘ │
+└─────────────────────────────────────────────────────┘</code></pre>
+</section>
+<section id="core-vocabulary" class="slide level2 smaller">
+<h2>Core Vocabulary</h2>
+<table class="caption-top">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Term</th>
+<th>What it is</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>DAG</strong></td>
+<td>Directed Acyclic Graph — the workflow definition; a Python file</td>
+</tr>
+<tr class="even">
+<td><strong>Task</strong></td>
+<td>A single unit of work within a DAG</td>
+</tr>
+<tr class="odd">
+<td><strong>Operator</strong></td>
+<td>Template for a task type (<code>PythonOperator</code>, <code>BashOperator</code>, <code>S3KeySensor</code>…)</td>
+</tr>
+<tr class="even">
+<td><strong>Sensor</strong></td>
+<td>Operator that waits for a condition (file exists, API ready)</td>
+</tr>
+<tr class="odd">
+<td><strong>Hook</strong></td>
+<td>Abstraction over an external service (S3Hook, HttpHook…)</td>
+</tr>
+<tr class="even">
+<td><strong>Connection</strong></td>
+<td>Named credential stored in the metadata DB</td>
+</tr>
+<tr class="odd">
+<td><strong>XCom</strong></td>
+<td>Cross-communication: pass small values between tasks</td>
+</tr>
+<tr class="even">
+<td><strong>Data interval</strong></td>
+<td>The logical time window a DAG run represents</td>
+</tr>
+<tr class="odd">
+<td><strong>Backfill</strong></td>
+<td>Running past intervals to populate historical data</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="a-minimal-dag-from-lab-12" class="slide level2">
+<h2>A Minimal DAG (from Lab 12)</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb30"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a></a><span class="im">from</span> airflow <span class="im">import</span> DAG</span>
+<span id="cb30-2"><a></a><span class="im">from</span> airflow.providers.standard.operators.python <span class="im">import</span> PythonOperator</span>
+<span id="cb30-3"><a></a></span>
+<span id="cb30-4"><a></a>shelter_dag <span class="op">=</span> DAG(</span>
+<span id="cb30-5"><a></a>    dag_id<span class="op">=</span><span class="st">"01a_shelter_model_manual"</span>,</span>
+<span id="cb30-6"><a></a>    schedule<span class="op">=</span><span class="va">None</span>,        <span class="co"># manually triggered — no schedule</span></span>
+<span id="cb30-7"><a></a>    max_active_runs<span class="op">=</span><span class="dv">1</span>,    <span class="co"># never overlap concurrent runs</span></span>
+<span id="cb30-8"><a></a>)</span>
+<span id="cb30-9"><a></a></span>
+<span id="cb30-10"><a></a><span class="cf">with</span> shelter_dag:</span>
+<span id="cb30-11"><a></a>    extract <span class="op">=</span> PythonOperator(</span>
+<span id="cb30-12"><a></a>        task_id<span class="op">=</span><span class="st">"extract_raw_report"</span>,</span>
+<span id="cb30-13"><a></a>        python_callable<span class="op">=</span>_extract_raw_report,</span>
+<span id="cb30-14"><a></a>        op_kwargs<span class="op">=</span>{</span>
+<span id="cb30-15"><a></a>            <span class="st">'year'</span>:  <span class="st">'</span><span class="sc">{{</span><span class="st"> data_interval_start.year </span><span class="sc">}}</span><span class="st">'</span>,</span>
+<span id="cb30-16"><a></a>            <span class="st">'month'</span>: <span class="st">'</span><span class="sc">{{</span><span class="st"> data_interval_start.month </span><span class="sc">}}</span><span class="st">'</span>,</span>
+<span id="cb30-17"><a></a>            <span class="st">'day'</span>:   <span class="st">'</span><span class="sc">{{</span><span class="st"> data_interval_start.day </span><span class="sc">}}</span><span class="st">'</span>,</span>
+<span id="cb30-18"><a></a>            <span class="st">'reports_base_url'</span>: <span class="st">'https://…/nyc-shelters'</span>,</span>
+<span id="cb30-19"><a></a>        },</span>
+<span id="cb30-20"><a></a>    )</span>
+<span id="cb30-21"><a></a>    transform <span class="op">=</span> PythonOperator(task_id<span class="op">=</span><span class="st">"transform_counts"</span>,</span>
+<span id="cb30-22"><a></a>                               python_callable<span class="op">=</span>_transform_counts, ...)</span>
+<span id="cb30-23"><a></a>    write     <span class="op">=</span> PythonOperator(task_id<span class="op">=</span><span class="st">"write_counts"</span>,</span>
+<span id="cb30-24"><a></a>                               python_callable<span class="op">=</span>_write_counts, ...)</span>
+<span id="cb30-25"><a></a></span>
+<span id="cb30-26"><a></a>    extract <span class="op">&gt;&gt;</span> transform <span class="op">&gt;&gt;</span> write   <span class="co"># dependency DSL</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="jinja-templating-and-logical-dates" class="slide level2">
+<h2>Jinja Templating and Logical Dates</h2>
+<p>The <code>{ data_interval_start.year }</code> in <code>op_kwargs</code> is <strong>Jinja templating</strong> — Airflow resolves it at runtime to the logical date of the DAG run.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb31"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a></a><span class="co"># What Airflow fills in for a run representing 2025-03-15:</span></span>
+<span id="cb31-2"><a></a>op_kwargs<span class="op">=</span>{</span>
+<span id="cb31-3"><a></a>    <span class="st">'year'</span>:  <span class="dv">2025</span>,</span>
+<span id="cb31-4"><a></a>    <span class="st">'month'</span>: <span class="dv">3</span>,</span>
+<span id="cb31-5"><a></a>    <span class="st">'day'</span>:   <span class="dv">15</span>,</span>
+<span id="cb31-6"><a></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="columns">
+<div class="column" style="width:55%;">
+<p><strong>Why this matters for backfill:</strong></p>
+<p>When you backfill Jan 1 – Oct 30 2025, Airflow creates 303 DAG runs, each with the correct <code>data_interval_start</code>. Your task function always receives the <strong>right date</strong> without you writing any date-looping logic.</p>
+</div><div class="column" style="width:43%;">
+<div class="callout callout-warning callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Warning</strong></p>
+</div>
+<div class="callout-content">
+<p>Common mistake: using <code>datetime.today()</code> inside a task instead of the templated date. This breaks idempotency and makes backfill produce wrong results.</p>
+</div>
+</div>
+</div>
+</div></div>
+
+<aside><div>
+<p><strong>Idempotency</strong> is a property of certain operations in mathematics and computer science whereby they can be applied multiple times without changing the result beyond the initial application. For example, in programming, an idempotent operation will produce the same result regardless of how many times it is executed.</p>
+</div></aside></section>
+<section id="backfill" class="slide level2">
+<h2>Backfill</h2>
+<p><strong>Backfill</strong>: ask Airflow to run a DAG for all past intervals between two dates.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb32"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb32-1"><a></a><span class="ex">airflow</span> dags backfill <span class="dt">\</span></span>
+<span id="cb32-2"><a></a>    <span class="at">--start-date</span> 2025-01-01 <span class="dt">\</span></span>
+<span id="cb32-3"><a></a>    <span class="at">--end-date</span>   2025-10-30 <span class="dt">\</span></span>
+<span id="cb32-4"><a></a>    01b_shelter_model_backfill</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="columns">
+<div class="column" style="width:55%;">
+<p><strong>Key settings for safe backfill:</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb33"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a></a>DAG(</span>
+<span id="cb33-2"><a></a>    dag_id<span class="op">=</span><span class="st">"01b_shelter_model_backfill"</span>,</span>
+<span id="cb33-3"><a></a>    schedule<span class="op">=</span><span class="st">"@daily"</span>,</span>
+<span id="cb33-4"><a></a>    max_active_runs<span class="op">=</span><span class="dv">1</span>,    <span class="co"># run one interval at a time</span></span>
+<span id="cb33-5"><a></a>    catchup<span class="op">=</span><span class="va">True</span>,         <span class="co"># backfill missed intervals</span></span>
+<span id="cb33-6"><a></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column" style="width:43%;">
+<p><strong>Handle missing days gracefully:</strong></p>
+<p>NYC shelter PDFs aren’t published on weekends or holidays. The extract task must detect a 404 and produce a NULL record rather than crashing:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb34"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a></a><span class="cf">if</span> response.status_code <span class="op">==</span> <span class="dv">404</span>:</span>
+<span id="cb34-2"><a></a>    <span class="co"># produce NaN row, don't raise</span></span>
+<span id="cb34-3"><a></a>    <span class="cf">return</span> build_null_record(year, month, day)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div></div>
+</section>
+<section id="etl-pattern-pdf-parquet-athena" class="slide level2">
+<h2>ETL Pattern: PDF → Parquet → Athena</h2>
+<p>Lab 12’s four-stage DAG progression teaches the full ETL-to-cloud arc:</p>
+<pre><code>01a: Extract → Transform → Write (local CSV)
+       │
+       │  add: generate INSERT SQL
+       ▼
+01b: Extract → Transform → Write → gen_query (backfill-ready)
+       │
+       │  replace local write with Athena load
+       ▼
+01c: Extract → Transform → gen_query → load_into_db  ← boto3 INSERT into shelter_counts
+       │
+       │  add: train model on accumulated data
+       ▼
+01d: Extract → Transform → gen_query → load_into_db → train_and_evaluate</code></pre>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Note</strong></p>
+</div>
+<div class="callout-content">
+<p>The architectural pivot in <strong>01c</strong> — swapping local CSV for S3+Athena — is the key insight: the task code changes minimally, but the data now lives in a queryable, scalable cloud store instead of a single machine’s disk.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="fan-out-adding-a-second-data-source" class="slide level2">
+<h2>Fan-out: Adding a Second Data Source</h2>
+<p>DAGs support <strong>parallel branches</strong> — multiple tasks that can run concurrently after a shared upstream completes.</p>
+<pre><code>         ┌──────────────────┐
+         │  extract_report  │
+         └────────┬─────────┘
+                  │
+          ┌───────┴────────┐
+          ▼                ▼
+  transform_counts   transform_weather   ← run in parallel
+          │                │
+          └───────┬────────┘
+                  ▼
+            gen_sql_query
+                  ▼
+           load_into_athena
+                  ▼
+          train_and_evaluate</code></pre>
+<p>The weather data (NOAA GHCND) adds 7 new columns: <code>tmin, tmax, awnd, wsf2, prcp, snow, snwd</code></p>
+</section>
+<section id="the-shelter_weather-table" class="slide level2">
+<h2>The <code>shelter_weather</code> Table</h2>
+<p>The 13-column schema that merges shelter counts with NOAA weather:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb37"><pre class="sourceCode numberSource sql number-lines code-with-copy"><code class="sourceCode sql"><span id="cb37-1"><a></a><span class="kw">CREATE</span> EXTERNAL <span class="kw">TABLE</span> <span class="cf">IF</span> <span class="kw">NOT</span> <span class="kw">EXISTS</span> shelter_weather (</span>
+<span id="cb37-2"><a></a>    <span class="dt">year</span>     <span class="dt">INT</span>,    <span class="dt">month</span>   <span class="dt">INT</span>,    <span class="dt">day</span>     <span class="dt">INT</span>,</span>
+<span id="cb37-3"><a></a>    adults   <span class="dt">INT</span>,    children <span class="dt">INT</span>,   total   <span class="dt">INT</span>,</span>
+<span id="cb37-4"><a></a>    tmin     <span class="dt">DOUBLE</span>, tmax    <span class="dt">DOUBLE</span>,     <span class="co">-- daily temp range (tenths °C)</span></span>
+<span id="cb37-5"><a></a>    awnd     <span class="dt">DOUBLE</span>,                     <span class="co">-- avg wind speed (m/s)</span></span>
+<span id="cb37-6"><a></a>    wsf2     <span class="dt">DOUBLE</span>,                     <span class="co">-- fastest 2-min wind (m/s)</span></span>
+<span id="cb37-7"><a></a>    prcp     <span class="dt">DOUBLE</span>,                     <span class="co">-- precipitation (tenths mm)</span></span>
+<span id="cb37-8"><a></a>    snow     <span class="dt">DOUBLE</span>,                     <span class="co">-- snowfall (mm)</span></span>
+<span id="cb37-9"><a></a>    snwd     <span class="dt">DOUBLE</span>                      <span class="co">-- snow depth (mm)</span></span>
+<span id="cb37-10"><a></a>)</span>
+<span id="cb37-11"><a></a>STORED <span class="kw">AS</span> PARQUET</span>
+<span id="cb37-12"><a></a>LOCATION <span class="st">'s3://athena-&lt;netid&gt;/weather_data/'</span>;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Payoff</strong>: a <code>DecisionTreeRegressor</code> on <code>[tmin, tmax, awnd, …] → total</code> achieves lower RMSE than predicting from day-of-month alone — the ETL extension is validated empirically.</p>
+</section>
+<section id="sql-gotcha-athena-postgres" class="slide level2">
+<h2>SQL Gotcha: Athena ≠ Postgres</h2>
+<p>Lab 12’s <code>gen_sql_query</code> task generates this INSERT:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb38"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a></a>query <span class="op">=</span> <span class="ss">f"""</span></span>
+<span id="cb38-2"><a></a><span class="ss">    INSERT INTO shelter_counts</span></span>
+<span id="cb38-3"><a></a><span class="ss">    VALUES (</span><span class="sc">{</span>values_str<span class="sc">}</span><span class="ss">)</span></span>
+<span id="cb38-4"><a></a><span class="ss">    ON CONFLICT (year, month, day) DO NOTHING;</span></span>
+<span id="cb38-5"><a></a><span class="ss">"""</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="callout callout-warning callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong><code>ON CONFLICT</code> is Postgres syntax — not valid in Athena/Presto</strong></p>
+</div>
+<div class="callout-content">
+<p>Athena is a <strong>read-optimized</strong> query engine. It has no row-level conflict detection, no primary keys, and no transactional guarantees. Running this SQL against Athena will raise a parse error.</p>
+<p><strong>Fix options:</strong> - Remove <code>ON CONFLICT</code> and prevent duplicate writes at the pipeline level (idempotent task logic) - Use <strong>Apache Iceberg</strong> tables on Athena for ACID operations - Filter duplicates out with a <code>WHERE NOT EXISTS(...)</code> sub-query on read</p>
+</div>
+</div>
+</div>
+
+<aside><div>
+<p>ACID operations are database transactions that guarantee Atomicity, Consistency, Isolation, and Durability to ensure reliable and error-free data management.</p>
+</div></aside></section>
+<section id="running-airflow-local-on-ec2" class="slide level2">
+<h2>Running Airflow: Local on EC2</h2>
+<p>In Lab 12, Airflow runs on a single EC2 instance using <strong><code>airflow standalone</code></strong> — a development-mode process that combines all components:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb39"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb39-1"><a></a><span class="co"># One-time setup</span></span>
+<span id="cb39-2"><a></a><span class="bu">export</span> <span class="va">AIRFLOW_HOME</span><span class="op">=</span><span class="st">"</span><span class="va">$(</span><span class="bu">pwd</span><span class="va">)</span><span class="st">/airflow-home/"</span></span>
+<span id="cb39-3"><a></a><span class="bu">export</span> <span class="va">AIRFLOW__CORE__LOAD_EXAMPLES</span><span class="op">=</span>False</span>
+<span id="cb39-4"><a></a><span class="ex">airflow</span> db migrate              <span class="co"># initialize SQLite metastore</span></span>
+<span id="cb39-5"><a></a></span>
+<span id="cb39-6"><a></a><span class="co"># Start Airflow (all components in one process)</span></span>
+<span id="cb39-7"><a></a><span class="ex">airflow</span> standalone</span>
+<span id="cb39-8"><a></a><span class="co"># → Web UI at http://&lt;ec2-ip&gt;:8080</span></span>
+<span id="cb39-9"><a></a><span class="co"># → Admin password in airflow-home/simple_auth_manager_passwords.json.generated</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb40"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb40-1"><a></a><span class="co"># Drop DAG files into the dags/ directory — Airflow picks them up automatically</span></span>
+<span id="cb40-2"><a></a><span class="fu">cp</span> my_dag.py <span class="va">$AIRFLOW_HOME</span>/dags/</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Note</strong></p>
+</div>
+<div class="callout-content">
+<p><code>airflow standalone</code> is for <strong>development only</strong> — single-node, SQLite. Production uses separate scheduler, API server, and Celery or Kubernetes executor with Postgres.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="running-airflow-amazon-mwaa" class="slide level2">
+<h2>Running Airflow: Amazon MWAA</h2>
+<p><strong>Amazon Managed Workflows for Apache Airflow (MWAA)</strong> is the fully managed, production version.</p>
+<div class="columns">
+<div class="column" style="width:49%;">
+<p><strong>How it works:</strong></p>
+<ol type="1">
+<li>Create an MWAA <strong>Environment</strong> (choose size)</li>
+<li>Upload <code>requirements.txt</code> and <code>dags/</code> to an <strong>S3 bucket</strong></li>
+<li>MWAA syncs DAGs automatically</li>
+<li>Scheduler, workers, web server run in a <strong>VPC</strong></li>
+<li>Logs go to <strong>CloudWatch</strong></li>
+<li>Workers auto-scale with load</li>
+</ol>
+</div><div class="column" style="width:49%;">
+<p><strong>Environment sizes:</strong></p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Size</th>
+<th>vCPUs</th>
+<th>Memory</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>mw1.small</td>
+<td>2</td>
+<td>4 GB</td>
+</tr>
+<tr class="even">
+<td>mw1.medium</td>
+<td>4</td>
+<td>8 GB</td>
+</tr>
+<tr class="odd">
+<td>mw1.large</td>
+<td>8</td>
+<td>16 GB</td>
+</tr>
+<tr class="even">
+<td>mw1.xlarge</td>
+<td>16</td>
+<td>32 GB</td>
+</tr>
+</tbody>
+</table>
+<p>Priced per environment-hour + additional worker costs.</p>
+</div></div>
+</section>
+<section id="local-ec2-vs-mwaa" class="slide level2">
+<h2>Local EC2 vs MWAA</h2>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th></th>
+<th>Local on EC2</th>
+<th>Amazon MWAA</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Setup</strong></td>
+<td>Minutes</td>
+<td>Hours (VPC, IAM, S3 policy)</td>
+</tr>
+<tr class="even">
+<td><strong>Cost</strong></td>
+<td>EC2 instance only</td>
+<td>$0.49–$4.18 /env-hour</td>
+</tr>
+<tr class="odd">
+<td><strong>HA</strong></td>
+<td>No</td>
+<td>Yes (multi-AZ)</td>
+</tr>
+<tr class="even">
+<td><strong>DAG deployment</strong></td>
+<td>Copy to <code>dags/</code></td>
+<td>S3 sync</td>
+</tr>
+<tr class="odd">
+<td><strong>Secrets</strong></td>
+<td>Env vars / files</td>
+<td>AWS Secrets Manager</td>
+</tr>
+<tr class="even">
+<td><strong>Logging</strong></td>
+<td>Local filesystem</td>
+<td>CloudWatch</td>
+</tr>
+<tr class="odd">
+<td><strong>Airflow version</strong></td>
+<td>Any</td>
+<td>AWS-managed (1–2 versions behind)</td>
+</tr>
+<tr class="even">
+<td><strong>Best for</strong></td>
+<td>Dev, class labs</td>
+<td>Production workloads</td>
+</tr>
+</tbody>
+</table>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Tip</strong></p>
+</div>
+<div class="callout-content">
+<p>The <strong>same DAG Python code</strong> runs on both — that’s Airflow’s value proposition. You develop locally and promote to MWAA without rewriting your pipelines.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="scheduler-concepts" class="slide level2">
+<h2>Scheduler Concepts</h2>
+<div class="columns">
+<div class="column" style="width:49%;">
+<p><strong>Schedule expressions:</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb41"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a></a>schedule<span class="op">=</span><span class="st">"@daily"</span>        <span class="co"># once a day at midnight</span></span>
+<span id="cb41-2"><a></a>schedule<span class="op">=</span><span class="st">"@hourly"</span>       <span class="co"># once an hour</span></span>
+<span id="cb41-3"><a></a>schedule<span class="op">=</span><span class="st">"0 6 * * 1-5"</span>   <span class="co"># 6 AM Mon–Fri (cron)</span></span>
+<span id="cb41-4"><a></a>schedule<span class="op">=</span>timedelta(hours<span class="op">=</span><span class="dv">4</span>)   <span class="co"># every 4 hours</span></span>
+<span id="cb41-5"><a></a>schedule<span class="op">=</span><span class="va">None</span>            <span class="co"># manual only</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Catchup and <code>depends_on_past</code>:</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb42"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a></a>DAG(</span>
+<span id="cb42-2"><a></a>    catchup<span class="op">=</span><span class="va">True</span>,          <span class="co"># backfill missed runs</span></span>
+<span id="cb42-3"><a></a>    depends_on_past<span class="op">=</span><span class="va">True</span>,  <span class="co"># don't run until yesterday's succeeded</span></span>
+<span id="cb42-4"><a></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column" style="width:49%;">
+<p><strong>Retry policy:</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb43"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a></a>PythonOperator(</span>
+<span id="cb43-2"><a></a>    task_id<span class="op">=</span><span class="st">"load_into_db"</span>,</span>
+<span id="cb43-3"><a></a>    python_callable<span class="op">=</span>_load,</span>
+<span id="cb43-4"><a></a>    retries<span class="op">=</span><span class="dv">3</span>,</span>
+<span id="cb43-5"><a></a>    retry_delay<span class="op">=</span>timedelta(minutes<span class="op">=</span><span class="dv">5</span>),</span>
+<span id="cb43-6"><a></a>    retry_exponential_backoff<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb43-7"><a></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="callout callout-warning callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Warning</strong></p>
+</div>
+<div class="callout-content">
+<p><code>depends_on_past=True</code> on a backfill run means each interval must succeed before the next starts — useful for strict data dependencies, but slows down historical backfills.</p>
+</div>
+</div>
+</div>
+</div></div>
+</section>
+<section id="observability" class="slide level2 smaller">
+<h2>Observability</h2>
+<div class="columns">
+<div class="column" style="width:55%;">
+<p><strong>Airflow Web UI views:</strong></p>
+<ul>
+<li><strong>DAGs list</strong> — all DAGs, last run status, schedule</li>
+<li><strong>Grid view</strong> — matrix of runs × tasks, color-coded by state</li>
+<li><strong>Graph view</strong> — DAG dependency graph with task status</li>
+<li><strong>Gantt view</strong> — timeline of task durations</li>
+<li><strong>Log viewer</strong> — per-task stdout/stderr, per-attempt</li>
+</ul>
+<p><strong>MWAA-specific:</strong></p>
+<ul>
+<li>All logs automatically shipped to <strong>CloudWatch Logs</strong></li>
+<li><strong>CloudWatch metrics</strong>: <code>TasksPending</code>, <code>WorkersActive</code>, <code>QueuedTasks</code></li>
+<li>SLA miss events trigger CloudWatch alarms → SNS → email/Slack</li>
+</ul>
+</div><div class="column" style="width:43%;">
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>SLA definition</strong></p>
+</div>
+<div class="callout-content">
+<p>An SLA in Airflow is a <strong>maximum elapsed time</strong> from data interval start to task completion. If a task misses its SLA, Airflow fires a callback (email, custom function).</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb44"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a></a>Task(</span>
+<span id="cb44-2"><a></a>    sla<span class="op">=</span>timedelta(hours<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb44-3"><a></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+</div>
+</div></div>
+</section>
+<section id="when-not-to-use-airflow" class="slide level2">
+<h2>When NOT to Use Airflow</h2>
+<p>Airflow is powerful but not always the right tool:</p>
+<table class="caption-top">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Need</th>
+<th>Better choice</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Simple daily cron, no dependencies</td>
+<td>Unix <code>cron</code> / AWS EventBridge</td>
+</tr>
+<tr class="even">
+<td>Sub-minute latency</td>
+<td>Kinesis, Kafka, Spark Streaming</td>
+</tr>
+<tr class="odd">
+<td>True streaming (unbounded)</td>
+<td>Spark Structured Streaming (Week 11)</td>
+</tr>
+<tr class="even">
+<td>Real-time event-driven</td>
+<td>AWS Lambda + SQS</td>
+</tr>
+<tr class="odd">
+<td>Complex graph with heavy data passing</td>
+<td>Prefect, Dagster (first-class data assets)</td>
+</tr>
+<tr class="even">
+<td>ML experiment tracking</td>
+<td>MLflow, W&amp;B (complement, not replace)</td>
+</tr>
+</tbody>
+</table>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Note</strong></p>
+</div>
+<div class="callout-content">
+<p>Airflow excels at <strong>batch pipelines with external dependencies</strong> — “run this when this other thing is done, retry on failure, alert on SLA breach, backfill if I miss days.” That’s exactly the Athena ETL use case.</p>
+</div>
+</div>
+</div>
+</section></section>
+<section>
+<section id="putting-it-all-together" class="title-slide slide level1 section center">
+<h1>Putting It All Together</h1>
+
+</section>
+<section id="the-complete-architecture" class="slide level2">
+<h2>The Complete Architecture</h2>
+<pre><code>External sources (APIs, PDFs, S3 CDN)
+          │
+          ▼  [Airflow: extract task]
+  Raw files (local or S3 staging)
+          │
+          ▼  [Airflow: transform task]
+  Typed Parquet files
+          │
+          ▼  [Airflow: load task — boto3 INSERT via Athena]
+  S3 data lake  +  Glue Data Catalog
+  s3://athena-&lt;netid&gt;/shelter_data/*.parquet
+          │
+          ▼  [Athena: interactive SQL / scheduled CTAS]
+  Aggregated results / feature tables
+          │
+          ▼  [Airflow: ML task — scikit-learn on Athena query result]
+  Model evaluation (naive_rmse → weather_rmse comparison)
+          │
+          ▼
+  Reports, dashboards, downstream consumers</code></pre>
+</section>
+<section id="references-and-further-reading" class="slide level2">
+<h2>References and Further Reading</h2>
+<div class="columns">
+<div class="column" style="width:49%;">
+<p><strong>Amazon Athena:</strong></p>
+<ul>
+<li><a href="https://docs.aws.amazon.com/athena/" target="_blank">Athena Documentation</a> — official AWS docs</li>
+<li><a href="https://docs.aws.amazon.com/glue/" target="_blank">Glue Data Catalog Documentation</a></li>
+<li><a href="https://www.nyc.gov/assets/tlc/downloads/pdf/data_dictionary_trip_records_yellow.pdf" target="_blank">NYC TLC Data Dictionary</a> — Yellow taxi column reference</li>
+</ul>
+<p><strong>Apache Airflow:</strong></p>
+<ul>
+<li><a href="https://airflow.apache.org/docs/apache-airflow/stable/start.html" target="_blank">Airflow Quickstart</a></li>
+<li><a href="https://docs.aws.amazon.com/mwaa/" target="_blank">Amazon MWAA Documentation</a></li>
+</ul>
+</div><div class="column" style="width:49%;">
+<p><strong>Course resources:</strong></p>
+<ul>
+<li>Lab 12 (Athena + Airflow): GitHub Classroom link on website</li>
+</ul>
+</div></div>
+</section>
+<section id="midterm-2" class="slide level2">
+<h2>Midterm 2</h2>
+<p><span style="font-size: 1.3em;font-weight: bold;"><strong>Good luck!</strong></span></p>
+
+
+</section></section>
+    </div>
+  <div class="quarto-auto-generated-content" style="display: none;">
+<div class="footer footer-default">
+
+</div>
+</div></div>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="../site_libs/revealjs/dist/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="../site_libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="../site_libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="../site_libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="../site_libs/revealjs/plugin/reveal-chalkboard/plugin.js"></script>
+  <script src="../site_libs/revealjs/plugin/quarto-support/support.js"></script>
+  
+
+  <script src="../site_libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="../site_libs/revealjs/plugin/search/search.js"></script>
+  <script src="../site_libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="../site_libs/revealjs/plugin/math/math.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+'controlsAuto': true,
+'previewLinksAuto': false,
+'pdfSeparateFragments': false,
+'autoAnimateEasing': "ease",
+'autoAnimateDuration': 1,
+'autoAnimateUnmatched': true,
+'jumpToSlide': true,
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleChalkboard(event)\"><kbd>b</kbd> Toggle Chalkboard</a></li>\n<li class=\"slide-tool-item\" data-item=\"6\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleNotesCanvas(event)\"><kbd>c</kbd> Toggle Notes Canvas</a></li>\n<li class=\"slide-tool-item\" data-item=\"7\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.downloadDrawings(event)\"><kbd>d</kbd> Download Drawings</a></li>\n<li class=\"slide-tool-item\" data-item=\"8\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'chalkboard': {"buttons":true},
+'smaller': false,
+ 
+        // Display controls in the bottom right corner
+        controls: false,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: false,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'edges',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: false,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'linear',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: false,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'fade',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'fade',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1050,
+
+        height: 700,
+
+        // Factor of the display size that should remain empty around the content
+        margin: 0.1,
+
+        math: {
+          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, RevealChalkboard, QuartoSupport,
+
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    
+    <script>
+      // htmlwidgets need to know to resize themselves when slides are shown/hidden.
+      // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
+      // slide changes (different for each slide format).
+      (function () {
+        // dispatch for htmlwidgets
+        function fireSlideEnter() {
+          const event = window.document.createEvent("Event");
+          event.initEvent("slideenter", true, true);
+          window.document.dispatchEvent(event);
+        }
+
+        function fireSlideChanged(previousSlide, currentSlide) {
+          fireSlideEnter();
+
+          // dispatch for shiny
+          if (window.jQuery) {
+            if (previousSlide) {
+              window.jQuery(previousSlide).trigger("hidden");
+            }
+            if (currentSlide) {
+              window.jQuery(currentSlide).trigger("shown");
+            }
+          }
+        }
+
+        // hookup for slidy
+        if (window.w3c_slidy) {
+          window.w3c_slidy.add_observer(function (slide_num) {
+            // slide_num starts at position 1
+            fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
+          });
+        }
+
+      })();
+    </script>
+
+    <script id="quarto-html-after-body" type="application/javascript">
+      window.document.addEventListener("DOMContentLoaded", function (event) {
+        const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+        tabsets.forEach(function(tabset) {
+          const tabby = new Tabby('#' + tabset.id);
+        });
+        const isCodeAnnotation = (el) => {
+          for (const clz of el.classList) {
+            if (clz.startsWith('code-annotation-')) {                     
+              return true;
+            }
+          }
+          return false;
+        }
+        const onCopySuccess = function(e) {
+          // button target
+          const button = e.trigger;
+          // don't keep focus
+          button.blur();
+          // flash "checked"
+          button.classList.add('code-copy-button-checked');
+          var currentTitle = button.getAttribute("title");
+          button.setAttribute("title", "Copied!");
+          let tooltip;
+          if (window.bootstrap) {
+            button.setAttribute("data-bs-toggle", "tooltip");
+            button.setAttribute("data-bs-placement", "left");
+            button.setAttribute("data-bs-title", "Copied!");
+            tooltip = new bootstrap.Tooltip(button, 
+              { trigger: "manual", 
+                customClass: "code-copy-button-tooltip",
+                offset: [0, -8]});
+            tooltip.show();    
+          }
+          setTimeout(function() {
+            if (tooltip) {
+              tooltip.hide();
+              button.removeAttribute("data-bs-title");
+              button.removeAttribute("data-bs-toggle");
+              button.removeAttribute("data-bs-placement");
+            }
+            button.setAttribute("title", currentTitle);
+            button.classList.remove('code-copy-button-checked');
+          }, 1000);
+          // clear code selection
+          e.clearSelection();
+        }
+        const getTextToCopy = function(trigger) {
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+        }
+        const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+          text: getTextToCopy
+        });
+        clipboard.on('success', onCopySuccess);
+        if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+          const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+            text: getTextToCopy,
+            container: window.document.getElementById('quarto-embedded-source-code-modal')
+          });
+          clipboardModal.on('success', onCopySuccess);
+        }
+          var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+          var mailtoRegex = new RegExp(/^mailto:/);
+            var filterRegex = new RegExp("https:\/\/gwu-dats6450-13\.github\.io\/6450-spring-2026\/");
+          var isInternal = (href) => {
+              return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+          }
+          // Inspect non-navigation links and adorn them if external
+         var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+          for (var i=0; i<links.length; i++) {
+            const link = links[i];
+            if (!isInternal(link.href)) {
+              // undo the damage that might have been done by quarto-nav.js in the case of
+              // links that we want to consider external
+              if (link.dataset.originalHref !== undefined) {
+                link.href = link.dataset.originalHref;
+              }
+                // target, if specified
+                link.setAttribute("target", "_blank");
+                if (link.getAttribute("rel") === null) {
+                  link.setAttribute("rel", "noopener");
+                }
+            }
+          }
+        function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+          const config = {
+            allowHTML: true,
+            maxWidth: 500,
+            delay: 100,
+            arrow: false,
+            appendTo: function(el) {
+                return el.closest('section.slide') || el.parentElement;
+            },
+            interactive: true,
+            interactiveBorder: 10,
+            theme: 'light-border',
+            placement: 'bottom-start',
+          };
+          if (contentFn) {
+            config.content = contentFn;
+          }
+          if (onTriggerFn) {
+            config.onTrigger = onTriggerFn;
+          }
+          if (onUntriggerFn) {
+            config.onUntrigger = onUntriggerFn;
+          }
+            config['offset'] = [0,0];
+            config['maxWidth'] = 700;
+          window.tippy(el, config); 
+        }
+        const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+        for (var i=0; i<noterefs.length; i++) {
+          const ref = noterefs[i];
+          tippyHover(ref, function() {
+            // use id or data attribute instead here
+            let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+            try { href = new URL(href).hash; } catch {}
+            const id = href.replace(/^#\/?/, "");
+            const note = window.document.getElementById(id);
+            if (note) {
+              return note.innerHTML;
+            } else {
+              return "";
+            }
+          });
+        }
+        const findCites = (el) => {
+          const parentEl = el.parentElement;
+          if (parentEl) {
+            const cites = parentEl.dataset.cites;
+            if (cites) {
+              return {
+                el,
+                cites: cites.split(' ')
+              };
+            } else {
+              return findCites(el.parentElement)
+            }
+          } else {
+            return undefined;
+          }
+        };
+        var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+        for (var i=0; i<bibliorefs.length; i++) {
+          const ref = bibliorefs[i];
+          const citeInfo = findCites(ref);
+          if (citeInfo) {
+            tippyHover(citeInfo.el, function() {
+              var popup = window.document.createElement('div');
+              citeInfo.cites.forEach(function(cite) {
+                var citeDiv = window.document.createElement('div');
+                citeDiv.classList.add('hanging-indent');
+                citeDiv.classList.add('csl-entry');
+                var biblioDiv = window.document.getElementById('ref-' + cite);
+                if (biblioDiv) {
+                  citeDiv.innerHTML = biblioDiv.innerHTML;
+                }
+                popup.appendChild(citeDiv);
+              });
+              return popup.innerHTML;
+            });
+          }
+        }
+      });
+      </script>
+    
+
+</body></html>

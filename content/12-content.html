@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Project Overview – DATS 6450.13</title>
+<title>content – DATS 6450.13</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -77,7 +77,7 @@ ul.task-list li input[type="checkbox"] {
 
 </head>
 
-<body class="nav-fixed quarto-light">
+<body class="nav-sidebar docked nav-fixed quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -109,7 +109,7 @@ ul.task-list li input[type="checkbox"] {
 <span class="menu-text">Syllabus</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../content/index.html"> 
+    <a class="nav-link active" href="../content/index.html" aria-current="page"> 
 <span class="menu-text">Content</span></a>
   </li>  
   <li class="nav-item">
@@ -117,7 +117,7 @@ ul.task-list li input[type="checkbox"] {
 <span class="menu-text">Labs</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link active" href="../project/project.html" aria-current="page"> 
+    <a class="nav-link" href="../project/project.html"> 
 <span class="menu-text">Project</span></a>
   </li>  
   <li class="nav-item">
@@ -135,119 +135,195 @@ ul.task-list li input[type="checkbox"] {
 </div>
       </div> <!-- /container-fluid -->
     </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../content/01-content.html">Course content</a></li><li class="breadcrumb-item"><a href="../content/12-content.html">12. AWS Athena and Airflow</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
 </header>
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Overview</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../content/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lectures and labs</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Course content</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../content/01-content.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">1. Course overview</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../content/02-content.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2. Parallel processing</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../content/03-content.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">3. The Cloud</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../content/04-content.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">4. Polars, DuckDB and Parquet</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../content/05-content.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">5. Modern tools, continued</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../content/06-content.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">6. Distributed computing using Ray</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../content/07-content.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">7. Distributed File Systems and HDFS</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../content/08-content.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">8. Introduction to Apache Spark</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../content/09-content.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">9. Spark Diagnostics and UDFs</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../content/10-content.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">10. Spark ML and Spark NLP</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../content/11-content.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">11. Spark Structured Streaming</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../content/12-content.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">12. AWS Athena and Airflow</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active">
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">Overview</a>
-  <ul class="collapse">
-  <li><a href="#project-requirements" id="toc-project-requirements" class="nav-link" data-scroll-target="#project-requirements">Project Requirements</a></li>
-  <li><a href="#example-nyc-taxi-dataset" id="toc-example-nyc-taxi-dataset" class="nav-link" data-scroll-target="#example-nyc-taxi-dataset">Example: NYC Taxi Dataset</a></li>
-  <li><a href="#deliverables" id="toc-deliverables" class="nav-link" data-scroll-target="#deliverables">Deliverables</a></li>
-  </ul></li>
-  <li><a href="#important-all-work-done-on-spark-cluster" id="toc-important-all-work-done-on-spark-cluster" class="nav-link" data-scroll-target="#important-all-work-done-on-spark-cluster">Important: All Work Done on Spark Cluster</a></li>
-  <li><a href="#dataset" id="toc-dataset" class="nav-link" data-scroll-target="#dataset">Dataset</a>
-  <ul class="collapse">
-  <li><a href="#recommended-reddit-dataset" id="toc-recommended-reddit-dataset" class="nav-link" data-scroll-target="#recommended-reddit-dataset">Recommended: Reddit Dataset</a></li>
-  <li><a href="#using-your-own-dataset" id="toc-using-your-own-dataset" class="nav-link" data-scroll-target="#using-your-own-dataset">Using Your Own Dataset</a></li>
-  </ul></li>
+  <li><a href="#about-todays-class" id="toc-about-todays-class" class="nav-link active" data-scroll-target="#about-todays-class">About today’s class</a></li>
+  <li><a href="#readings" id="toc-readings" class="nav-link" data-scroll-target="#readings">Readings</a></li>
+  <li><a href="#slides" id="toc-slides" class="nav-link" data-scroll-target="#slides">Slides</a></li>
+  <li><a href="#midterm-2" id="toc-midterm-2" class="nav-link" data-scroll-target="#midterm-2">Midterm 2</a></li>
+  <li><a href="#lab-12-for-information-not-to-be-submitted" id="toc-lab-12-for-information-not-to-be-submitted" class="nav-link" data-scroll-target="#lab-12-for-information-not-to-be-submitted">Lab 12 (for information, not to be submitted)</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../content/01-content.html">Course content</a></li><li class="breadcrumb-item"><a href="../content/12-content.html">12. AWS Athena and Airflow</a></li></ol></nav></header>
 
-<header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
-<h1 class="title">Project Overview</h1>
+
+
+
+<section id="about-todays-class" class="level2">
+<h2 class="anchored" data-anchor-id="about-todays-class">About today’s class</h2>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
 </div>
-
-
-
-<div class="quarto-title-meta">
-
-    
-  
-    
-  </div>
-  
-
-
-</header>
-
-
-<section id="overview" class="level2">
-<h2 class="anchored" data-anchor-id="overview">Overview</h2>
-<p>This is an end-semester group project for DSAN 6000 focused on <strong>big data analysis at scale</strong>. The core objective is to work with a large dataset containing <strong>at least a few hundred million rows</strong> and apply big data processing techniques to answer interesting, relevant business questions that can <strong>only be answered by examining large amounts of data</strong>.</p>
-<section id="project-requirements" class="level3">
-<h3 class="anchored" data-anchor-id="project-requirements">Project Requirements</h3>
-<p><strong>Dataset Scale:</strong> - Minimum: Several hundred million rows - Recommended: Multi-GB to hundreds of GB - The dataset must be large enough that traditional tools (pandas on a single machine) would struggle or fail</p>
-<p><strong>Big Data Technologies:</strong> - <strong>Primary:</strong> Apache Spark on an EC2 cluster (distributed computing) - <strong>Optional:</strong> AWS Athena for SQL-based queries, multiprocessing with Polars, or other distributed frameworks - The key is demonstrating techniques that scale beyond single-machine processing</p>
-<p><strong>Analysis Components:</strong></p>
-<ol type="1">
-<li><strong>Exploratory Data Analysis (EDA)</strong> - Answer questions through statistical analysis, temporal patterns, and visualizations</li>
-<li><strong>Natural Language Processing (NLP)</strong> - Apply text mining techniques like sentiment analysis, topic modeling, and entity extraction (if your dataset has text)</li>
-<li><strong>Machine Learning (ML)</strong> - Train and evaluate predictive models to answer questions requiring classification, regression, or clustering</li>
-<li><strong>Comprehensive Reporting</strong> - Present findings in a coherent, well-structured website with clear narratives</li>
-</ol>
-<p><strong>Project Approach:</strong></p>
-<p>Start by defining a <strong>high-level problem statement</strong> relevant to your dataset, then break it down into <strong>10 specific, answerable questions</strong> across EDA, NLP, and ML. This approach ensures your analysis is focused and comprehensive.</p>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>Midterm 2 — last hour of class
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The second midterm takes place in the <strong>last 60 minutes</strong> of today’s session. You will work with a Spark cluster running on your EC2 instance. <strong>Start your cluster at the very beginning of class</strong> so it is fully initialized before the midterm window opens. The exam is open notes and open internet; no AI assistance.</p>
+</div>
+</div>
+<p>This week has two parts. We begin with <strong>Amazon Athena</strong>: AWS’s serverless, interactive SQL query service powered by Presto/Trino. We cover how Athena lets you query data directly in S3 without provisioning a cluster, how the <strong>AWS Glue Data Catalog</strong> acts as the schema registry, two strategies for registering tables (Glue Crawlers vs.&nbsp;explicit DDL), analytical SQL patterns including approximate percentiles and IQR-based anomaly detection, performance levers (partitioning, columnar formats, compression), and programmatic access via <strong>boto3</strong>.</p>
+<p>We then turn to <strong>Apache Airflow</strong> — an open-source workflow orchestration platform for building, scheduling, and monitoring data pipelines. Topics include the DAG/Operator/Task model, Jinja templating for idempotent runs, backfill semantics, fan-out pipelines with parallel branches, and how Airflow orchestrates end-to-end ETL into Athena. We close with a comparison of running Airflow locally on EC2 (as in Lab 10) versus the fully managed <strong>Amazon MWAA</strong> service.</p>
 </section>
-<section id="example-nyc-taxi-dataset" class="level3">
-<h3 class="anchored" data-anchor-id="example-nyc-taxi-dataset">Example: NYC Taxi Dataset</h3>
-<p><strong>High-Level Problem:</strong> <em>“How can we optimize NYC taxi operations to maximize revenue and improve customer satisfaction?”</em></p>
-<p>This broad problem can be broken down into specific questions at different complexity levels:</p>
-<p><strong>EDA Questions (Statistical &amp; Temporal Analysis):</strong> - How do taxi demand patterns vary by time of day, day of week, and season across different NYC boroughs? - What is the relationship between trip distance and fare amount, and how do outliers affect pricing? - Which pickup/dropoff location pairs generate the highest revenue, and how has this changed over time? - How do tip percentages vary by payment method, and what does this reveal about passenger behavior? - Can we identify temporal patterns in surge pricing or high-demand periods?</p>
-<p><strong>NLP Questions (if dataset included text feedback):</strong> - What are the most common topics discussed in passenger/driver feedback? - How does sentiment in feedback correlate with tip amounts or ratings? - What service issues are most frequently mentioned during rush hours vs.&nbsp;off-peak times? - Can we identify emerging complaints or trends in service quality over time?</p>
-<p><strong>ML Questions (Predictive Modeling):</strong> - Can we predict high-tip trips based on trip characteristics (time, location, distance)? - What factors best predict trip duration, and can we build a model more accurate than GPS estimates? - Can we classify trips into customer segments (commuters, tourists, business travelers) based on patterns? - Can we predict demand at specific locations to optimize taxi fleet deployment?</p>
-</section>
-<section id="deliverables" class="level3">
-<h3 class="anchored" data-anchor-id="deliverables">Deliverables</h3>
-<p>Your team will produce: - <strong>Clean, well-documented Spark code</strong> demonstrating big data techniques - <strong>Comprehensive analysis</strong> spanning EDA, NLP (if applicable), and ML - <strong>Professional website</strong> presenting findings, visualizations, and insights - <strong>Final report</strong> with clear business recommendations based on your analysis</p>
-</section>
-</section>
-<section id="important-all-work-done-on-spark-cluster" class="level2">
-<h2 class="anchored" data-anchor-id="important-all-work-done-on-spark-cluster">Important: All Work Done on Spark Cluster</h2>
-</section>
-<section id="dataset" class="level2">
-<h2 class="anchored" data-anchor-id="dataset">Dataset</h2>
-<section id="recommended-reddit-dataset" class="level3">
-<h3 class="anchored" data-anchor-id="recommended-reddit-dataset">Recommended: Reddit Dataset</h3>
-<p>We will provide starter code and instructions for working with the <strong>Reddit dataset</strong> (comments and submissions from June 2023 - July 2024). This is a large-scale dataset (~446 GB) ideal for demonstrating big data skills.</p>
-</section>
-<section id="using-your-own-dataset" class="level3">
-<h3 class="anchored" data-anchor-id="using-your-own-dataset">Using Your Own Dataset</h3>
-<p>If you prefer to use a different dataset, you must:</p>
-<ol type="1">
-<li>Get professor approval for your chosen dataset</li>
-<li>Ensure it’s large enough to demonstrate big data techniques</li>
-<li>Figure out data acquisition and preprocessing on your own (the Reddit instructions won’t apply)</li>
-</ol>
-<p><strong>Where to find large datasets:</strong></p>
+<section id="readings" class="level2">
+<h2 class="anchored" data-anchor-id="readings">Readings</h2>
+<p>Readings for this lecture (to be completed <strong><em>before class</em></strong>):</p>
+<p><strong>Amazon Athena:</strong></p>
 <ul>
-<li><a href="https://registry.opendata.aws/">AWS Open Data Registry</a> - Datasets already on S3</li>
-<li><a href="https://datasetsearch.research.google.com/">Google Dataset Search</a></li>
-<li><a href="https://commoncrawl.org/">Common Crawl</a> - Web crawl data</li>
-<li><a href="https://www.gharchive.org/">GitHub Archive</a> - GitHub activity data</li>
+<li><a href="https://docs.aws.amazon.com/athena/" target="_blank">Amazon Athena Documentation</a> — focus on the <em>Getting Started</em> and <em>SQL Reference</em> sections</li>
+<li><a href="https://docs.aws.amazon.com/glue/" target="_blank">AWS Glue Data Catalog Documentation</a> — the <em>Crawlers</em> and <em>Tables</em> chapters</li>
+<li><a href="https://www.nyc.gov/assets/tlc/downloads/pdf/data_dictionary_trip_records_yellow.pdf" target="_blank">NYC TLC Yellow Taxi Data Dictionary</a> — column reference for the lab dataset</li>
 </ul>
-<p><strong>Examples of suitable large-scale datasets:</strong></p>
+<p><strong>Apache Airflow / MWAA:</strong></p>
 <ul>
-<li>Wikipedia dumps</li>
-<li>News article archives</li>
-<li>Government data (census, weather, transportation)</li>
-<li>Scientific datasets (genomics, astronomy, climate)</li>
-<li>E-commerce transaction data</li>
-<li>IoT sensor data</li>
+<li><a href="https://airflow.apache.org/docs/apache-airflow/stable/start.html" target="_blank">Apache Airflow Quickstart</a> — single-node <code>airflow standalone</code> setup (matches Lab 10)</li>
+<li><a href="https://docs.aws.amazon.com/mwaa/" target="_blank">Amazon MWAA Documentation</a> — skim <em>What is Amazon MWAA?</em> and <em>Get started</em></li>
 </ul>
-
-
 </section>
+<section id="slides" class="level2">
+<h2 class="anchored" data-anchor-id="slides">Slides</h2>
+<p>The slides for this week are available <a href="../slides/12-slides.html">online</a>.</p>
+</section>
+<section id="midterm-2" class="level2">
+<h2 class="anchored" data-anchor-id="midterm-2">Midterm 2</h2>
+<p>This week we will have Midterm 2. This will be a take-home exam, with a time limit of 2 hours. Time will start when you click the link below and fork the repo to your account. The final commit must be within 2 hours of that time. This exam must be completed by Monday, April 20 at 11:59pm. You may <strong>not</strong> use the help of AI tools (ChatGPT, Claude, Codex, Gemini, etc) for this exam, but you may use any class materials or online resources (with citations).</p>
+<p>The midterm link will be available on Blackboard beginning Friday, April 17.</p>
+</section>
+<section id="lab-12-for-information-not-to-be-submitted" class="level2">
+<h2 class="anchored" data-anchor-id="lab-12-for-information-not-to-be-submitted">Lab 12 (for information, not to be submitted)</h2>
+<p>This lab explores how to use Athena and Airflow together in a workflow, analyzing data on NYC’s homeless, shelter usage and associations with weather patterns. You are <strong>not</strong> required to submit this lab. It is provided for informational purposes.</p>
+<p><a href="https://classroom.github.com/a/spl0f6r0">Lab link</a></p>
+
+
 </section>
 
 </main> <!-- /main -->
