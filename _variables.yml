@@ -41,7 +41,7 @@ gh-classroom:
   lab08: "https://classroom.github.com/a/dFCemH7y"
   lab09: "https://classroom.github.com/a/K3clY6aC"
   lab10: "https://classroom.github.com/a/6tcJ2Oj7"
-  lab11: null
+  lab11: "https://classroom.github.com/a/PnMTaM3E"
   lab12: null
   lab13: null
   lab14: null
@@ -71,6 +71,11 @@ due_dates:
   lab03: null
   lab04: "February 12"
   lab05: "February 19"
+  midterm02: "April 23, in class"
+
+midterm02:
+  date: "2026-04-23"
+  topic: "Spark on EC2"
 
 reading:
   lebris: https://learning.oreilly.com/library/view/what-is-the/9781492052913/ch01.html
@@ -80,3 +85,8 @@ reading:
   dean: https://static.googleusercontent.com/media/research.google.com/en//archive/mapreduce-osdi04.pdf
   rocklin: http://conference.scipy.org.s3-website-us-east-1.amazonaws.com/proceedings/scipy2015/pdfs/matthew_rocklin.pdf
   damji: https://pages.databricks.com/rs/094-YMS-629/images/LearningSpark2.0.pdf
+  athena_docs: https://docs.aws.amazon.com/athena/
+  glue_docs: https://docs.aws.amazon.com/glue/
+  airflow_quickstart: https://airflow.apache.org/docs/apache-airflow/stable/start.html
+  mwaa_docs: https://docs.aws.amazon.com/mwaa/
+  nyc_tlc_dict: https://www.nyc.gov/assets/tlc/downloads/pdf/data_dictionary_trip_records_yellow.pdf

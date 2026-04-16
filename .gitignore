@@ -14,3 +14,7 @@ slides/ray/_ray_files/
 CLAUDE.md
 **/.claude/*
 .Rproj.user
+
+# Midterm instructor-only files
+assignments/midterm02/solution.py
+

@@ -1,0 +1,495 @@
+# Orchestration with Apache Airflow {.section}
+
+## Why Orchestration?
+
+You have a working ETL script. Now imagine running it daily, for years, across multiple data sources.
+
+:::: {.columns}
+::: {.column width="49%"}
+**What goes wrong with simple cron:**
+
+* No dependency tracking between steps
+* No visibility when a step fails at 3 AM
+* No retries with backoff
+* No way to backfill 6 months of history
+* No audit log of what ran when
+
+:::
+
+::: {.column width="49%"}
+**What orchestration gives you:**
+
+* **DAG**: explicit task dependency graph
+* **Scheduler**: trigger runs on schedule or event
+* **Retries**: automatic retry with configurable backoff
+* **Backfill**: re-run past intervals on demand
+* **Web UI**: real-time task status, logs, timeline
+* **Alerting**: email/Slack on failure or SLA breach
+
+:::
+::::
+
+## Apache Airflow in One Slide
+
+```
+┌─────────────────────────────────────────────────────┐
+│                   Apache Airflow                    │
+│                                                     │
+│  ┌──────────┐  parse  ┌─────────────────────────┐  │
+│  │  DAG     │─────────▶   Scheduler              │  │
+│  │  files   │         │   (triggers task runs)   │  │
+│  │ (Python) │         └────────────┬────────────-┘  │
+│  └──────────┘                      │ enqueue         │
+│                                    ▼                 │
+│  ┌──────────┐         ┌─────────────────────────┐  │
+│  │  Web UI  │◀────────│   Executor               │  │
+│  │ (monitor)│  status │   (runs the tasks)       │  │
+│  └──────────┘         └─────────────────────────-┘  │
+│                                    │                 │
+│  ┌─────────────────────────────────▼───────────────┐ │
+│  │  Metadata DB (SQLite in dev / Postgres in prod) │ │
+│  └─────────────────────────────────────────────────┘ │
+└─────────────────────────────────────────────────────┘
+```
+
+## Core Vocabulary
+
+| Term | What it is |
+|---|---|
+| **DAG** | Directed Acyclic Graph — the workflow definition; a Python file |
+| **Task** | A single unit of work within a DAG |
+| **Operator** | Template for a task type (`PythonOperator`, `BashOperator`, `S3KeySensor`…) |
+| **Sensor** | Operator that waits for a condition (file exists, API ready) |
+| **Hook** | Abstraction over an external service (S3Hook, HttpHook…) |
+| **Connection** | Named credential stored in the metadata DB |
+| **XCom** | Cross-communication: pass small values between tasks |
+| **Data interval** | The logical time window a DAG run represents |
+| **Backfill** | Running past intervals to populate historical data |
+
+## A Minimal DAG (from Lab 10)
+
+```python
+from airflow import DAG
+from airflow.providers.standard.operators.python import PythonOperator
+
+shelter_dag = DAG(
+    dag_id="01a_shelter_model_manual",
+    schedule=None,        # manually triggered — no schedule
+    max_active_runs=1,    # never overlap concurrent runs
+)
+
+with shelter_dag:
+    extract = PythonOperator(
+        task_id="extract_raw_report",
+        python_callable=_extract_raw_report,
+        op_kwargs={
+            'year':  '{{ data_interval_start.year }}',
+            'month': '{{ data_interval_start.month }}',
+            'day':   '{{ data_interval_start.day }}',
+            'reports_base_url': 'https://…/nyc-shelters',
+        },
+    )
+    transform = PythonOperator(task_id="transform_counts",
+                               python_callable=_transform_counts, ...)
+    write     = PythonOperator(task_id="write_counts",
+                               python_callable=_write_counts, ...)
+
+    extract >> transform >> write   # dependency DSL
+```
+
+## Jinja Templating and Logical Dates
+
+The `{{ data_interval_start.year }}` in `op_kwargs` is **Jinja templating** — Airflow resolves it at runtime to the logical date of the DAG run.
+
+```python
+# What Airflow fills in for a run representing 2025-03-15:
+op_kwargs={
+    'year':  2025,
+    'month': 3,
+    'day':   15,
+}
+```
+
+:::: {.columns}
+::: {.column width="55%"}
+**Why this matters for backfill:**
+
+When you backfill Jan 1 – Oct 30 2025, Airflow creates 303 DAG runs, each with the correct `data_interval_start`. Your task function always receives the **right date** without you writing any date-looping logic.
+
+:::
+
+::: {.column width="43%"}
+::: {.callout-warning}
+Common mistake: using `datetime.today()` inside a task instead of the templated date. This breaks idempotency and makes backfill produce wrong results.
+:::
+:::
+::::
+
+## Backfill
+
+**Backfill**: ask Airflow to run a DAG for all past intervals between two dates.
+
+```bash
+airflow dags backfill \
+    --start-date 2025-01-01 \
+    --end-date   2025-10-30 \
+    01b_shelter_model_backfill
+```
+
+:::: {.columns}
+::: {.column width="55%"}
+**Key settings for safe backfill:**
+
+```python
+DAG(
+    dag_id="01b_shelter_model_backfill",
+    schedule="@daily",
+    max_active_runs=1,    # run one interval at a time
+    catchup=True,         # backfill missed intervals
+)
+```
+
+:::
+
+::: {.column width="43%"}
+**Handle missing days gracefully:**
+
+NYC shelter PDFs aren't published on weekends or holidays. The extract task must detect a 404 and produce a NULL record rather than crashing:
+
+```python
+if response.status_code == 404:
+    # produce NaN row, don't raise
+    return build_null_record(year, month, day)
+```
+
+:::
+::::
+
+## ETL Pattern: PDF → Parquet → Athena
+
+Lab 10's four-stage DAG progression teaches the full ETL-to-cloud arc:
+
+```
+01a: Extract → Transform → Write (local CSV)
+       │
+       │  add: generate INSERT SQL
+       ▼
+01b: Extract → Transform → Write → gen_query (backfill-ready)
+       │
+       │  replace local write with Athena load
+       ▼
+01c: Extract → Transform → gen_query → load_into_db  ← boto3 INSERT into shelter_counts
+       │
+       │  add: train model on accumulated data
+       ▼
+01d: Extract → Transform → gen_query → load_into_db → train_and_evaluate
+```
+
+::: {.callout-note}
+The architectural pivot in **01c** — swapping local CSV for S3+Athena — is the key insight: the task code changes minimally, but the data now lives in a queryable, scalable cloud store instead of a single machine's disk.
+:::
+
+## Fan-out: Adding a Second Data Source
+
+DAGs support **parallel branches** — multiple tasks that can run concurrently after a shared upstream completes.
+
+```
+         ┌──────────────────┐
+         │  extract_report  │
+         └────────┬─────────┘
+                  │
+          ┌───────┴────────┐
+          ▼                ▼
+  transform_counts   transform_weather   ← run in parallel
+          │                │
+          └───────┬────────┘
+                  ▼
+            gen_sql_query
+                  ▼
+           load_into_athena
+                  ▼
+          train_and_evaluate
+```
+
+The weather data (NOAA GHCND) adds 7 new columns: `tmin, tmax, awnd, wsf2, prcp, snow, snwd`
+
+## The `shelter_weather` Table
+
+The 13-column schema that merges shelter counts with NOAA weather:
+
+```sql
+CREATE EXTERNAL TABLE IF NOT EXISTS shelter_weather (
+    year     INT,    month   INT,    day     INT,
+    adults   INT,    children INT,   total   INT,
+    tmin     DOUBLE, tmax    DOUBLE,     -- daily temp range (tenths °C)
+    awnd     DOUBLE,                     -- avg wind speed (m/s)
+    wsf2     DOUBLE,                     -- fastest 2-min wind (m/s)
+    prcp     DOUBLE,                     -- precipitation (tenths mm)
+    snow     DOUBLE,                     -- snowfall (mm)
+    snwd     DOUBLE                      -- snow depth (mm)
+)
+STORED AS PARQUET
+LOCATION 's3://athena-<netid>/weather_data/';
+```
+
+**Payoff**: a `DecisionTreeRegressor` on `[tmin, tmax, awnd, …] → total` achieves lower RMSE than predicting from day-of-month alone — the ETL extension is validated empirically.
+
+## SQL Gotcha: Athena ≠ Postgres
+
+Lab 10's `gen_sql_query` task generates this INSERT:
+
+```python
+query = f"""
+    INSERT INTO shelter_counts
+    VALUES ({values_str})
+    ON CONFLICT (year, month, day) DO NOTHING;
+"""
+```
+
+::: {.callout-warning}
+## `ON CONFLICT` is Postgres syntax — not valid in Athena/Presto
+
+Athena is a **read-optimized** query engine. It has no row-level conflict detection, no primary keys, and no transactional guarantees. Running this SQL against Athena will raise a parse error.
+
+**Fix options:**
+- Remove `ON CONFLICT` and prevent duplicate writes at the pipeline level (idempotent task logic)
+- Use **Apache Iceberg** tables on Athena for ACID operations
+- Filter duplicates out with a `WHERE NOT EXISTS(...)` sub-query on read
+:::
+
+## Running Airflow: Local on EC2
+
+In Lab 10, Airflow runs on a single EC2 instance using **`airflow standalone`** — a development-mode process that combines all components:
+
+```bash
+# One-time setup
+export AIRFLOW_HOME="$(pwd)/airflow-home/"
+export AIRFLOW__CORE__LOAD_EXAMPLES=False
+airflow db migrate              # initialize SQLite metastore
+
+# Start Airflow (all components in one process)
+airflow standalone
+# → Web UI at http://<ec2-ip>:8080
+# → Admin password in airflow-home/simple_auth_manager_passwords.json.generated
+```
+
+```bash
+# Drop DAG files into the dags/ directory — Airflow picks them up automatically
+cp my_dag.py $AIRFLOW_HOME/dags/
+```
+
+::: {.callout-note}
+`airflow standalone` is for **development only** — single-node, SQLite, no HA. Production uses separate scheduler, API server, and Celery or Kubernetes executor with Postgres.
+:::
+
+## Running Airflow: Amazon MWAA
+
+**Amazon Managed Workflows for Apache Airflow (MWAA)** is the fully managed, production version.
+
+:::: {.columns}
+::: {.column width="49%"}
+**How it works:**
+
+1. Create an MWAA **Environment** (choose size)
+2. Upload `requirements.txt` and `dags/` to an **S3 bucket**
+3. MWAA syncs DAGs automatically
+4. Scheduler, workers, web server run in a **VPC**
+5. Logs go to **CloudWatch**
+6. Workers auto-scale with load
+
+:::
+
+::: {.column width="49%"}
+**Environment sizes:**
+
+| Size | vCPUs | Memory |
+|---|---|---|
+| mw1.small | 2 | 4 GB |
+| mw1.medium | 4 | 8 GB |
+| mw1.large | 8 | 16 GB |
+| mw1.xlarge | 16 | 32 GB |
+
+Priced per environment-hour + additional worker costs.
+
+:::
+::::
+
+## Local EC2 vs MWAA
+
+| | Local on EC2 | Amazon MWAA |
+|---|---|---|
+| **Setup** | Minutes | Hours (VPC, IAM, S3 policy) |
+| **Cost** | EC2 instance only | $0.49–$4.18 /env-hour |
+| **HA** | No | Yes (multi-AZ) |
+| **DAG deployment** | Copy to `dags/` | S3 sync |
+| **Secrets** | Env vars / files | AWS Secrets Manager |
+| **Logging** | Local filesystem | CloudWatch |
+| **Airflow version** | Any | AWS-managed (1–2 versions behind) |
+| **Best for** | Dev, class labs | Production workloads |
+
+::: {.callout-tip}
+The **same DAG Python code** runs on both — that's Airflow's value proposition. You develop locally and promote to MWAA without rewriting your pipelines.
+:::
+
+## Scheduler Concepts
+
+:::: {.columns}
+::: {.column width="49%"}
+**Schedule expressions:**
+
+```python
+schedule="@daily"        # once a day at midnight
+schedule="@hourly"       # once an hour
+schedule="0 6 * * 1-5"   # 6 AM Mon–Fri (cron)
+schedule=timedelta(hours=4)   # every 4 hours
+schedule=None            # manual only
+```
+
+**Catchup and `depends_on_past`:**
+
+```python
+DAG(
+    catchup=True,          # backfill missed runs
+    depends_on_past=True,  # don't run until yesterday's succeeded
+)
+```
+
+:::
+
+::: {.column width="49%"}
+**Retry policy:**
+
+```python
+PythonOperator(
+    task_id="load_into_db",
+    python_callable=_load,
+    retries=3,
+    retry_delay=timedelta(minutes=5),
+    retry_exponential_backoff=True,
+)
+```
+
+::: {.callout-warning}
+`depends_on_past=True` on a backfill run means each interval must succeed before the next starts — useful for strict data dependencies, but slows down historical backfills.
+:::
+:::
+::::
+
+## Observability
+
+:::: {.columns}
+::: {.column width="55%"}
+**Airflow Web UI views:**
+
+* **DAGs list** — all DAGs, last run status, schedule
+* **Grid view** — matrix of runs × tasks, color-coded by state
+* **Graph view** — DAG dependency graph with task status
+* **Gantt view** — timeline of task durations
+* **Log viewer** — per-task stdout/stderr, per-attempt
+
+**MWAA-specific:**
+
+* All logs automatically shipped to **CloudWatch Logs**
+* **CloudWatch metrics**: `TasksPending`, `WorkersActive`, `QueuedTasks`
+* SLA miss events trigger CloudWatch alarms → SNS → email/Slack
+
+:::
+
+::: {.column width="43%"}
+::: {.callout-note}
+## SLA definition
+An SLA in Airflow is a **maximum elapsed time** from data interval start to task completion. If a task misses its SLA, Airflow fires a callback (email, custom function).
+
+```python
+Task(
+    sla=timedelta(hours=2)
+)
+```
+:::
+:::
+::::
+
+## When NOT to Use Airflow
+
+Airflow is powerful but not always the right tool:
+
+| Need | Better choice |
+|---|---|
+| Simple daily cron, no dependencies | Unix `cron` / AWS EventBridge |
+| Sub-minute latency | Kinesis, Kafka, Spark Streaming |
+| True streaming (unbounded) | Spark Structured Streaming (Week 11) |
+| Real-time event-driven | AWS Lambda + SQS |
+| Complex graph with heavy data passing | Prefect, Dagster (first-class data assets) |
+| ML experiment tracking | MLflow, W&B (complement, not replace) |
+
+::: {.callout-note}
+Airflow excels at **batch pipelines with external dependencies** — "run this when this other thing is done, retry on failure, alert on SLA breach, backfill if I miss days." That's exactly the Athena ETL use case.
+:::
+
+# Putting It All Together {.section}
+
+## The Complete Architecture
+
+```
+External sources (APIs, PDFs, S3 CDN)
+          │
+          ▼  [Airflow: extract task]
+  Raw files (local or S3 staging)
+          │
+          ▼  [Airflow: transform task]
+  Typed Parquet files
+          │
+          ▼  [Airflow: load task — boto3 INSERT via Athena]
+  S3 data lake  +  Glue Data Catalog
+  s3://athena-<netid>/shelter_data/*.parquet
+          │
+          ▼  [Athena: interactive SQL / scheduled CTAS]
+  Aggregated results / feature tables
+          │
+          ▼  [Airflow: ML task — scikit-learn on Athena query result]
+  Model evaluation (naive_rmse → weather_rmse comparison)
+          │
+          ▼
+  Reports, dashboards, downstream consumers
+```
+
+## References and Further Reading
+
+:::: {.columns}
+::: {.column width="49%"}
+**Amazon Athena:**
+
+- [Athena Documentation]({{< var reading.athena_docs >}}){target="_blank"} — official AWS docs
+- [Glue Data Catalog Documentation]({{< var reading.glue_docs >}}){target="_blank"}
+- [NYC TLC Data Dictionary]({{< var reading.nyc_tlc_dict >}}){target="_blank"} — Yellow taxi column reference
+
+**Apache Airflow:**
+
+- [Airflow Quickstart]({{< var reading.airflow_quickstart >}}){target="_blank"}
+- [Amazon MWAA Documentation]({{< var reading.mwaa_docs >}}){target="_blank"}
+
+:::
+
+::: {.column width="49%"}
+**Course resources:**
+
+- Lab 05 (Athena): GitHub Classroom link in Blackboard
+- Lab 10 (Airflow): GitHub Classroom link in Blackboard
+
+:::
+::::
+
+## Midterm 2 — Begin Now
+
+::: {.callout-important}
+## Midterm 2 starts now
+
+* Duration: **60 minutes**
+* Access the problem set from GitHub Classroom (link posted in Blackboard and Slack)
+* Work on your **EC2 cluster** with Spark — the cluster you started at the beginning of class
+* **Open notes, open internet** — no AI tools (ChatGPT, Claude, Copilot, etc.)
+* Submit your completed `.ipynb` via GitHub Classroom before time is called
+* If your cluster is not running, start it now — you will not receive extra time
+:::
+
+[**Good luck!**]{style="font-size: 1.3em;font-weight: bold;"}

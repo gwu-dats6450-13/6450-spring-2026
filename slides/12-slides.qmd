@@ -1,0 +1,101 @@
+---
+title: "Lecture 12"
+subtitle: "Serverless Analytics: Amazon Athena and Airflow Orchestration"
+engine: knitr
+format:
+  revealjs:
+    code-fold: false
+---
+
+
+:::: {.columns}
+::: {.column width="47%"}
+### Looking Back
+
+* Spark NLP: pretrained pipelines, NER, sentiment
+* Structured Streaming: unbounded-table model
+* Output modes, event-time windows, watermarks
+* Stateful transformations
+
+:::
+
+::: {.column width="47%"}
+### Today
+
+* Serverless SQL on S3 with Amazon Athena
+* AWS Glue Data Catalog
+* Analytical SQL patterns in Presto/Trino
+* Programmatic access via boto3
+* Pipeline orchestration with Apache Airflow
+* [**Midterm 2 — last hour of class**]{style="color: red;font-weight: bold;"}
+
+:::
+::::
+
+## Announcements {.smaller}
+
+::: {.callout-important}
+## Midterm 2 is today — last 60 minutes of class
+
+The second midterm takes place in the **last hour** of today's session. You will work with a **Spark cluster on your EC2 instance**.
+
+* Open notes, open internet — **no AI assistance**
+* Submit your completed notebook to GitHub Classroom before time is called
+* The problem will draw on Spark DataFrame API, transformations, and aggregations covered in Weeks 8–11
+:::
+
+::: {.fragment .fade-up}
+[**Start your EC2 cluster right now while we go through today's material.**]{style="color: red;font-size: 1.1em;font-weight: bold;"}
+:::
+
+## Start Your EC2 Cluster Now
+
+Do this **before** we dive into the lecture — the cluster needs time to fully initialize.
+
+```bash
+# SSH into your EC2 instance
+ssh -i ~/.ssh/your-key.pem ubuntu@<your-ec2-ip>
+
+# In the project/ directory, start your Spark cluster
+cd ~/project
+bash start-cluster.sh
+
+# Verify Spark UI is reachable at http://<ec2-ip>:8080
+# Keep this terminal open
+```
+
+::: {.callout-tip}
+## Cluster check
+Once started, confirm you see **Spark Master** in the browser at port 8080 and at least one worker is registered. If your cluster is already stopped from last week, allow 2–3 minutes for full startup.
+:::
+
+## Agenda
+
+:::: {.columns}
+::: {.column width="49%"}
+### Lecture (~90 min)
+
+* Amazon Athena — serverless SQL on S3
+* AWS Glue Data Catalog
+* Analytical SQL patterns
+* boto3 programmatic access
+* Apache Airflow for orchestration
+* Local on EC2 vs Amazon MWAA
+
+:::
+
+::: {.column width="49%"}
+### Midterm 2 (~60 min)
+
+* Spark on your EC2 cluster
+* Problems released at start of midterm window
+* Submit via GitHub Classroom
+* Open notes / internet; no AI
+* Cluster must be running and reachable
+
+:::
+::::
+
+{{< include athena/_athena.qmd >}}
+
+{{< include airflow/_airflow.qmd >}}

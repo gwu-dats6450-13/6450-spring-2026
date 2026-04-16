@@ -1,0 +1,35 @@
+## About today's class
+
+::: {.callout-important}
+## Midterm 2 — last hour of class
+The second midterm takes place in the **last 60 minutes** of today's session. You will work with a Spark cluster running on your EC2 instance. **Start your cluster at the very beginning of class** so it is fully initialized before the midterm window opens. The exam is open notes and open internet; no AI assistance.
+:::
+
+This week has two parts. We begin with **Amazon Athena**: AWS's serverless, interactive SQL query service powered by Presto/Trino. We cover how Athena lets you query data directly in S3 without provisioning a cluster, how the **AWS Glue Data Catalog** acts as the schema registry, two strategies for registering tables (Glue Crawlers vs. explicit DDL), analytical SQL patterns including approximate percentiles and IQR-based anomaly detection, performance levers (partitioning, columnar formats, compression), and programmatic access via **boto3**.
+
+We then turn to **Apache Airflow** — an open-source workflow orchestration platform for building, scheduling, and monitoring data pipelines. Topics include the DAG/Operator/Task model, Jinja templating for idempotent runs, backfill semantics, fan-out pipelines with parallel branches, and how Airflow orchestrates end-to-end ETL into Athena. We close with a comparison of running Airflow locally on EC2 (as in Lab 10) versus the fully managed **Amazon MWAA** service.
+
+## Readings
+
+Readings for this lecture (to be completed ***before class***):
+
+**Amazon Athena:**
+
+- [Amazon Athena Documentation]({{< var reading.athena_docs >}}){target="_blank"} — focus on the *Getting Started* and *SQL Reference* sections
+- [AWS Glue Data Catalog Documentation]({{< var reading.glue_docs >}}){target="_blank"} — the *Crawlers* and *Tables* chapters
+- [NYC TLC Yellow Taxi Data Dictionary]({{< var reading.nyc_tlc_dict >}}){target="_blank"} — column reference for the lab dataset
+
+**Apache Airflow / MWAA:**
+
+- [Apache Airflow Quickstart]({{< var reading.airflow_quickstart >}}){target="_blank"} — single-node `airflow standalone` setup (matches Lab 10)
+- [Amazon MWAA Documentation]({{< var reading.mwaa_docs >}}){target="_blank"} — skim *What is Amazon MWAA?* and *Get started*
+
+## Slides
+
+The slides for this week are available [online](/slides/12-slides.qmd).
+
+## Lab
+
+This week's lab covers Amazon Athena and Airflow-based ETL pipelines.
+
+[Lab link]({{< var gh-classroom.lab12 >}})

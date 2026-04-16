@@ -59,6 +59,17 @@ website:
               text: "10. Spark ML and Spark NLP"
             - file: content/11-content.qmd
               text: "11. Spark Structured Streaming"
+            - file: content/12-content.qmd
+              text: "12. AWS Athena and Airflow"
+    - title: "Assessments"
+      style: docked
+      search: false
+      background: "#fcc200"
+      contents:
+        - section: Midterms
+          contents:
+            - text: "Midterm 2: Apache Spark"
+              file: assignments/midterm02.qmd
     - title: "Resources"
       contents:
         - file: resources/uv.qmd
