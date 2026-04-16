@@ -1,0 +1,681 @@
+:::: {.columns}
+::: {.column width="47%"}
+### Looking Back
+
+* Spark MLlib: transformers, estimators, pipelines
+* Spark NLP intro: annotator concepts
+* Approach vs. Model annotators
+* DocumentAssembler, pipeline types
+* HuggingFace integration
+
+:::
+
+::: {.column width="47%"}
+### Today
+
+* Pretrained pipelines in practice
+* Named Entity Recognition (NER)
+* Sentiment analysis
+* LightPipeline for fast inference
+* End-to-end news processing
+* Structured Streaming
+
+:::
+::::
+
+# Two Key NLP Tasks {.section}
+
+## Part-of-Speech (POS) Tagging
+
+**POS tagging** labels each token with its grammatical role in the sentence.
+
+:::: {.columns}
+::: {.column width="49%"}
+#### Common Penn Treebank tags
+
+| Tag | Meaning | Example |
+|---|---|---|
+| `NN` | Noun, singular | *market* |
+| `NNP` | Proper noun | *Tesla* |
+| `VBZ` | Verb, 3rd person | *rises* |
+| `VBG` | Verb, gerund | *buying* |
+| `JJ` | Adjective | *strong* |
+| `IN` | Preposition | *for*, *at* |
+| `DT` | Determiner | *the*, *a* |
+| `CD` | Cardinal number | *1*, *billion* |
+:::
+
+::: {.column width="49%"}
+#### Example
+
+```
+"Apple is buying U.K. startup for $1 billion"
+```
+
+| Token | POS tag |
+|---|---|
+| Apple | `NNP` |
+| is | `VBZ` |
+| buying | `VBG` |
+| U.K. | `NNP` |
+| startup | `NN` |
+| for | `IN` |
+| $ | `$` |
+| 1 | `CD` |
+| billion | `CD` |
+
+:::
+::::
+
+POS tags are used as **features** for downstream tasks like NER, parsing, and coreference resolution.
+
+## Named Entity Recognition (NER)
+
+**NER** identifies and classifies named entities — specific real-world objects — in text.
+
+:::: {.columns}
+::: {.column width="49%"}
+#### BIO tagging scheme
+
+NER models tag every token using **B**egin / **I**nside / **O**utside labels:
+
+```
+"Apple  is  buying  U.K.  startup"
+ B-ORG  O   O       B-LOC  O
+```
+
+* `B-ORG` — first token of an organization
+* `I-ORG` — continuation of an organization
+* `B-LOC` — first token of a location
+* `O` — not part of any named entity
+
+A `NerConverter` merges `B-`/`I-` sequences into complete spans: **Apple** (ORG), **U.K.** (LOC).
+:::
+
+::: {.column width="49%"}
+#### Common entity types
+
+| Label | Examples |
+|---|---|
+| `PERSON` | Elon Musk, Janet Yellen |
+| `ORG` | Tesla, Federal Reserve |
+| `LOC` / `GPE` | Texas, New York, France |
+| `DATE` | Monday, Q3 2024 |
+| `MONEY` | $1 billion, €500M |
+
+#### Use cases
+
+* Knowledge graph construction
+* Content tagging & search indexing
+* Financial entity tracking in news
+* PII detection for compliance
+
+:::
+::::
+
+# Pretrained Pipelines {.section}
+
+## What are Pretrained Pipelines?
+
+A **pretrained pipeline** is a ready-to-use chain of annotators — trained, serialized, and downloadable in one call.
+
+```python
+import sparknlp
+from sparknlp.pretrained import PretrainedPipeline
+
+# Download and load a pretrained pipeline by name and language
+pipeline = PretrainedPipeline("explain_document_ml", lang="en")
+```
+
+:::: {.columns}
+::: {.column width="49%"}
+**Benefits**
+
+* No training required
+* Versioned, reproducible
+* Cover common NLP tasks out of the box
+* Thousands of models at [sparknlp.org/models](https://sparknlp.org/models){target="_blank"}
+:::
+
+::: {.column width="49%"}
+**What's inside**
+
+Each pipeline is a full annotator chain:
+`DocumentAssembler → SentenceDetector → Tokenizer → [task-specific annotators]`
+:::
+::::
+
+## Common Pretrained Pipelines
+
+:::: {.columns}
+::: {.column width="49%"}
+| Pipeline | Task |
+|---|---|
+| `explain_document_ml` | Tokenize, lemmatize, POS, NER (ML) |
+| `explain_document_dl` | Same with deep-learning models |
+| `recognize_entities_dl` | NER with DL embeddings |
+| `analyze_sentiment` | Sentence-level sentiment |
+| `clean_stop` | Stop-word removal |
+| `match_datetime` | Date/time extraction |
+:::
+
+::: {.column width="49%"}
+#### ML vs DL tradeoffs
+
+**ML pipelines**
+
+* Faster, lighter
+* Good for CPU-only clusters
+* Slightly lower accuracy
+
+**DL pipelines**
+
+* Higher accuracy
+* Require more memory
+* Benefit from GPU nodes
+:::
+::::
+
+## Using a Pretrained Pipeline on Raw Text
+
+```python
+from sparknlp.pretrained import PretrainedPipeline
+
+pipeline = PretrainedPipeline("explain_document_ml", lang="en")
+
+result = pipeline.annotate("Apple is looking at buying U.K. startup for $1 billion")
+
+# result is a dict of annotation lists
+print(result["token"])
+# ['Apple', 'is', 'looking', 'at', 'buying', 'U.K.', 'startup', 'for', '$', '1', 'billion']
+
+print(result["lemma"])
+# ['Apple', 'be', 'look', 'at', 'buy', 'U.K.', 'startup', 'for', '$', '1', 'billion']
+
+print(result["pos"])
+# ['NNP', 'VBZ', 'VBG', 'IN', 'VBG', 'NNP', 'NN', 'IN', '$', 'CD', 'CD']
+
+print(result["ner"])
+# ['B-ORG', 'O', 'O', 'O', 'O', 'B-LOC', 'O', 'O', 'O', 'O', 'O']
+```
+
+## Pretrained Pipeline on a DataFrame
+
+```python
+from pyspark.sql import SparkSession
+from sparknlp.pretrained import PretrainedPipeline
+
+pipeline = PretrainedPipeline("explain_document_ml", lang="en")
+
+news_df = spark.createDataFrame([
+    (1, "Tesla shares rose after Elon Musk announced new factory in Texas."),
+    (2, "Federal Reserve raises interest rates amid inflation concerns."),
+    (3, "Amazon acquires Whole Foods in $13.7 billion deal."),
+], ["id", "text"])
+
+# .transform() runs as a distributed Spark job — use for large DataFrames
+result_df = pipeline.transform(news_df)
+result_df.select("id", "token.result", "ner.result").show(truncate=False)
+```
+
+::: {.callout-note}
+`.annotate("text")` → runs as a LightPipeline (single string, local)
+`.transform(df)` → runs as a full Spark pipeline (distributed, scalable)
+:::
+
+# Named Entity Recognition {.section}
+
+## What is NER?
+
+**Named Entity Recognition** identifies and classifies named entities in text.
+
+:::: {.columns}
+::: {.column width="49%"}
+#### Common entity types
+
+| Label | Examples |
+|---|---|
+| `PERSON` | Elon Musk, Janet Yellen |
+| `ORG` | Tesla, Federal Reserve |
+| `LOC` / `GPE` | Texas, New York, France |
+| `DATE` | Monday, Q3 2024 |
+| `MONEY` | $1 billion, €500M |
+:::
+
+::: {.column width="49%"}
+#### Use cases
+
+* **Knowledge graphs** — extract entity relationships
+* **Content tagging** — auto-tag articles by company/person
+* **Financial analysis** — track companies in news
+* **Search & recommendation** — entity-based indexing
+* **Compliance** — detect PII in documents
+:::
+::::
+
+## NER with a Pretrained Model
+
+:::: {.columns}
+::: {.column width="49%"}
+```python
+from pyspark.ml import Pipeline
+from sparknlp.base import DocumentAssembler
+from sparknlp.annotator import (
+    SentenceDetector, Tokenizer,
+    WordEmbeddingsModel,
+    NerDLModel, NerConverter
+)
+
+doc = DocumentAssembler() \
+    .setInputCol("text") \
+    .setOutputCol("document")
+
+sent = SentenceDetector() \
+    .setInputCols(["document"]) \
+    .setOutputCol("sentence")
+
+tok = Tokenizer() \
+    .setInputCols(["sentence"]) \
+    .setOutputCol("token")
+
+emb = WordEmbeddingsModel.pretrained("glove_100d") \
+    .setInputCols(["document", "token"]) \
+    .setOutputCol("embeddings")
+
+ner = NerDLModel.pretrained("ner_dl") \
+    .setInputCols(["sentence", "token", "embeddings"]) \
+    .setOutputCol("ner")
+
+conv = NerConverter() \
+    .setInputCols(["document", "token", "ner"]) \
+    .setOutputCol("entities")
+```
+:::
+
+::: {.column width="49%"}
+#### Pipeline flow
+
+```
+text column
+    ↓
+DocumentAssembler  →  document
+    ↓
+SentenceDetector   →  sentence
+    ↓
+Tokenizer          →  token
+    ↓
+WordEmbeddingsModel →  embeddings
+    ↓
+NerDLModel         →  ner  (B-/I- tags)
+    ↓
+NerConverter       →  entities (grouped)
+```
+
+`NerConverter` merges `B-ORG I-ORG I-ORG` sequences into a single entity span.
+:::
+::::
+
+## NER Pipeline Results
+
+```python
+nlp_pipeline = Pipeline(stages=[doc, sent, tok, emb, ner, conv])
+model = nlp_pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
+result = model.transform(news_df)
+
+result.select("text", "entities.result", "entities.metadata").show(truncate=False)
+# +-------------------------------------------------------------------+---------------------------+
+# |text                                                               |result                     |
+# +-------------------------------------------------------------------+---------------------------+
+# |Tesla shares rose after Elon Musk announced new factory in Texas.  |[Tesla, Elon Musk, Texas]  |
+# |Federal Reserve raises interest rates amid inflation concerns.     |[Federal Reserve]          |
+# |Amazon acquires Whole Foods in $13.7 billion deal.                 |[Amazon, Whole Foods]      |
+# +-------------------------------------------------------------------+---------------------------+
+```
+
+::: {.callout-tip}
+`NerConverter` groups `B-`/`I-` BIO tags into complete entity spans with their type label, making downstream aggregation much simpler.
+:::
+
+## NER on News Data
+
+The lab this week applies NER to a corpus of news headlines and articles.
+
+```python
+# Typical news NER workflow
+result_df \
+    .select(F.explode("entities").alias("entity")) \
+    .select(
+        F.col("entity.result").alias("entity_text"),
+        F.col("entity.metadata.entity").alias("entity_type")
+    ) \
+    .filter(F.col("entity_type") == "ORG") \
+    .groupBy("entity_text") \
+    .count() \
+    .orderBy("count", ascending=False) \
+    .show(10)
+```
+
+Key questions the lab will explore:
+
+* Which organizations appear most frequently in financial news?
+* How do entity mentions cluster by topic or time period?
+* Can NER results seed downstream sentiment analysis?
+
+# Sentiment Analysis {.section}
+
+## Sentiment Analysis Pipeline
+
+Two practical approaches in Spark NLP:
+
+:::: {.columns}
+::: {.column width="49%"}
+#### Option 1: Pretrained Pipeline
+
+* One-line setup
+* Uses `analyze_sentiment` pipeline
+* Returns `positive` / `negative`
+* Best for quick exploration
+
+```python
+pipe = PretrainedPipeline(
+    "analyze_sentiment", lang="en"
+)
+result = pipe.annotate("Great article!")
+```
+:::
+
+::: {.column width="49%"}
+#### Option 2: Custom SentimentDL Pipeline
+
+* More control over model choice
+* Can use domain-specific models
+* Supports confidence scores
+* Better for production use
+
+```python
+sentiment = SentimentDLModel \
+    .pretrained("sentimentdl_use_twitter") \
+    .setInputCols(["sentence_embeddings"]) \
+    .setOutputCol("sentiment")
+```
+:::
+::::
+
+## Quick Sentiment with PretrainedPipeline
+
+```python
+from sparknlp.pretrained import PretrainedPipeline
+
+pipeline = PretrainedPipeline("analyze_sentiment", lang="en")
+
+# Positive example
+result = pipeline.annotate(
+    "The quarterly earnings beat expectations by a wide margin."
+)
+print(result["sentiment"])
+# ['positive']
+
+# Negative example
+result = pipeline.annotate(
+    "The company reported massive losses and announced layoffs."
+)
+print(result["sentiment"])
+# ['negative']
+
+# On a list of texts (LightPipeline batch mode)
+headlines = [
+    "Stock market hits record high on strong jobs report",
+    "Trade war fears send markets tumbling",
+    "Tech giant posts disappointing revenue miss",
+]
+results = pipeline.annotate(headlines)
+for h, r in zip(headlines, results):
+    print(f"{r['sentiment'][0]:8s} | {h}")
+```
+
+## Custom Sentiment Pipeline
+
+```python
+from sparknlp.annotator import (
+    UniversalSentenceEncoder, SentimentDLModel
+)
+
+doc = DocumentAssembler() \
+    .setInputCol("text").setOutputCol("document")
+
+use = UniversalSentenceEncoder.pretrained("tfhub_use") \
+    .setInputCols(["document"]) \
+    .setOutputCol("sentence_embeddings")
+
+sentiment = SentimentDLModel \
+    .pretrained("sentimentdl_use_twitter") \
+    .setInputCols(["sentence_embeddings"]) \
+    .setOutputCol("sentiment")
+
+pipeline = Pipeline(stages=[doc, use, sentiment])
+model = pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
+
+result = model.transform(news_df)
+result.select("text", "sentiment.result").show(truncate=False)
+```
+
+## Sentiment on News Headlines
+
+```python
+from pyspark.sql import functions as F
+
+# Apply sentiment pipeline to a news DataFrame
+result_df = model.transform(news_df)
+
+result_df \
+    .withColumn("sentiment_label",
+                F.col("sentiment.result").getItem(0)) \
+    .select("id", "text", "sentiment_label") \
+    .show(truncate=60)
+# +---+------------------------------------------------------------+---------------+
+# |id |text                                                        |sentiment_label|
+# +---+------------------------------------------------------------+---------------+
+# |1  |Tesla shares rose after Elon Musk announced new factory ... |positive       |
+# |2  |Federal Reserve raises interest rates amid inflation ...    |negative       |
+# |3  |Amazon acquires Whole Foods in $13.7 billion deal.          |positive       |
+# +---+------------------------------------------------------------+---------------+
+```
+
+::: {.callout-warning}
+**Domain sensitivity matters.** Models trained on Twitter or movie reviews can misclassify neutral financial language. Use domain-adapted models (e.g., `sentimentdl_use_finance`) for better results on news data.
+:::
+
+# LightPipeline for Fast Inference {.section}
+
+## LightPipeline Recap and Usage
+
+A **LightPipeline** wraps a fitted Spark NLP pipeline for fast, local inference — no Spark task overhead.
+
+```python
+from sparknlp.base import LightPipeline
+
+# Wrap any fitted pipeline model
+light = LightPipeline(fitted_pipeline_model)
+
+# Single string
+result = light.annotate("Apple acquired Beats Electronics in 2014.")
+print(result["entities"])
+# ['Apple', 'Beats Electronics', '2014']
+
+# Batch of strings (still local, no Spark distribution)
+texts = [
+    "Google opens new office in London.",
+    "WHO warns of new health risks in Southeast Asia.",
+]
+results = light.annotate(texts)
+for r in results:
+    print(r["entities"])
+```
+
+#### When to use LightPipeline
+
+* Interactive exploration / notebooks
+* REST API inference endpoints (< 50K documents)
+* Debugging pipeline outputs on sample rows
+
+## LightPipeline vs. Spark Pipeline
+
+| | LightPipeline | Spark Pipeline |
+|---|---|---|
+| **Input** | String or list of strings | Spark DataFrame |
+| **Distribution** | Single driver, local | Distributed across cluster |
+| **Best for** | < 50K docs, APIs, debugging | Large-scale batch processing |
+| **Method** | `.annotate()` | `.transform()` |
+| **Overhead** | Minimal | Spark task scheduling |
+| **Output** | Python dict | DataFrame with annotation columns |
+
+::: {.callout-tip}
+Use `PretrainedPipeline("name")` — it gives you both interfaces automatically:
+`.annotate()` → LightPipeline
+`.transform()` → full Spark pipeline
+:::
+
+# End-to-End Example: News Processing {.section}
+
+## Processing News Articles: Full Pipeline
+
+:::: {.columns}
+::: {.column width="49%"}
+```python
+from pyspark.ml import Pipeline
+from sparknlp.base import DocumentAssembler
+from sparknlp.annotator import (
+    SentenceDetector, Tokenizer,
+    WordEmbeddingsModel,
+    NerDLModel, NerConverter
+)
+
+doc = DocumentAssembler() \
+    .setInputCol("text") \
+    .setOutputCol("document")
+
+sent = SentenceDetector() \
+    .setInputCols(["document"]) \
+    .setOutputCol("sentence")
+
+tok = Tokenizer() \
+    .setInputCols(["sentence"]) \
+    .setOutputCol("token")
+
+emb = WordEmbeddingsModel \
+    .pretrained("glove_100d") \
+    .setInputCols(["document", "token"]) \
+    .setOutputCol("embeddings")
+```
+:::
+
+::: {.column width="49%"}
+```python
+ner = NerDLModel.pretrained("ner_dl") \
+    .setInputCols(
+        ["sentence", "token", "embeddings"]) \
+    .setOutputCol("ner")
+
+conv = NerConverter() \
+    .setInputCols(
+        ["document", "token", "ner"]) \
+    .setOutputCol("entities")
+
+pipeline = Pipeline(
+    stages=[doc, sent, tok, emb, ner, conv]
+)
+
+# Fit on empty DataFrame (pretrained weights only)
+empty = spark.createDataFrame(
+    [[""]]).toDF("text")
+model = pipeline.fit(empty)
+
+# Run on full news corpus
+result_df = model.transform(news_df)
+```
+:::
+::::
+
+## Analyzing NER Output
+
+```python
+from pyspark.sql import functions as F
+
+# Explode the entities array so each entity is its own row
+entities_df = result_df \
+    .select(
+        "id",
+        F.explode("entities").alias("entity")
+    ) \
+    .select(
+        "id",
+        F.col("entity.result").alias("entity_text"),
+        F.col("entity.metadata.entity").alias("entity_type")
+    )
+
+# Most frequently mentioned organizations
+entities_df \
+    .filter(F.col("entity_type") == "ORG") \
+    .groupBy("entity_text") \
+    .count() \
+    .orderBy("count", ascending=False) \
+    .show(10)
+
+# Co-occurrence: which people appear alongside which organizations?
+entities_df \
+    .filter(F.col("entity_type").isin(["PERSON", "ORG"])) \
+    .groupBy("id", "entity_type") \
+    .agg(F.collect_list("entity_text").alias("entities")) \
+    .show(5, truncate=False)
+```
+
+## The Models Hub
+
+Spark NLP ships with access to thousands of pretrained models at **[sparknlp.org/models](https://sparknlp.org/models){target="_blank"}**
+
+:::: {.columns}
+::: {.column width="49%"}
+#### What's available
+
+* **NER** — general, medical, legal, finance
+* **Sentiment** — social media, news, clinical
+* **Classification** — topic, language, intent
+* **Summarization** — extractive and abstractive
+* **Translation** — 200+ language pairs
+* **Embeddings** — GloVe, BERT, RoBERTa, USE, ...
+:::
+
+::: {.column width="49%"}
+#### Loading any model
+
+```python
+# Load by name from the hub
+model = NerDLModel \
+    .pretrained("ner_ontonotes_roberta_base") \
+    .setInputCols(
+        ["sentence", "token", "embeddings"]) \
+    .setOutputCol("ner")
+
+# Or load from a local path
+model = NerDLModel \
+    .load("/path/to/local/model") \
+    .setInputCols(
+        ["sentence", "token", "embeddings"]) \
+    .setOutputCol("ner")
+```
+
+Filter by task, language, and license on the hub.
+:::
+::::
+
+## Readings
+
+**Required:**
+
+* [Spark NLP Annotators Reference](https://nlp.johnsnowlabs.com/docs/en/annotators){target="_blank"}
+* [Spark NLP Models Hub](https://sparknlp.org/models){target="_blank"}
+
+**Encouraged:**
+
+* [NER with Spark NLP tutorial](https://towardsdatascience.com/named-entity-recognition-with-spark-nlp-3e8e4f3e9c43){target="_blank"}
+* [Spark NLP Workshop Notebooks](https://github.com/JohnSnowLabs/spark-nlp-workshop){target="_blank"}

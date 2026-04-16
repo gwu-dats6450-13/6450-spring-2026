@@ -1,10 +1,12 @@
 ---
 title: "Lecture 11"
-subtitle: "Spark Structured Streaming"
+subtitle: "Spark NLP in Practice & Structured Streaming"
 engine: knitr
 format:
   revealjs:
     code-fold: false
 ---
+
+{{< include spark/_sparknlp.qmd >}}
 
 {{< include spark/_streaming.qmd >}}

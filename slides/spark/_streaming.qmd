@@ -388,9 +388,9 @@ windowedCounts = (words
 * Abstracts away configuration and cluster management
 * Pricing based on usage (per shard-hour and PUT payload)
 
-[Kinesis vs. Kafka comparison](https://hevodata.com/learn/amazon-kinesis-vs-kafka/)
+[Kinesis vs. Kafka comparison](https://medium.com/@hrishikeshkhurpe/amazon-kinesis-vs-apache-kafka-a-deep-dive-into-streaming-data-solutions-8e481a0d1987)
 
-## Spark SQL Connector for AWS Kinesis
+## Spark SQL Connector for AWS Kinesis {.hidden}
 
 Use Kinesis as a source or sink in Spark Structured Streaming:
 
