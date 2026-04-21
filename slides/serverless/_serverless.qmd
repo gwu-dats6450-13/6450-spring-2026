@@ -1,0 +1,393 @@
+# Serverless on AWS {.section}
+
+## What Is Serverless?
+
+:::: {.columns}
+::: {.column width="49%"}
+**Traditional cloud**: you provision a server (EC2, EMR cluster), pay
+whether it's busy or idle, and manage OS patches, scaling, and
+availability yourself.
+
+**Serverless**: the cloud provider runs and scales the infrastructure
+for you. You supply code or a query — AWS handles everything else.
+
+::: {.callout-note}
+"Serverless" doesn't mean *no* servers. It means *you* don't manage
+them.
+:::
+:::
+
+::: {.column width="49%"}
+### Four defining properties
+
+1. **No infrastructure management** — no patching, no capacity
+   planning
+2. **Automatic scaling** — scales to zero; scales to thousands of
+   concurrent executions
+3. **Pay-per-use** — billed by invocation or query, not by uptime
+4. **Built-in availability** — redundancy is the provider's problem
+
+:::
+::::
+
+::: notes
+Contrast with EMR or EC2: you pay for those instances whether a job is
+running or not. Serverless flips the model — great for bursty or
+infrequent workloads, but has real limits for sustained heavy compute.
+:::
+
+## The AWS Serverless Ecosystem {.smaller}
+
+| Service | Category | What it does |
+|---|---|---|
+| **Lambda** | Compute | Run arbitrary code on events; up to 15 min per invocation |
+| **S3** | Storage | Object store; event source for Lambda triggers |
+| **Athena** | Query | Interactive SQL over S3 data; pay per TB scanned |
+| **AWS Glue** | ETL / Catalog | Managed Spark ETL jobs + Hive-compatible metadata catalog |
+| **DynamoDB** | NoSQL DB | Key-value / document store; on-demand capacity mode |
+| **Kinesis Data Streams** | Streaming | Real-time data ingestion; Lambda consumer pattern |
+| **SQS / SNS** | Messaging | Queue (SQS) and pub/sub (SNS) — decouple pipeline steps |
+| **EventBridge** | Scheduling | Cron-style rules and event routing between services |
+| **SageMaker Serverless** | ML Inference | Endpoint that scales to zero between requests |
+
+::: notes
+We've already seen Athena and Glue in Week 12. This slide situates them
+in the broader serverless family. Lambda is the glue (pun intended) that
+connects most of these services in an event-driven pipeline.
+:::
+
+## Lambda: Event-Driven Compute
+
+:::: {.columns}
+::: {.column width="49%"}
+**Common triggers for data workflows**
+
+* S3 object upload / delete
+* Kinesis or SQS message
+* EventBridge schedule (cron)
+* API Gateway HTTP request
+* DynamoDB stream change
+
+**Limits to keep in mind**
+
+* Max runtime: **15 minutes**
+* Max memory: **10 GB**
+* Max package size: **250 MB** (unzipped)
+:::
+
+::: {.column width="49%"}
+```python
+import json
+import boto3
+
+def handler(event, context):
+    s3 = boto3.client("s3")
+    for record in event["Records"]:
+        bucket = record["s3"]["bucket"]["name"]
+        key = record["s3"]["object"]["key"]
+        obj = s3.get_object(Bucket=bucket, Key=key)
+        data = obj["Body"].read()
+        # process data ...
+    return {"statusCode": 200}
+```
+
+::: {.aside}
+The `event` dict is shaped by the trigger source — S3 events, Kinesis
+records, and API Gateway requests each have different schemas.
+:::
+:::
+::::
+
+## Athena: Serverless SQL {.smaller}
+
+:::: {.columns}
+::: {.column width="49%"}
+Already covered in Week 12 — quick recap:
+
+* Query data **directly on S3** — no ETL into a database
+* Billed at **$5 / TB scanned** (use partitions and Parquet!)
+* Uses **Glue Data Catalog** as its schema registry
+* Results written to an S3 output bucket
+
+**Querying from Python:**
+
+```python
+import boto3, time
+
+client = boto3.client("athena", region_name="us-east-1")
+resp = client.start_query_execution(
+    QueryString="SELECT date, count(*) FROM sales GROUP BY 1",
+    QueryExecutionContext={"Database": "analytics"},
+    ResultConfiguration={"OutputLocation": "s3://my-bucket/results/"},
+)
+qid = resp["QueryExecutionId"]
+# poll until state != RUNNING ...
+```
+:::
+
+::: {.column width="49%"}
+### Why it fits the serverless pattern
+
+* Zero infrastructure to manage
+* Scales automatically with query complexity
+* Pay only for what you scan
+
+::: {.callout-tip}
+Partition your S3 data by date or region and store it as Parquet.
+A well-partitioned Parquet table can cut Athena costs by 10–100×
+versus scanning raw CSV.
+:::
+:::
+::::
+
+## AWS Glue: Serverless ETL
+
+:::: {.columns}
+::: {.column width="49%"}
+### Three roles Glue plays
+
+**1. Data Catalog**
+Hive-compatible metadata store. Athena, Spark, and Redshift all read
+from it. Crawlers auto-discover schemas from S3.
+
+**2. ETL Jobs**
+Managed Apache Spark — you write PySpark or Scala; AWS provisions
+the cluster, runs it, tears it down.
+
+**3. DataBrew** *(bonus)*
+No-code visual data preparation for quick profiling and cleaning.
+:::
+
+::: {.column width="49%"}
+### When to use Glue vs. your own Spark
+
+| | Glue | Self-managed Spark |
+|---|---|---|
+| **Setup** | Minutes | Hours (EMR, config) |
+| **Cost** | DPU-hours billed | EC2 always-on |
+| **Flexibility** | Limited | Full |
+| **Job duration** | Fits serverless | Long-running OK |
+| **Debugging** | Harder | Local testing easy |
+
+::: {.callout-warning}
+Glue Spark jobs have a minimum billing of **1 DPU-minute**. Very short
+jobs can be more expensive per unit of work than a dedicated cluster.
+:::
+:::
+::::
+
+## When Serverless Wins
+
+:::: {.columns}
+::: {.column width="49%"}
+### General good fits
+
+* **Spiky / unpredictable load** — traffic that surges then disappears
+* **Infrequent jobs** — nightly batch, weekly report, on-demand API
+* **Event-driven triggers** — react to file arrivals, queue messages
+* **Prototyping** — skip cluster setup; iterate fast
+* **Low operational budget** — no team to manage infrastructure
+:::
+
+::: {.column width="49%"}
+### Data science specifics
+
+* Ad-hoc SQL analytics over a data lake (Athena)
+* Lightweight feature-engineering steps on new data files
+* Serving a low-QPS model prediction API
+* Running scheduled scoring jobs (e.g., nightly churn predictions)
+* Automating pipeline steps without standing up Airflow
+:::
+::::
+
+::: notes
+The key question is: how often does the workload run, and how long does
+it run? Serverless is optimal when the answer is "occasionally" and
+"briefly". The economics flip for sustained, heavy workloads.
+:::
+
+## When Serverless Struggles
+
+:::: {.columns}
+::: {.column width="49%"}
+### Hard limits
+
+* **Lambda max runtime: 15 minutes** — can't train a model or run a
+  long ETL job in a single invocation
+* **Cold starts** — first invocation after idle period adds 100 ms –
+  several seconds of latency (worse with large dependencies)
+* **No GPU** in Lambda — deep learning inference needs a real instance
+  or SageMaker
+* **Stateless by design** — can't hold a large in-memory cache across
+  invocations
+:::
+
+::: {.column width="49%"}
+### Economic tipping points
+
+* **High-throughput sustained loads** — always-on EC2 or EMR becomes
+  cheaper than per-invocation billing
+* **Large scans without partitioning** — Athena $5/TB adds up fast on
+  raw, unpartitioned data
+* **Glue DPUs on tiny jobs** — minimum billing makes micro-ETL
+  uneconomical
+* **SageMaker Serverless cold starts** — real-time inference SLAs may
+  require a provisioned endpoint instead
+
+::: {.callout-important}
+Always estimate cost at your expected volume *before* committing to a
+serverless architecture.
+:::
+:::
+::::
+
+## Use Case: Event-Driven Feature Pipeline
+
+When a new raw data file lands in S3, automatically clean and feature-engineer it.
+
+```{mermaid}
+flowchart LR
+    A[("S3\nRaw Data\nBucket")] -->|PutObject event| B["Lambda\nPreprocessor"]
+    B -->|cleaned records| C[("S3\nFeature\nStore")]
+    B -->|schema update| D["Glue\nData Catalog"]
+    C -->|query| E["Athena\nAnalytics"]
+```
+
+**Why serverless fits:** files arrive unpredictably; each file takes seconds to process; no cluster needs to be running between arrivals.
+
+::: notes
+This is a classic S3-triggered Lambda pattern. The Lambda reads the raw
+file, applies transforms (type casting, null handling, feature
+engineering), writes Parquet back to a features bucket, and optionally
+updates the Glue catalog so Athena can immediately query the new data.
+:::
+
+## Use Case: Scheduled Batch Scoring
+
+Run nightly churn predictions on all active customers without keeping a cluster alive.
+
+```{mermaid}
+flowchart LR
+    A["EventBridge\nSchedule\n(cron: 02:00 UTC)"] --> B["Lambda\nOrchestrator"]
+    B --> C["SageMaker\nBatch Transform"]
+    C -->|reads| D[("S3\nCustomer\nFeatures")]
+    C -->|writes| E[("S3\nPredictions")]
+    E --> F["Athena\nDashboard\nQuery"]
+```
+
+**Why serverless fits:** runs once per day; SageMaker Batch Transform provisions compute only for the duration of the job; Lambda startup cost is negligible.
+
+::: notes
+EventBridge replaces a cron daemon. Lambda is just the glue that calls
+the SageMaker API to kick off the batch transform job. The transform
+itself runs on managed SageMaker compute — that part isn't truly free,
+but it's ephemeral and scales to the data volume automatically.
+:::
+
+## Use Case: Ad-Hoc Analytics
+
+Analysts query a multi-year data lake without provisioning a warehouse.
+
+```{mermaid}
+flowchart LR
+    A["Analyst\n(SQL client / boto3)"] --> B["Athena"]
+    B -->|reads schema| C["Glue\nData Catalog"]
+    B -->|scans| D[("S3 Data Lake\nParquet / ORC")]
+    B -->|writes results| E[("S3\nResults Bucket")]
+    E --> F["Analyst\nreceives results"]
+```
+
+**Why serverless fits:** queries are intermittent; Athena scales to any query size; zero idle cost between queries; no DBA needed.
+
+::: notes
+This is the pattern we used in Week 12. The key cost lever is partition
+pruning and columnar storage. Without it, Athena scans everything and
+the bill grows linearly with data volume.
+:::
+
+## Use Case: API-Backed Model Serving
+
+Expose a trained model as an HTTP endpoint without managing a server.
+
+```{mermaid}
+flowchart LR
+    A["Client\n(app / notebook)"] -->|POST /predict| B["API Gateway"]
+    B --> C["Lambda\nRequest Handler"]
+    C -->|InvokeEndpoint| D["SageMaker\nServerless\nEndpoint"]
+    D -->|prediction| C
+    C -->|JSON response| A
+```
+
+**Why serverless fits:** low or unpredictable QPS; SageMaker Serverless endpoint scales to zero between requests; no EC2 instance to maintain.
+
+::: {.callout-warning}
+SageMaker Serverless Inference has a cold start of **1–10 seconds**. For
+latency-sensitive applications (< 500 ms SLA), use a provisioned
+endpoint instead.
+:::
+
+::: notes
+API Gateway handles auth, rate limiting, and HTTPS termination. Lambda
+parses the request, calls SageMaker, and formats the response. The whole
+stack costs ~$0 at zero traffic and scales automatically.
+:::
+
+## Cost Model: Serverless vs. Always-On
+
+:::: {.columns}
+::: {.column width="49%"}
+### Serverless wins when...
+
+**Intermittent workload** (e.g., 1 hour/day of Lambda):
+
+```
+Lambda: 1h × ~$0.0000166/GB-sec  ≈ cents/day
+EC2 t3.medium: 24h × $0.0416/hr  = ~$1/day
+```
+
+At low utilization, serverless is **dramatically cheaper**.
+:::
+
+::: {.column width="49%"}
+### Always-on wins when...
+
+**Sustained workload** (e.g., 20h/day of heavy processing):
+
+```
+Lambda at scale: throttling + retries + higher per-unit cost
+EC2 r6i.2xlarge: reserved ~$0.12/hr = ~$87/month
+EMR cluster: amortized over long jobs
+```
+
+At high utilization, provisioned compute **wins on cost and predictability**.
+
+::: {.callout-tip}
+The crossover is usually around **30–40% utilization**. Below that,
+serverless is cheaper. Above that, provision a server.
+:::
+:::
+::::
+
+## Key Takeaways
+
+* **Serverless = no infra management + pay-per-use + auto-scale** — the
+  cloud provider absorbs operational complexity
+
+* **AWS serverless for data**: Lambda (compute), Athena (SQL), Glue
+  (ETL/catalog), SageMaker Serverless (inference), Kinesis/SQS
+  (streaming)
+
+* **Best fits**: event-driven triggers, infrequent/bursty jobs, ad-hoc
+  analytics, low-QPS APIs, prototyping
+
+* **Watch out for**: Lambda's 15-min cap, cold starts, Athena scan
+  costs without partitioning, Glue minimum billing on tiny jobs
+
+* **Cost rule of thumb**: serverless beats provisioned below ~30–40%
+  utilization; provision a server above that threshold
+
+::: {.callout-note}
+Most production data platforms use **both**: serverless for the edges
+(ingestion triggers, lightweight APIs, ad-hoc queries) and managed
+clusters (EMR, Spark) for the heavy lifting in the middle.
+:::

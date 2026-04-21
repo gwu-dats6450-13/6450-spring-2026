@@ -1,0 +1,423 @@
+# Modern Infrastructure Tools {.section}
+
+## The Problem These Tools Solve
+
+You've learned to *process* data at scale. But how do you **ship, run, and manage** that processing reliably in production?
+
+```
+Local notebook  →  "Works on my machine"  →  ??  →  Production
+```
+
+The gap between a working script and a running production system involves:
+
+- **Reproducibility** — same environment everywhere
+- **Portability** — runs on EC2, GKE, your laptop
+- **Scalability** — 1 container → 1,000 containers
+- **Orchestration** — who starts it? who restarts it when it crashes?
+- **Eventing** — what triggers the pipeline?
+
+Docker, Kubernetes, Lambda, and Kafka each address a slice of this.
+
+---
+
+# Docker {.section}
+
+## What is a Container?
+
+A **container** packages your code *together with its entire runtime environment*: Python version, libraries, OS libraries, config.
+
+:::: {.columns}
+::: {.column width="48%"}
+**Virtual Machine**
+
+- Full OS per VM
+- Heavy (GBs)
+- Slow to start (minutes)
+- Strong isolation
+:::
+::: {.column width="48%"}
+**Container**
+
+- Shares host OS kernel
+- Lightweight (MBs)
+- Fast to start (seconds)
+- Process-level isolation
+:::
+::::
+
+::: {.callout-note}
+Think of a container as a **shipping container for software** — standard shape, runs anywhere there's a container runtime (Docker Engine, containerd).
+:::
+
+## Dockerfile: The Recipe
+
+A `Dockerfile` describes how to build an image — a snapshot of the environment.
+
+```dockerfile
+FROM python:3.11-slim
+
+WORKDIR /app
+
+COPY requirements.txt .
+RUN pip install -r requirements.txt
+
+COPY pipeline.py .
+
+CMD ["python", "pipeline.py"]
+```
+
+- `FROM` — start from a base image
+- `RUN` — execute commands at build time
+- `COPY` — add files from your machine
+- `CMD` — what runs when the container starts
+
+## Images vs. Containers
+
+```
+Dockerfile  ──build──▶  Image  ──run──▶  Container
+               (recipe)     (snapshot)     (running process)
+```
+
+- An **image** is immutable — a versioned artifact you can push to a registry (Docker Hub, ECR)
+- A **container** is a running instance of an image
+- You can run many containers from the same image simultaneously
+
+```bash
+# Build the image
+docker build -t my-pipeline:v1 .
+
+# Run it
+docker run my-pipeline:v1
+
+# Push to AWS ECR
+docker tag my-pipeline:v1 123456.dkr.ecr.us-east-1.amazonaws.com/my-pipeline:v1
+docker push 123456.dkr.ecr.us-east-1.amazonaws.com/my-pipeline:v1
+```
+
+## Docker Compose: Multi-Service Pipelines
+
+Real pipelines often need multiple services. `docker-compose.yml` defines them together:
+
+```yaml
+services:
+  kafka:
+    image: confluentinc/cp-kafka:7.6.0
+    ports:
+      - "9092:9092"
+
+  spark-worker:
+    image: bitnami/spark:3.5
+    depends_on:
+      - kafka
+
+  pipeline:
+    build: .
+    depends_on:
+      - kafka
+      - spark-worker
+```
+
+```bash
+docker compose up   # start everything
+docker compose down # tear it all down
+```
+
+::: {.callout-tip}
+This is exactly how you'd set up a **local development environment** that mirrors production before pushing to the cloud.
+:::
+
+## Where Docker Fits in Your Stack
+
+```
+Your code + Dockerfile
+        ↓
+     Image (ECR)
+        ↓
+  ┌─────────────────────────────────┐
+  │  Runs as a container in:        │
+  │  • EC2 instance                 │
+  │  • ECS task (managed by AWS)    │
+  │  • Kubernetes pod               │
+  │  • Lambda (container image)     │
+  └─────────────────────────────────┘
+```
+
+Docker is the **packaging layer** — every other tool here can use it.
+
+---
+
+# Kubernetes {.section}
+
+## The Orchestration Problem
+
+You have 50 containers running your data pipeline. Now what?
+
+- Which node do they run on?
+- What happens when one crashes?
+- How do you deploy a new version without downtime?
+- How do you scale up when load spikes?
+
+**Kubernetes (K8s)** is a container orchestration system that answers all of these.
+
+## Key Concepts
+
+:::: {.columns}
+::: {.column width="48%"}
+**Pod**
+
+- Smallest deployable unit
+- One or more containers that share networking/storage
+- Ephemeral — can be rescheduled anywhere
+
+**Deployment**
+
+- Declares desired state: "I want 3 replicas of this pod"
+- K8s ensures that state is maintained
+:::
+::: {.column width="48%"}
+**Service**
+
+- Stable network endpoint in front of pods
+- Load-balances across replicas
+- Decouples consumers from pod churn
+
+**Node / Cluster**
+
+- Nodes are the machines (EC2 instances)
+- The cluster is the full collection managed by a control plane
+:::
+::::
+
+## Kubernetes in Data Engineering
+
+You probably won't manage K8s yourself — but you'll encounter it:
+
+| Use case | How K8s helps |
+|---|---|
+| Spark on K8s | Spark driver + executors run as pods |
+| Airflow on K8s | Each task runs in an isolated pod (KubernetesPodOperator) |
+| Model serving | Scale inference pods up/down with traffic |
+| Batch ETL jobs | Kubernetes Jobs — run to completion, then clean up |
+
+**Managed offerings** remove the control-plane burden:
+
+- **AWS EKS** — Elastic Kubernetes Service
+- **Google GKE** — Google Kubernetes Engine
+- **Azure AKS**
+
+::: {.callout-note}
+K8s depth is its own course. The key insight: it's the **runtime layer** that makes containerized workloads production-grade.
+:::
+
+---
+
+# AWS Lambda {.section}
+
+## Serverless: A Different Compute Model
+
+With EC2, you provision a server and it runs 24/7 (whether or not you're using it).
+
+**Lambda** inverts this:
+
+- You upload a function (Python, Node, container image)
+- AWS runs it **only when triggered**
+- You pay per invocation + duration (millisecond billing)
+- No servers to manage, patch, or resize
+
+```python
+def handler(event, context):
+    # This runs when Lambda is triggered
+    bucket = event['Records'][0]['s3']['bucket']['name']
+    key    = event['Records'][0]['s3']['object']['key']
+    process_new_file(bucket, key)
+    return {"statusCode": 200}
+```
+
+## Lambda Triggers
+
+Lambda is **event-driven** — it responds to events from other AWS services:
+
+```
+S3 upload     ──────▶ Lambda ──▶ kick off Glue/Athena query
+API Gateway   ──────▶ Lambda ──▶ lightweight REST endpoint
+Kafka topic   ──────▶ Lambda ──▶ process each message
+EventBridge   ──────▶ Lambda ──▶ scheduled batch jobs
+DynamoDB      ──────▶ Lambda ──▶ react to row changes
+```
+
+This is the **glue layer** in modern data architectures — connecting events to actions without a long-running server.
+
+## Lambda Constraints
+
+Lambda is not a universal replacement for EC2 or Spark:
+
+| Constraint | Value |
+|---|---|
+| Max execution time | **15 minutes** |
+| Max memory | 10 GB |
+| Ephemeral storage | 10 GB (`/tmp`) |
+| Concurrency | Up to 1,000 simultaneous (default) |
+| Cold start latency | 100ms–1s (container images: higher) |
+
+::: {.callout-important}
+Lambda is the right tool for **short, event-driven tasks** — not for long-running Spark jobs or training large ML models. Know the boundary.
+:::
+
+---
+
+# Apache Kafka {.section}
+
+## The Event Streaming Problem
+
+Batch processing (Spark, Athena) assumes data *has already arrived*. But what about data arriving **continuously**?
+
+- Sensor readings every 100ms
+- Financial transactions in real time
+- Clickstream events from a web app
+- IoT device telemetry
+
+You need a system that can:
+
+1. **Ingest** high-volume event streams reliably
+2. **Buffer** them so consumers can read at their own pace
+3. **Replay** events if a consumer falls behind or crashes
+
+That's **Apache Kafka**.
+
+## Kafka Core Concepts
+
+```
+Producer  ──writes──▶  Topic (partitioned log)  ──reads──▶  Consumer Group
+```
+
+:::: {.columns}
+::: {.column width="48%"}
+**Topic**
+
+- Named, append-only log of events
+- Divided into **partitions** for parallelism
+- Events are retained for a configurable period (not deleted on read)
+
+**Producer**
+
+- Any app that writes events to a topic
+:::
+::: {.column width="48%"}
+**Consumer Group**
+
+- One or more consumers reading from a topic
+- Each partition assigned to exactly one consumer in the group
+- Multiple groups can read the same topic independently
+
+**Broker**
+
+- A Kafka server; a cluster has multiple brokers
+:::
+::::
+
+## Kafka vs. Spark Structured Streaming
+
+These two work **together**, not in competition:
+
+```
+[Kafka Topic]
+     ↓  (Spark reads Kafka as a streaming source)
+[Spark Structured Streaming]
+     ↓  (windowed aggregations, joins, ML scoring)
+[S3 / Delta Lake / Iceberg]
+     ↓
+[Athena / downstream analytics]
+```
+
+| Role | Tool |
+|---|---|
+| Event ingestion & buffering | Kafka |
+| Stream processing & transformation | Spark Structured Streaming |
+| Durable storage | S3 (Parquet/Iceberg) |
+| Interactive analytics | Athena |
+
+::: {.callout-note}
+You already know the Spark Structured Streaming layer from Week 11. Kafka is what feeds it in production.
+:::
+
+---
+
+# Athena in the Streaming Ecosystem {.section}
+
+## Where Athena Fits
+
+Recall from last week: Athena is **serverless SQL on S3**. It doesn't replace streaming — it sits *after* it.
+
+```
+Real-time data
+      ↓
+[Kafka]          ← ingestion, buffering, replay
+      ↓
+[Spark Structured Streaming]   ← transform, enrich, aggregate
+      ↓
+[S3 — Parquet / Iceberg]       ← settled data in the lake
+      ↓
+[Glue Crawler updates catalog]
+      ↓
+[Athena]         ← ad-hoc SQL, BI tools, scheduled reports
+```
+
+Athena answers *historical* and *analytical* questions. Kafka answers *right now*.
+
+## Lambda as the Glue
+
+Lambda connects the streaming and batch-query layers:
+
+:::: {.columns}
+::: {.column width="55%"}
+**Pattern: S3 arrival → Athena**
+
+1. Spark Structured Streaming writes Parquet to S3
+2. S3 event triggers Lambda
+3. Lambda calls `boto3` to run `MSCK REPAIR TABLE` or `CREATE PARTITION`
+4. New data is immediately queryable in Athena
+
+:::
+::: {.column width="43%"}
+```python
+import boto3
+
+def handler(event, context):
+    athena = boto3.client('athena')
+    athena.start_query_execution(
+        QueryString="""
+          MSCK REPAIR TABLE
+          events_db.clickstream
+        """,
+        ResultConfiguration={
+          'OutputLocation':
+            's3://results-bucket/'
+        }
+    )
+```
+:::
+::::
+
+## The Full Picture
+
+Putting all five tools together:
+
+```
+[IoT / App / Logs]
+       ↓
+[Kafka Topic]  ←──── producers push events
+       ↓
+[Spark Structured Streaming]  ←── containerized on K8s or EMR
+       ↓
+[S3 — Iceberg tables]
+       ↓  ← Lambda triggers catalog refresh
+[Glue Data Catalog]
+       ↓
+[Athena]  ←── analysts query, dashboards refresh, Airflow schedules reports
+```
+
+Each tool is optional — swap in what you need. The pattern is: **ingest → process → store → query**.
+
+::: {.callout-tip}
+The lab for this week (TBD) will let you run a local version of this pipeline using Docker Compose — Kafka, a Python consumer, and simulated S3-style storage.
+:::

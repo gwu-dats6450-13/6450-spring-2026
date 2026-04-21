@@ -1,0 +1,230 @@
+# Semester Wrap-Up {.section}
+
+## What We Built This Semester
+
+Each week added a layer to your big data toolkit:
+
+| Week | Topic | Key Tool(s) |
+|---|---|---|
+| 1–2 | Cloud fundamentals, Python at scale | EC2, S3, multiprocessing |
+| 3–4 | Distributed data formats & querying | DuckDB, Polars |
+| 5–6 | Distributed compute | Dask, Ray |
+| 7 | HDFS & the Hadoop ecosystem | HDFS, YARN |
+| 8–11 | Distributed analytics & ML | Apache Spark (core, SQL, MLlib, NLP, Streaming) |
+| 12 | Serverless analytics & orchestration | Athena, Glue, Airflow |
+| 13 | Infrastructure & eventing | Docker, K8s, Lambda, Kafka |
+
+## The Data Science Infrastructure Stack
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│  INGESTION & EVENTING                                        │
+│  Kafka  ·  Lambda (S3 triggers)  ·  batch uploads to S3     │
+├─────────────────────────────────────────────────────────────┤
+│  STORAGE                                                     │
+│  S3 (data lake)  ·  HDFS  ·  DuckDB (local analytical DB)   │
+├─────────────────────────────────────────────────────────────┤
+│  COMPUTE & PROCESSING                                        │
+│  Spark (batch + streaming)  ·  Ray  ·  Polars  ·  Lambda    │
+├─────────────────────────────────────────────────────────────┤
+│  QUERY & ANALYTICS                                           │
+│  Athena (serverless SQL)  ·  Spark SQL  ·  DuckDB            │
+├─────────────────────────────────────────────────────────────┤
+│  ORCHESTRATION & DEPLOYMENT                                  │
+│  Airflow  ·  Docker  ·  Kubernetes                           │
+└─────────────────────────────────────────────────────────────┘
+```
+
+## When Would You Pick X Over Y?
+
+These tools overlap — the key is understanding the tradeoffs.
+
+| Scenario | Best Choice | Why |
+|---|---|---|
+| 10 GB CSV on your laptop | Polars or DuckDB | No cluster overhead |
+| 10 TB Parquet on S3, batch ETL | Spark on EMR | Distributed, fault-tolerant |
+| 10 TB on S3, ad-hoc SQL | Athena | No cluster to manage, pay-per-scan |
+| Real-time events, <1s latency | Kafka + Structured Streaming | Streaming-native |
+| Short event-triggered function | Lambda | Serverless, ms billing |
+| Parallel Python workloads (not SQL) | Ray | Pythonic, flexible task graph |
+| Repeatable scheduled pipeline | Airflow | DAG-based, retries, monitoring |
+
+## From Raw Data to Production: A Reference Pipeline
+
+A realistic end-to-end architecture using course tools:
+
+```
+Raw logs / sensor data / transactions
+            ↓
+        [Kafka]          ← ingest events at scale
+            ↓
+[Spark Structured Streaming]   ← clean, enrich, window
+            ↓
+   [S3 — Parquet / Iceberg]    ← durable, versioned lake
+            ↓          ← Lambda triggers catalog update
+     [Glue Catalog]
+            ↓
+        [Athena]         ← analysts query via SQL
+            ↓
+[Airflow DAG]            ← schedules reports, backfills,
+                           kicks off Spark batch jobs
+            ↓
+  Downstream: ML model training (Spark MLlib / Ray),
+              dashboards, APIs
+```
+
+Everything is containerized (Docker), deployed on EC2 or EKS (Kubernetes).
+
+## What's Next: Gaps Worth Knowing
+
+This course covered the core — but the ecosystem is wide:
+
+:::: {.columns}
+::: {.column width="48%"}
+**Data layer**
+
+- **Apache Iceberg / Delta Lake** — table formats for ACID transactions on S3
+- **dbt** — SQL-based transformation framework, works with Athena/Spark
+- **Apache Flink** — alternative to Spark Streaming, lower latency
+
+:::
+::: {.column width="48%"}
+**ML & Ops**
+
+- **MLflow** — experiment tracking, model registry
+- **Ray Serve** — model serving at scale
+- **Feature stores** (Feast, Tecton) — manage ML features across pipelines
+
+**Cloud-native**
+
+- **AWS Glue** (deeper), **EMR Serverless**
+- **Databricks** — managed Spark + Delta Lake platform
+:::
+::::
+
+---
+
+# Knowledge Check {.section}
+
+## Think-Pair-Share (1)
+
+::: {.callout-tip icon="false"}
+## Question 1 — Storage & Query
+**You have 6 months of raw nginx access logs (~500 GB) sitting in S3 as gzipped text files. A product manager wants to run weekly aggregation reports.**
+
+Walk through the steps you'd take — what tools, what format, what query layer?
+:::
+
+. . .
+
+**Key ideas to surface:**
+
+- Convert to Parquet (Spark job or Glue) for columnar compression
+- Partition by date for scan efficiency
+- Register in Glue Catalog
+- Query with Athena — pay-per-scan, no cluster needed for reports
+- Schedule the conversion step in Airflow
+
+## Think-Pair-Share (2)
+
+::: {.callout-tip icon="false"}
+## Question 2 — Scale & Tool Choice
+**Your daily Spark batch job processes 2 TB of transaction data and currently takes 6 hours. Your manager wants it under 1 hour.**
+
+What would you investigate first?
+:::
+
+. . .
+
+**Key ideas to surface:**
+
+- Partitioning strategy — are you reading more data than needed?
+- Shuffle-heavy operations (wide transformations) — can joins be avoided or broadcast?
+- Executor sizing — are workers underutilized (too few cores)?
+- Data format — CSV vs Parquet makes a 10x difference
+- Caching intermediate results if stages are reused
+
+## Think-Pair-Share (3)
+
+::: {.callout-tip icon="false"}
+## Question 3 — Real-Time Architecture
+**A fintech startup wants fraud alerts within 2 seconds of a card transaction being processed. Describe a realistic architecture.**
+:::
+
+. . .
+
+**Key ideas to surface:**
+
+- Kafka to ingest transactions as events
+- Spark Structured Streaming (or Flink) for windowed feature computation
+- ML model scoring inside the streaming job (Spark MLlib pipeline)
+- Lambda for alert dispatch (email / push) on high-score events
+- Athena for retrospective analysis of flagged transactions
+
+## Think-Pair-Share (4)
+
+::: {.callout-tip icon="false"}
+## Question 4 — Tool Boundaries
+**A colleague says "we should just use Spark for everything — it handles batch, streaming, ML, and SQL."
+What would you push back on, and when would you agree?**
+:::
+
+. . .
+
+**Key ideas to surface:**
+
+- Agree: Spark is a strong general-purpose engine for large-scale data
+- Push back: cluster startup overhead makes it wrong for small data or short-lived tasks
+- Polars/DuckDB are faster for sub-100 GB single-machine work
+- Athena is cheaper for infrequent SQL queries on S3 (no cluster cost)
+- Lambda is right for lightweight event-triggered logic
+- The right tool depends on **data size, latency, cost, and team familiarity**
+
+## Think-Pair-Share (5)
+
+::: {.callout-tip icon="false"}
+## Question 5 — Productionizing
+**You've trained a Spark MLlib model in a Jupyter notebook on your EC2 instance. How would you turn this into a production pipeline that retrains weekly on fresh S3 data?**
+:::
+
+. . .
+
+**Key ideas to surface:**
+
+- Package the training script (not the notebook) — refactor to `.py`
+- Containerize with Docker for reproducibility
+- Store the model artifact back to S3 (MLlib's `model.save()`)
+- Orchestrate with Airflow: weekly DAG that pulls fresh data → trains → saves model
+- Deploy on EKS or as an EMR Step for the Spark compute
+- Monitor with CloudWatch; alert on training failures via Lambda + SNS
+
+## Looking Back, Looking Forward
+
+:::: {.columns}
+::: {.column width="55%"}
+**You now have the vocabulary and hands-on experience to:**
+
+- Reason about scale — when to use what
+- Design end-to-end data pipelines
+- Work with cloud infrastructure (AWS)
+- Apply distributed ML and NLP
+- Understand streaming architectures
+- Read architecture diagrams and job postings in this space
+
+:::
+::: {.column width="43%"}
+**The most important lesson:**
+
+> There is no single right tool.
+> The skill is knowing the tradeoffs and
+> choosing deliberately.
+
+The tools will change.
+The reasoning won't.
+
+:::
+::::
+
+::: {.callout-note}
+Thank you for a great semester. Good luck on final projects — and beyond.
+:::

@@ -1,0 +1,60 @@
+---
+title: "Lecture 13"
+subtitle: "Modern Data Infrastructure & Semester Wrap-Up"
+engine: knitr
+---
+
+
+:::: {.columns}
+::: {.column width="47%"}
+### Looking Back
+
+* Serverless SQL with Amazon Athena
+* AWS Glue Data Catalog
+* Analytical SQL patterns (Presto/Trino)
+* Pipeline orchestration with Apache Airflow
+
+:::
+
+::: {.column width="47%"}
+### Today
+
+* Containerization with Docker
+* Container orchestration with Kubernetes
+* Serverless compute with AWS Lambda
+* Event streaming with Apache Kafka
+* Where Athena fits in a streaming ecosystem
+* Semester wrap-up & knowledge check
+
+:::
+::::
+
+## Agenda
+
+:::: {.columns}
+::: {.column width="49%"}
+### Part 1: Infrastructure Tools (~60 min)
+
+* Docker — packaging and containers
+* Kubernetes — orchestration
+* AWS Lambda — serverless, event-driven
+* Apache Kafka — event streaming
+* Athena in the streaming stack
+
+:::
+
+::: {.column width="49%"}
+### Part 2: Wrap-Up (~60 min)
+
+* The full data science infrastructure stack
+* When to use which tool
+* A reference end-to-end pipeline
+* Knowledge check — think-pair-share questions
+* What's next beyond this course
+
+:::
+::::
+
+{{< include docker/_docker.qmd >}}
+
+{{< include wrapup/_wrapup.qmd >}}

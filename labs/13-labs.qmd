@@ -1,0 +1,16 @@
+---
+title: "Lab 13: Docker, Kafka, and Lambda"
+subtitle: "{{< var course.number >}} {{< var course.semester >}}"
+author: "{{< var instructor.name >}}"
+format:
+  html:
+    toc: false
+---
+
+In this lab you will build a local Kafka streaming pipeline using Docker Compose, consume Reddit comment data with both a plain Python consumer and a Spark Structured Streaming job, and deploy an AWS Lambda container image that automatically refreshes Athena partitions whenever new data lands in S3.
+
+All instructions are in the lab repository linked below.
+
+## GitHub Classroom
+
+[GitHub Classroom Link]({{< var gh-classroom.lab13 >}})

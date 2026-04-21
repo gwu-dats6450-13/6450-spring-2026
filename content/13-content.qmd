@@ -1,0 +1,25 @@
+## About today's class
+
+This is the final lecture of the semester. We cover two topics.
+
+**Part 1 — Modern Data Infrastructure** introduces the tools that package, deploy, and connect data pipelines in production: **Docker** for containerizing code and its runtime environment; **Kubernetes** for orchestrating containers at scale (and its managed AWS counterpart, EKS); **AWS Lambda** for serverless, event-driven compute; and **Apache Kafka** for high-throughput event streaming. We close Part 1 by showing how **Amazon Athena** (from last week) fits into a streaming ecosystem as the query layer downstream of Kafka and Spark Structured Streaming.
+
+**Part 2 — Semester Wrap-Up** maps everything we have covered onto a single data science infrastructure stack diagram, works through a reference end-to-end pipeline using course tools, and discusses when to choose one tool over another. The lecture closes with five think-pair-share questions designed to reinforce and connect ideas from across the semester.
+
+## Readings
+
+There are no required readings this week. The following documentation pages are useful references for the tools introduced today:
+
+- [Docker — Get Started](https://docs.docker.com/get-started/){target="_blank"}
+- [Kubernetes — Concepts Overview](https://kubernetes.io/docs/concepts/overview/){target="_blank"}
+- [AWS Lambda — Developer Guide](https://docs.aws.amazon.com/lambda/latest/dg/welcome.html){target="_blank"}
+- [Apache Kafka — Introduction](https://kafka.apache.org/intro){target="_blank"}
+- [Amazon MSK (Managed Kafka on AWS)](https://docs.aws.amazon.com/msk/latest/developerguide/what-is-msk.html){target="_blank"}
+
+## Slides
+
+The slides for this week are available [online](/slides/13-slides.qmd).
+
+## Lab 13
+
+A hands-on lab walking through a local version of the full streaming pipeline — Kafka, a Python consumer, Spark Structured Streaming, and real S3 storage — using Docker Compose, with an AWS Lambda deployed in the final problem to automatically refresh Athena partitions on every new file. See the [Lab 13 page](/labs/13-labs.qmd) for the GitHub Classroom link and full instructions.
