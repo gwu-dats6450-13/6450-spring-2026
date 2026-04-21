@@ -1,0 +1,576 @@
+---
+title: "Dask for Scalable Python Analytics"
+---
+
+Dask is a flexible, open-source parallel computing library for Python. It scales familiar Python
+workflows — NumPy, pandas, and scikit-learn — to datasets and computations that exceed single-machine
+memory. Unlike Apache Spark, which is a JVM-based distributed engine with a Python API bolted on, Dask
+is **pure Python from the ground up** and integrates directly with the scientific Python ecosystem.
+
+This reference follows the same arc as the Spark lectures in Weeks 8–11: distributed data structures,
+diagnostics, user-defined computation, machine learning, and streaming.
+
+---
+
+## Why Dask? Motivation and Architecture
+
+### The Single-Machine Wall
+
+Python's core data tools — pandas and NumPy — are single-threaded and load data entirely into RAM. A
+100 GB CSV file simply will not fit in a 32 GB laptop. Multiprocessing helps on a single machine but
+does not scale across nodes. Dask solves this with two ideas:
+
+1. **Lazy evaluation via task graphs.** Dask decomposes a computation into a directed acyclic graph
+   (DAG) of tasks, exactly as Spark uses a DAG of transformations, but represented as native Python
+   objects. No computation runs until you call `.compute()`.
+
+2. **Chunked, blocked data structures.** Each high-level Dask collection is backed by many smaller
+   pandas DataFrames, NumPy arrays, or Python objects — the *partitions* — distributed across workers.
+
+### Dask Architecture
+
+A Dask cluster has three roles:
+
+| Component | Role | Spark analogue |
+|---|---|---|
+| **Client** | Submits tasks and retrieves results | Spark driver |
+| **Scheduler** | Orchestrates task execution; manages the task graph | Spark master |
+| **Workers** | Execute tasks, hold data in memory | Spark executors |
+
+The scheduler can be a single-threaded synchronous scheduler (great for debugging), a local
+multithreaded or multiprocess scheduler (single-machine parallelism), or a distributed
+`dask.distributed` cluster (multi-machine, the default for big data work).
+
+```python
+from dask.distributed import Client
+
+# Start a local cluster using all available cores
+client = Client()          # local
+# Or connect to an existing remote cluster
+client = Client("scheduler-address:8786")
+
+print(client)
+# <Client: 'tcp://127.0.0.1:...' processes=4 threads=8, memory=16.00 GiB>
+```
+
+---
+
+## Dask Data Structures
+
+Dask provides three core collections, each mirroring a familiar Python type:
+
+| Dask collection | Backed by | Spark analogue |
+|---|---|---|
+| `dask.dataframe.DataFrame` | Many `pandas.DataFrame` partitions | Spark DataFrame |
+| `dask.array.Array` | Many `numpy.ndarray` chunks | (no direct equivalent) |
+| `dask.bag.Bag` | Many Python iterables | Spark RDD |
+
+### Dask Bags — Unstructured Data (like RDDs)
+
+`dask.bag` is the closest equivalent to Spark RDDs. It treats data as a collection of arbitrary
+Python objects and exposes functional-style operations: `map`, `filter`, `flatmap`, `fold`, and
+`groupby`.
+
+```python
+import dask.bag as db
+
+# Create a bag from a list (like sc.parallelize)
+b = db.from_sequence([1, 2, 3, 4, 5, 6], npartitions=2)
+
+# map and filter are lazy — no computation yet
+doubled = b.map(lambda x: x * 2)
+evens = doubled.filter(lambda x: x % 4 == 0)
+
+# Trigger computation — equivalent to an RDD action
+evens.compute()   # [4, 8, 12]
+```
+
+**Word count with Dask Bag** (compare with the Spark RDD word count):
+
+```python
+import dask.bag as db
+
+# Read a text file into a bag of lines
+lines = db.read_text("large_file.txt")
+
+word_counts = (
+    lines
+    .flatmap(lambda line: line.split())        # split lines → words
+    .map(lambda word: (word, 1))               # tag each word
+    .foldby(lambda x: x[0], lambda acc, x: (x[0], acc[1] + x[1]))  # reduce by key
+)
+
+word_counts.compute()
+```
+
+### Transformations and Actions in Dask
+
+Dask mirrors Spark's lazy/eager split precisely:
+
+**Transformations** (lazy — return a new Dask collection):
+
+| Method | Description |
+|---|---|
+| `.map(func)` | Apply a function element-wise |
+| `.filter(func)` | Keep elements passing a boolean condition |
+| `.map_partitions(func)` | Apply a pandas function to each partition |
+| `.assign(col=expr)` | Add or replace a column |
+| `.groupby(cols)` | Group for aggregation |
+
+**Actions** (eager — trigger computation):
+
+| Method | Description |
+|---|---|
+| `.compute()` | Return the result as a pandas/NumPy object |
+| `.persist()` | Keep results in worker memory (like Spark `cache()`) |
+| `.visualize()` | Render the task graph as a PNG |
+| `.len()` / `.count()` | Return the count of elements/rows |
+
+::: {.callout-warning}
+**`.compute()` caution:** Like Spark's `collect()`, calling `.compute()` on a large Dask
+DataFrame pulls all data back to the client. Use `.compute()` only on small aggregated results, not
+on the full dataset.
+:::
+
+---
+
+## Dask DataFrames — Structured Data
+
+`dask.dataframe` is the Dask analogue of a Spark DataFrame. The API is almost identical to pandas,
+so the learning curve is minimal for anyone already familiar with pandas.
+
+```python
+import dask.dataframe as dd
+
+# Read a CSV — Dask does NOT load the data yet
+df = dd.read_csv("s3://my-bucket/data/*.csv")
+
+# Transformations — all lazy
+result = (
+    df[df["age"] > 30]                        # filter
+      .groupby("state")["sales"]              # groupby + column select
+      .sum()                                  # aggregation
+      .reset_index()
+)
+
+# Action — triggers computation
+result.compute()
+```
+
+### Common Dask DataFrame Operations
+
+All operations below are lazy until `.compute()` is called:
+
+```python
+# Filtering
+df[df["city"] == "Washington D.C."]
+df.query("city == 'Washington D.C.' and age >= 25")
+
+# Selecting columns
+df[["firstname", "lastname"]]
+
+# Groupby aggregation
+df.groupby("state")["sales"].sum().compute()
+
+# Multiple aggregations
+df.groupby("state").agg({"sales": "sum", "customers": "count"}).compute()
+
+# Joins (both DataFrames must be Dask DataFrames)
+merged = dd.merge(df_left, df_right, on="key", how="inner")
+```
+
+### Partition-Aware Operations
+
+Because Dask DataFrames are split into partitions, some pandas operations require care:
+
+```python
+# Apply a custom function to each partition (pandas function, not row-wise)
+def normalize(partition):
+    return (partition - partition.mean()) / partition.std()
+
+df["value_norm"] = df["value"].map_partitions(normalize)
+
+# Apply a row-wise function using .apply (slower — use map_partitions when possible)
+df["upper_name"] = df["name"].apply(lambda x: x.upper(), meta=("name", "str"))
+```
+
+The `meta` argument tells Dask the output dtype without running the computation — analogous to
+declaring a return type in a Spark UDF.
+
+### Caching and Persistence
+
+Like Spark's `cache()` / `persist()`, Dask can store computed results in worker memory to avoid
+recomputation:
+
+```python
+# Persist in distributed worker memory — non-blocking, returns a future
+df_filtered = df[df["year"] == 2024].persist()
+
+# Now multiple computations on df_filtered reuse the in-memory data
+count = df_filtered.count().compute()
+summary = df_filtered.describe().compute()
+```
+
+---
+
+## Dask Diagnostics — the Dashboard
+
+Dask ships a real-time web UI at `http://localhost:8787` (by default) when using
+`dask.distributed`. It is functionally similar to the Spark Application UI.
+
+### Key Dashboard Panels
+
+| Panel | What it shows | Spark UI equivalent |
+|---|---|---|
+| **Task Stream** | Per-worker task timeline, colored by task type | Event Timeline |
+| **Progress** | Bar charts of task completion per collection | Stage progress |
+| **Workers** | Per-worker CPU, memory, and bandwidth | Executors tab |
+| **Graph** | Interactive task DAG | DAG visualization |
+| **Memory** | Worker memory utilization over time | (no direct equivalent) |
+
+```python
+from dask.distributed import Client
+
+client = Client()
+print(client.dashboard_link)   # http://127.0.0.1:8787/status
+```
+
+The dashboard is the primary tool for diagnosing whether a Dask job is actually distributing work,
+whether workers are running out of memory, and where the bottlenecks are.
+
+---
+
+## Custom Functions in Dask
+
+### `map_partitions` — the Dask Equivalent of Pandas UDFs
+
+The primary way to apply custom Python logic in Dask is `map_partitions`. Each partition is a full
+pandas DataFrame, so you write ordinary pandas code:
+
+```python
+import dask.dataframe as dd
+import pandas as pd
+
+def filter_adults(partition):
+    """Return only rows where all guests are adults."""
+    return partition[partition["age"] >= 18]
+
+df_adults = df.map_partitions(filter_adults)
+```
+
+Compare this with a Spark UDF: there is no serialization overhead, no JVM boundary, and no need to
+declare return types — the function receives a real pandas DataFrame.
+
+### `map` on Bags — Row-Level Functions
+
+For unstructured or semi-structured data, `dask.bag.map` applies a Python function to each element:
+
+```python
+import dask.bag as db
+
+records = db.read_text("logs/*.txt").map(json.loads)
+
+# Filter errors from December 2019
+errors = records.filter(
+    lambda r: r.get("level") == "error" and r["timestamp"].startswith("2019-12")
+)
+error_count = errors.count().compute()
+```
+
+### `delayed` — Wrapping Arbitrary Python Functions
+
+`dask.delayed` is Dask's most general parallelism primitive. It wraps any Python function so that
+calling it returns a lazy `Delayed` object rather than executing immediately:
+
+```python
+import dask
+
+@dask.delayed
+def read_file(path):
+    return pd.read_parquet(path)
+
+@dask.delayed
+def process(df):
+    return df[df["value"] > 0].groupby("category")["value"].sum()
+
+# Build a lazy graph over many files
+paths = ["data/part-001.parquet", "data/part-002.parquet", "data/part-003.parquet"]
+results = [process(read_file(p)) for p in paths]
+
+# Execute all tasks in parallel
+totals = dask.compute(*results)
+```
+
+`dask.delayed` has no direct Spark equivalent — Spark's DAG is built implicitly by its DataFrame
+API, whereas `delayed` lets you construct arbitrary task graphs explicitly. It is particularly useful
+for parallelizing pipelines that are not naturally expressed as DataFrame operations.
+
+---
+
+## Machine Learning with Dask — `dask-ml`
+
+`dask-ml` provides scalable machine learning that parallels Spark MLlib. The library is designed so
+that its API mirrors scikit-learn almost exactly.
+
+### Preprocessing and Feature Engineering
+
+```python
+from dask_ml.preprocessing import StandardScaler, LabelEncoder, OneHotEncoder
+import dask.dataframe as dd
+
+df = dd.read_parquet("features.parquet")
+
+# Scale numeric features — runs in parallel across partitions
+scaler = StandardScaler()
+X_scaled = scaler.fit_transform(df[["x", "y", "z"]])
+```
+
+For custom feature engineering across partitions:
+
+```python
+from dask_ml.preprocessing import Categorizer
+from sklearn.pipeline import Pipeline
+
+# Dask-ML pipelines mirror sklearn pipelines
+pipe = Pipeline([
+    ("cat",    Categorizer(columns=["class"])),
+    ("scale",  StandardScaler()),
+])
+
+X_transformed = pipe.fit_transform(df)
+```
+
+### Scikit-Learn Integration — Embarrassingly Parallel Training
+
+For models that train on a single partition (or a subset that fits in memory), `dask-ml` provides
+a `ParallelPostFit` wrapper and `Incremental` for out-of-core learning:
+
+```python
+from dask_ml.wrappers import ParallelPostFit
+from sklearn.linear_model import LogisticRegression
+
+# Train on a sample that fits in memory
+model = LogisticRegression()
+model.fit(X_sample, y_sample)    # regular sklearn training
+
+# Wrap for distributed prediction across all partitions
+wrapped = ParallelPostFit(model)
+predictions = wrapped.predict(X_dask)   # runs in parallel
+```
+
+### Incremental Learning for Large Datasets
+
+When the training data itself does not fit in memory, use `Incremental` to call `partial_fit`
+across batches:
+
+```python
+from dask_ml.wrappers import Incremental
+from sklearn.linear_model import SGDClassifier
+
+sgd = SGDClassifier()
+inc = Incremental(sgd, scoring="accuracy")
+
+# Fits one partition at a time — never loads the full dataset into RAM
+inc.fit(X_dask, y_dask, classes=[0, 1])
+print(inc.score(X_dask, y_dask))
+```
+
+### Hyperparameter Search
+
+`dask-ml` provides drop-in replacements for scikit-learn's `GridSearchCV` and `RandomizedSearchCV`
+that parallelize across the Dask cluster:
+
+```python
+from dask_ml.model_selection import GridSearchCV, train_test_split
+from sklearn.ensemble import RandomForestClassifier
+
+X_train, X_test, y_train, y_test = train_test_split(X_dask, y_dask, test_size=0.2)
+
+param_grid = {
+    "n_estimators": [50, 100, 200],
+    "max_depth":    [3, 5, None],
+}
+
+search = GridSearchCV(RandomForestClassifier(), param_grid, cv=3)
+search.fit(X_train, y_train)
+
+print(search.best_params_)
+```
+
+All parameter combinations are evaluated in parallel across workers — no manual `n_jobs` tuning
+needed.
+
+### Text Analytics with Dask
+
+Dask does not have a dedicated NLP library analogous to Spark NLP, but it integrates cleanly with
+standard Python NLP tools (spaCy, Hugging Face) via `map_partitions`:
+
+```python
+import spacy
+import dask.dataframe as dd
+
+nlp = spacy.load("en_core_web_sm")
+
+def extract_entities(partition):
+    """Run NER on every row in a partition."""
+    def ner(text):
+        doc = nlp(text)
+        return [(ent.text, ent.label_) for ent in doc.ents]
+    partition = partition.copy()
+    partition["entities"] = partition["text"].apply(ner)
+    return partition
+
+df = dd.read_parquet("news.parquet")
+result = df.map_partitions(extract_entities).compute()
+```
+
+For large-scale inference with Hugging Face transformers, each worker loads the model once and
+processes its partition independently — no model broadcasting is required:
+
+```python
+from transformers import pipeline as hf_pipeline
+
+def sentiment_partition(partition):
+    classifier = hf_pipeline("sentiment-analysis",
+                             model="distilbert-base-uncased-finetuned-sst-2-english")
+    labels = classifier(partition["text"].tolist(), truncation=True, max_length=512)
+    partition = partition.copy()
+    partition["sentiment"] = [l["label"] for l in labels]
+    return partition
+
+df.map_partitions(sentiment_partition).to_parquet("sentiment_output/")
+```
+
+---
+
+## Streaming with Dask — `streamz`
+
+Dask's streaming support is provided by `streamz`, an optional library that integrates with Dask
+for distributed stream processing. It is conceptually similar to Spark Structured Streaming but
+lighter-weight and more Pythonic.
+
+### Core Concepts
+
+| Concept | `streamz` | Spark Structured Streaming |
+|---|---|---|
+| Unbounded data source | `Stream` | Unbounded input table |
+| Per-record transform | `.map(func)` | DataFrame transformation |
+| Aggregation window | `.accumulate()`, `.buffer()` | `.groupBy(window(...))` |
+| Output sink | `.sink(func)`, `.to_kafka()` | `writeStream.format(...)` |
+
+### Basic Stream Processing
+
+```python
+from streamz import Stream
+
+# Create a stream
+source = Stream()
+
+# Define a processing pipeline (lazy)
+counts = (
+    source
+    .map(lambda text: text.split())          # tokenize
+    .flatten()                               # flatten list of words into stream
+    .accumulate(lambda acc, x: acc + [x],   # collect into rolling list
+                returns_state=False)
+)
+
+# Sink — prints output as data arrives
+counts.sink(print)
+
+# Emit records (simulates incoming data)
+for line in open("stream.txt"):
+    source.emit(line.strip())
+```
+
+### Time-Windowed Aggregations
+
+```python
+from streamz import Stream
+import pandas as pd
+
+source = Stream()
+
+# Convert to a streaming DataFrame
+sdf = source.to_dataframe(example=pd.DataFrame({"word": [], "count": []}))
+
+# Rolling 10-second window aggregation
+windowed = (
+    sdf
+    .groupby("word")["count"]
+    .sum()
+    .stream
+    .rate_limit(1.0)    # emit at most one result per second
+)
+
+windowed.sink(print)
+```
+
+### Reading from Kafka
+
+```python
+from streamz import Stream
+from streamz.dataframe import DataFrame as SDF
+
+# Consume from Kafka (requires streamz[kafka])
+source = Stream.from_kafka_batched(
+    "my-topic",
+    consumer_params={
+        "bootstrap.servers": "localhost:9092",
+        "group.id":          "dask-consumer",
+        "auto.offset.reset": "latest",
+    },
+    poll_interval="1s",
+)
+
+stream = source.map(lambda batch: batch.decode()).to_dataframe(...)
+```
+
+::: {.callout-note}
+`streamz` is less mature than Spark Structured Streaming. For production streaming workloads at
+scale, Kafka + Flink or Spark Structured Streaming are more battle-tested choices. `streamz` is
+well-suited to moderate-volume streams on a single cluster without the operational overhead of Spark.
+:::
+
+---
+
+## Dask vs. Spark: A Direct Comparison
+
+| Dimension | Dask | Apache Spark |
+|---|---|---|
+| **Language** | Pure Python; uses pandas/NumPy natively | Scala/JVM core; PySpark is a Python wrapper over the JVM |
+| **Ecosystem** | Integrates directly with NumPy, pandas, scikit-learn, and Jupyter | Its own ecosystem; integrates with Hadoop/HDFS, Hive, Kafka natively |
+| **Data structure model** | Blocked partitions of pandas/NumPy objects | Optimized columnar JVM objects (Tungsten engine) |
+| **Setup** | `pip install dask[distributed]` — runs on a laptop or cluster with minimal config | Requires JVM installation; cluster setup (YARN, standalone, Kubernetes) is non-trivial |
+| **Cluster scale** | Designed for tens to hundreds of nodes; works well on a single machine | Designed for thousands of nodes; the standard for petabyte-scale |
+| **Lazy evaluation** | Task graphs built with Python objects; visualized with `visualize()` | DAG optimized by Catalyst query planner and compiled with Tungsten |
+| **Query optimization** | Limited — no Catalyst-style optimizer for DataFrames | Catalyst optimizer rewrites queries automatically; AQE re-optimizes at runtime |
+| **ML support** | `dask-ml` wraps scikit-learn; `Incremental` for out-of-core learning | `MLlib` is a full distributed ML framework with native Pipelines and hyperparameter search |
+| **NLP support** | Via `map_partitions` wrapping spaCy or Hugging Face | Spark NLP (John Snow Labs) is a production-grade library with 1000+ pretrained models |
+| **Streaming** | `streamz` — lightweight, Pythonic, moderately mature | Structured Streaming — production-grade, Kafka-native, event-time watermarks, exactly-once |
+| **Fault tolerance** | Worker failures can be retried if the task graph is still in memory; less robust than Spark | Strong fault tolerance via lineage (RDDs) and checkpointing (streaming) |
+| **Python UDFs** | Native — functions receive real pandas DataFrames; no serialization penalty | Python UDFs cross the JVM boundary; Pandas UDFs use Apache Arrow to reduce overhead |
+| **DataFrame API fidelity** | Near-identical to pandas — existing pandas code often needs only `import dask.dataframe as dd` | SparkSQL API is SQL-inspired and differs from pandas; `pyspark.pandas` offers a pandas-compatible layer |
+| **Diagnostic tooling** | Real-time dashboard at port 8787; worker-level memory and task stream | Spark UI with DAG, executor, SQL plan views; Spark History Server for post-job analysis |
+| **Best fit** | Data science teams working in Python, datasets from GBs to a few TBs, scikit-learn workflows | Data engineering and large-scale ETL, multi-TB to PB datasets, production ML pipelines, streaming |
+
+### When to choose Dask
+
+- Your team writes pandas and scikit-learn code and you want to scale with minimal API changes.
+- Your dataset is large but not enormous (GBs to low TBs) and you do not want to provision a JVM cluster.
+- You need to parallelize arbitrary Python code that does not fit the DataFrame model (`dask.delayed`).
+- You want a lightweight, single-pip-install solution for a shared notebook server or small cloud cluster.
+
+### When to choose Spark
+
+- You are processing multi-TB or PB datasets and need the performance of the Catalyst + Tungsten stack.
+- Your pipeline is a production ETL job integrated with HDFS, Hive, Kafka, or Delta Lake.
+- You need production-grade NLP at scale (Spark NLP) or ML Pipelines with cross-validation and hyperparameter search across hundreds of workers.
+- You need Structured Streaming with exactly-once semantics, event-time windowing, and Kafka integration.
+- Your organization is already running a managed Spark service (Databricks, AWS Glue, EMR, GCP Dataproc).
+
+::: {.callout-tip}
+Dask and Spark are not mutually exclusive. A common pattern is to use Spark for large-scale
+ingestion and ETL, write results to Parquet on S3, and then use Dask for exploratory analysis and
+model development — getting the best of both ecosystems.
+:::
