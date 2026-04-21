@@ -1,0 +1,23 @@
+## Presto and Trino  {#sec-presto}
+
+### **Presto (PrestoDB)**
+
+-   A **fast, distributed SQL query engine** designed for interactive analytics over large datasets from multiple sources.
+
+-   Included in **Amazon EMR** releases 5.x, 6.x, and 7.x.
+
+-   AWS notes that Presto is still available but **Trino is recommended going forward**.
+
+-   Cannot run simultaneously with Trino on the same EMR cluster.
+
+### **Trino (formerly PrestoSQL)**
+
+-   A **fork of PrestoSQL**, renamed in December 2020.
+
+-   A **high‑performance, ANSI SQL–compliant** distributed query engine optimized for interactive queries on data in S3, HDFS, relational DBs, and more.
+
+-   Recommended by AWS as the successor to PrestoSQL.
+
+-   Supported in Amazon EMR 6.1.0+ and 7.x.
+
+-   Often used for **complex SQL over large S3‑backed datasets**.
