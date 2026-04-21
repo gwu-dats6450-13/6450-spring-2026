@@ -63,21 +63,21 @@ We will check for plagiarism of submitted code between students. We understand t
 |  |  |  |  |
 |--------------|--------------|----------------------------|-----------------|
 | **Week** | **Date** | **Topic** | **Lab** |
-| 1 | 2026-01-15 | Course overview | Bash shell |
-| 3 | 2026-01-22 | Parallel and distributed computing | Using multiprocesing and asyncio |
-| 2 | 2026-01-29 | Introduction to Cloud Computing | AWS setup |
-| 4 | 2026-02-05 | introduction to DuckDB and Polars |  |
-| 5 | 2026-02-12 | Advanced DuckDB operations |  |
-| 6 | 2026-02-19 | Python tools for larger data | pandas, dask, Ray, RAPIDS |
-| 7 | 2026-02-26 | Developing workflows for big data (Midterm 1) |  |
-| 8 | 2026-03-05 | Apache Spark Fundamentals | Spark RDD |
-| **9** | **2026-03-12** | **Spring Break** |  |
-| 10 | 2026-03-19 | Spark DataFrames and Spark SQL |  |
-| 11 | 2026-03-26 | Spark ML and Streaming | MLib |
-| 12 | 2026-04-02 | Spark NLP | John Snow Labs |
-| 13 | 2026-04-09 | Visualization and reporting large data (Midterm 2) | datashader |
-| 14 | 2026-04-16 | Machine Learning at Scale | Tensorflow, TF probability, PyMC |
-| 15 | 2026-04-23 | Final project presentations |  |
+| 1 | 2026-01-15 | Course overview and big data concepts | — |
+| 2 | 2026-01-22 | Python parallelization (multiprocessing) | Parallelization with Python |
+| 3 | 2026-01-29 | Introduction to cloud computing and AWS | AWS setup |
+| 4 | 2026-02-05 | DuckDB and Polars with Parquet | NYC Taxi data (Parquet, Polars, DuckDB) |
+| 5 | 2026-02-12 | DuckDB and Polars continued | Polars analysis |
+| 6 | 2026-02-19 | Parallel and distributed computing with Ray | Ray tasks and actors |
+| 7 | 2026-02-26 | Distributed file systems (HDFS) + Midterm 1 | — |
+| 8 | 2026-03-05 | Apache Spark: RDDs and DataFrames | PySpark on EC2 |
+| **—** | **2026-03-12** | **Spring Break** |  |
+| 9 | 2026-03-19 | PySpark: Spark UI, performance tuning, UDFs | Spark cluster on EC2 |
+| 10 | 2026-03-26 | Spark MLlib and Spark NLP | Spark ML pipeline |
+| 11 | 2026-04-02 | Spark NLP (NER, sentiment) and Structured Streaming | Spark NLP: news data |
+| 12 | 2026-04-09 | Amazon Athena and Apache Airflow | Athena + Airflow workflow |
+| 13 | 2026-04-16 | Modern data infrastructure (Docker, Kubernetes, Lambda, Kafka) + Wrap-Up | Full streaming pipeline |
+| 14 | 2026-04-23 | Final project presentations | — |
 
 **Scheduling of final examinations:** There will be no final exams for this class. There will be a final group project which will be an implementation of a data science analytic pipeline for a large dataset that will run on the cloud.
 

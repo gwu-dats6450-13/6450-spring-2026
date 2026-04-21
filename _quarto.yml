@@ -19,6 +19,8 @@ website:
         file: "content/index.qmd"
       - text: Labs
         file: labs/index.qmd
+      - text: Resources
+        file: resources/uv.qmd
       - text: Project
         file: project/project.qmd
       - text: References
@@ -28,7 +30,7 @@ website:
         href: "https://6450-spring-2026.slack.com"
   sidebar:
     - title: "Content"
-      background: "#fcc200" # Golden poppy
+      background: "#d6bf91" # GW Buff
       style: docked
       search: false
       contents:
@@ -61,22 +63,37 @@ website:
               text: "11. Spark Structured Streaming"
             - file: content/12-content.qmd
               text: "12. AWS Athena and Airflow"
-    - title: "Assessments"
+            - file: content/13-content.qmd
+              text: "13. Modern Infrastructure & Wrap-Up"
+        - section: "Additional topics"
+          contents:
+            - text: "Visualizing Big Datasets"
+              file: slides/dataviz-slides.qmd
+
+    #    - title: "Assessments"
+    #      style: docked
+    #      search: false
+    #      background: "#fcc200"
+    #      contents:
+    #        - section: Midterms
+    #          contents:
+    #            - text: "Midterm 2: Apache Spark"
+    #              file: assignments/midterm02.qmd
+
+    - title: "Resources"
       style: docked
       search: false
-      background: "#fcc200"
-      contents:
-        - section: Midterms
-          contents:
-            - text: "Midterm 2: Apache Spark"
-              file: assignments/midterm02.qmd
-    - title: "Resources"
+      background: "#D6BF91"
       contents:
         - file: resources/uv.qmd
+        - file: resources/sagemaker.qmd
+        - file: resources/narwhals-ibis-examples.qmd
+        - file: resources/dask.qmd
+
     - title: Labs
       style: docked
       search: false
-      background: "#fcc200"
+      background: "#D6BF91"
       contents:
         - section: Overview
           contents:
@@ -87,6 +104,8 @@ website:
               file: labs/02-labs.qmd
             - text: "03: The Cloud"
               file: labs/03a-labs.qmd
+            - text: "13: Docker, Kafka & Lambda"
+              file: labs/13-labs.qmd
 
   page-footer:
     left: |
@@ -103,7 +122,7 @@ format:
     theme:
       - style/html-sta313-adg.scss
     toc: true
-    linkcolor: "#2d92a5" # Glossy Grape
+    linkcolor: "#033C5A" # Glossy Grape
     code-copy: true
     code-overflow: wrap
     link-external-icon: true
