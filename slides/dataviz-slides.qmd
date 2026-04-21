@@ -1,0 +1,54 @@
+---
+title: "Visualizing Big Datasets"
+subtitle: "Rasterization and Datashader"
+execute:
+  cache: false
+---
+
+:::: {.columns}
+::: {.column width="47%"}
+### Looking Back
+
+* Distributed data processing with Apache Spark
+* Out-of-core computation with Dask
+* Large datasets stored on Amazon S3
+* The challenge: analysis pipelines that produce millions of output rows
+
+:::
+
+::: {.column width="47%"}
+### Today
+
+* Why standard plotting libraries fail at 10M+ rows
+* The rasterization pipeline — pixels as statistics
+* Datashader: aggregation-first visualization
+* Integration with Dask, HoloViews, and Panel
+* Connecting Datashader to a Spark pipeline
+
+:::
+::::
+
+## Agenda
+
+:::: {.columns}
+::: {.column width="49%"}
+### Part 1: The Rasterization Pipeline 
+
+* Why matplotlib breaks at scale
+* The rasterization pipeline concept
+* Datashader: aggregations, colormaps, interactivity
+
+:::
+
+::: {.column width="49%"}
+### Part 2: Datashader + Spark 
+
+* Where visualization fits in a Spark workflow
+* Two bridging patterns: pandas vs. Dask
+* Visualizing Spark MLlib outputs
+
+:::
+::::
+
+
+{{< include dataviz/_dataviz.qmd >}}

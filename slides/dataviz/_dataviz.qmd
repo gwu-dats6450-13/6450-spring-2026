@@ -1,0 +1,419 @@
+# The Rasterization Pipeline {.section}
+
+## The Problem: Why Standard Plots Break
+
+* `matplotlib` / `seaborn` render **one mark per data point** — fine at N = 10K, broken at N = 10M+
+* Memory: a 10M-point scatter plot can consume several GB before a pixel is drawn
+* Overplotting hides structure — dense regions look identical to sparse ones
+* **The solution**: don't plot points, plot *statistics of pixels*
+
+## The Rasterization Strategy
+
+:::: {.columns}
+::: {.column width="50%"}
+**Traditional pipeline**
+
+```
+data (N rows)
+  → geometry (N shapes)
+    → render (N draw calls)
+      → screen pixels
+```
+
+Bottleneck is proportional to **N**
+:::
+::: {.column width="50%"}
+**Rasterization pipeline**
+
+```
+data (N rows)
+  → canvas grid (W × H bins)
+    → aggregate into bins
+      → colormap bins → pixels
+```
+
+Bottleneck is proportional to **W × H** (fixed)
+:::
+::::
+
+> Key insight: the screen has a fixed resolution. Aggregate to pixels *before* rendering, not after.
+
+## How Datashader Works
+
+```{mermaid}
+flowchart LR
+  A[DataFrame <br> N rows] --> B[Canvas <br> W×H grid]
+  B --> C[Aggregate <br> count / mean / sum…]
+  C --> D[Transfer <br> function / colormap]
+  D --> E[Image <br> W×H pixels]
+```
+
+1. **Canvas** — define a pixel grid mapped to data coordinates
+2. **Aggregate** — reduce all points that fall in each pixel to a scalar (default: `count`)
+3. **Transfer function** — map aggregates to colors (linear, log, eq-hist)
+4. **Embed** — return a PNG/RGBA image for display in Jupyter, Bokeh, or HoloViews
+
+## Datashader: Minimal Example {.smaller}
+
+:::: {.columns}
+::: {.column width="50%"}
+```{python}
+import datashader as ds, colorcet as cc
+import hvsampledata as hvs
+
+df = hvs.nyc_taxi_remote("pandas", engine_kwargs={"columns": ['dropoff_x', 'dropoff_y']})
+
+canvas = ds.Canvas(plot_width=500, plot_height=300)
+agg = canvas.points(df, 'dropoff_x', 'dropoff_y')
+ds.tf.set_background(ds.tf.shade(agg, cmap=cc.fire), "black")
+```
+:::
+::: {.column width="50%" }
+::: {.smaller}
+- Plotting `{python} f"{df.shape[0]:,}"` dropoff locations in NYC
+- What's being plotted is the total number of dropoffs at locations within each pixel on this canvas 
+- This aggregate is then being mapped to colors on a colorscale
+- It's using latitude and longitude, but without much context
+
+:::
+:::
+::::
+
+* Works with **pandas**, **Dask**, **cuDF** (NVIDIA's GPU-accelerated DataFrame library), **Polars** (via Arrow)
+* No data is sent to the browser — only the final W×H image
+
+::: {.aside}
+The NYC Taxi data used here is derivative of the other yellow taxi data we've used this semester
+:::
+
+## Datashader: Contexualizing the visualization
+
+```{python}
+import holoviews as hv
+from holoviews.element.tiles import EsriImagery
+from holoviews.operation.datashader import datashade
+hv.extension('bokeh')
+
+map_tiles  = EsriImagery().opts(alpha=0.5, width=900, height=480, bgcolor='black')
+points     = hv.Points(df, ['dropoff_x', 'dropoff_y'])
+taxi_trips = datashade(points, x_sampling=1, y_sampling=1, cmap=cc.fire, width=900, height=480)
+
+map_tiles * taxi_trips
+```
+
+We can put our visualization on top of a map, for example. Maps are often provided as raster graphics.
+
+## Aggregation Reductions
+
+| Reduction | Code | Use case |
+|-----------|------|----------|
+| Point count | `ds.count()` | density maps |
+| Numeric mean | `ds.mean("value")` | spatial averages |
+| Any/first value | `ds.any()`, `ds.first("col")` | categorical presence |
+| Count-distinct | `ds.count_cat("category")` | multi-class overlays |
+| Min / Max | `ds.min()`, `ds.max()` | range surfaces |
+
+Default is `count()` — most visualizations start here.
+
+## Transfer Functions and Colormapping
+
+::: {.panel-tabset}
+
+## Linear
+
+```{python}
+# Linear scale — good for uniform density
+ds.tf.shade(agg, cmap=cc.blues)
+```
+
+## Log 
+
+```{python}
+# Log scale — compresses wide dynamic range
+ds.tf.shade(agg, how="log", cmap=cc.kbc)
+```
+
+## Histogram equalization
+
+```{python}
+# Histogram equalization — reveals structure at all densities
+ds.tf.shade(agg, how="eq_hist", cmap=cc.fire)
+```
+
+:::
+
+* **`eq_hist`** is usually the best default for exploratory work — it adapts to the data's own distribution
+* `tf.spread(img, px=1)` dilates sparse pixels so they are visible; `tf.dynspread` adjusts dilation automatically based on point density
+
+## Categorical / Multi-Class Plots
+
+```python
+# Color each category separately, then compose
+from datashader.colors import Sets1to3
+
+agg = canvas.points(df, "dropoff_x", "dropoff_y", ds.count_cat("payment_type"))
+img = tf.shade(agg, color_key=Sets1to3)
+ds.tf.spread(img, px=1)   # thicken points for visibility
+```
+
+* Each category gets its own color channel; overlaps alpha-blend
+* Works well for up to ~8–10 classes before colors merge
+
+## Integration with HoloViews
+
+HoloViews is a Python library for interactive visualization built on Bokeh (a browser-based plotting engine).
+
+```{python}
+import holoviews as hv
+from holoviews.operation.datashader import datashade, rasterize
+
+hv.extension("bokeh")   # use the Bokeh (interactive) backend
+
+points = hv.Points(df, kdims=["dropoff_x", "dropoff_y"])
+datashade(points).opts(width=800, height=600)
+```
+
+* `datashade` re-renders on every **zoom / pan** — aggregation reruns at the new viewport
+* `rasterize` preserves the aggregate array for further HoloViews operations
+* Result is an interactive plot in Jupyter — no data sent to the browser
+
+## Deploying with Panel
+
+Panel is a Python dashboarding library that wraps HoloViews plots into shareable web apps.
+
+```python
+import panel as pn
+
+pn.extension()
+
+plot = datashade(hv.Points(df, kdims=["pickup_longitude", "pickup_latitude"]))
+pn.panel(plot).servable()   # run with: panel serve notebook.ipynb
+```
+
+* No changes to the visualization code — Panel wraps it as a web app
+* Deploy on EC2 or any server; users interact via browser
+* Useful when stakeholders need to explore large datasets without running Python
+
+## Datashader with Polars (Large Local Data)
+
+```python
+import polars as pl
+import datashader as ds, colorcet as cc
+
+# scan_parquet is lazy — only reads columns and rows actually needed
+df = pl.scan_parquet("s3://nyc-tlc/trip data/*.parquet").collect()
+
+canvas = ds.Canvas(plot_width=800, plot_height=600)
+agg    = canvas.points(df, "dropoff_x", "dropoff_y")
+ds.tf.shade(agg, how="eq_hist", cmap=cc.fire)
+```
+
+* Polars passes data to Datashader via Apache Arrow — no copy overhead
+* `scan_parquet` reads only the requested columns, reducing memory use
+* Faster than pandas for large Parquet reads on a single machine
+
+::: {.callout-warning}
+Polars is single-machine. For datasets that exceed local RAM, Dask distributed across a cluster remains the right tool.
+:::
+
+## Rasterization vs. Sampling vs. Binning
+
+| Approach | Scales to | Preserves density | Interactive zoom |
+|----------|-----------|-------------------|-----------------|
+| Random sample + scatter | ~100K | No | Re-sample needed |
+| 2D histogram (plt.hexbin) | ~1M | Yes | Fixed bins |
+| **Datashader rasterize** | **1B+** | **Yes** | **Auto re-agg** |
+| GPU (cuDF + Datashader) | 10B+* | Yes | Yes |
+
+> Sampling discards information. Rasterization summarizes all of it.
+
+::: {.aside}
+*GPU scale depends on available VRAM; numbers are from Datashader benchmarks on A100-class hardware.
+:::
+
+## Practical Considerations
+
+::: {.callout-tip}
+Start with `how="eq_hist"` and a perceptually uniform colormap (`viridis`, `fire`, `inferno`). These two choices alone prevent most misleading density plots.
+:::
+
+* **Projection**: use projected coordinates (meters, not degrees) for geographic data — equal-area grids make pixel density meaningful
+* **Canvas resolution**: match `plot_width` / `plot_height` to your display resolution; a canvas that is too small hides fine structure
+* **Performance**: for repeated interactive use, pre-aggregate to a coarser Parquet grid and rasterize from that — avoids re-scanning raw data on every zoom
+
+# Datashader in a Spark Workflow {.section}
+
+## The Gap: Spark Produces Data, Not Pictures
+
+* Spark is a computation engine — it transforms, aggregates, and models data
+* Its output is a DataFrame or Parquet files on S3
+* Visualization happens **downstream**, after Spark finishes
+* The challenge: Spark output can still be millions of rows — too large for `matplotlib`
+
+```
+Raw S3 data
+  → Spark (ETL / aggregation / MLlib)
+    → Output dataset (Parquet on S3)
+      → ??? → Chart
+```
+
+::: {.callout-note}
+Datashader does not run inside Spark. It reads Spark's output via pandas, Polars, or Dask.
+:::
+
+## Two Bridges: Choosing the Right Path
+
+:::: {.columns}
+::: {.column width="49%"}
+**Path 1 — Spark → Pandas**
+
+Use when Spark output fits in the driver's memory (< ~5M rows).
+
+```
+Spark DataFrame
+  → .toPandas()
+    → Datashader
+```
+
+* Fast for exploratory work
+* Single machine; RAM limit applies
+* Good for summarized / aggregated output
+
+:::
+::: {.column width="49%"}
+**Path 2 — Spark → Parquet → Polars**
+
+Use when Spark output is large (> 5M rows) or will be reused.
+
+```
+Spark DataFrame
+  → .write.parquet("s3://…")
+    → pl.scan_parquet()
+      → Datashader
+```
+
+* Polars reads only the columns needed — fast and memory-efficient
+* Parquet files remain available for later runs
+* Single-machine; switch to Dask for distributed TB-scale data
+
+:::
+::::
+
+## Path 1: Spark → Pandas → Datashader
+
+Scenario: a Spark job aggregates NYC Taxi trips by pickup location. The output is ~2M rows — small enough to collect to the driver.
+
+```python
+from pyspark.sql import SparkSession
+import datashader as ds, datashader.transfer_functions as tf
+
+spark = SparkSession.builder.getOrCreate()
+
+df_spark = (spark.read.parquet("s3://nyc-tlc/trip data/")
+              .select("pickup_longitude", "pickup_latitude", "total_amount")
+              .filter("pickup_longitude != 0 AND pickup_latitude != 0"))
+
+# Collect to driver — only safe when output is small
+df = df_spark.toPandas()
+
+canvas = ds.Canvas(plot_width=800, plot_height=600)
+agg    = canvas.points(df, "pickup_longitude", "pickup_latitude")
+tf.shade(agg, how="eq_hist", cmap="fire")
+```
+
+## Path 2: Spark → Parquet → Polars → Datashader
+
+Scenario: a Spark job produces 200M enriched trip records. Too large for `.toPandas()` — write to S3 and read back with Polars.
+
+```python
+# --- Spark job (runs on cluster) ---
+from pyspark.sql.functions import hour
+df_spark = (spark.read.parquet("s3://nyc-tlc/trip data/")
+              .withColumn("hour", hour("tpep_pickup_datetime"))
+              .filter("pickup_longitude != 0"))
+
+df_spark.write.mode("overwrite").parquet("s3://my-bucket/taxi-enriched/")
+
+# --- Visualization (runs on driver or notebook server) ---
+import polars as pl
+import datashader as ds, colorcet as cc
+
+df = (pl.scan_parquet("s3://my-bucket/taxi-enriched/*.parquet",
+                      storage_options={"anon": False})
+        .select(["pickup_longitude", "pickup_latitude", "hour"])
+        .collect())
+
+canvas = ds.Canvas(plot_width=800, plot_height=600)
+agg    = canvas.points(df, "pickup_longitude", "pickup_latitude")
+ds.tf.shade(agg, how="eq_hist", cmap=cc.fire)
+```
+
+## Visualizing Spark MLlib Results
+
+Scenario: KMeans clustering on pickup coordinates. Visualize the cluster assignments to validate spatial coherence.
+
+```python
+from pyspark.ml.clustering import KMeans
+from pyspark.ml.feature import VectorAssembler
+
+assembler = VectorAssembler(
+    inputCols=["pickup_longitude", "pickup_latitude"], outputCol="features")
+
+df_feat = assembler.transform(
+    df_spark.filter("pickup_longitude != 0"))
+
+model  = KMeans(k=8, seed=42).fit(df_feat)
+result = model.transform(df_feat)
+
+# Collect predictions — one integer (cluster id) per row, lightweight
+pdf = result.select("pickup_longitude", "pickup_latitude", "prediction").toPandas()
+pdf["prediction"] = pdf["prediction"].astype("category")
+```
+
+## Visualizing MLlib Results — Part 2
+
+```python
+# Color each cluster with a distinct hue
+from datashader.colors import Sets1to3
+
+canvas = ds.Canvas(plot_width=800, plot_height=600)
+agg    = canvas.points(pdf, "pickup_longitude", "pickup_latitude",
+                       ds.count_cat("prediction"))
+img    = tf.shade(agg, color_key=Sets1to3)
+tf.spread(img, px=1)
+```
+
+* Each of the 8 clusters renders in a distinct color
+* Dense overlap regions alpha-blend — spatial boundaries emerge naturally
+* Validates that KMeans found geographically coherent clusters, not random splits
+
+::: {.callout-tip}
+If cluster boundaries look jagged or arbitrary, try increasing `k` or re-examine the feature scaling step before the `VectorAssembler`.
+:::
+
+## Visualizing Big Datasets Wrap
+
+:::: {.columns}
+::: {.column width="55%"}
+### Key Takeaways
+
+* The rasterization pipeline decouples **data size** from **render cost** — bottleneck is W×H, not N
+* Datashader reduces this to one call: `tf.shade(canvas.points(df, x, y))`
+* Integrates with **Polars** for fast single-machine reads, **Dask** for distributed TB-scale data, **HoloViews/Panel** for interactive dashboards
+* Mental model: **you are plotting statistics of pixels, not the data itself**
+
+:::
+
+::: {.column width="43%"}
+
+::: {.callout-note}
+## Going Further
+
+* [Datashader documentation](https://datashader.org){target="_blank"}
+* [HoloViews + Datashader guide](https://holoviews.org/user_guide/Large_Data.html){target="_blank"}
+* [Datashader examples gallery](https://datashader.org/getting_started/index.html){target="_blank"}
+* Bednar et al., "Datashader: Revealing the Structure of Genuinely Big Data." *SciPy 2016*
+:::
+
+:::
+::::
