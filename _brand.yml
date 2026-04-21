@@ -1,0 +1,92 @@
+meta:
+  name: George Washington University
+  link:
+    home: https://www.gwu.edu
+
+color:
+  palette:
+    gw-blue: "#033C5A"
+    gw-buff: "#D6BF91"
+    navy-yard: "#00223E"
+    potomac: navy-yard       # Potomac and Navy Yard share the same hex value
+    row-house: "#EF4343"
+    blossom: "#D1A0B9"
+    parchment: "#FFEFAE"
+    blue-fog: "#52C9E8"
+    patina: "#ADCAB8"
+    white: "#FFFFFF"
+    black: "#000000"
+    # Tints of GW Buff (add white at 20% increments and 50%)
+    gw-buff-20: "#DECCA7"
+    gw-buff-40: "#E6D8BD"
+    gw-buff-50: "#EADFC8"
+    gw-buff-60: "#EEE5D3"
+    gw-buff-80: "#F6F2E9"
+    # Tints of Potomac (add white at 20% increments and 50%)
+    potomac-20: "#334E64"
+    potomac-40: "#667B8E"
+    potomac-50: "#7F909F"
+    potomac-60: "#99A8B9"
+    potomac-80: "#CCD3DA"
+
+  foreground: black
+  background: white
+  primary: gw-blue
+  secondary: gw-buff
+  success: patina
+  info: blue-fog
+  warning: parchment
+  danger: row-house
+
+typography:
+  fonts:
+    # Avenir Next is a proprietary Linotype font.
+    # Nunito Sans is the closest freely available substitute.
+    # To use Avenir Next instead, download the font files, place them next to
+    # _brand.yml, and replace the Nunito Sans entry below with:
+    #
+    # - family: Avenir Next
+    #   source: file
+    #   files:
+    #     - path: fonts/avenir-next/AvenirNext-Regular.otf
+    #     - path: fonts/avenir-next/AvenirNext-Bold.otf
+    #       weight: 700
+    #     - path: fonts/avenir-next/AvenirNext-Italic.otf
+    #       style: italic
+    #     - path: fonts/avenir-next/AvenirNext-BoldItalic.otf
+    #       weight: 700
+    #       style: italic
+    - family: Nunito Sans   # Substitute for proprietary Avenir Next
+      source: google
+      weight: [400, 600, 700]
+      style: [normal, italic]
+
+    # Gazzetta is a proprietary editorial serif font.
+    # Playfair Display is the closest Google Fonts substitute.
+    # To use Gazzetta instead, download the font files, place them next to
+    # _brand.yml, and replace the Playfair Display entry below with:
+    #
+    # - family: Gazzetta
+    #   source: file
+    #   files:
+    #     - path: fonts/gazzetta/Gazzetta-Regular.otf
+    #     - path: fonts/gazzetta/Gazzetta-Bold.otf
+    #       weight: 700
+    #     - path: fonts/gazzetta/Gazzetta-Italic.otf
+    #       style: italic
+    - family: Playfair Display   # Substitute for proprietary Gazzetta
+      source: google
+      weight: [400, 700]
+      style: [normal, italic]
+
+  base:
+    family: Nunito Sans
+    weight: 400
+    size: 16px
+    line-height: 1.5
+
+  headings:
+    family: Playfair Display
+    weight: 700
+    line-height: 1.2
+    color: gw-blue

@@ -6,9 +6,11 @@ execute:
 
 format:
   revealjs:
-    theme: 
-      - default
-      - ../style/slides-reveal-adg.scss
+    theme:
+      #      - default
+      #      - ../style/slides-reveal-adg.scss
+      - brand
+      - ../style/slides-reveal-min.scss
       - ../style/sfah.scss
     auto-stretch: true
     transition: fade
@@ -30,8 +32,6 @@ format:
 lightbox: true
 chalkboard: true
 engine: knitr
-# revealjs-plugins: 
+# revealjs-plugins:
 #   - drop
 
-
-  
