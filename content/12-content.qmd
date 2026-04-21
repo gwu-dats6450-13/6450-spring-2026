@@ -1,8 +1,8 @@
 ## About today's class
 
 ::: {.callout-important}
-## Midterm 2 — last hour of class
-The second midterm takes place in the **last 60 minutes** of today's session. You will work with a Spark cluster running on your EC2 instance. **Start your cluster at the very beginning of class** so it is fully initialized before the midterm window opens. The exam is open notes and open internet; no AI assistance.
+## Midterm 2 
+The second midterm takes place this weekend as a **2 hour take-home exam**. You will work with a Spark cluster running on your EC2 instance.  The exam is open notes and open internet; no AI assistance.
 :::
 
 This week has two parts. We begin with **Amazon Athena**: AWS's serverless, interactive SQL query service powered by Presto/Trino. We cover how Athena lets you query data directly in S3 without provisioning a cluster, how the **AWS Glue Data Catalog** acts as the schema registry, two strategies for registering tables (Glue Crawlers vs. explicit DDL), analytical SQL patterns including approximate percentiles and IQR-based anomaly detection, performance levers (partitioning, columnar formats, compression), and programmatic access via **boto3**.
@@ -11,7 +11,7 @@ We then turn to **Apache Airflow** — an open-source workflow orchestration pla
 
 ## Readings
 
-Readings for this lecture (to be completed ***before class***):
+Readings for this lecture:
 
 **Amazon Athena:**
 
@@ -21,15 +21,24 @@ Readings for this lecture (to be completed ***before class***):
 
 **Apache Airflow / MWAA:**
 
-- [Apache Airflow Quickstart]({{< var reading.airflow_quickstart >}}){target="_blank"} — single-node `airflow standalone` setup (matches Lab 10)
+- [Apache Airflow Quickstart]({{< var reading.airflow_quickstart >}}){target="_blank"} — single-node `airflow standalone` setup (matches Lab 12)
 - [Amazon MWAA Documentation]({{< var reading.mwaa_docs >}}){target="_blank"} — skim *What is Amazon MWAA?* and *Get started*
 
 ## Slides
 
 The slides for this week are available [online](/slides/12-slides.qmd).
 
-## Lab
+## Midterm 2
 
-This week's lab covers Amazon Athena and Airflow-based ETL pipelines.
+This week we will have Midterm 2. This will be a take-home exam, with a time limit of 2 hours. Time will start when you click the link below and fork the repo to your account. The final commit must be within 2 hours of that time. 
+This exam must be completed by Monday, April 20 at 11:59pm. You may **not** use the help of AI tools (ChatGPT, Claude, Codex, Gemini, etc) for this exam, but you may use any class materials or online resources (with citations). 
+
+The midterm link will be available on Blackboard beginning Friday, April 17. 
+
+## Lab 12 (for information, not to be submitted)
+
+This lab explores how to use Athena and Airflow together in a workflow, analyzing data on NYC's homeless, shelter usage and associations with weather patterns. 
+You are **not** required to submit this lab. It is provided for informational purposes.
 
 [Lab link]({{< var gh-classroom.lab12 >}})
+

@@ -52,7 +52,7 @@ You have a working ETL script. Now imagine running it daily, for years, across m
 └─────────────────────────────────────────────────────┘
 ```
 
-## Core Vocabulary
+## Core Vocabulary {.smaller}
 
 | Term | What it is |
 |---|---|
@@ -66,7 +66,7 @@ You have a working ETL script. Now imagine running it daily, for years, across m
 | **Data interval** | The logical time window a DAG run represents |
 | **Backfill** | Running past intervals to populate historical data |
 
-## A Minimal DAG (from Lab 10)
+## A Minimal DAG (from Lab 12)
 
 ```python
 from airflow import DAG
@@ -125,6 +125,10 @@ Common mistake: using `datetime.today()` inside a task instead of the templated 
 :::
 ::::
 
+::: {.aside}
+**Idempotency** is a property of certain operations in mathematics and computer science whereby they can be applied multiple times without changing the result beyond the initial application. For example, in programming, an idempotent operation will produce the same result regardless of how many times it is executed.
+:::
+
 ## Backfill
 
 **Backfill**: ask Airflow to run a DAG for all past intervals between two dates.
@@ -167,7 +171,7 @@ if response.status_code == 404:
 
 ## ETL Pattern: PDF → Parquet → Athena
 
-Lab 10's four-stage DAG progression teaches the full ETL-to-cloud arc:
+Lab 12's four-stage DAG progression teaches the full ETL-to-cloud arc:
 
 ```
 01a: Extract → Transform → Write (local CSV)
@@ -236,7 +240,7 @@ LOCATION 's3://athena-<netid>/weather_data/';
 
 ## SQL Gotcha: Athena ≠ Postgres
 
-Lab 10's `gen_sql_query` task generates this INSERT:
+Lab 12's `gen_sql_query` task generates this INSERT:
 
 ```python
 query = f"""
@@ -257,9 +261,13 @@ Athena is a **read-optimized** query engine. It has no row-level conflict detect
 - Filter duplicates out with a `WHERE NOT EXISTS(...)` sub-query on read
 :::
 
+::: {.aside}
+ACID operations are database transactions that guarantee Atomicity, Consistency, Isolation, and Durability to ensure reliable and error-free data management.
+:::
+
 ## Running Airflow: Local on EC2
 
-In Lab 10, Airflow runs on a single EC2 instance using **`airflow standalone`** — a development-mode process that combines all components:
+In Lab 12, Airflow runs on a single EC2 instance using **`airflow standalone`** — a development-mode process that combines all components:
 
 ```bash
 # One-time setup
@@ -279,7 +287,7 @@ cp my_dag.py $AIRFLOW_HOME/dags/
 ```
 
 ::: {.callout-note}
-`airflow standalone` is for **development only** — single-node, SQLite, no HA. Production uses separate scheduler, API server, and Celery or Kubernetes executor with Postgres.
+`airflow standalone` is for **development only** — single-node, SQLite. Production uses separate scheduler, API server, and Celery or Kubernetes executor with Postgres.
 :::
 
 ## Running Airflow: Amazon MWAA
@@ -375,7 +383,7 @@ PythonOperator(
 :::
 ::::
 
-## Observability
+## Observability {.smaller}
 
 :::: {.columns}
 ::: {.column width="55%"}
@@ -473,23 +481,12 @@ External sources (APIs, PDFs, S3 CDN)
 ::: {.column width="49%"}
 **Course resources:**
 
-- Lab 05 (Athena): GitHub Classroom link in Blackboard
-- Lab 10 (Airflow): GitHub Classroom link in Blackboard
+- Lab 12 (Athena + Airflow): GitHub Classroom link on website
 
 :::
 ::::
 
-## Midterm 2 — Begin Now
+## Midterm 2 
 
-::: {.callout-important}
-## Midterm 2 starts now
-
-* Duration: **60 minutes**
-* Access the problem set from GitHub Classroom (link posted in Blackboard and Slack)
-* Work on your **EC2 cluster** with Spark — the cluster you started at the beginning of class
-* **Open notes, open internet** — no AI tools (ChatGPT, Claude, Copilot, etc.)
-* Submit your completed `.ipynb` via GitHub Classroom before time is called
-* If your cluster is not running, start it now — you will not receive extra time
-:::
 
 [**Good luck!**]{style="font-size: 1.3em;font-weight: bold;"}

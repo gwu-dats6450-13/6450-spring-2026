@@ -61,7 +61,7 @@ No cluster. No infra. **Athena.**
 ::: {.column width="49%"}
 **What you get:**
 
-* Presto/Trino engine under the hood
+* [Presto/Trino](slides/athena/_background.qmd#sec-presto) engine under the hood
 * Standard ANSI SQL (+ Presto extensions)
 * No clusters to provision, patch, or scale
 * Concurrent queries across teams
@@ -164,7 +164,11 @@ The Glue Catalog is free up to 1 million objects; additional objects billed per 
 
 :::: {.columns}
 ::: {.column width="49%"}
-### Glue Crawler (Lab 05)
+### Glue Crawler 
+
+::: {.aside}
+The CRAWLER creates the metadata that allows GLUE and services such as ATHENA to view the S3 information as a database with tables. That is, it allows you to create the Glue Catalog.
+:::
 
 ```
 Glue → Crawlers → Create
@@ -183,7 +187,11 @@ Best for: **discovery** of new/unknown data
 :::
 
 ::: {.column width="49%"}
-### Explicit DDL (Lab 10)
+### Explicit DDL (Lab 12)
+
+::: {.aside}
+DDL stands for _Data Definition Language_. These DDL statements are based on HiveQL and allow users to interact with data stored in Amazon S3.
+:::
 
 ```sql
 CREATE EXTERNAL TABLE IF NOT EXISTS
@@ -238,7 +246,7 @@ trip_id, distance, fare, tip, passenger
 Real-world impact: a query on a 1 TB CSV table that touches 3 of 30 columns might scan ~100 GB as Parquet — saving ~$4.50 per query execution.
 :::
 
-## Athena Cost Model
+## Athena Cost Model {.smaller}
 
 | Scenario | Data scanned | Cost (est.) |
 |---|---|---|
@@ -252,8 +260,11 @@ Real-world impact: a query on a 1 TB CSV table that touches 3 of 30 columns migh
 ::: {.callout-tip}
 The two most impactful cost-reduction moves: (1) **convert to Parquet/ORC**, (2) **partition your data**.
 :::
+::: {.aside}
+ORC stands for _Optimized Row Columnar_, a type-aware, columnar format designed for big-data environmentIsLocked
+:::
 
-## Setup: Create Your S3 Bucket
+## Setup: Create Your S3 Bucket {.hidden}
 
 ```bash
 NETID=your-netid
@@ -269,9 +280,9 @@ s3://athena-<netid>/
   data/
     2023/               ← raw Parquet taxi files
     results/            ← Athena query results (required!)
-  shelter_data/         ← Lab 10: shelter counts Parquet
-  weather_data/         ← Lab 10: weather-augmented Parquet
-  athena-counts-temp/   ← Lab 10: Athena result spill
+  shelter_data/         ← Lab 12: shelter counts Parquet
+  weather_data/         ← Lab 12: weather-augmented Parquet
+  athena-counts-temp/   ← Lab 12: Athena result spill
 ```
 
 ## Setup: Stage Taxi Data
@@ -312,7 +323,7 @@ Expected output:
 ## Glue Crawler: Create and Configure
 
 ::: {.imgcenter}
-<img src="img/gc-1.png" width=850>
+<img src="athena/img/gc-1.png" width=850>
 :::
 
 Navigate: **AWS Console → Glue → Data Catalog → Crawlers → Create crawler**
@@ -322,7 +333,7 @@ Configure: name `nyc_tlc`, S3 source `s3://athena-<netid>/data/2023/`, IAM role 
 ## Glue Crawler: Run Result
 
 ::: {.imgcenter}
-<img src="img/glc-13.png" width=850>
+<img src="athena/img/glc-13.png" width=850>
 :::
 
 After a successful run, Glue creates table **`2023`** in database **`nyc_tlc`** — the folder name becomes the table name.
@@ -338,7 +349,7 @@ Athena stores every query result as a CSV in S3. You must set this location befo
 :::
 
 ::: {.imgcenter}
-<img src="img/athena2.png" width=750>
+<img src="athena/img/athena2.png" width=750>
 :::
 
 ## Fully-Qualified Naming
@@ -360,18 +371,20 @@ SELECT count(*) FROM "2023";
 
 The result: **~19.5 million** rows across 6 months of Yellow Taxi trips.
 
-## Gotcha: Duplicate Column from Crawler
+## Gotcha: Duplicate Column from Crawler {.smaller}
 
 The crawler can mis-infer schema — notably, the `airport_fee` column appears **twice** in the NYC taxi data.
 
 ::: {.imgcenter}
-<img src="img/gdc2.png" width=800>
+<img src="athena/img/gdc2.png" width=800>
 :::
+
+## Gotcha: Duplicate Column from Crawler {.smaller}
 
 **Fix:** Glue Data Catalog → Tables → `2023` → Edit schema → delete the duplicate `airport_fee` row → **Save as new table version**
 
 ::: {.imgcenter}
-<img src="img/glue-fix-dup-table-col.png" width=700>
+<img src="athena/img/glue-fix-dup-table-col.png" width=700>
 :::
 
 ## Analytical SQL: `approx_percentile`
@@ -388,7 +401,7 @@ WHERE trip_distance > 0 AND trip_distance < 100;
 ```
 
 ::: {.callout-note}
-`approx_percentile` uses a **TDigest sketch** — it processes data in a single pass and uses O(1/ε) memory, making it practical for 20M+ row tables where exact percentiles would require a full sort.
+`approx_percentile` uses a [**TDigest sketch**](https://www.sciencedirect.com/science/article/pii/S2665963820300403) — it processes data in a single pass and uses O(1/ε) memory, making it practical for 20M+ row tables where exact percentiles would require a full sort.
 :::
 
 ## IQR Anomaly Detection — Part 1
@@ -514,7 +527,7 @@ For files < 64 MB: compact with CTAS before production use.
 
 ## Explicit DDL: `CREATE EXTERNAL TABLE`
 
-From Lab 10 — creating the shelter counts table without a crawler:
+From Lab 12 — creating the shelter counts table without a crawler:
 
 ```sql
 CREATE EXTERNAL TABLE IF NOT EXISTS shelter_counts (

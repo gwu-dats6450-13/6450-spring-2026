@@ -30,10 +30,10 @@ from pyspark.sql.functions import col
 MASTER_URL = sys.argv[1] if len(sys.argv) > 1 else "local[*]"
 
 # Source: requester-pays bucket (instructor pays)
-SOURCE_PATH = "s3a://dsan6000-datasets/reddit/parquet/comments/yyyy=2023/mm=08/"
+SOURCE_PATH = "s3a://adg-reddit-data/parquet/comments/yyyy=2023/mm=08/"
 
 # Destination: public-read midterm bucket (all students read this)
-DEST_PATH   = "s3a://dats6450-midterm-s2026/reddit/comments/"
+DEST_PATH = "s3a://dats6450-midterm-s2026/reddit/comments/"
 
 # Subreddits that span a range of tones/topics (~200K rows for Aug 2023)
 SUBREDDITS = [
@@ -46,14 +46,23 @@ SUBREDDITS = [
 # ---------------------------------------------------------------------------
 
 spark = (
-    SparkSession.builder
-    .master(MASTER_URL)
+    SparkSession.builder.master(MASTER_URL)
     .appName("DATS6450-Midterm2-StageData")
-    .config("spark.jars.packages",
-            "org.apache.hadoop:hadoop-aws:3.4.1,"
-            "com.amazonaws:aws-java-sdk-bundle:1.12.262")
-    .config("spark.hadoop.fs.s3a.aws.credentials.provider",
-            "com.amazonaws.auth.InstanceProfileCredentialsProvider")
+    .config(
+        "spark.jars.packages",
+        "org.apache.hadoop:hadoop-aws:3.3.4,"
+        "com.amazonaws:aws-java-sdk-bundle:1.12.262",
+    )
+    .config(
+        "spark.hadoop.fs.s3a.aws.credentials.provider",
+        "com.amazonaws.auth.profile.ProfileCredentialsProvider",
+    )
+    #    .config(
+    #        "spark.hadoop.fs.s3a.aws.credentials.provider",
+    #        "com.amazonaws.auth.EnvironmentVariableCredentialsProvider",
+    #    )
+    #    .config("spark.hadoop.fs.s3a.aws.credentials.provider",
+    #   "com.amazonaws.auth.InstanceProfileCredentialsProvider")
     .config("spark.hadoop.fs.s3a.endpoint", "s3.amazonaws.com")
     .config("spark.hadoop.fs.s3a.path.style.access", "false")
     # Requester-pays for source bucket
@@ -69,9 +78,16 @@ print(f"Total rows in August 2023: {df.count():,}")
 
 # Select only the columns students need (keep schema clean)
 KEEP_COLS = [
-    "id", "subreddit", "author", "body", "score",
-    "created_utc", "controversiality", "parent_id",
-    "link_id", "gilded",
+    "id",
+    "subreddit",
+    "author",
+    "body",
+    "score",
+    "created_utc",
+    "controversiality",
+    "parent_id",
+    "link_id",
+    "gilded",
 ]
 df = df.select([c for c in KEEP_COLS if c in df.columns])
 
@@ -88,7 +104,9 @@ print(f"Writing to {DEST_PATH} ...")
 df_filtered.write.mode("overwrite").parquet(DEST_PATH)
 
 print("Done. Verify:")
-print(f"  aws s3 ls s3://dats6450-midterm-s2026/reddit/comments/ --recursive --human-readable | tail -5")
+print(
+    f"  aws s3 ls s3://dats6450-midterm-s2026/reddit/comments/ --recursive --human-readable | tail -5"
+)
 
 # Quick sanity check
 verify = spark.read.parquet(DEST_PATH)

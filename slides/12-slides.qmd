@@ -2,9 +2,6 @@
 title: "Lecture 12"
 subtitle: "Serverless Analytics: Amazon Athena and Airflow Orchestration"
 engine: knitr
-format:
-  revealjs:
-    code-fold: false
 ---
 
 
@@ -27,49 +24,31 @@ format:
 * Analytical SQL patterns in Presto/Trino
 * Programmatic access via boto3
 * Pipeline orchestration with Apache Airflow
-* [**Midterm 2 — last hour of class**]{style="color: red;font-weight: bold;"}
+* [**Midterm 2**]{style="color: red;font-weight: bold;"} will be a 2 hour take-home exam due Monday April 20. 
 
 :::
 ::::
 
-## Announcements {.smaller}
+## Announcements 
 
 ::: {.callout-important}
-## Midterm 2 is today — last 60 minutes of class
 
-The second midterm takes place in the **last hour** of today's session. You will work with a **Spark cluster on your EC2 instance**.
+The second midterm takes place this weekend. You will work with a **Spark cluster on your EC2 instance**.
+
+This will be a take home exam, with a duration of 2 hours. When you fork this repo from GH Classroom, it will generate an initial commit will a timestamp. You will 
+be graded based on the **last commit within 2 hours of the start time**. You may do this exam at any time between Friday, April 17 and Monday, April 20, but it must be done by Monday, April 20 at 11:59pm. 
+
+The link for the midterm will be **available on Blackboard in the Week 12 space** after midnight tonight. 
+
+Because of the emphasis on commit times, please commit often to make sure your work will be graded, even for partial credits.
 
 * Open notes, open internet — **no AI assistance**
-* Submit your completed notebook to GitHub Classroom before time is called
+* Submit your completed notebook to GitHub Classroom before the due date of April 20, 2026, but within 2 hours of when you start the exam (based on git commit times)
 * The problem will draw on Spark DataFrame API, transformations, and aggregations covered in Weeks 8–11
 :::
 
-::: {.fragment .fade-up}
-[**Start your EC2 cluster right now while we go through today's material.**]{style="color: red;font-size: 1.1em;font-weight: bold;"}
-:::
 
-## Start Your EC2 Cluster Now
-
-Do this **before** we dive into the lecture — the cluster needs time to fully initialize.
-
-```bash
-# SSH into your EC2 instance
-ssh -i ~/.ssh/your-key.pem ubuntu@<your-ec2-ip>
-
-# In the project/ directory, start your Spark cluster
-cd ~/project
-bash start-cluster.sh
-
-# Verify Spark UI is reachable at http://<ec2-ip>:8080
-# Keep this terminal open
-```
-
-::: {.callout-tip}
-## Cluster check
-Once started, confirm you see **Spark Master** in the browser at port 8080 and at least one worker is registered. If your cluster is already stopped from last week, allow 2–3 minutes for full startup.
-:::
-
-## Agenda
+## Agenda:
 
 :::: {.columns}
 ::: {.column width="49%"}
@@ -85,7 +64,7 @@ Once started, confirm you see **Spark Master** in the browser at port 8080 and a
 :::
 
 ::: {.column width="49%"}
-### Midterm 2 (~60 min)
+### Midterm 2 (~120 min)
 
 * Spark on your EC2 cluster
 * Problems released at start of midterm window
@@ -99,3 +78,5 @@ Once started, confirm you see **Spark Master** in the browser at port 8080 and a
 {{< include athena/_athena.qmd >}}
 
 {{< include airflow/_airflow.qmd >}}
+
+
