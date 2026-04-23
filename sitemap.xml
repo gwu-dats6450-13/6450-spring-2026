@@ -2,11 +2,11 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://gwu-dats6450-13.github.io/6450-spring-2026/CLAUDE.html</loc>
-    <lastmod>2026-04-09T20:31:42.314Z</lastmod>
+    <lastmod>2026-04-21T03:02:47.069Z</lastmod>
   </url>
   <url>
     <loc>https://gwu-dats6450-13.github.io/6450-spring-2026/site-content/references.html</loc>
-    <lastmod>2026-03-05T21:51:20.402Z</lastmod>
+    <lastmod>2026-04-21T01:51:32.877Z</lastmod>
   </url>
   <url>
     <loc>https://gwu-dats6450-13.github.io/6450-spring-2026/project/reddit-s3-copy-instructions.html</loc>
@@ -25,8 +25,12 @@
     <lastmod>2026-03-05T21:51:20.403Z</lastmod>
   </url>
   <url>
-    <loc>https://gwu-dats6450-13.github.io/6450-spring-2026/slides/01-slides.html</loc>
-    <lastmod>2026-03-05T21:51:20.402Z</lastmod>
+    <loc>https://gwu-dats6450-13.github.io/6450-spring-2026/slides/10-slides.html</loc>
+    <lastmod>2026-03-05T21:51:20.403Z</lastmod>
+  </url>
+  <url>
+    <loc>https://gwu-dats6450-13.github.io/6450-spring-2026/slides/13-slides.html</loc>
+    <lastmod>2026-04-23T20:37:41.476Z</lastmod>
   </url>
   <url>
     <loc>https://gwu-dats6450-13.github.io/6450-spring-2026/slides/07-slides.html</loc>
@@ -61,19 +65,27 @@
     <lastmod>2026-03-05T21:51:20.236Z</lastmod>
   </url>
   <url>
-    <loc>https://gwu-dats6450-13.github.io/6450-spring-2026/content/05-content.html</loc>
-    <lastmod>2026-03-05T21:51:20.235Z</lastmod>
+    <loc>https://gwu-dats6450-13.github.io/6450-spring-2026/content/10-content.html</loc>
+    <lastmod>2026-04-02T21:12:54.248Z</lastmod>
+  </url>
+  <url>
+    <loc>https://gwu-dats6450-13.github.io/6450-spring-2026/content/09-content.html</loc>
+    <lastmod>2026-03-26T21:16:08.428Z</lastmod>
   </url>
   <url>
     <loc>https://gwu-dats6450-13.github.io/6450-spring-2026/resources/narwhals-ibis-examples.html</loc>
     <lastmod>2026-03-05T21:51:20.401Z</lastmod>
   </url>
   <url>
-    <loc>https://gwu-dats6450-13.github.io/6450-spring-2026/assignments/midterm02.html</loc>
-    <lastmod>2026-04-16T06:15:10.497Z</lastmod>
+    <loc>https://gwu-dats6450-13.github.io/6450-spring-2026/resources/sagemaker.html</loc>
+    <lastmod>2026-04-20T03:35:03.479Z</lastmod>
   </url>
   <url>
-    <loc>https://gwu-dats6450-13.github.io/6450-spring-2026/assignments/a03-cloud.html</loc>
+    <loc>https://gwu-dats6450-13.github.io/6450-spring-2026/assignments/midterm02/starter/RESPONSES.html</loc>
+    <lastmod>2026-04-16T06:16:07.259Z</lastmod>
+  </url>
+  <url>
+    <loc>https://gwu-dats6450-13.github.io/6450-spring-2026/assignments/a02-parallelization.html</loc>
     <lastmod>2026-03-05T21:51:20.235Z</lastmod>
   </url>
   <url>
@@ -93,24 +105,28 @@
     <lastmod>2026-03-05T21:51:20.237Z</lastmod>
   </url>
   <url>
-    <loc>https://gwu-dats6450-13.github.io/6450-spring-2026/assignments/a02-parallelization.html</loc>
-    <lastmod>2026-03-05T21:51:20.235Z</lastmod>
+    <loc>https://gwu-dats6450-13.github.io/6450-spring-2026/labs/13-labs.html</loc>
+    <lastmod>2026-04-19T19:35:26.644Z</lastmod>
   </url>
   <url>
-    <loc>https://gwu-dats6450-13.github.io/6450-spring-2026/assignments/midterm02/starter/RESPONSES.html</loc>
-    <lastmod>2026-04-16T06:16:07.259Z</lastmod>
+    <loc>https://gwu-dats6450-13.github.io/6450-spring-2026/assignments/a03-cloud.html</loc>
+    <lastmod>2026-03-05T21:51:20.235Z</lastmod>
   </url>
   <url>
     <loc>https://gwu-dats6450-13.github.io/6450-spring-2026/resources/uv.html</loc>
     <lastmod>2026-03-05T21:51:20.401Z</lastmod>
   </url>
   <url>
-    <loc>https://gwu-dats6450-13.github.io/6450-spring-2026/content/09-content.html</loc>
-    <lastmod>2026-03-26T21:16:08.428Z</lastmod>
+    <loc>https://gwu-dats6450-13.github.io/6450-spring-2026/resources/dask.html</loc>
+    <lastmod>2026-04-21T05:20:56.235Z</lastmod>
   </url>
   <url>
-    <loc>https://gwu-dats6450-13.github.io/6450-spring-2026/content/10-content.html</loc>
-    <lastmod>2026-04-02T21:12:54.248Z</lastmod>
+    <loc>https://gwu-dats6450-13.github.io/6450-spring-2026/content/05-content.html</loc>
+    <lastmod>2026-03-05T21:51:20.235Z</lastmod>
+  </url>
+  <url>
+    <loc>https://gwu-dats6450-13.github.io/6450-spring-2026/content/13-content.html</loc>
+    <lastmod>2026-04-19T19:35:32.628Z</lastmod>
   </url>
   <url>
     <loc>https://gwu-dats6450-13.github.io/6450-spring-2026/content/03-content.html</loc>
@@ -145,8 +161,12 @@
     <lastmod>2026-03-05T21:51:20.402Z</lastmod>
   </url>
   <url>
-    <loc>https://gwu-dats6450-13.github.io/6450-spring-2026/slides/10-slides.html</loc>
-    <lastmod>2026-03-05T21:51:20.403Z</lastmod>
+    <loc>https://gwu-dats6450-13.github.io/6450-spring-2026/slides/01-slides.html</loc>
+    <lastmod>2026-03-05T21:51:20.402Z</lastmod>
+  </url>
+  <url>
+    <loc>https://gwu-dats6450-13.github.io/6450-spring-2026/slides/dataviz-slides.html</loc>
+    <lastmod>2026-04-21T05:26:19.716Z</lastmod>
   </url>
   <url>
     <loc>https://gwu-dats6450-13.github.io/6450-spring-2026/slides/04-slides.html</loc>
@@ -166,6 +186,6 @@
   </url>
   <url>
     <loc>https://gwu-dats6450-13.github.io/6450-spring-2026/syllabus.html</loc>
-    <lastmod>2026-03-05T21:51:20.522Z</lastmod>
+    <lastmod>2026-04-21T02:01:30.071Z</lastmod>
   </url>
 </urlset>

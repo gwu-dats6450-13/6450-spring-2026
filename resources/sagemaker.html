@@ -1,0 +1,1158 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.27">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>AWS SageMaker for Data Scientists – DATS 6450.13</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-99e777b2b3262cb0e1538bc5fc5de7fc.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-3b164a37270e39dc3a94abe50fbe3df8.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-99e777b2b3262cb0e1538bc5fc5de7fc.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-b98ade707c6f0c6c18586a47dc18e4ea.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-b98ade707c6f0c6c18586a47dc18e4ea.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-b98ade707c6f0c6c18586a47dc18e4ea.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/quarto-contrib/fontawesome6-6.7.2/all.min.css" rel="stylesheet">
+<link href="../site_libs/quarto-contrib/fontawesome6-6.7.2/latex-fontsize.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-sidebar docked nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">DATS 6450.13</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../about.html"> 
+<span class="menu-text">Instructor</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../syllabus.html"> 
+<span class="menu-text">Syllabus</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../content/index.html"> 
+<span class="menu-text">Content</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../labs/index.html"> 
+<span class="menu-text">Labs</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link active" href="../resources/uv.html" aria-current="page"> 
+<span class="menu-text">Resources</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../project/project.html"> 
+<span class="menu-text">Project</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../site-content/references.html"> 
+<span class="menu-text">References</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://6450-spring-2026.slack.com"> <i class="bi bi-slack" role="img" aria-label="slack">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../resources/sagemaker.html">AWS SageMaker for Data Scientists</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../resources/uv.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Using uv to manage Python environments</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../resources/sagemaker.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">AWS SageMaker for Data Scientists</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../resources/narwhals-ibis-examples.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Narwhals and Ibis Examples</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../resources/dask.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Dask for Scalable Python Analytics</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#core-capabilities" id="toc-core-capabilities" class="nav-link active" data-scroll-target="#core-capabilities">Core Capabilities</a>
+  <ul class="collapse">
+  <li><a href="#data-preparation" id="toc-data-preparation" class="nav-link" data-scroll-target="#data-preparation">Data Preparation</a></li>
+  <li><a href="#model-development" id="toc-model-development" class="nav-link" data-scroll-target="#model-development">Model Development</a></li>
+  <li><a href="#model-training" id="toc-model-training" class="nav-link" data-scroll-target="#model-training">Model Training</a></li>
+  <li><a href="#experiment-tracking" id="toc-experiment-tracking" class="nav-link" data-scroll-target="#experiment-tracking">Experiment Tracking</a></li>
+  <li><a href="#model-deployment-inference" id="toc-model-deployment-inference" class="nav-link" data-scroll-target="#model-deployment-inference">Model Deployment &amp; Inference</a></li>
+  <li><a href="#mlops" id="toc-mlops" class="nav-link" data-scroll-target="#mlops">MLOps</a></li>
+  </ul></li>
+  <li><a href="#pricing-model" id="toc-pricing-model" class="nav-link" data-scroll-target="#pricing-model">Pricing Model</a>
+  <ul class="collapse">
+  <li><a href="#compute-training-notebooks" id="toc-compute-training-notebooks" class="nav-link" data-scroll-target="#compute-training-notebooks">Compute (Training &amp; Notebooks)</a></li>
+  <li><a href="#real-time-endpoints" id="toc-real-time-endpoints" class="nav-link" data-scroll-target="#real-time-endpoints">Real-Time Endpoints</a></li>
+  <li><a href="#serverless-endpoints" id="toc-serverless-endpoints" class="nav-link" data-scroll-target="#serverless-endpoints">Serverless Endpoints</a></li>
+  <li><a href="#batch-transform" id="toc-batch-transform" class="nav-link" data-scroll-target="#batch-transform">Batch Transform</a></li>
+  <li><a href="#feature-store" id="toc-feature-store" class="nav-link" data-scroll-target="#feature-store">Feature Store</a></li>
+  <li><a href="#cost-estimation-tips" id="toc-cost-estimation-tips" class="nav-link" data-scroll-target="#cost-estimation-tips">Cost Estimation Tips</a></li>
+  </ul></li>
+  <li><a href="#serverless-inference" id="toc-serverless-inference" class="nav-link" data-scroll-target="#serverless-inference">Serverless Inference</a>
+  <ul class="collapse">
+  <li><a href="#how-it-works" id="toc-how-it-works" class="nav-link" data-scroll-target="#how-it-works">How It Works</a></li>
+  <li><a href="#configuration" id="toc-configuration" class="nav-link" data-scroll-target="#configuration">Configuration</a></li>
+  <li><a href="#invoking-the-endpoint" id="toc-invoking-the-endpoint" class="nav-link" data-scroll-target="#invoking-the-endpoint">Invoking the Endpoint</a></li>
+  </ul></li>
+  <li><a href="#serverless-inference-pros-and-cons" id="toc-serverless-inference-pros-and-cons" class="nav-link" data-scroll-target="#serverless-inference-pros-and-cons">Serverless Inference: Pros and Cons</a>
+  <ul class="collapse">
+  <li><a href="#advantages" id="toc-advantages" class="nav-link" data-scroll-target="#advantages">Advantages</a></li>
+  <li><a href="#limitations" id="toc-limitations" class="nav-link" data-scroll-target="#limitations">Limitations</a></li>
+  <li><a href="#when-to-choose-serverless-vs.-provisioned" id="toc-when-to-choose-serverless-vs.-provisioned" class="nav-link" data-scroll-target="#when-to-choose-serverless-vs.-provisioned">When to Choose Serverless vs.&nbsp;Provisioned</a></li>
+  </ul></li>
+  <li><a href="#sagemaker-vs.-alternatives" id="toc-sagemaker-vs.-alternatives" class="nav-link" data-scroll-target="#sagemaker-vs.-alternatives">SageMaker vs.&nbsp;Alternatives</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">AWS SageMaker for Data Scientists</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>Amazon SageMaker is AWS’s fully managed platform for building, training, and deploying machine learning models. Rather than a single tool, it is a <strong>suite of integrated services</strong> that can be adopted incrementally — you can use one component (e.g., SageMaker Endpoints for model serving) without committing to the rest of the platform.</p>
+<section id="core-capabilities" class="level2">
+<h2 class="anchored" data-anchor-id="core-capabilities">Core Capabilities</h2>
+<section id="data-preparation" class="level3">
+<h3 class="anchored" data-anchor-id="data-preparation">Data Preparation</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Tool</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>SageMaker Data Wrangler</strong></td>
+<td>GUI-driven data exploration, transformation, and feature engineering on tabular and image data</td>
+</tr>
+<tr class="even">
+<td><strong>SageMaker Processing</strong></td>
+<td>Managed Spark or scikit-learn processing jobs; scales to large datasets without managing clusters</td>
+</tr>
+<tr class="odd">
+<td><strong>SageMaker Feature Store</strong></td>
+<td>Centralized repository to store, share, and retrieve ML features; supports online (low-latency) and offline (batch) lookups</td>
+</tr>
+<tr class="even">
+<td><strong>SageMaker Ground Truth</strong></td>
+<td>Managed data-labeling workflows with human reviewers</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="model-development" class="level3">
+<h3 class="anchored" data-anchor-id="model-development">Model Development</h3>
+<p><strong>SageMaker Studio</strong> is the primary IDE — a JupyterLab-based environment hosted in AWS. It integrates with all other SageMaker services and supports GPU instances without any local setup.</p>
+<p><strong>SageMaker Notebooks</strong> (classic, non-Studio) are managed Jupyter notebook instances backed by EC2. You choose the instance type and pay per hour the instance is running.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Studio is the recommended starting point for new users. It separates compute from the IDE — you can attach a large GPU instance to a single Studio session without paying for it when you’re not training.</p>
+</div>
+</div>
+</section>
+<section id="model-training" class="level3">
+<h3 class="anchored" data-anchor-id="model-training">Model Training</h3>
+<p>SageMaker Training Jobs provision compute, run your training script inside a managed Docker container, stream logs to CloudWatch, and terminate the instance when done. Key options:</p>
+<ul>
+<li><strong>Built-in algorithms</strong> — XGBoost, linear learner, k-means, image classification, and others; no Docker image required</li>
+<li><strong>Script mode</strong> — bring your own Python script (scikit-learn, PyTorch, TensorFlow, Hugging Face) in a AWS-managed container</li>
+<li><strong>Bring your own container (BYOC)</strong> — full control; package any framework in a Docker image</li>
+<li><strong>Distributed training</strong> — SageMaker handles data parallelism (SageMaker Distributed Data Parallel) and model parallelism for large models across multiple GPU instances</li>
+</ul>
+<p><strong>Automatic Model Tuning (Hyperparameter Optimization)</strong> runs parallel training jobs across a hyperparameter grid using Bayesian optimization, random search, or Hyperband.</p>
+</section>
+<section id="experiment-tracking" class="level3">
+<h3 class="anchored" data-anchor-id="experiment-tracking">Experiment Tracking</h3>
+<p>SageMaker Experiments logs metrics, parameters, and artifacts from training jobs automatically. It integrates with Studio for comparison dashboards and is conceptually similar to MLflow but AWS-native.</p>
+</section>
+<section id="model-deployment-inference" class="level3">
+<h3 class="anchored" data-anchor-id="model-deployment-inference">Model Deployment &amp; Inference</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Deployment type</th>
+<th>Best for</th>
+<th>Cold start</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Real-time endpoint</strong></td>
+<td>&lt; 60 s latency, steady traffic</td>
+<td>None (always-on)</td>
+</tr>
+<tr class="even">
+<td><strong>Serverless endpoint</strong></td>
+<td>Infrequent requests, bursty traffic</td>
+<td>1–10 s</td>
+</tr>
+<tr class="odd">
+<td><strong>Async endpoint</strong></td>
+<td>Large payloads, 15 s – 15 min processing</td>
+<td>None (always-on)</td>
+</tr>
+<tr class="even">
+<td><strong>Batch transform</strong></td>
+<td>Offline scoring of a full dataset</td>
+<td>Minutes to provision</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="mlops" class="level3">
+<h3 class="anchored" data-anchor-id="mlops">MLOps</h3>
+<ul>
+<li><strong>SageMaker Pipelines</strong> — define an ML workflow (processing → training → evaluation → registration → deployment) as a DAG; integrates with CI/CD</li>
+<li><strong>SageMaker Model Registry</strong> — version, approve, and audit models before production deployment</li>
+<li><strong>SageMaker Model Monitor</strong> — detect data drift and model degradation in deployed endpoints</li>
+<li><strong>SageMaker Clarify</strong> — bias detection and SHAP-based feature attribution for model explainability</li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="pricing-model" class="level2">
+<h2 class="anchored" data-anchor-id="pricing-model">Pricing Model</h2>
+<p>SageMaker pricing has <strong>no flat subscription fee</strong> — you pay only for what you use, per component. The main cost drivers are:</p>
+<section id="compute-training-notebooks" class="level3">
+<h3 class="anchored" data-anchor-id="compute-training-notebooks">Compute (Training &amp; Notebooks)</h3>
+<p>Charged per second for the duration the instance is running.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Instance family</th>
+<th>Use case</th>
+<th>Example price (us-east-1)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>ml.t3.medium</code></td>
+<td>Notebooks, light dev</td>
+<td>~$0.05 / hr</td>
+</tr>
+<tr class="even">
+<td><code>ml.m5.xlarge</code></td>
+<td>CPU training, processing</td>
+<td>~$0.23 / hr</td>
+</tr>
+<tr class="odd">
+<td><code>ml.g4dn.xlarge</code></td>
+<td>Single GPU (T4) training</td>
+<td>~$0.74 / hr</td>
+</tr>
+<tr class="even">
+<td><code>ml.p3.2xlarge</code></td>
+<td>V100 GPU training</td>
+<td>~$3.83 / hr</td>
+</tr>
+<tr class="odd">
+<td><code>ml.p4d.24xlarge</code></td>
+<td>8× A100, large model training</td>
+<td>~$32.77 / hr</td>
+</tr>
+</tbody>
+</table>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Warning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Notebook instances bill while stopped by default.</strong> Studio is better because compute only runs when a job is active. Always terminate unused training jobs and stop notebook instances when not in use.</p>
+</div>
+</div>
+</section>
+<section id="real-time-endpoints" class="level3">
+<h3 class="anchored" data-anchor-id="real-time-endpoints">Real-Time Endpoints</h3>
+<p>Billed per second from creation to deletion, regardless of traffic. A <code>ml.m5.large</code> endpoint costs ~$0.13/hr — about $95/month for 24/7 availability.</p>
+<p>Multi-model endpoints (MME) reduce cost by hosting many models on one instance.</p>
+</section>
+<section id="serverless-endpoints" class="level3">
+<h3 class="anchored" data-anchor-id="serverless-endpoints">Serverless Endpoints</h3>
+<p>Billed by: * <strong>Compute time</strong>: per GB-second of memory allocated during invocation * <strong>Requests</strong>: $0.20 per 1,000 invocations</p>
+<p>There is <strong>no charge when the endpoint receives no traffic</strong>.</p>
+</section>
+<section id="batch-transform" class="level3">
+<h3 class="anchored" data-anchor-id="batch-transform">Batch Transform</h3>
+<p>Billed per second for the instances provisioned during the transform job — no ongoing cost once the job completes.</p>
+</section>
+<section id="feature-store" class="level3">
+<h3 class="anchored" data-anchor-id="feature-store">Feature Store</h3>
+<ul>
+<li><strong>Online store</strong>: $0.00011983 per read unit, $0.00014 per write unit</li>
+<li><strong>Offline store</strong>: standard S3 storage rates</li>
+</ul>
+</section>
+<section id="cost-estimation-tips" class="level3">
+<h3 class="anchored" data-anchor-id="cost-estimation-tips">Cost Estimation Tips</h3>
+<ul>
+<li>Use <a href="https://calculator.aws/">AWS Pricing Calculator</a> to model expected monthly spend</li>
+<li>Spot instances (via <code>use_spot_instances=True</code> in training job config) cut training costs by up to 70% — SageMaker handles checkpointing and interruption recovery</li>
+<li>Studio’s <strong>resource lifecycle policies</strong> can auto-shut-down idle kernels</li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="serverless-inference" class="level2">
+<h2 class="anchored" data-anchor-id="serverless-inference">Serverless Inference</h2>
+<p>SageMaker Serverless Inference lets you deploy a model endpoint that <strong>scales to zero</strong> between requests — ideal when traffic is sparse or unpredictable.</p>
+<section id="how-it-works" class="level3">
+<h3 class="anchored" data-anchor-id="how-it-works">How It Works</h3>
+<ol type="1">
+<li>You package a model artifact in S3 and specify a container image (same as a real-time endpoint)</li>
+<li>AWS provisions no persistent compute; instead, it maintains a warm pool of containers</li>
+<li>On an incoming request, a container is loaded with your model and serves the prediction</li>
+<li>The container is held warm for a short period after serving, then released</li>
+</ol>
+</section>
+<section id="configuration" class="level3">
+<h3 class="anchored" data-anchor-id="configuration">Configuration</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> boto3</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>sm <span class="op">=</span> boto3.client(<span class="st">"sagemaker"</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>sm.create_endpoint_config(</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    EndpointConfigName<span class="op">=</span><span class="st">"my-serverless-config"</span>,</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    ProductionVariants<span class="op">=</span>[{</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>        <span class="st">"VariantName"</span>: <span class="st">"AllTraffic"</span>,</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>        <span class="st">"ModelName"</span>: <span class="st">"my-model"</span>,</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>        <span class="st">"ServerlessConfig"</span>: {</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>            <span class="st">"MemorySizeInMB"</span>: <span class="dv">2048</span>,   <span class="co"># 1024, 2048, 3072, 4096, 6144</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>            <span class="st">"MaxConcurrency"</span>: <span class="dv">10</span>,      <span class="co"># max simultaneous requests</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>        },</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    }],</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>sm.create_endpoint(</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>    EndpointName<span class="op">=</span><span class="st">"my-serverless-endpoint"</span>,</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>    EndpointConfigName<span class="op">=</span><span class="st">"my-serverless-config"</span>,</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Allowed memory sizes: 1024, 2048, 3072, 4096, 6144, or 8192 MB. There are no GPUs — serverless inference is CPU-only.</p>
+</section>
+<section id="invoking-the-endpoint" class="level3">
+<h3 class="anchored" data-anchor-id="invoking-the-endpoint">Invoking the Endpoint</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>runtime <span class="op">=</span> boto3.client(<span class="st">"sagemaker-runtime"</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>response <span class="op">=</span> runtime.invoke_endpoint(</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    EndpointName<span class="op">=</span><span class="st">"my-serverless-endpoint"</span>,</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    ContentType<span class="op">=</span><span class="st">"application/json"</span>,</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    Body<span class="op">=</span><span class="st">'{"features": [1.2, 0.5, 3.3]}'</span>,</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>prediction <span class="op">=</span> response[<span class="st">"Body"</span>].read()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The API is identical to a real-time endpoint — you can switch endpoint types without changing client code.</p>
+<hr>
+</section>
+</section>
+<section id="serverless-inference-pros-and-cons" class="level2">
+<h2 class="anchored" data-anchor-id="serverless-inference-pros-and-cons">Serverless Inference: Pros and Cons</h2>
+<section id="advantages" class="level3">
+<h3 class="anchored" data-anchor-id="advantages">Advantages</h3>
+<ul>
+<li><strong>Zero idle cost</strong> — pay only when requests arrive; no $95/month for a quiet endpoint</li>
+<li><strong>No capacity planning</strong> — concurrency scales automatically up to <code>MaxConcurrency</code></li>
+<li><strong>Reduced operational burden</strong> — no instance type selection, no auto-scaling policies, no health checks to configure</li>
+<li><strong>Fast to deploy</strong> — no “warming up” a cluster; endpoint creation takes seconds</li>
+</ul>
+</section>
+<section id="limitations" class="level3">
+<h3 class="anchored" data-anchor-id="limitations">Limitations</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Limitation</th>
+<th>Details</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Cold start latency</strong></td>
+<td>First request after idle: 1–10 seconds, depending on model size</td>
+</tr>
+<tr class="even">
+<td><strong>CPU only</strong></td>
+<td>No GPU support — unsuitable for large deep learning models</td>
+</tr>
+<tr class="odd">
+<td><strong>Max payload</strong></td>
+<td>6 MB request / 20 MB response</td>
+</tr>
+<tr class="even">
+<td><strong>Max invocation duration</strong></td>
+<td>60 seconds per request</td>
+</tr>
+<tr class="odd">
+<td><strong>No streaming</strong></td>
+<td>Responses must be returned in one shot</td>
+</tr>
+<tr class="even">
+<td><strong>Max concurrent requests</strong></td>
+<td>200 per endpoint</td>
+</tr>
+<tr class="odd">
+<td><strong>No VPC private link</strong></td>
+<td>Serverless endpoints cannot be placed inside a VPC (as of 2025)</td>
+</tr>
+</tbody>
+</table>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>For <strong>latency-sensitive production APIs</strong> (&lt; 200 ms P99), a provisioned real-time endpoint is the right choice. Serverless is a poor fit when you cannot tolerate occasional multi-second spikes.</p>
+</div>
+</div>
+</section>
+<section id="when-to-choose-serverless-vs.-provisioned" class="level3">
+<h3 class="anchored" data-anchor-id="when-to-choose-serverless-vs.-provisioned">When to Choose Serverless vs.&nbsp;Provisioned</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Scenario</th>
+<th>Recommendation</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Internal tool, &lt; 100 requests/day</td>
+<td>Serverless</td>
+</tr>
+<tr class="even">
+<td>Prototype / demo, unknown traffic</td>
+<td>Serverless</td>
+</tr>
+<tr class="odd">
+<td>Production API, steady QPS ≥ 10</td>
+<td>Real-time endpoint</td>
+</tr>
+<tr class="even">
+<td>Latency SLA &lt; 500 ms (strict)</td>
+<td>Real-time endpoint</td>
+</tr>
+<tr class="odd">
+<td>Large model (BERT, LLaMA)</td>
+<td>Real-time endpoint (GPU)</td>
+</tr>
+<tr class="even">
+<td>Nightly scoring of a full dataset</td>
+<td>Batch Transform</td>
+</tr>
+<tr class="odd">
+<td>Variable load with 15+ min processing</td>
+<td>Async endpoint</td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+</section>
+<section id="sagemaker-vs.-alternatives" class="level2">
+<h2 class="anchored" data-anchor-id="sagemaker-vs.-alternatives">SageMaker vs.&nbsp;Alternatives</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th>SageMaker</th>
+<th>Vertex AI (GCP)</th>
+<th>Azure ML</th>
+<th>Self-managed</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Vendor lock-in</strong></td>
+<td>High</td>
+<td>High</td>
+<td>High</td>
+<td>None</td>
+</tr>
+<tr class="even">
+<td><strong>Integration with cloud storage</strong></td>
+<td>Native (S3)</td>
+<td>Native (GCS)</td>
+<td>Native (Azure Blob)</td>
+<td>Manual</td>
+</tr>
+<tr class="odd">
+<td><strong>MLOps tooling</strong></td>
+<td>Mature (Pipelines, Registry, Monitor)</td>
+<td>Mature</td>
+<td>Mature</td>
+<td>Bring your own</td>
+</tr>
+<tr class="even">
+<td><strong>Cost at low usage</strong></td>
+<td>Low (pay-per-use)</td>
+<td>Low</td>
+<td>Low</td>
+<td>Fixed EC2/GKE cost</td>
+</tr>
+<tr class="odd">
+<td><strong>Flexibility</strong></td>
+<td>Medium (BYOC possible)</td>
+<td>Medium</td>
+<td>Medium</td>
+<td>Full</td>
+</tr>
+<tr class="even">
+<td><strong>Serverless inference</strong></td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Requires Knative / k8s</td>
+</tr>
+</tbody>
+</table>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>SageMaker is a strong default when your data already lives in S3 and you use other AWS services. If you need to stay cloud-agnostic, consider building pipelines around MLflow (tracking + registry) and Kubernetes (serving) instead.</p>
+</div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/gwu-dats6450-13\.github\.io\/6450-spring-2026\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+            // default icon
+            link.classList.add("external");
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>Content <i class="fa-brands fa-creative-commons" aria-label="creative-commons"></i> 2026<br> Abhijit Dasgupta<br> All content licensed under a <i class="fa-brands fa-creative-commons" aria-label="creative-commons"></i> <i class="fa-brands fa-creative-commons-by" aria-label="creative-commons-by"></i> <i class="fa-brands fa-creative-commons-nc" aria-label="creative-commons-nc"></i> <a href="https://creativecommons.org/licenses/by-nc/4.0/">Creative Commons Attribution-NonCommercial 4.0 International license (CC BY-NC 4.0)</a></p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+<p>Made with <i class="fa-brands fa-r-project" aria-label="r-project"></i> and <a href="https://quarto.org/">Quarto</a><br></p>
+</div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

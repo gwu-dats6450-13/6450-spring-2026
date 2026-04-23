@@ -144,7 +144,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../content/01-content.html">Course content</a></li><li class="breadcrumb-item"><a href="../content/08-content.html">8. Introduction to Apache Spark</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../content/01-content.html">Course content</a></li><li class="breadcrumb-item"><a href="../content/13-content.html">13. Modern Infrastructure &amp; Wrap-Up</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -226,7 +226,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../content/08-content.html" class="sidebar-item-text sidebar-link active">
+  <a href="../content/08-content.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">8. Introduction to Apache Spark</span></a>
   </div>
 </li>
@@ -256,7 +256,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../content/13-content.html" class="sidebar-item-text sidebar-link">
+  <a href="../content/13-content.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">13. Modern Infrastructure &amp; Wrap-Up</span></a>
   </div>
 </li>
@@ -292,42 +292,40 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#about-todays-class" id="toc-about-todays-class" class="nav-link active" data-scroll-target="#about-todays-class">About today’s class</a></li>
   <li><a href="#readings" id="toc-readings" class="nav-link" data-scroll-target="#readings">Readings</a></li>
   <li><a href="#slides" id="toc-slides" class="nav-link" data-scroll-target="#slides">Slides</a></li>
-  <li><a href="#lab" id="toc-lab" class="nav-link" data-scroll-target="#lab">Lab</a></li>
-  <li><a href="#assignment" id="toc-assignment" class="nav-link" data-scroll-target="#assignment">Assignment</a></li>
+  <li><a href="#lab-13" id="toc-lab-13" class="nav-link" data-scroll-target="#lab-13">Lab 13</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../content/01-content.html">Course content</a></li><li class="breadcrumb-item"><a href="../content/08-content.html">8. Introduction to Apache Spark</a></li></ol></nav></header>
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../content/01-content.html">Course content</a></li><li class="breadcrumb-item"><a href="../content/13-content.html">13. Modern Infrastructure &amp; Wrap-Up</a></li></ol></nav></header>
 
 
 
 
 <section id="about-todays-class" class="level2">
 <h2 class="anchored" data-anchor-id="about-todays-class">About today’s class</h2>
-<p>This week we begin our multi-week exploration of <strong>Apache Spark</strong>, the dominant framework for large-scale distributed data processing. We’ll start from first principles: why in-memory computing matters, how Spark’s architecture differs from Hadoop MapReduce, and how to work with Spark’s two primary data abstractions — <strong>RDDs</strong> (Resilient Distributed Datasets) and <strong>DataFrames</strong>.</p>
-<p>By the end of class you’ll be able to write PySpark programs that read data, apply transformations, perform aggregations with SparkSQL, and understand when to use RDDs versus DataFrames.</p>
+<p>This is the final lecture of the semester. We cover two topics.</p>
+<p><strong>Part 1 — Modern Data Infrastructure</strong> introduces the tools that package, deploy, and connect data pipelines in production: <strong>Docker</strong> for containerizing code and its runtime environment; <strong>Kubernetes</strong> for orchestrating containers at scale (and its managed AWS counterpart, EKS); <strong>AWS Lambda</strong> for serverless, event-driven compute; and <strong>Apache Kafka</strong> for high-throughput event streaming. We close Part 1 by showing how <strong>Amazon Athena</strong> (from last week) fits into a streaming ecosystem as the query layer downstream of Kafka and Spark Structured Streaming.</p>
+<p><strong>Part 2 — Semester Wrap-Up</strong> maps everything we have covered onto a single data science infrastructure stack diagram, works through a reference end-to-end pipeline using course tools, and discusses when to choose one tool over another. The lecture closes with five think-pair-share questions designed to reinforce and connect ideas from across the semester.</p>
 </section>
 <section id="readings" class="level2">
 <h2 class="anchored" data-anchor-id="readings">Readings</h2>
-<p>Readings for this lecture (to be completed <strong><em>before class</em></strong>):</p>
+<p>There are no required readings this week. The following documentation pages are useful references for the tools introduced today:</p>
 <ul>
-<li><a href="https://pages.databricks.com/rs/094-YMS-629/images/LearningSpark2.0.pdf">Learning Spark, 2nd Edition</a> by Damji et al.&nbsp;(2020). Chapters 1–3: Introduction to Apache Spark, Downloading and Getting Started, Apache Spark’s Structured APIs. (Free PDF from Databricks)</li>
+<li><a href="https://docs.docker.com/get-started/" target="_blank">Docker — Get Started</a></li>
+<li><a href="https://kubernetes.io/docs/concepts/overview/" target="_blank">Kubernetes — Concepts Overview</a></li>
+<li><a href="https://docs.aws.amazon.com/lambda/latest/dg/welcome.html" target="_blank">AWS Lambda — Developer Guide</a></li>
+<li><a href="https://kafka.apache.org/intro" target="_blank">Apache Kafka — Introduction</a></li>
+<li><a href="https://docs.aws.amazon.com/msk/latest/developerguide/what-is-msk.html" target="_blank">Amazon MSK (Managed Kafka on AWS)</a></li>
 </ul>
 </section>
 <section id="slides" class="level2">
 <h2 class="anchored" data-anchor-id="slides">Slides</h2>
-<p>The slides for this week are available <a href="../slides/08-slides.html">online</a>.</p>
+<p>The slides for this week are available <a href="../slides/13-slides.html">online</a>.</p>
 </section>
-<section id="lab" class="level2">
-<h2 class="anchored" data-anchor-id="lab">Lab</h2>
-<p>This week’s lab will introduce PySpark on a VM (AWS EC2), working with RDDs and DataFrames on a real dataset.</p>
-<p><a href="https://classroom.github.com/a/dFCemH7y">Link for lab</a></p>
-<!--- Lab link will be posted when available. -->
-</section>
-<section id="assignment" class="level2">
-<h2 class="anchored" data-anchor-id="assignment">Assignment</h2>
-<p>Details for this week’s assignment will be announced in class and posted to the course website.</p>
+<section id="lab-13" class="level2">
+<h2 class="anchored" data-anchor-id="lab-13">Lab 13</h2>
+<p>A hands-on lab walking through a local version of the full streaming pipeline — Kafka, a Python consumer, Spark Structured Streaming, and real S3 storage — using Docker Compose, with an AWS Lambda deployed in the final problem to automatically refresh Athena partitions on every new file. See the <a href="../labs/13-labs.html">Lab 13 page</a> for the GitHub Classroom link and full instructions.</p>
 
 
 </section>

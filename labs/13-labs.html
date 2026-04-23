@@ -6,8 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Abhijit Dasgupta">
 
-<title>Midterm 2: Apache Spark on EC2 – DATS 6450.13</title>
+<title>Lab 13: Docker, Kafka, and Lambda – DATS 6450.13</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -19,41 +20,6 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
-}
-/* CSS for syntax highlighting */
-html { -webkit-text-size-adjust: 100%; }
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -112,7 +78,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </head>
 
-<body class="nav-sidebar docked nav-fixed quarto-light">
+<body class="nav-sidebar docked nav-fixed fullcontent quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -148,8 +114,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span class="menu-text">Content</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../labs/index.html"> 
+    <a class="nav-link active" href="../labs/index.html" aria-current="page"> 
 <span class="menu-text">Labs</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../resources/uv.html"> 
+<span class="menu-text">Resources</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="../project/project.html"> 
@@ -175,7 +145,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../assignments/midterm02.html">Midterms</a></li><li class="breadcrumb-item"><a href="../assignments/midterm02.html">Midterm 2: Apache Spark</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../labs/02-labs.html">Lab content</a></li><li class="breadcrumb-item"><a href="../labs/13-labs.html">13: Docker, Kafka &amp; Lambda</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -190,7 +160,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
- <span class="menu-text">Midterms</span></a>
+ <span class="menu-text">Overview</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -198,8 +168,37 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../assignments/midterm02.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">Midterm 2: Apache Spark</span></a>
+  <a href="../labs/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Labs</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Lab content</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../labs/02-labs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">02: Parallelization</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../labs/03a-labs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">03: The Cloud</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../labs/13-labs.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">13: Docker, Kafka &amp; Lambda</span></a>
   </div>
 </li>
       </ul>
@@ -209,39 +208,26 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">On this page</h2>
-   
-  <ul>
-  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">Overview</a></li>
-  <li><a href="#setup" id="toc-setup" class="nav-link" data-scroll-target="#setup">Setup</a></li>
-  <li><a href="#dataset" id="toc-dataset" class="nav-link" data-scroll-target="#dataset">Dataset</a></li>
-  <li><a href="#tasks" id="toc-tasks" class="nav-link" data-scroll-target="#tasks">Tasks</a>
-  <ul class="collapse">
-  <li><a href="#task-1-pyspark-dataframes-and-sparksql-25-points" id="toc-task-1-pyspark-dataframes-and-sparksql-25-points" class="nav-link" data-scroll-target="#task-1-pyspark-dataframes-and-sparksql-25-points">Task 1 — PySpark DataFrames and SparkSQL (25 points)</a></li>
-  <li><a href="#task-2-pandas-udf-15-points" id="toc-task-2-pandas-udf-15-points" class="nav-link" data-scroll-target="#task-2-pandas-udf-15-points">Task 2 — Pandas UDF (15 points)</a></li>
-  <li><a href="#task-3-spark-nlp-sentiment-analysis-25-points" id="toc-task-3-spark-nlp-sentiment-analysis-25-points" class="nav-link" data-scroll-target="#task-3-spark-nlp-sentiment-analysis-25-points">Task 3 — Spark NLP Sentiment Analysis (25 points)</a></li>
-  <li><a href="#task-4-spark-mllib-classification-pipeline-35-points" id="toc-task-4-spark-mllib-classification-pipeline-35-points" class="nav-link" data-scroll-target="#task-4-spark-mllib-classification-pipeline-35-points">Task 4 — Spark MLlib Classification Pipeline (35 points)</a></li>
-  </ul></li>
-  <li><a href="#deliverables" id="toc-deliverables" class="nav-link" data-scroll-target="#deliverables">Deliverables</a></li>
-  <li><a href="#github-classroom" id="toc-github-classroom" class="nav-link" data-scroll-target="#github-classroom">GitHub Classroom</a></li>
-  </ul>
-</nav>
-    </div>
+    
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../assignments/midterm02.html">Midterms</a></li><li class="breadcrumb-item"><a href="../assignments/midterm02.html">Midterm 2: Apache Spark</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../labs/02-labs.html">Lab content</a></li><li class="breadcrumb-item"><a href="../labs/13-labs.html">13: Docker, Kafka &amp; Lambda</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Midterm 2: Apache Spark on EC2</h1>
-<p class="subtitle lead">DATS 6450.13 — Spring 2026</p>
+<h1 class="title">Lab 13: Docker, Kafka, and Lambda</h1>
+<p class="subtitle lead">DATS 6450.13 Spring 2026</p>
 </div>
 
 
 
 <div class="quarto-title-meta">
 
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Abhijit Dasgupta </p>
+          </div>
+  </div>
     
   
     
@@ -252,305 +238,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="overview" class="level2">
-<h2 class="anchored" data-anchor-id="overview">Overview</h2>
-<p>Midterm 2 is an <strong>in-class, individual assessment</strong> covering the Spark/PySpark material from Weeks 8–12. You will run real PySpark code against a dataset on AWS S3 using the Spark cluster you have been developing throughout the semester.</p>
-<div class="callout callout-style-default callout-important callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>Rules
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<ul>
-<li><strong>Time limit:</strong> 60 minutes</li>
-<li><strong>No AI assistants</strong> (ChatGPT, Claude, Copilot, etc.)</li>
-<li>You <strong>may</strong> reference course slides and your own lab notebooks</li>
-<li>Work must be your own — collaboration with other students is not permitted</li>
-<li>Final commit message must be <strong><code>final-submission</code></strong></li>
-</ul>
-</div>
-</div>
-</section>
-<section id="setup" class="level2">
-<h2 class="anchored" data-anchor-id="setup">Setup</h2>
-<p>Before class begins:</p>
-<ol type="1">
-<li><p><strong>Start your Spark cluster</strong> using <code>./project/setup-spark-cluster.sh &lt;LAPTOP_IP&gt;</code> on your EC2 dev machine.</p></li>
-<li><p><strong>Accept the GitHub Classroom assignment</strong> (link below) and clone your repo to your EC2 dev machine.</p></li>
-<li><p><strong>Run the health check</strong> to confirm your cluster is ready:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> run python health_check.py spark://<span class="va">$MASTER_PRIVATE_IP</span>:7077</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
-</ol>
-<p>The GitHub Classroom repo contains:</p>
-<ul>
-<li><code>midterm.py</code> — starter script with task scaffolding (edit this file)</li>
-<li><code>health_check.py</code> — pre-flight cluster check (do not edit)</li>
-<li><code>RESPONSES.md</code> — short written-answer template (edit this file)</li>
-<li><code>README.md</code> — run and submission instructions</li>
-</ul>
-</section>
-<section id="dataset" class="level2">
-<h2 class="anchored" data-anchor-id="dataset">Dataset</h2>
-<p>All tasks use a shared Reddit comments dataset pre-staged on S3:</p>
-<pre><code>s3a://dats6450-midterm-s2026/reddit/comments/</code></pre>
-<p><strong>Schema</strong> (selected columns):</p>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Column</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><code>id</code></td>
-<td>String</td>
-<td>Unique comment ID</td>
-</tr>
-<tr class="even">
-<td><code>subreddit</code></td>
-<td>String</td>
-<td>Subreddit name</td>
-</tr>
-<tr class="odd">
-<td><code>author</code></td>
-<td>String</td>
-<td>Reddit username</td>
-</tr>
-<tr class="even">
-<td><code>body</code></td>
-<td>String</td>
-<td>Comment text</td>
-</tr>
-<tr class="odd">
-<td><code>score</code></td>
-<td>Long</td>
-<td>Upvotes minus downvotes</td>
-</tr>
-<tr class="even">
-<td><code>created_utc</code></td>
-<td>Long</td>
-<td>Unix timestamp</td>
-</tr>
-<tr class="odd">
-<td><code>controversiality</code></td>
-<td>Int</td>
-<td>0 or 1</td>
-</tr>
-</tbody>
-</table>
-</section>
-<section id="tasks" class="level2">
-<h2 class="anchored" data-anchor-id="tasks">Tasks</h2>
-<section id="task-1-pyspark-dataframes-and-sparksql-25-points" class="level3">
-<h3 class="anchored" data-anchor-id="task-1-pyspark-dataframes-and-sparksql-25-points">Task 1 — PySpark DataFrames and SparkSQL (25 points)</h3>
-<p>Load the dataset and answer the following using both the DataFrame API and SparkSQL.</p>
-<p><strong>(a)</strong> Print the schema and row count.</p>
-<p><strong>(b)</strong> Using the <strong>DataFrame API</strong>, compute the top 10 subreddits by comment volume. Print the result with <code>show()</code>.</p>
-<p><strong>(c)</strong> Using <strong>SparkSQL</strong> (<code>createOrReplaceTempView</code> + <code>spark.sql(...)</code>), find the top 10 authors by total score. Print the result with <code>show()</code>.</p>
-<p><strong>(d)</strong> Add a <code>date</code> column derived from <code>created_utc</code> (use <code>to_date(from_unixtime(...))</code>). Filter to comments posted between <strong>2023-08-01</strong> and <strong>2023-08-31</strong> and compute the total comment volume per day. Print sorted by date.</p>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Criterion</th>
-<th>Points</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Correct numeric outputs</td>
-<td>15</td>
-</tr>
-<tr class="even">
-<td>Correct API usage (SQL where required, DataFrame where required)</td>
-<td>7</td>
-</tr>
-<tr class="odd">
-<td>Code runs without errors</td>
-<td>3</td>
-</tr>
-</tbody>
-</table>
-<hr>
-</section>
-<section id="task-2-pandas-udf-15-points" class="level3">
-<h3 class="anchored" data-anchor-id="task-2-pandas-udf-15-points">Task 2 — Pandas UDF (15 points)</h3>
-<p><strong>(a)</strong> Write a <strong>scalar Pandas UDF</strong> named <code>word_count_udf</code> that takes the <code>body</code> column (a <code>pd.Series</code> of strings) and returns a <code>pd.Series</code> of integers — the number of whitespace-delimited tokens in each comment. Use the <code>@pandas_udf("int")</code> decorator.</p>
-<p><strong>(b)</strong> Apply it to create a new column <code>word_count</code> on the full dataset.</p>
-<p><strong>(c)</strong> Report the <strong>mean</strong>, <strong>median</strong> (use <code>percentile_approx(word_count, 0.5)</code>), and <strong>max</strong> word count. Print all three values.</p>
-<p><strong>(d)</strong> In <code>RESPONSES.md</code>, answer in one sentence: <em>Why is a Pandas UDF preferred over a plain Python UDF for this operation?</em></p>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Criterion</th>
-<th>Points</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Correct UDF definition and decorator</td>
-<td>5</td>
-</tr>
-<tr class="even">
-<td>Correct mean / median / max values</td>
-<td>6</td>
-</tr>
-<tr class="odd">
-<td>Written answer (RESPONSES.md)</td>
-<td>4</td>
-</tr>
-</tbody>
-</table>
-<hr>
-</section>
-<section id="task-3-spark-nlp-sentiment-analysis-25-points" class="level3">
-<h3 class="anchored" data-anchor-id="task-3-spark-nlp-sentiment-analysis-25-points">Task 3 — Spark NLP Sentiment Analysis (25 points)</h3>
-<p><strong>(a)</strong> Sample approximately <strong>2,000 comments</strong> from the dataset (use <code>.sample(False, fraction, seed=42)</code> then <code>.limit(2000)</code> to be precise). Convert to a Pandas DataFrame with <code>.toPandas()</code>.</p>
-<p><strong>(b)</strong> Load <code>PretrainedPipeline("analyze_sentiment", lang="en")</code> and use its <strong>LightPipeline</strong> (<code>.annotate()</code>) to run sentiment inference on the list of comment <code>body</code> strings.</p>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Tip
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p><code>PretrainedPipeline.annotate()</code> uses LightPipeline automatically — no extra wrapping needed.</p>
-</div>
-</div>
-<p><strong>(c)</strong> Build a new Spark DataFrame from the annotated results with two columns: <code>subreddit</code> (from your sampled data) and <code>sentiment_label</code> (the first element of the <code>"sentiment"</code> annotation key).</p>
-<p><strong>(d)</strong> Using <code>groupBy("subreddit")</code>, compute the <strong>percentage of positive comments</strong> per subreddit. Print sorted by % positive descending.</p>
-<p><strong>(e)</strong> In <code>RESPONSES.md</code>, write <strong>2–3 sentences</strong>: Which subreddit had the highest % positive sentiment, and which had the lowest? Does this match your intuition about these communities?</p>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Criterion</th>
-<th>Points</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Correct sampling and <code>.toPandas()</code> call</td>
-<td>4</td>
-</tr>
-<tr class="even">
-<td>Correct use of <code>PretrainedPipeline</code> / <code>.annotate()</code></td>
-<td>7</td>
-</tr>
-<tr class="odd">
-<td>Correct Spark DataFrame reconstruction and aggregation</td>
-<td>8</td>
-</tr>
-<tr class="even">
-<td>Written interpretation (RESPONSES.md)</td>
-<td>6</td>
-</tr>
-</tbody>
-</table>
-<hr>
-</section>
-<section id="task-4-spark-mllib-classification-pipeline-35-points" class="level3">
-<h3 class="anchored" data-anchor-id="task-4-spark-mllib-classification-pipeline-35-points">Task 4 — Spark MLlib Classification Pipeline (35 points)</h3>
-<p>Build an MLlib Pipeline to predict whether a comment is <strong>popular</strong> (defined as <code>score &gt;= 5</code>).</p>
-<p><strong>(a)</strong> Filter the dataset to rows where <code>body</code> is not null and not an empty string. Add a <code>label</code> column: <code>(col("score") &gt;= 5).cast("int")</code>.</p>
-<p><strong>(b)</strong> Build a <code>Pipeline</code> with these stages in order:</p>
-<ol type="1">
-<li><code>Tokenizer(inputCol="body", outputCol="tokens")</code></li>
-<li><code>StopWordsRemover(inputCol="tokens", outputCol="clean_tokens")</code></li>
-<li><code>HashingTF(inputCol="clean_tokens", outputCol="tf", numFeatures=16384)</code></li>
-<li><code>IDF(inputCol="tf", outputCol="features")</code></li>
-<li><code>LogisticRegression(labelCol="label", featuresCol="features", maxIter=10)</code></li>
-</ol>
-<p><strong>(c)</strong> Split into train/test with <code>randomSplit([0.8, 0.2], seed=42)</code>. Fit the pipeline on the training set, transform the test set.</p>
-<p><strong>(d)</strong> Evaluate using <code>BinaryClassificationEvaluator(metricName="areaUnderROC")</code>. Print the AUC.</p>
-<p><strong>(e)</strong> In <code>RESPONSES.md</code>, answer in one sentence: <em>Why would using <code>controversiality</code> as the target label instead of <code>score &gt;= 5</code> have been a poor choice for this task?</em></p>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Criterion</th>
-<th>Points</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Correct label column creation</td>
-<td>4</td>
-</tr>
-<tr class="even">
-<td>All five pipeline stages correct</td>
-<td>12</td>
-</tr>
-<tr class="odd">
-<td>Correct train/test split and fit/transform</td>
-<td>8</td>
-</tr>
-<tr class="even">
-<td>AUC printed correctly</td>
-<td>6</td>
-</tr>
-<tr class="odd">
-<td>Written answer (RESPONSES.md)</td>
-<td>5</td>
-</tr>
-</tbody>
-</table>
-<hr>
-</section>
-</section>
-<section id="deliverables" class="level2">
-<h2 class="anchored" data-anchor-id="deliverables">Deliverables</h2>
-<p>Commit and push the following files to your GitHub Classroom repo:</p>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>File</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><code>midterm.py</code></td>
-<td>Your completed PySpark script</td>
-</tr>
-<tr class="even">
-<td><code>RESPONSES.md</code></td>
-<td>Written answers for Tasks 2d, 3e, 4e</td>
-</tr>
-<tr class="odd">
-<td><code>output.log</code></td>
-<td>Stdout captured from a successful run</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Run command:</strong></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> run python midterm.py spark://<span class="va">$MASTER_PRIVATE_IP</span>:7077 <span class="kw">|</span> <span class="fu">tee</span> output.log</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p><strong>Final commit:</strong></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> add midterm.py RESPONSES.md output.log</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> commit <span class="at">-m</span> <span class="st">"final-submission"</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> push</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="callout callout-style-default callout-warning callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Warning</span>Honor Pledge
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>By submitting this midterm you affirm that the work is your own, that you have not used AI assistants, and that you have not collaborated with other students. Violations are subject to the GWU Academic Integrity Policy.</p>
-</div>
-</div>
-</section>
+<p>In this lab you will build a local Kafka streaming pipeline using Docker Compose, consume Reddit comment data with both a plain Python consumer and a Spark Structured Streaming job, and deploy an AWS Lambda container image that automatically refreshes Athena partitions whenever new data lands in S3.</p>
+<p>All instructions are in the lab repository linked below.</p>
 <section id="github-classroom" class="level2">
 <h2 class="anchored" data-anchor-id="github-classroom">GitHub Classroom</h2>
-<p>The midterm is available on <a href="">GitHub Classroom</a> and is due <strong>April 23, in class</strong>.</p>
+<p><a href="">GitHub Classroom Link</a></p>
 
 
 </section>

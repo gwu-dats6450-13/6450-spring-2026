@@ -152,6 +152,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span class="menu-text">Labs</span></a>
   </li>  
   <li class="nav-item">
+    <a class="nav-link" href="./resources/uv.html"> 
+<span class="menu-text">Resources</span></a>
+  </li>  
+  <li class="nav-item">
     <a class="nav-link" href="./project/project.html"> 
 <span class="menu-text">Project</span></a>
   </li>  
@@ -261,7 +265,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="slides-configuration" class="level3">
 <h3 class="anchored" data-anchor-id="slides-configuration">Slides Configuration</h3>
-<p>Slides in <code>slides/</code> inherit shared Reveal.js settings from <code>slides/_metadata.yml</code>. Custom SCSS themes are in <code>style/</code>: - <code>style/slides-reveal-adg.scss</code> — primary slide theme - <code>style/html-sta313-adg.scss</code> — website theme</p>
+<p>Slides in <code>slides/</code> inherit shared Reveal.js settings from <code>slides/_metadata.yml</code>. Custom SCSS themes are in <code>style/</code>:</p>
+<ul>
+<li><code>style/slides-reveal-adg.scss</code> — primary slide theme</li>
+<li><code>style/html-sta313-adg.scss</code> — website theme</li>
+</ul>
 </section>
 <section id="freeze-strategy" class="level3">
 <h3 class="anchored" data-anchor-id="freeze-strategy">Freeze Strategy</h3>
@@ -271,6 +279,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="key-technologies-covered-in-course-content" class="level2">
 <h2 class="anchored" data-anchor-id="key-technologies-covered-in-course-content">Key Technologies Covered in Course Content</h2>
 <p>The course content covers: Python parallelization, AWS cloud (EC2, S3), DuckDB, Polars, Apache Spark (core focus for weeks 8–12), Ray, HDFS, Spark MLlib, Spark NLP, and Structured Streaming. Python packages for these are in <code>pyproject.toml</code>; AWS cluster scripts are in <code>project/</code>.</p>
+<ul>
+<li>Examples are driven by Python code.</li>
+<li>Spark examples are driven by pyspark</li>
+<li>Cloud examples are driven by the AWS CLI and the Python boto3 package</li>
+</ul>
 
 
 </section>
