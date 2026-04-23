@@ -6508,6 +6508,20 @@
     "text": "Dataset\n\nRecommended: Reddit Dataset\nWe will provide starter code and instructions for working with the Reddit dataset (comments and submissions from June 2023 - July 2024). This is a large-scale dataset (~446 GB) ideal for demonstrating big data skills.\n\n\nUsing Your Own Dataset\nIf you prefer to use a different dataset, you must:\n\nGet professor approval for your chosen dataset\nEnsure it’s large enough to demonstrate big data techniques\nFigure out data acquisition and preprocessing on your own (the Reddit instructions won’t apply)\n\nWhere to find large datasets:\n\nAWS Open Data Registry - Datasets already on S3\nGoogle Dataset Search\nCommon Crawl - Web crawl data\nGitHub Archive - GitHub activity data\n\nExamples of suitable large-scale datasets:\n\nWikipedia dumps\nNews article archives\nGovernment data (census, weather, transportation)\nScientific datasets (genomics, astronomy, climate)\nE-commerce transaction data\nIoT sensor data"
   },
   {
+    "objectID": "project/project.html#presentation",
+    "href": "project/project.html#presentation",
+    "title": "Project Overview",
+    "section": "Presentation",
+    "text": "Presentation\nWe will have 12 minute presentations with 3 minutes for Q&A, and we will go in team order. Presentations can be in PowerPoint, Keynote or Quarto formats and should convey the story and enough data analytic detaisl to support it.\n\nThe expectation is that the project should mostly be done, barring some final details, and a coherent story is clear from the presentation supported by data.\nYou will receive feedback from your presentation that you can incorporate before your final report submission."
+  },
+  {
+    "objectID": "project/project.html#final-submission",
+    "href": "project/project.html#final-submission",
+    "title": "Project Overview",
+    "section": "Final submission",
+    "text": "Final submission\nYou will submit a final report on your project. This will consist of a single document with two parts, with the aim being that the main textual report of about 10 pages, and a technical appendix describing the tools and methods used along with links to appropriate files in your repo.\n\nThe project repo should be clearly organized and the code well commented so that an external reviewer can understand what is being done.\nCommit history should be fully present so that the relative contributions of different team members can be assessed.\nThe final report is to be submitted in the repository and not separately. This should be properly formatted with minimal language errors and a clear narrative structure. This document can be in docx, PDF, or qmd format, but if Quarto is used, a **publication-ready* rendered version to HTML or PDF should also be present in the repo. Ensure that all the pieces are pushed to Github, since thats where the assessment will happen."
+  },
+  {
     "objectID": "syllabus.html",
     "href": "syllabus.html",
     "title": "Syllabus",
